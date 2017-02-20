@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="content_view" type="id" />
+    <item name="error_view" type="id" />
+    <item name="loading_view" type="id" />
+    <item name="load_error_view" type="id" />
+    <item name="end_view" type="id" />
+    <item name="reload_view" type="id" />
+
+    <item name="toolbar" type="id" />
+    <item name="toolbarTitle" type="id" />
+    <item name="recycler_view" type="id" />
+
+
+</resources>

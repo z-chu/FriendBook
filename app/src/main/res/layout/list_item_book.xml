@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="@drawable/bg_list_item"
+    android:padding="8.0dp"
+    android:paddingBottom="4.0dp">
+
+    <com.youshibi.app.ui.widget.RatioImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:adjustViewBounds="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_cover"
+        android:layout_marginLeft="8.0dp"
+        android:layout_alignTop="@id/iv_cover"
+        android:layout_alignBottom="@id/iv_cover"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="资生堂 安热沙"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_size_large" />
+        <com.youshibi.app.ui.widget.ExpandTextView
+            android:id="@+id/tv_describe"
+            android:layout_marginTop="4.0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:text="网易旗下利用大数据技术提供移动互联网应用的子公司,过去8年,
+
+      先后推出有道词典、有道翻译官、有道云笔记、惠惠网、有道推广、有道精品课、有道口语大师等系列产品,总.cas sac as  s
+           "
+            android:layout_above="@+id/body"
+            android:textColor="@color/textSecondary"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_below="@+id/tv_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <RelativeLayout
+            android:id="@+id/body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_title"
+            android:layout_marginTop="4.0dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8.0dp"
+                android:text="作者"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/text_size_micro" />
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/author"
+                android:text="子阿斯顿"
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/text_size_small" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

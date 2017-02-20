@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--5.0以上 无边界水波纹  -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/colorRipple">
+</ripple>

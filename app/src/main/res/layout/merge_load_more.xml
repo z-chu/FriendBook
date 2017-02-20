@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/footer"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    >
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.LoadMore" />
+
+    <TextView
+        android:id="@id/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/click_retry"
+        android:textColor="@color/orange"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@id/end_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/list_the_end"
+        android:textColor="@color/textSecondary" />
+
+</merge>

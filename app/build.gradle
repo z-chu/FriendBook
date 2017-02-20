@@ -1,0 +1,117 @@
+apply plugin: 'com.android.application'
+
+def cfg = rootProject.ext.configuration // 项目配置
+def libs = rootProject.ext.libraries // 库
+
+android {
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
+
+    defaultConfig {
+        applicationId cfg.package
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        versionCode cfg.version_code
+        versionName cfg.version_name
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true //SVG兼容库
+    }
+
+
+
+    buildTypes {
+        debug {
+            //打包的签名
+            // signingConfig signingConfigs.release
+            //是否混淆代码
+            minifyEnabled false
+            //去除未使用的资源文件
+            //shrinkResources true
+
+        }
+        release {
+            // signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            debuggable false
+            //混淆文件的位置
+            //proguard-android.txt是默认的混淆声明，文件的目录在 <sdk目录>/tools/proguard/proguard-android.txt
+            //proguard-rules.pro 自定义的混淆文件，目录就在 app/proguard-rules.pro
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+
+    /*
+    signingConfigs {
+         debug {
+             storeFile file('../buildsystem/debug.keystore')
+             storePassword 'android'
+             keyAlias 'androiddebugkey'
+             keyPassword 'android'
+         }
+         release {
+             storeFile file('../buildsystem/debug.keystore')
+             storePassword 'android'
+             keyAlias 'androiddebugkey'
+             keyPassword 'android'
+         }
+     }
+     */
+
+    //是否移除lint检查的error
+    lintOptions {
+        abortOnError false
+    }
+}
+
+
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+
+    //support
+    compile 'com.android.support:support-v4:' + libs.supportVersion
+    compile 'com.android.support:appcompat-v7:' + libs.supportVersion
+    compile 'com.android.support:design:' + libs.supportVersion
+    compile 'com.android.support:cardview-v7:' + libs.supportVersion
+    compile 'com.android.support:recyclerview-v7:' + libs.supportVersion
+
+    //netWork
+    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile 'com.squareup.retrofit2:retrofit:' + libs.retrofit
+    compile 'com.squareup.retrofit2:adapter-rxjava:' + libs.retrofit
+    compile 'com.squareup.retrofit2:converter-gson:' + libs.retrofit
+    compile 'com.squareup.retrofit2:converter-scalars:' + libs.retrofit
+
+    //rx
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.2'
+
+    //leakCanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:' + libs.leakcanary
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + libs.leakcanary
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + libs.leakcanary
+
+    //log打印-自己的东西还是要支持下滴
+    debugCompile 'com.zchu:zlog:1.0.0'
+    testCompile 'com.zchu:zlog:1.0.0'
+    releaseCompile 'com.zchu:zlog-no-op:1.0.0'//正式发布时会将所有的打印方法替换为空方法
+
+    //ui
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
+
+    //ImageLoader
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+}

@@ -1,0 +1,55 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorGrounding</item>
+    </style>
+
+    <style name="AppBaseTheme.Translucent" />
+
+    <style name="AppBaseTheme.Translucent.StateBar" />
+
+    <!-- 启动界面style -->
+    <style name="AppBaseTheme.Launcher" parent="AppBaseTheme.Translucent">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme.Translucent.StateBar">
+        <!--  -->
+    </style>
+    <style name="AppTheme.noWindowBackground">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="SlidingTab"  parent="@android:style/Widget" >
+        <item name="pstsIndicatorColor">?tabIndicatorColor</item>
+        <item name="pstsIndicatorHeight">2.0dip</item>
+        <item name="pstsDividerColor">@android:color/transparent</item>
+        <item name="pstsTextSize">@dimen/text_size_large</item>
+        <item name="pstsTabBackground">?selectableItemBackground</item>
+        <item name="pstsDividerPadding">0dp</item>
+    </style>
+
+    <style name="SlidingTab.Top"  parent="SlidingTab">
+        <item name="pstsTextColor">@color/textSecondaryInverted</item>
+        <item name="pstsSelectedTextColor">@color/textPrimaryInverted</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="pstsIndicatorColor">@color/white</item>
+
+
+    </style>
+
+    <style name="SlidingTab.Top.NoBackground"   parent="SlidingTab.Top">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Widget.MaterialProgressBar.ProgressBar.LoadMore">
+        <item name="android:minWidth">32dp</item>
+        <item name="android:maxWidth">32dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/blue_light</color>
+    <color name="colorPrimaryDark">@color/blue</color>
+    <color name="colorAccent">#2EA8ED</color>
+    <color name="colorGrounding">#fff2f2f2</color><!--界面底色-->
+    <color name="colorDivider">#dcdcdc</color> <!-- 分割线颜色-->
+    <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
+    <color name="colorRipple">#B2EBF2</color><!--点击时水波纹颜色-->
+    <color name="colorInactive">#ff909090</color> <!--不活跃的颜色  icon的默认灰色-->
+    <color name="colorPress">#ffe0e0e0</color>
+
+    <!--文字颜色-->
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#999999</color>
+    <color name="textPrimaryInverted">#ffffff</color>
+    <color name="textSecondaryInverted">#8affffff</color>
+    <color name="textError">#ffe7492e</color>
+
+    <!--通用颜色-->
+    <color name="blue">#ff1976D2</color>
+    <color name="blue_light">#ff178BC2</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="green">#ff00a818</color>
+    <color name="orange">#fb683b</color>
+    <color name="yellow">#f59800</color>
+    <color name="yellow_dark">#ffbf54</color>
+    <color name="light_gray">#99a4b7</color>
+    <color name="bg_gray">#e1e1e1</color>
+    <color name="grey">#676767</color>
+</resources>

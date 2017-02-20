@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <!-- 分割线的颜色-->
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <!-- 英文全部大写 -->
+        <attr name="pstsTextAllCaps" format="boolean" />
+        <!-- 游标的宽度是否为标题文字的宽度 -->
+        <attr name="pstsIndicatorWrap" format="boolean" />
+        <!-- pstsIndicatorWrap为true时在左右2边添加的宽度 -->
+        <attr name="pstsIndicatorWrapAddWidht" format="dimension" />
+        <attr name="pstsTextSize" format="dimension" />
+        <attr name="pstsSelectedTextColor" format="color" />
+        <attr name="pstsTextColor" format="color" />
+    </declare-styleable>
+
+</resources>

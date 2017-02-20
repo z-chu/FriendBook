@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mock_avatar">
+        <item>http://img3.imgtn.bdimg.com/it/u=332215053,1515772086&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img1.imgtn.bdimg.com/it/u=3419851104,528503629&amp;fm=11&amp;gp=0.jpg</item>
+        <item>http://img3.imgtn.bdimg.com/it/u=2129123460,2167114939&amp;fm=11&amp;gp=0.jpg</item>
+        <item>http://img1.imgtn.bdimg.com/it/u=3063126286,727562481&amp;fm=11&amp;gp=0.jpg</item>
+        <item>http://img5.imgtn.bdimg.com/it/u=1675970769,2766512178&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img2.imgtn.bdimg.com/it/u=1611194967,3408196641&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img5.imgtn.bdimg.com/it/u=3184312034,3570862537&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img3.imgtn.bdimg.com/it/u=2416529452,1278793901&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img4.imgtn.bdimg.com/it/u=2918525736,3960258236&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img1.imgtn.bdimg.com/it/u=566328928,913529643&amp;fm=23&amp;gp=0.jpg</item>
+    </string-array>
+
+    <string-array name="mock_nickname">
+        <item>z-chu</item>
+        <item>胖胖</item>
+        <item>AIMI</item>
+        <item>白酒人生</item>
+        <item>丑开</item>
+        <item>小炬炬</item>
+        <item>阿达</item>
+        <item>小美</item>
+        <item>芽衣</item>
+        <item>雷电龙马</item>
+        <item>上海_great house</item>
+        <item>那名很慈悲</item>
+        <item>星满苍穹</item>
+        <item>北京-乐乐</item>
+        <item>SumHery</item>
+        <item>某学姐</item>
+        <item>程序杰</item>
+        <item>心晴</item>
+        <item>木头</item>
+        <item>pop</item>
+        <item>腾跃</item>
+        <item>静水流深</item>
+        <item>相对论</item>
+        <item>DanielHan</item>
+        <item>梁朝伟</item>
+        <item>小情绪</item>
+        <item>小夜_is_a_Jock</item>
+
+    </string-array>
+
+    <string-array name="mock_txt_content">
+        <item>你再读一遍</item>
+        <item>发音挺好的，提高流利度就特别棒了</item>
+        <item>挺好的，多练几遍，注意下流利度</item>
+        <item>找到班会内容了吗？</item>
+        <item>cares, losing</item>
+        <item>thank you</item>
+        <item> LSY about, job</item>
+        <item>赶紧嗨起来，My endering students~</item>
+        <item>亲爱的们，以后我们周一到周四还是topic, 但是周五到周日就是每日一词了哦～～</item>
+        <item>约吗？</item>
+        <item>大家都工作几年了？</item>
+        <item>还上学呢</item>
+        <item>不要讨论工作时间了 没意义</item>
+        <item> command o</item>
+        <item>在一个类里</item>
+        <item>知道大家一起讨论的就放在issue</item>
+        <item>不一定要付出金钱，但得有正面的feedback给回来</item>
+        <item>群里讨论问题其实更多 是一种即时的交流 ， 一般提问的人很少会说以一种邮件交流的形式来讨论吧</item>
+        <item>授之予渔</item>
+        <item>说这么多形式上的，群的作用不就是快速交流？</item>
+        <item>大家好，黎伟杰</item>
+        <item>把stackoverflow模式搬过来，想想也是一件很激动的事情</item>
+        <item>学姐毕业了么</item>
+        <item>学姐都要超神了</item>
+        <item>岂止毕业</item>
+        <item>话说大家app有些需要加密的东西都怎么做？双向对称吗？</item>
+        <item>有没有人C比较擅长？</item>
+        <item>我还行</item>
+        <item>我晚上要直播 好慌啊</item>
+        <item>社交恐惧者</item>
+        <item>什么时候呀</item>
+        <item>几点呀</item>
+        <item>直播啥内容？</item>
+        <item>求直播链接</item>
+        <item>高手来了！！要看</item>
+        <item>地址啊</item>
+        <item>我的c可以</item>
+        <item>这个有前辈碰到过吗？</item>
+        <item>集成 QQ 遇到的</item>
+        <item>appkey不对</item>
+
+
+    </string-array>
+
+    <string-array name="mock_image_url">
+        <item>http://img5.imgtn.bdimg.com/it/u=213605601,3025834850&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img2.imgtn.bdimg.com/it/u=1301957680,1355485084&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img4.imgtn.bdimg.com/it/u=3148736127,343782217&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img0.imgtn.bdimg.com/it/u=1700923186,802976816&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img4.imgtn.bdimg.com/it/u=1911561696,2708695700&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img0.imgtn.bdimg.com/it/u=1070149217,3091065931&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img1.imgtn.bdimg.com/it/u=2436138818,2769280485&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img1.imgtn.bdimg.com/it/u=3139775915,699377816&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img2.imgtn.bdimg.com/it/u=3032536469,3026830129&amp;fm=23&amp;gp=0.jpg</item>
+        <item>http://img3.imgtn.bdimg.com/it/u=3751764497,1050881516&amp;fm=23&amp;gp=0.jpg</item>
+
+    </string-array>
+
+</resources>
