@@ -1,21 +1,18 @@
 package com.youshibi.app.presentation.home;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.youshibi.app.R;
-import com.youshibi.app.data.bean.BookRt;
-import com.youshibi.app.data.bean.DataList;
-import com.youshibi.app.data.net.RequestClient;
-import com.youshibi.app.data.net.RequestSubscriber;
 import com.youshibi.app.base.BaseRxPresenter;
+import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.presentation.home.vo.BookItem;
 import com.youshibi.app.ui.help.CommonAdapter;
-import com.youshibi.app.ui.help.CommonViewHolder;
-import com.youshibi.app.ui.widget.RatioImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -27,20 +24,38 @@ public class HomePresenter extends BaseRxPresenter<HomeView> {
     private static final int PAGE_SIZE = 20;
     private int page;
     private int count;
+    private long bookType;
     private CommonAdapter<BookItem> adapter;
+
+    public HomePresenter(long bookType){
+        this.bookType=bookType;
+    }
 
     public void doLoadData(final boolean isRefresh) {
         page = 1;
         if (isViewAttached()) {
             getView().showLoading(isRefresh);
         }
-        RequestClient.getServerAPI()
-                .getBookList(page, PAGE_SIZE)
+        Subscription subscription = DataManager
+                .getInstance()
+                .getBookList(page, PAGE_SIZE,bookType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RequestSubscriber<DataList<BookRt>>() {
+                .subscribe(new Subscriber<DataList<Book>>() {
                     @Override
-                    public void onSuccess(DataList<BookRt> data) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (isViewAttached()) {
+                            getView().showError(e.getMessage(), isRefresh);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DataList<Book> data) {
                         count = data.Count;
                         if (isViewAttached()) {
                             if (!isRefresh) {
@@ -52,22 +67,8 @@ public class HomePresenter extends BaseRxPresenter<HomeView> {
                             }
                         }
                     }
-
-                    @Override
-                    public void onResultError(int code, String msg) {
-                        if (isViewAttached()) {
-                            getView().showError(msg, isRefresh);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (isViewAttached()) {
-                            getView().showError("网络出错", isRefresh);
-                        }
-                    }
                 });
+        addSubscription(subscription);
     }
 
     public void doLoadMoreData() {
@@ -82,72 +83,52 @@ public class HomePresenter extends BaseRxPresenter<HomeView> {
         if (isViewAttached()) {
             getView().showMoreLoading();
         }
-        RequestClient.getServerAPI()
-                .getBookList(page, PAGE_SIZE)
+        Subscription subscription = DataManager.getInstance()
+                .getBookList(page, PAGE_SIZE,bookType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RequestSubscriber<DataList<BookRt>>() {
+                .subscribe(new Subscriber<DataList<Book>>() {
                     @Override
-                    public void onSuccess(DataList<BookRt> data) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (isViewAttached()) {
+                            getView().showMoreError();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DataList<Book> data) {
                         if (isViewAttached()) {
                             adapter.addData(convertData(data.DataList));
                             getView().showMoreFrom();
                         }
                     }
-
-                    @Override
-                    public void onResultError(int code, String msg) {
-                        if (isViewAttached()) {
-                            getView().showMoreError();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (isViewAttached()) {
-                            getView().showMoreError();
-                        }
-                    }
                 });
+
+        addSubscription(subscription);
     }
 
-    private List<BookItem> convertData(List<BookRt> bookRts) {
+    private List<BookItem> convertData(List<Book> books) {
         List<BookItem> bookItems = new ArrayList<>();
-        for (BookRt bookRt : bookRts) {
+        for (Book book : books) {
             BookItem bookItem = new BookItem();
-            bookItem.id = bookRt.BookId;
-            bookItem.coverUrl = bookRt.BookImg;
-            bookItem.title = bookRt.BookName;
-            bookItem.describe = bookRt.BookIntro;
-            bookItem.author = bookRt.BookAuthor;
-            bookItem.isFinish = bookRt.IsFinish;
+            bookItem.id = book.BookId;
+            bookItem.coverUrl = book.BookImg;
+            bookItem.title = book.BookName;
+            bookItem.describe = book.BookIntro;
+            bookItem.author = book.BookAuthor;
+            bookItem.isFinish = book.IsFinish;
             bookItems.add(bookItem);
         }
         return bookItems;
     }
 
     private BaseQuickAdapter createAdapter(List<BookItem> bookItems) {
-        adapter = new CommonAdapter<BookItem>(R.layout.list_item_book, bookItems) {
-            @Override
-            protected void convert(final CommonViewHolder holder, final BookItem bookItem) {
-                RatioImageView ivCover = holder.getView(R.id.iv_cover);
-                Glide
-                        .with(mContext)
-                        .load(bookItem.coverUrl)
-                        .into(ivCover);
-
-                holder
-                        .setText(R.id.tv_author, bookItem.author)
-                        .setText(R.id.tv_describe, bookItem.describe)
-                        .setText(R.id.tv_title, bookItem.title);
-
-
-
-            }
-
-        };
-
+        adapter = new BookAdapter(bookItems);
         return adapter;
     }
 }

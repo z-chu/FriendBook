@@ -4,7 +4,7 @@ package com.youshibi.app.data.bean;
  * Created by Chu on 2016/12/3.
  */
 
-public class BookRt {
+public class Book {
     /**
      * BookId : 0a4d9876-fa33-4bfa-a76f-3f2833674745
      * BookName : 混沌战尊

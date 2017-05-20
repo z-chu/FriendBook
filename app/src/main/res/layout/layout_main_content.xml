@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?colorPrimary"
-    android:fitsSystemWindows="true"
-    >
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -45,8 +44,7 @@
                 android:paddingLeft="8.0dp"
                 android:paddingRight="8.0dp"
                 app:pstsIndicatorWrap="true"
-                app:pstsIndicatorWrapAddWidht="10dp"
-                app:pstsShouldExpand="true" />
+                app:pstsIndicatorWrapAddWidht="10dp" />
         </android.support.design.widget.AppBarLayout>
 
 

@@ -16,6 +16,7 @@ import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpFragment;
 import com.youshibi.app.presentation.home.vo.BookItem;
 import com.youshibi.app.ui.anim.InContentAnim;
+import com.youshibi.app.ui.help.GlideScrollPauseHelper;
 import com.youshibi.app.ui.help.OnLoadMoreScrollListener;
 import com.youshibi.app.ui.help.RecycleViewDivider;
 import com.youshibi.app.ui.widget.LoadErrorView;
@@ -32,6 +33,8 @@ import java.util.List;
 
 public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRefreshLayout.OnRefreshListener, LoadErrorView.OnRetryListener, HomeView {
 
+    private static final String BUNDLE_BOOK_TYPE="book_type";
+
     private SwipeRefreshLayout contentView;
     private RecyclerView recyclerView;
     private LoadErrorView loadErrorView;
@@ -47,10 +50,23 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
         return fragment;
     }
 
+    public static HomeFragment newInstance(long bookType) {
+        Bundle args = new Bundle();
+        args.putLong(BUNDLE_BOOK_TYPE,bookType);
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @NonNull
     @Override
     public HomePresenter createPresenter() {
-        return new HomePresenter();
+        Bundle arguments = getArguments();
+        long bookType=0;
+        if(arguments!=null){
+            bookType=arguments.getLong(BUNDLE_BOOK_TYPE);
+        }
+        return new HomePresenter(bookType);
     }
 
     @Override
@@ -78,6 +94,7 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DisplayUtil.hasVirtualNavigationBar()) {
             recyclerView.setPadding(0, 0, 0, DisplayUtil.getNavigationBarHeight());
         }
+        GlideScrollPauseHelper.with(recyclerView);
     }
 
 

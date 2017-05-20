@@ -1,6 +1,7 @@
 package com.youshibi.app.data.net;
 
 
+import com.youshibi.app.data.net.converter.GsonConverterFactory;
 import com.youshibi.app.data.net.interceptor.LoggingInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -8,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * 作者: 赵成柱 on 2016/7/19 0019.
@@ -43,12 +42,8 @@ public class RequestClient {
      */
     private static Retrofit.Builder getRetrofitBuilder(String url, OkHttpClient client) {
         return new Retrofit.Builder()
-                //接口基地址
                 .baseUrl(url)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                //Json转换器
                 .addConverterFactory(GsonConverterFactory.create())
-                //Rxjava转换器：将结果转成已Observable的形式返回
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client);
     }

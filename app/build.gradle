@@ -88,8 +88,9 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
     compile 'com.squareup.retrofit2:retrofit:' + libs.retrofit
     compile 'com.squareup.retrofit2:adapter-rxjava:' + libs.retrofit
-    compile 'com.squareup.retrofit2:converter-gson:' + libs.retrofit
-    compile 'com.squareup.retrofit2:converter-scalars:' + libs.retrofit
+    //compile 'com.squareup.retrofit2:converter-gson:' + libs.retrofit
+    //compile 'com.squareup.retrofit2:converter-scalars:' + libs.retrofit
+    compile 'com.google.code.gson:gson:2.8.0'
 
     //rx
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -105,6 +106,10 @@ dependencies {
     testCompile 'com.zchu:zlog:1.0.0'
     releaseCompile 'com.zchu:zlog-no-op:1.0.0'//正式发布时会将所有的打印方法替换为空方法
 
+    //dagger
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+
     //ui
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.1'
@@ -112,6 +117,7 @@ dependencies {
     compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
 
     //ImageLoader
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
 
 }

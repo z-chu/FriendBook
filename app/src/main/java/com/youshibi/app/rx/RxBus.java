@@ -1,5 +1,9 @@
 package com.youshibi.app.rx;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,15 +16,20 @@ import rx.subjects.Subject;
 /**
  * Created by zchu on 16-11-22.<br>
  * 详细的使用方法请看这里：<br>
- *  http://gogs.analyticservice.net/zchu/WaterDrop/src/master/Help/Rxbus%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8.md
+ * http://gogs.analyticservice.net/zchu/WaterDrop/src/master/Help/Rxbus%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8.md
  */
 public class RxBus {
     private static volatile RxBus mDefaultInstance;
     private final Subject<Object, Object> mBus;
-
     private final Map<Class<?>, Object> mStickyEventMap;
+    private RemoteRxBus mRemoteRxBus;
 
     public RxBus() {
+        this(null);
+    }
+
+    public RxBus(RemoteRxBus remoteRxBus) {
+        mRemoteRxBus = remoteRxBus;
         mBus = new SerializedSubject<>(PublishSubject.create());
         mStickyEventMap = new ConcurrentHashMap<>();
     }
@@ -37,11 +46,33 @@ public class RxBus {
     }
 
     /**
+     * 连接到其他进程，此方法调用后才可调用postRemote实现跨进程分发事件
+     */
+    public void connectRemote(Context context) {
+        connectRemote(context, new Gson());
+    }
+
+    public void connectRemote(Context context, Gson gson) {
+        mRemoteRxBus = new RemoteRxBus(context, gson, mBus);
+    }
+
+    /**
      * 发送事件
      */
     public void post(Object event) {
         mBus.onNext(event);
     }
+
+    /**
+     * 发送跨进程事件
+     */
+    public void postRemote(Object event) {
+        if (mDefaultInstance == null) {
+            throw new NullPointerException("You haven't call connectRemote load a Context");
+        }
+        mRemoteRxBus.post(event);
+    }
+
 
     /**
      * 根据传递的 eventType 类型返回特定类型(eventType)的 被观察者
@@ -51,13 +82,14 @@ public class RxBus {
     }
 
     /**
-     * 判断是否有订阅者
+     * 判断当前进程内是否有订阅者
      */
     public boolean hasObservers() {
         return mBus.hasObservers();
     }
 
     public void reset() {
+        mRemoteRxBus.release();
         mDefaultInstance = null;
     }
 

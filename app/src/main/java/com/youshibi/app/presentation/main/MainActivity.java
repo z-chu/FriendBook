@@ -19,13 +19,12 @@ import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpActivity;
 import com.youshibi.app.ui.widget.PagerSlidingTabStrip;
 import com.youshibi.app.util.DisplayUtil;
-import com.zchu.log.Logger;
 
 /**
  * Created by Chu on 2016/11/30.
  */
 
-public class MainActivity  extends MvpActivity<MainPresenter> implements  MainView{
+public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
 
 
     private DrawerLayout drawer;
@@ -55,7 +54,6 @@ public class MainActivity  extends MvpActivity<MainPresenter> implements  MainVi
         findView();
         setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DisplayUtil.hasVirtualNavigationBar()) {
-            Logger.d("导航栏高度：" + DisplayUtil.getNavigationBarHeight());
             content.setPadding(0, 0, 0, -DisplayUtil.getNavigationBarHeight());
         }
         toolbar.setTitle(getString(R.string.app_name));
@@ -74,6 +72,7 @@ public class MainActivity  extends MvpActivity<MainPresenter> implements  MainVi
     }
 
 
+
     @NonNull
     @Override
     public MainPresenter createPresenter() {
@@ -83,6 +82,7 @@ public class MainActivity  extends MvpActivity<MainPresenter> implements  MainVi
     @Override
     public void setViewPage(PagerAdapter adapter) {
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getCount());
         tab.setViewPager(viewPager);
 
     }

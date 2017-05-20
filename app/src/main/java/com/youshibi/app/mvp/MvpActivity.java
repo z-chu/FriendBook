@@ -1,9 +1,11 @@
 package com.youshibi.app.mvp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.youshibi.app.base.BaseActivity;
+import com.youshibi.app.util.ToastUtil;
 
 
 /**
@@ -38,5 +40,13 @@ public abstract class MvpActivity<P extends MvpPresenter> extends BaseActivity i
         return mPresenter;
     }
 
+    @Override
+    public void showToast(String message) {
+        ToastUtil.showToast(message);
+    }
 
+    @Override
+    public Context provideContext() {
+        return this;
+    }
 }

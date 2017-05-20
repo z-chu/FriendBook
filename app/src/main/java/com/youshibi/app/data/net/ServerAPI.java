@@ -1,10 +1,15 @@
 package com.youshibi.app.data.net;
 
-import com.youshibi.app.data.bean.BookRt;
-import com.youshibi.app.data.bean.DataListResult;
+import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.DataList;
+import com.youshibi.app.data.bean.HttpResult;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -12,8 +17,18 @@ import rx.Observable;
  */
 
 public interface ServerAPI {
-    String BASE_URL ="http://192.168.0.10:8099";
+    String BASE_URL ="http://api.laiyoushu.com";
 
-    @GET("/book")
-    Observable<DataListResult<BookRt>> getBookList(@Query("pageIndex") int pageIndex, @Query("pageSize")int pageSize);
+    /**
+     * 获取所有小说
+     */
+    @GET("/bookList")
+    Observable<HttpResult<DataList<Book>>> getBookList(@QueryMap HashMap<String,Object> map);
+
+    @GET("/book/GetBookType")
+    Observable<HttpResult<ArrayList<BookType>>> getBookType();
+
+
+
+
 }

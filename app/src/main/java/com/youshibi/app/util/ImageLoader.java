@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 /**
  * Created by Chu on 2016/11/16.
@@ -21,7 +20,6 @@ public class ImageLoader {
         Glide
                 .with(context)
                 .load(String)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
                 .into(view);
     }
 

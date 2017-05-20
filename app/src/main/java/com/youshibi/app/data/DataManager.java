@@ -1,6 +1,17 @@
 package com.youshibi.app.data;
 
 
+import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.DataList;
+import com.youshibi.app.data.net.RequestClient;
+import com.youshibi.app.rx.HttpResultFunc;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import rx.Observable;
+
 /**
  * Created by zchu on 16-11-17.
  * <p>
@@ -13,7 +24,34 @@ package com.youshibi.app.data;
 
 public class DataManager {
 
+    private static final DataManager sInstance = new DataManager();
 
+    private DataManager() {
+    }
 
+    public static DataManager getInstance() {
+        return sInstance;
+    }
 
+    public Observable<DataList<Book>> getBookList(int page, int size) {
+        return getBookList(page, size, 0);
+    }
+
+    public Observable<DataList<Book>> getBookList(int page, int size, long bookType) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pageIndex", page);
+        hashMap.put("pageSize", size);
+        if(bookType>0) hashMap.put("bookType", bookType);
+        return RequestClient
+                .getServerAPI()
+                .getBookList(hashMap)
+                .map(new HttpResultFunc<DataList<Book>>());
+    }
+
+    public Observable<ArrayList<BookType>> getBookType() {
+        return RequestClient
+                .getServerAPI()
+                .getBookType()
+                .map(new HttpResultFunc<ArrayList<BookType>>());
+    }
 }

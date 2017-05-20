@@ -12,8 +12,8 @@ import java.util.List;
  * @author z.chu 添加notifyDataSetChanged刷新FragmentPage功能,请通过setFragmentPages设置页数据
  */
 public class BaseFragmentAdapter extends FragmentPagerAdapter {
-	private List<Fragment> FragmentPages;
-	private List<String> PageTitles;
+	private Fragment[] FragmentPages;
+	private String[] PageTitles;
 	private FragmentManager fragmentManager;
 
 	public BaseFragmentAdapter(FragmentManager fm) {
@@ -24,11 +24,11 @@ public class BaseFragmentAdapter extends FragmentPagerAdapter {
 	
 	@Override
 	public Fragment getItem(int position) {
-		return FragmentPages.get(position);
+		return FragmentPages[position];
 	}
 	@Override
 	public int getCount() {
-		return FragmentPages != null ? FragmentPages.size() : 0;
+		return FragmentPages != null ? FragmentPages.length: 0;
 	}
 
 	@Override
@@ -37,58 +37,43 @@ public class BaseFragmentAdapter extends FragmentPagerAdapter {
 	}
 
 	public void setFragmentPages(List<Fragment> FragmentPages) {
+		setFragmentPages((Fragment[]) FragmentPages.toArray());
+	}
+
+	public void setFragmentPages(Fragment[] FragmentPages) {
 		if (this.FragmentPages != null) {
 			FragmentTransaction ft = fragmentManager.beginTransaction();
 			for (Fragment f : this.FragmentPages) {
 				ft.remove(f);
 			}
 			ft.commit();
-			ft = null;
 			fragmentManager.executePendingTransactions();
 		}
 		this.FragmentPages = FragmentPages;
 		notifyDataSetChanged();
 	}
 
-	/**
-	 * 设置每页的标题
-	 * 
-	 * @param PageTitles
-	 */
-	public void setPageTitleList(List<String> PageTitles) {
-		if (this.PageTitles != null) {
-			this.PageTitles.clear();
-			for (String title : PageTitles) {
-				this.PageTitles.add(title);
-			}
-		} else {
-			this.PageTitles = PageTitles;
-		}
+	public void setPageTitles(ArrayList<String> PageTitles) {
+		setPageTitles((String[]) PageTitles.toArray()) ;
 	}
 
-	public void setPageTitleArray(String[] PageTitles) {
-		if (this.PageTitles != null) {
-			this.PageTitles.clear();
-		}else{
-			this.PageTitles=new ArrayList<String>();
-		}
-		for (int i = 0; i < PageTitles.length; i++) {
-			this.PageTitles.add(PageTitles[i]);
-		}
+	public void setPageTitles(String[] PageTitles) {
+		this.PageTitles = PageTitles;
+
 	}
 
-	public List<String> getPageTitles() {
+	public String[] getPageTitles() {
 		return PageTitles;
 	}
 
-	public List<Fragment> getFragmentPages() {
+	public Fragment[] getFragmentPages() {
 		return FragmentPages;
 	}
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		if (PageTitles != null && position < PageTitles.size()) {
-			return PageTitles.get(position);
+		if (PageTitles != null && position < PageTitles.length) {
+			return PageTitles[position];
 		}
 		return super.getPageTitle(position);
 	}

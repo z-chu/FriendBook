@@ -25,7 +25,6 @@ public class CommonViewHolder extends BaseViewHolder{
         Glide
                 .with(convertView.getContext())
                 .load(string)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
                 .into((ImageView) getView(viewId));
         return  this;
     }
@@ -34,7 +33,6 @@ public class CommonViewHolder extends BaseViewHolder{
         Glide
                 .with(convertView.getContext())
                 .load(uri)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
                 .into((ImageView) getView(viewId));
         return  this;
     }
@@ -43,7 +41,6 @@ public class CommonViewHolder extends BaseViewHolder{
         Glide
                 .with(convertView.getContext())
                 .load(file)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
                 .into((ImageView) getView(viewId));
         return  this;
     }
@@ -52,7 +49,6 @@ public class CommonViewHolder extends BaseViewHolder{
         Glide
                 .with(convertView.getContext())
                 .load(model)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
                 .into((ImageView) getView(viewId));
         return  this;
     }

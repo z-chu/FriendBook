@@ -4,14 +4,15 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.youshibi.app.data.bean.BookRt;
+import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.DataList;
-import com.youshibi.app.data.net.RequestClient;
-import com.youshibi.app.data.net.RequestSubscriber;
 import com.zchu.log.Logger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import rx.Subscriber;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,17 +34,24 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void getBookList() {
-        RequestClient.getServerAPI().getBookList(1, 20)
-                .subscribe(new RequestSubscriber<DataList<BookRt>>() {
+        DataManager
+                .getInstance()
+                .getBookList(1, 20)
+                .subscribe(new Subscriber<DataList<Book>>() {
                     @Override
-                    public void onSuccess(DataList<BookRt> data) {
-                        Logger.e(data);
-                        Logger.e(data.DataList);
+                    public void onCompleted() {
+
                     }
 
                     @Override
-                    public void onResultError(int code, String msg) {
+                    public void onError(Throwable e) {
+                        Logger.e(e);
+                        throw new RuntimeException(e);
+                    }
 
+                    @Override
+                    public void onNext(DataList<Book> bookDataList) {
+                        Logger.e(bookDataList);
                     }
                 });
     }

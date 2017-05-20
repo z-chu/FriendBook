@@ -1,11 +1,13 @@
 package com.youshibi.app.mvp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.youshibi.app.base.BaseFragment;
+import com.youshibi.app.util.ToastUtil;
 
 
 /**
@@ -39,5 +41,15 @@ public abstract class MvpFragment<P extends MvpPresenter> extends BaseFragment
     @NonNull
     public P getPresenter() {
         return mPresenter;
+    }
+
+    @Override
+    public void showToast(String message) {
+        ToastUtil.showToast(message);
+    }
+
+    @Override
+    public Context provideContext() {
+        return this.getContext();
     }
 }

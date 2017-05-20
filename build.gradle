@@ -4,17 +4,17 @@ ext {
     //项目版本
     configuration = [
             package          : "com.youshibi.app",
-            buildToolsVersion: "25.0.0",
-            compileVersion   : 23,
+            buildToolsVersion: "25.0.3",
+            compileVersion   : 24,
             minSdk           : 15,
-            targetSdk        : 23,
+            targetSdk        : 24,
             version_code     : 1,
             version_name     : "debug",
     ]
 
     //对一些库的版本进行统一管理
     libraries = [
-            supportVersion: "25.0.1",
+            supportVersion: "26.0.0-alpha1",
             retrofit      : "2.1.0",
             leakcanary    : "1.5",
             blockcanary   : "1.4.0"
@@ -27,7 +27,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
