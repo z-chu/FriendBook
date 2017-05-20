@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/blue_light</color>
-    <color name="colorPrimaryDark">@color/blue</color>
-    <color name="colorAccent">#2EA8ED</color>
+    <color name="colorPrimary">#019961</color>
+    <color name="colorPrimaryDark">#008554</color>
+    <color name="colorAccent">#009960</color>
     <color name="colorGrounding">#fff2f2f2</color><!--界面底色-->
     <color name="colorDivider">#dcdcdc</color> <!-- 分割线颜色-->
     <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
