@@ -6,7 +6,7 @@
     <color name="colorGrounding">#fff2f2f2</color><!--界面底色-->
     <color name="colorDivider">#dcdcdc</color> <!-- 分割线颜色-->
     <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
-    <color name="colorRipple">#B2EBF2</color><!--点击时水波纹颜色-->
+    <color name="colorRipple">#d43ee6a7</color><!--点击时水波纹颜色-->
     <color name="colorInactive">#ff909090</color> <!--不活跃的颜色  icon的默认灰色-->
     <color name="colorPress">#ffe0e0e0</color>
     <color name="colorPictureDefault">#fff9f9f9</color>
@@ -22,6 +22,8 @@
     <color name="blue">#ff1976D2</color>
     <color name="blue_light">#ff178BC2</color>
     <color name="white">#ffffffff</color>
+    <color name="white_A25">#40FFFFFF</color>
+    <color name="white_A80">#8affffff</color>
     <color name="black">#ff000000</color>
     <color name="green">#ff00a818</color>
     <color name="orange">#fb683b</color>

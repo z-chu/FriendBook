@@ -7,7 +7,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="AppBaseTheme.Translucent.Statebar">
+    <style name="AppBaseTheme.Translucent.StateBar">
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
 </resources>

@@ -6,4 +6,8 @@
     <string name="click_retry">点击重试</string>
     <string name="no">开启</string>
     <string name="off">关闭</string>
+    <string name="bookcase">书架</string>
+    <string name="explore">发现</string>
+    <string name="mine">我的</string>
+
 </resources>

@@ -25,7 +25,7 @@ public class BaseActivity extends BaseSuperActivity{
         //设置沉淀式状态栏
         systemBarTintManager = new SystemBarTintManager(this);
         systemBarTintManager.setStatusBarTintEnabled(true);
-        systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     @Override

@@ -26,8 +26,11 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -282,7 +285,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	private void addTextTab(final int position, String title) {
 
-		TextView tab = new TextView(getContext());
+		TextView tab = new AppCompatTextView(getContext());
 		tab.setText(title);
 		tab.setGravity(Gravity.CENTER);
 		tab.setSingleLine();
@@ -292,7 +295,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	private void addIconTab(final int position, int resId) {
 
-		ImageButton tab = new ImageButton(getContext());
+		ImageButton tab = new AppCompatImageButton(getContext());
 		tab.setImageResource(resId);
 
 		addTab(position, tab);
@@ -322,7 +325,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 			View v = tabsContainer.getChildAt(i);
 			if (tabBackgroundResId != -1) {
-				v.setBackgroundResource(tabBackgroundResId);
+				//v.setBackgroundResource(tabBackgroundResId);
+				v.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),tabBackgroundResId));
 			}
 
 			if (v instanceof TextView) {
@@ -419,7 +423,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 							+ wrapAddWidth, height, rectPaint);
 
 		} else {
-			canvas.drawRect(lineLeft, height - indicatorHeight, lineRight,
+			canvas.drawRect(lineLeft+getPaddingLeft(), height - indicatorHeight, lineRight+getPaddingLeft(),
 					height, rectPaint);
 		}
 		// draw underline

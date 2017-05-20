@@ -16,7 +16,6 @@ import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpFragment;
 import com.youshibi.app.presentation.home.vo.BookItem;
 import com.youshibi.app.ui.anim.InContentAnim;
-import com.youshibi.app.ui.help.GlideScrollPauseHelper;
 import com.youshibi.app.ui.help.OnLoadMoreScrollListener;
 import com.youshibi.app.ui.help.RecycleViewDivider;
 import com.youshibi.app.ui.widget.LoadErrorView;
@@ -58,6 +57,7 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
         return fragment;
     }
 
+
     @NonNull
     @Override
     public HomePresenter createPresenter() {
@@ -94,7 +94,7 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DisplayUtil.hasVirtualNavigationBar()) {
             recyclerView.setPadding(0, 0, 0, DisplayUtil.getNavigationBarHeight());
         }
-        GlideScrollPauseHelper.with(recyclerView);
+        //GlideScrollPauseHelper.with(recyclerView);
     }
 
 

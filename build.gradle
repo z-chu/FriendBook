@@ -14,7 +14,7 @@ ext {
 
     //对一些库的版本进行统一管理
     libraries = [
-            supportVersion: "26.0.0-alpha1",
+            supportVersion: "24.2.0",
             retrofit      : "2.1.0",
             leakcanary    : "1.5",
             blockcanary   : "1.4.0"
