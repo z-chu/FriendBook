@@ -17,6 +17,14 @@ android {
         vectorDrawables.useSupportLibrary = true //SVG兼容库
     }
 
+    signingConfigs {
+        release {
+            storeFile file("FriendBook.jks")
+            storePassword "zchu@youshu\$888"
+            keyAlias "youshu"
+            keyPassword "Vary@laiyoushu\$8073"
+        }
+    }
 
 
     buildTypes {
