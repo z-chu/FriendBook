@@ -8,11 +8,20 @@
     app:statusBarBackground="?colorAccent"
     tools:context=".presentation.main.MainActivity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:foreground="@drawable/header_shadow"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+    </FrameLayout>
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -34,12 +43,12 @@
             android:layout_width="match_parent"
             android:layout_height="48.0dp"
             android:clipToPadding="false"
-            app:tabMinWidth="48dp"
-            app:tabMaxWidth="144dp"
             android:paddingLeft="16.0dp"
             android:paddingRight="16.0dp"
             app:tabBackground="@drawable/bg_tab_item_main"
             app:tabIndicatorColor="@color/white"
+            app:tabMaxWidth="144dp"
+            app:tabMinWidth="48dp"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/white" />
