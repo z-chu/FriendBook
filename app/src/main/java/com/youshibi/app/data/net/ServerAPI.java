@@ -25,8 +25,27 @@ public interface ServerAPI {
     @GET("/bookList")
     Observable<HttpResult<DataList<Book>>> getBookList(@QueryMap HashMap<String,Object> map);
 
+    /**
+     * 获取小说类别
+     */
     @GET("/book/GetBookType")
     Observable<HttpResult<ArrayList<BookType>>> getBookType();
+
+    /**
+     * 获取小说章节列表
+     */
+    @GET("/Book/GetChapterList")
+    Observable<HttpResult> getBookSectionList(@QueryMap HashMap<String,Object> map);
+
+
+    /**
+     * 获取小说章节中的内容
+     */
+    @GET("/Book/GetChapterList")
+    Observable<HttpResult>  getBookSectionContent(@QueryMap HashMap<String,Object> map);
+
+
+
 
 
 

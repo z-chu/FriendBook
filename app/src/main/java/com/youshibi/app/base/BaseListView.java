@@ -3,8 +3,6 @@ package com.youshibi.app.base;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.mvp.MvpView;
 
-import java.util.List;
-
 /**
  * 作者: 赵成柱 on 216/7/28 0028.
  */
@@ -48,12 +46,6 @@ public interface BaseListView<E> extends MvpView {
      * 显示没有更多内容
      */
     void showTheEnd();
-
-    /**
-     * 设置数据
-     */
-    void setMoreData(List<E> moreData);
-
 
     /**
      * 设置回最初状态，显示加载的数据

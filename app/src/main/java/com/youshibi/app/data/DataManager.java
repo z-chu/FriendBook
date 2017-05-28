@@ -4,6 +4,7 @@ package com.youshibi.app.data;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
+import com.youshibi.app.data.bean.HttpResult;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
 
@@ -37,21 +38,66 @@ public class DataManager {
         return getBookList(page, size, 0);
     }
 
+    /**
+     * 获取小说列表
+     * @param page 页码
+     * @param size 每页的条目数
+     * @param bookType 图书类别ID ，传0为获取全部
+     */
     public Observable<DataList<Book>> getBookList(int page, int size, long bookType) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("pageIndex", page);
         hashMap.put("pageSize", size);
-        if(bookType>0) hashMap.put("bookType", bookType);
+        if (bookType > 0) hashMap.put("bookType", bookType);
         return RequestClient
                 .getServerAPI()
                 .getBookList(hashMap)
                 .map(new HttpResultFunc<DataList<Book>>());
     }
 
+    /**
+     * 获取小说类别
+     */
     public Observable<ArrayList<BookType>> getBookType() {
         return RequestClient
                 .getServerAPI()
                 .getBookType()
                 .map(new HttpResultFunc<ArrayList<BookType>>());
     }
+
+
+    /**
+     * 获取小说章节列表
+     * @param bookId 小说的id
+     * @param isOrderByAsc 是否升序排序
+     */
+    public Observable<HttpResult> getBookSectionList(String bookId, boolean isOrderByAsc) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("bookId", bookId);
+        if (isOrderByAsc) {
+            hashMap.put("order", "asc");
+        } else {
+            hashMap.put("order", "desc");
+        }
+        return RequestClient
+                .getServerAPI()
+                .getBookSectionList(hashMap);
+    }
+
+    /**
+     * 获取小说章节中的内容
+     * @param bookId 小说的id
+     * @param sectionIndex 章节索引
+     */
+    public Observable<HttpResult> getBookSectionContent(String bookId,int sectionIndex) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("bookId",bookId);
+        hashMap.put("currentChapterIndex",sectionIndex);
+        hashMap.put("queryDirection","current");
+        return RequestClient
+                .getServerAPI()
+                .getBookSectionContent(hashMap);
+    }
+
+
 }

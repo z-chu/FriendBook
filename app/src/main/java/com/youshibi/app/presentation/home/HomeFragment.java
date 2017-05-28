@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpFragment;
-import com.youshibi.app.presentation.home.vo.BookItem;
 import com.youshibi.app.ui.anim.InContentAnim;
 import com.youshibi.app.ui.help.OnLoadMoreScrollListener;
 import com.youshibi.app.ui.help.RecycleViewDivider;
@@ -23,8 +22,6 @@ import com.youshibi.app.ui.widget.LoadMoreView;
 import com.youshibi.app.util.DensityUtil;
 import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.ToastUtil;
-
-import java.util.List;
 
 /**
  * Created by Chu on 2016/12/3.
@@ -184,11 +181,6 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
     public void showTheEnd() {
         if (loadMoreView != null)
             loadMoreView.makeTheEnd();
-    }
-
-    @Override
-    public void setMoreData(List<BookItem> moreData) {
-
     }
 
     @Override
