@@ -23,6 +23,8 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     }
 
+    @UiThread
+    @Override
     public void start(){}
 
     @UiThread

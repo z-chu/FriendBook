@@ -2,11 +2,13 @@ package com.youshibi.app.data.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Chu on 2017/5/28.
  */
 
-public class BookSectionContent {
+public class BookSectionContent implements Serializable{
 
     /**
      * ChapterIndex : 1

@@ -3,10 +3,10 @@ package com.youshibi.app.data;
 
 import com.youshibi.app.AppContext;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
-import com.youshibi.app.data.bean.HttpResult;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
 import com.zchu.rxcache.RxCache;
@@ -15,8 +15,8 @@ import com.zchu.rxcache.diskconverter.SerializableDiskConverter;
 import com.zchu.rxcache.stategy.CacheStrategy;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -81,15 +81,15 @@ public class DataManager {
     /**
      * 获取小说类别
      */
-    public Observable<ArrayList<BookType>> getBookType() {
+    public Observable<List<BookType>> getBookType() {
         return RequestClient
                 .getServerAPI()
                 .getBookType()
-                .map(new HttpResultFunc<ArrayList<BookType>>())
-                .compose(rxCache.<ArrayList<BookType>>transformer("getBookType", CacheStrategy.firstCache()))
-                .map(new Func1<CacheResult<ArrayList<BookType>>,ArrayList<BookType>>() {
+                .map(new HttpResultFunc<List<BookType>>())
+                .compose(rxCache.<List<BookType>>transformer("getBookType", CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<List<BookType>>,List<BookType>>() {
                     @Override
-                    public ArrayList<BookType> call(CacheResult<ArrayList<BookType>> cacheResult) {
+                    public List<BookType> call(CacheResult<List<BookType>> cacheResult) {
                         return cacheResult.getData();
                     }
                 });
@@ -101,7 +101,7 @@ public class DataManager {
      * @param bookId 小说的id
      * @param isOrderByAsc 是否升序排序
      */
-    public Observable<ArrayList<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
+    public Observable<List<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("bookId", bookId);
         if (isOrderByAsc) {
@@ -112,7 +112,14 @@ public class DataManager {
         return RequestClient
                 .getServerAPI()
                 .getBookSectionList(hashMap)
-                .map(new HttpResultFunc<ArrayList<BookSectionItem>>());
+                .map(new HttpResultFunc<List<BookSectionItem>>())
+                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList"+bookId+isOrderByAsc,CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
+                    @Override
+                    public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
+                        return listCacheResult.getData();
+                    }
+                });
     }
 
     /**
@@ -120,14 +127,22 @@ public class DataManager {
      * @param bookId 小说的id
      * @param sectionIndex 章节索引
      */
-    public Observable<HttpResult> getBookSectionContent(String bookId,int sectionIndex) {
+    public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("bookId",bookId);
         hashMap.put("currentChapterIndex",sectionIndex);
         hashMap.put("queryDirection","current");
         return RequestClient
                 .getServerAPI()
-                .getBookSectionContent(hashMap);
+                .getBookSectionContent(hashMap)
+                .map(new HttpResultFunc<BookSectionContent>())
+                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent"+bookId+sectionIndex,CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {
+                    @Override
+                    public BookSectionContent call(CacheResult<BookSectionContent> bookSectionContentCacheResult) {
+                        return bookSectionContentCacheResult.getData();
+                    }
+                });
     }
 
 

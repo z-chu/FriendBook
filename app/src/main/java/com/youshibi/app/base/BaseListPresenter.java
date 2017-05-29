@@ -1,6 +1,7 @@
 package com.youshibi.app.base;
 
 import com.youshibi.app.ui.help.CommonAdapter;
+import com.zchu.log.Logger;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import rx.Subscription;
  * Created by Chu on 2017/5/28.
  */
 
-public abstract class BaseListPresenter<V extends BaseListContract.View,M>  extends BaseRxPresenter<V> implements BaseListContract.Presenter<V> {
+public abstract class BaseListPresenter<V extends BaseListContract.View, M> extends BaseRxPresenter<V> implements BaseListContract.Presenter<V> {
     private int page;
     private int count;
     private CommonAdapter<M> adapter;
@@ -43,16 +44,18 @@ public abstract class BaseListPresenter<V extends BaseListContract.View,M>  exte
         addSubscription(subscribe);
 
     }
-    protected void onLoadDataError(Throwable e,boolean isRefresh){
+
+    protected void onLoadDataError(Throwable e, boolean isRefresh) {
+        Logger.e(e);
         if (isViewAttached()) {
             getView().showError(e.getMessage(), isRefresh);
         }
     }
 
-    protected void onLoadDataSucceed(List<M> data,boolean isRefresh){
+    protected void onLoadDataSucceed(List<M> data, boolean isRefresh) {
         if (isViewAttached()) {
-            if (!isRefresh||adapter==null) {
-                adapter=createAdapter(data);
+            if (!isRefresh || adapter == null) {
+                adapter = createAdapter(data);
                 getView().setAdapter(adapter);
                 getView().showContent(isRefresh);
             } else {
@@ -61,7 +64,6 @@ public abstract class BaseListPresenter<V extends BaseListContract.View,M>  exte
             }
         }
     }
-
 
 
     protected abstract Observable<List<M>> doLoadData(boolean isRefresh);
@@ -92,19 +94,20 @@ public abstract class BaseListPresenter<V extends BaseListContract.View,M>  exte
 
                     @Override
                     public void onNext(List<M> data) {
-                       onLoadMoreDataSucceed(data);
+                        onLoadMoreDataSucceed(data);
                     }
                 });
         addSubscription(subscribe);
     }
 
-    protected void onLoadMoreDataError(Throwable e){
+    protected void onLoadMoreDataError(Throwable e) {
+        Logger.e(e);
         if (isViewAttached()) {
             getView().showMoreError();
         }
     }
 
-    protected void onLoadMoreDataSucceed(List<M> data){
+    protected void onLoadMoreDataSucceed(List<M> data) {
         if (isViewAttached()) {
             adapter.addData(data);
             getView().showMoreFrom();
@@ -115,9 +118,9 @@ public abstract class BaseListPresenter<V extends BaseListContract.View,M>  exte
 
     protected abstract CommonAdapter<M> createAdapter(List<M> data);
 
-    protected int getPageSize(){
-         return 15;
-     }
+    protected int getPageSize() {
+        return 15;
+    }
 
     protected int getCount() {
         return count;

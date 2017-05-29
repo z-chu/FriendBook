@@ -1,18 +1,18 @@
-package com.youshibi.app.presentation.book;
+package com.youshibi.app.presentation.read;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.base.BaseLceView;
+import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.mvp.MvpPresenter;
 
 /**
  * Created by Chu on 2017/5/28.
  */
 
-public interface BookDetailContract {
+public interface ReadContract {
 
     interface View extends BaseLceView {
 
-        void setListAdapter(BaseQuickAdapter adapter);
+        void setData(BookSectionContent data);
 
     }
 

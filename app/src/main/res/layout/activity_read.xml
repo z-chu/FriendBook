@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-</LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/read_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16.0dp"
+        android:paddingRight="16.0dp">
+
+        <TextView
+            android:id="@+id/tv_read_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/text_size_medium" />
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.youshibi.app.ui.widget.LoadErrorView
+        android:id="@id/load_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

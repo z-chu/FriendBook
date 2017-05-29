@@ -9,6 +9,8 @@ import android.support.annotation.UiThread;
 
 public interface MvpPresenter<V extends MvpView> {
 
+    @UiThread
+    void start();
 
     @UiThread
     void attachView(V view);

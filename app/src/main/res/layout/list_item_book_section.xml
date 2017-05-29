@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_section_name"
+        android:layout_width="match_parent"
+        android:layout_height="48.0dp"
+        android:background="@drawable/bg_list_item"
+        android:gravity="center_vertical"
+        android:paddingLeft="16.0dp"
+        android:paddingRight="10.0dp"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/text_size_medium" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorDivider" />
+
+    <com.youshibi.app.ui.widget.LoadErrorView
+        android:id="@id/load_error_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

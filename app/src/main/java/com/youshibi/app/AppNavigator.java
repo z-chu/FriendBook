@@ -10,6 +10,7 @@ import android.webkit.WebView;
 
 import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.presentation.book.BookDetailActivity;
+import com.youshibi.app.presentation.read.ReadActivity;
 
 
 /**
@@ -62,5 +63,9 @@ public class AppNavigator {
         context.startActivity(BookDetailActivity.newIntent(context, bookId));
     }
 
+
+    public static void showReadActivity(Context context, String bookId,int sectionIndex) {
+        context.startActivity(ReadActivity.newIntent(context, bookId,sectionIndex));
+    }
 
 }

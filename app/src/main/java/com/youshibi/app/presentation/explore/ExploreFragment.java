@@ -15,13 +15,12 @@ import com.youshibi.app.base.BaseFragment;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.presentation.book.BookFragment;
+import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.BaseFragmentAdapter;
 import com.youshibi.app.util.ToastUtil;
-import com.zchu.log.Logger;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -82,21 +81,17 @@ public class ExploreFragment extends BaseFragment {
                 .getBookType()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ArrayList<BookType>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
+                .subscribe(new SimpleSubscriber<List<BookType>>() {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e(e);
+                        super.onError(e);
                         ToastUtil.showToast(e.getMessage());
 
                     }
 
                     @Override
-                    public void onNext(ArrayList<BookType> bookTypes) {
+                    public void onNext(List<BookType> bookTypes) {
                         final BaseFragmentAdapter fragmentAdapter = new BaseFragmentAdapter(ExploreFragment.this.getChildFragmentManager());
                         Fragment[] fragments = new Fragment[bookTypes.size() + 1];
                         fragments[0] = BookFragment.newInstance();

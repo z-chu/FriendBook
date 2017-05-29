@@ -1,5 +1,7 @@
 package com.youshibi.app.base;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.mvp.MvpPresenter;
 import com.youshibi.app.mvp.MvpView;
@@ -54,6 +56,8 @@ public interface BaseListContract {
          * 设置回最初状态，显示加载的数据
          */
         void showMoreFrom();
+
+         void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener);
 
      }
 

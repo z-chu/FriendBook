@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +54,7 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
             }
         });
         setRecyclerView(recyclerView);
+        getPresenter().start();
 
 
     }
@@ -95,6 +97,7 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
         }
 
     }
+
 
     @Override
     public void showError(String errorMsg, boolean isRefresh) {
@@ -185,6 +188,11 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
         if (loadMoreView != null && loadMoreView.canLoadMore()) {
             getPresenter().loadMoreData();
         }
+    }
+
+    @Override
+    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
+        recyclerView.addOnItemTouchListener(listener);
     }
 
 
