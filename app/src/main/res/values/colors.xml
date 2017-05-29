@@ -19,6 +19,7 @@
     <color name="textError">#ffe7492e</color>
 
     <!--通用颜色-->
+    <color name="colorPrimary_A80">#8a019961</color>
     <color name="blue">#ff1976D2</color>
     <color name="blue_light">#ff178BC2</color>
     <color name="white">#ffffffff</color>

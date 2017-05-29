@@ -1,5 +1,8 @@
 package com.youshibi.app.data.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -8,7 +11,7 @@ import java.io.Serializable;
  * Created by Chu on 2016/12/3.
  */
 
-public class Book implements Serializable{
+public class Book implements Serializable, Parcelable {
     /**
      * BookId : 0a4d9876-fa33-4bfa-a76f-3f2833674745
      * BookName : 混沌战尊
@@ -29,7 +32,7 @@ public class Book implements Serializable{
     private String coverUrl;
 
     @SerializedName("BookName")
-    private String title;
+    private String name;
 
     @SerializedName("BookIntro")
     private String describe;
@@ -38,7 +41,7 @@ public class Book implements Serializable{
     private String author;
 
     @SerializedName("IsFinish")
-    private boolean isFinish;
+    private boolean isFinished;
 
     private int BookOneType;
 
@@ -63,12 +66,12 @@ public class Book implements Serializable{
         this.coverUrl = coverUrl;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescribe() {
@@ -87,12 +90,12 @@ public class Book implements Serializable{
         this.author = author;
     }
 
-    public boolean isFinish() {
-        return isFinish;
+    public boolean isFinished() {
+        return isFinished;
     }
 
-    public void setFinish(boolean finish) {
-        isFinish = finish;
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public int getBookOneType() {
@@ -118,4 +121,50 @@ public class Book implements Serializable{
     public void setBookWordNum(int bookWordNum) {
         BookWordNum = bookWordNum;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.coverUrl);
+        dest.writeString(this.name);
+        dest.writeString(this.describe);
+        dest.writeString(this.author);
+        dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.BookOneType);
+        dest.writeString(this.BookOneTypeName);
+        dest.writeInt(this.BookWordNum);
+    }
+
+    public Book() {
+    }
+
+    protected Book(Parcel in) {
+        this.id = in.readString();
+        this.coverUrl = in.readString();
+        this.name = in.readString();
+        this.describe = in.readString();
+        this.author = in.readString();
+        this.isFinished = in.readByte() != 0;
+        this.BookOneType = in.readInt();
+        this.BookOneTypeName = in.readString();
+        this.BookWordNum = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel source) {
+            return new Book(source);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }

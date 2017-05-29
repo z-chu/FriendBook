@@ -49,6 +49,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 getPresenter().loadData();
             }
         });
+        readView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         getPresenter().start();
         getPresenter().loadData();
     }

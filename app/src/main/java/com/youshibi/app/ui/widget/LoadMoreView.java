@@ -54,8 +54,10 @@ public class LoadMoreView extends FrameLayout {
     }
 
     public void setStatus(int status) {
-        this.mStatus = status;
-        change();
+        if(this.mStatus!=status) {
+            this.mStatus = status;
+            change();
+        }
     }
 
     public boolean isTheEnd() {

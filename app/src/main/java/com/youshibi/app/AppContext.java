@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.youshibi.app.data.db.DBRepository;
 import com.zchu.log.Logger;
 
 
@@ -33,6 +34,7 @@ public class AppContext extends Application {
         LeakCanary.install(this);
         //初始化日志打印器
         Logger.init("FriendBook");
+        DBRepository.initDatabase(this);
 
     }
 

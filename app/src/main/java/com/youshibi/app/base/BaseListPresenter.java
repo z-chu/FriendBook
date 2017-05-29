@@ -15,7 +15,7 @@ import rx.Subscription;
 
 public abstract class BaseListPresenter<V extends BaseListContract.View, M> extends BaseRxPresenter<V> implements BaseListContract.Presenter<V> {
     private int page;
-    private int count;
+    private long count;
     private CommonAdapter<M> adapter;
 
     @Override
@@ -122,11 +122,11 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
         return 15;
     }
 
-    protected int getCount() {
+    protected long getCount() {
         return count;
     }
 
-    protected void setCount(int count) {
+    protected void setCount(long count) {
         this.count = count;
     }
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 def cfg = rootProject.ext.configuration // 项目配置
 def libs = rootProject.ext.libraries // 库
@@ -122,6 +123,7 @@ dependencies {
     //ui
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.17'
+    compile 'com.afollestad.material-dialogs:core:0.9.1.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
     compile 'com.r0adkll:slidableactivity:2.0.5'//测化退出
@@ -129,6 +131,9 @@ dependencies {
     //ImageLoader
     compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+
+    //orm
+    compile 'org.greenrobot:greendao:3.2.2'
 
 
     compile project(':bottom-bar')

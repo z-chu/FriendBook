@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpBasePresenter;
-import com.youshibi.app.presentation.bookrack.BookcaseFragment;
+import com.youshibi.app.presentation.bookcase.BookcaseFragment;
 import com.youshibi.app.presentation.explore.ExploreFragment;
 import com.youshibi.app.presentation.mine.MineFragment;
 
@@ -33,6 +33,7 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     @Override
     public void dispatchTabSelectedTabId(@IdRes int tabId) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         Fragment selectedFragment = mFragmentManager.findFragmentByTag(String.valueOf(tabId));
         switch (tabId){
             case R.id.tab_bookcase:

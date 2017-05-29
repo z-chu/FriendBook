@@ -44,6 +44,6 @@ public class BookAdapter extends CommonAdapter<Book> {
         holder
                 .setText(R.id.tv_author, bookItem.getAuthor())
                 .setText(R.id.tv_describe, bookItem.getDescribe())
-                .setText(R.id.tv_title, bookItem.getTitle());
+                .setText(R.id.tv_title, bookItem.getName());
     }
 }
