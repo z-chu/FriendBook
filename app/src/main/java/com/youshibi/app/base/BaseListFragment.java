@@ -1,8 +1,6 @@
-package com.youshibi.app.presentation.home;
+package com.youshibi.app.base;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,55 +14,23 @@ import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpFragment;
 import com.youshibi.app.ui.anim.InContentAnim;
 import com.youshibi.app.ui.help.OnLoadMoreScrollListener;
-import com.youshibi.app.ui.help.RecycleViewDivider;
 import com.youshibi.app.ui.widget.LoadErrorView;
 import com.youshibi.app.ui.widget.LoadMoreView;
 import com.youshibi.app.util.DensityUtil;
-import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.ToastUtil;
+
 
 /**
  * Created by Chu on 2016/12/3.
  */
 
-public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRefreshLayout.OnRefreshListener, LoadErrorView.OnRetryListener, HomeView {
+public abstract class BaseListFragment<P extends BaseListContract.Presenter> extends MvpFragment<P> implements SwipeRefreshLayout.OnRefreshListener, LoadErrorView.OnRetryListener, BaseListContract.View {
 
-    private static final String BUNDLE_BOOK_TYPE="book_type";
-
-    private SwipeRefreshLayout contentView;
-    private RecyclerView recyclerView;
-    private LoadErrorView loadErrorView;
-    private LoadMoreView loadMoreView;
-
-
-    public static HomeFragment newInstance() {
-
-        // Bundle args = new Bundle();
-
-        HomeFragment fragment = new HomeFragment();
-        //  fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static HomeFragment newInstance(long bookType) {
-        Bundle args = new Bundle();
-        args.putLong(BUNDLE_BOOK_TYPE,bookType);
-        HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
-    @NonNull
-    @Override
-    public HomePresenter createPresenter() {
-        Bundle arguments = getArguments();
-        long bookType=0;
-        if(arguments!=null){
-            bookType=arguments.getLong(BUNDLE_BOOK_TYPE);
-        }
-        return new HomePresenter(bookType);
-    }
+    protected SwipeRefreshLayout contentView;
+    protected RecyclerView recyclerView;
+    protected LoadErrorView loadErrorView;
+    protected LoadMoreView loadMoreView;
+    protected InContentAnim inContentAnim;
 
     @Override
     public int getLayoutId() {
@@ -77,23 +43,24 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
         contentView = (SwipeRefreshLayout) view.findViewById(R.id.content_view);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         loadErrorView = (LoadErrorView) view.findViewById(R.id.load_error_view);
-        contentView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        contentView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         loadErrorView.setOnRetryListener(this);
         contentView.setOnRefreshListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.addOnScrollListener(new OnLoadMoreScrollListener() {
             @Override
             public void onLoadMore(RecyclerView var1) {
                 loadMoreData();
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DisplayUtil.hasVirtualNavigationBar()) {
-            recyclerView.setPadding(0, 0, 0, DisplayUtil.getNavigationBarHeight());
-        }
-        //GlideScrollPauseHelper.with(recyclerView);
+        setRecyclerView(recyclerView);
+
+
     }
 
+    public void setRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+    }
 
     @Override
     public void onShow(boolean isFirstShow) {
@@ -133,13 +100,13 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
     public void showError(String errorMsg, boolean isRefresh) {
         if (isRefresh) {
             ToastUtil.showToast(errorMsg);
-        } else {
             contentView.post(new Runnable() {
                 @Override
                 public void run() {
                     contentView.setRefreshing(false);
                 }
             });
+        } else {
             loadErrorView.makeError();
         }
 
@@ -149,14 +116,24 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
     public void setAdapter(BaseQuickAdapter adapter) {
         loadMoreView = new LoadMoreView(getActivity());
         loadMoreView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getContext(), 64)));
+        loadMoreView.setOnLoadMoreRetryListener(new LoadMoreView.OnLoadMoreRetryListener() {
+            @Override
+            public void onLoadMoreRetry(View view) {
+                loadMoreData();
+            }
+        });
         adapter.addFooterView(loadMoreView);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void showContent() {
-        InContentAnim inContentAnim = new InContentAnim(contentView, loadErrorView);
-        inContentAnim.start();
+    public void showContent(boolean isRefresh) {
+        if (!isRefresh) {
+            if (inContentAnim == null) {
+                inContentAnim = new InContentAnim(contentView, loadErrorView);
+            }
+            inContentAnim.start();
+        }
         contentView.post(new Runnable() {
             @Override
             public void run() {
@@ -186,15 +163,29 @@ public class HomeFragment extends MvpFragment<HomePresenter> implements SwipeRef
     @Override
     public void showMoreFrom() {
         if (loadMoreView != null)
-            loadMoreView.makeMoreLoading();
+            loadMoreView.makeMoreGone();
     }
 
-    private void loadData(boolean isRefresh) {
-        getPresenter().doLoadData(isRefresh);
+
+    protected void loadData(boolean isRefresh) {
+        if (loadMoreView == null || loadMoreView.canLoadMore() || loadMoreView.isTheEnd()) {
+            getPresenter().loadData(isRefresh);
+        } else {
+            contentView.post(new Runnable() {
+                @Override
+                public void run() {
+                    contentView.setRefreshing(false);
+                }
+            });
+        }
 
     }
 
-    private void loadMoreData() {
-        getPresenter().doLoadMoreData();
+    protected void loadMoreData() {
+        if (loadMoreView != null && loadMoreView.canLoadMore()) {
+            getPresenter().loadMoreData();
+        }
     }
+
+
 }

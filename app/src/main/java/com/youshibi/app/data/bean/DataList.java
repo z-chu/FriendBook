@@ -1,12 +1,13 @@
 package com.youshibi.app.data.bean;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Chu on 2016/12/3.
  */
 
-public class DataList<T> {
+public class DataList<T> implements Serializable {
     public int Count;
-    public List<T> DataList;
+    public ArrayList<T> DataList;
 }

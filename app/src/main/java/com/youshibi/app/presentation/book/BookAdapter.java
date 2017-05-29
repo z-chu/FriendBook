@@ -1,4 +1,4 @@
-package com.youshibi.app.presentation.home;
+package com.youshibi.app.presentation.book;
 
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.youshibi.app.R;
-import com.youshibi.app.presentation.home.vo.BookItem;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
 
@@ -19,10 +19,10 @@ import java.util.List;
  * Created by Chu on 2017/5/19.
  */
 
-public class BookAdapter extends CommonAdapter<BookItem> {
+public class BookAdapter extends CommonAdapter<Book> {
     private Drawable placeDrawable;
 
-    public BookAdapter(List<BookItem> data) {
+    public BookAdapter(List<Book> data) {
         super(R.layout.list_item_book,data);
     }
 
@@ -34,16 +34,16 @@ public class BookAdapter extends CommonAdapter<BookItem> {
     }
 
     @Override
-    protected void convert(CommonViewHolder holder, BookItem bookItem) {
+    protected void convert(CommonViewHolder holder, Book bookItem) {
         ImageView ivCover = holder.getView(R.id.iv_cover);
         Glide
                 .with(mContext)
-                .load(bookItem.coverUrl)
+                .load(bookItem.getCoverUrl())
                 .apply(RequestOptions.placeholderOf(placeDrawable))
                 .into(ivCover);
         holder
-                .setText(R.id.tv_author, bookItem.author)
-                .setText(R.id.tv_describe, bookItem.describe)
-                .setText(R.id.tv_title, bookItem.title);
+                .setText(R.id.tv_author, bookItem.getAuthor())
+                .setText(R.id.tv_describe, bookItem.getDescribe())
+                .setText(R.id.tv_title, bookItem.getTitle());
     }
 }

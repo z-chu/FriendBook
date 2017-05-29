@@ -29,6 +29,7 @@ public abstract class MvpActivity<P extends MvpPresenter> extends BaseActivity i
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.detachView();
+            mPresenter=null;
         }
     }
 

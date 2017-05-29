@@ -33,6 +33,7 @@ public class BaseActivity extends BaseSuperActivity{
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && isFirstFocus) {
             onWindowFocusFirstObtain();
+            isFirstFocus=false;
         }
     }
 

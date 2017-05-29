@@ -6,5 +6,5 @@ import com.youshibi.app.mvp.MvpView;
  * Created by Chu on 2016/12/3.
  */
 
-public interface BookrackView extends MvpView {
+public interface BookcaseView extends MvpView {
 }

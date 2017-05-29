@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.youshibi.app.pref.AppConfig;
+import com.youshibi.app.presentation.book.BookDetailActivity;
 
 
 /**
@@ -55,6 +56,10 @@ public class AppNavigator {
         webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCachePath(AppConfig.WEB_CACHE_PATH);
+    }
+
+    public static void showBookDetailActivity(Context context, String bookId) {
+        context.startActivity(BookDetailActivity.newIntent(context, bookId));
     }
 
 

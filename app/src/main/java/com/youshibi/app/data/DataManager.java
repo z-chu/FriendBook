@@ -1,17 +1,25 @@
 package com.youshibi.app.data;
 
 
+import com.youshibi.app.AppContext;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.bean.HttpResult;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
+import com.zchu.rxcache.RxCache;
+import com.zchu.rxcache.data.CacheResult;
+import com.zchu.rxcache.diskconverter.SerializableDiskConverter;
+import com.zchu.rxcache.stategy.CacheStrategy;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by zchu on 16-11-17.
@@ -27,7 +35,15 @@ public class DataManager {
 
     private static final DataManager sInstance = new DataManager();
 
+    private RxCache rxCache;
     private DataManager() {
+        rxCache = new RxCache.Builder()
+                .appVersion(1)
+                .diskDir(new File(AppContext.context().getCacheDir().getPath() + File.separator + "data-cache"))
+                .diskConverter(new SerializableDiskConverter())//支持Serializable、Json(GsonDiskConverter)
+                .memoryMax(2*1024*1024)
+                .diskMax(20*1024*1024)
+                .build();
     }
 
     public static DataManager getInstance() {
@@ -52,7 +68,14 @@ public class DataManager {
         return RequestClient
                 .getServerAPI()
                 .getBookList(hashMap)
-                .map(new HttpResultFunc<DataList<Book>>());
+                .map(new HttpResultFunc<DataList<Book>>())
+                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+bookType, CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
+                    @Override
+                    public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
+                        return cacheResult.getData();
+                    }
+                });
     }
 
     /**
@@ -62,7 +85,14 @@ public class DataManager {
         return RequestClient
                 .getServerAPI()
                 .getBookType()
-                .map(new HttpResultFunc<ArrayList<BookType>>());
+                .map(new HttpResultFunc<ArrayList<BookType>>())
+                .compose(rxCache.<ArrayList<BookType>>transformer("getBookType", CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<ArrayList<BookType>>,ArrayList<BookType>>() {
+                    @Override
+                    public ArrayList<BookType> call(CacheResult<ArrayList<BookType>> cacheResult) {
+                        return cacheResult.getData();
+                    }
+                });
     }
 
 
@@ -71,7 +101,7 @@ public class DataManager {
      * @param bookId 小说的id
      * @param isOrderByAsc 是否升序排序
      */
-    public Observable<HttpResult> getBookSectionList(String bookId, boolean isOrderByAsc) {
+    public Observable<ArrayList<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("bookId", bookId);
         if (isOrderByAsc) {
@@ -81,7 +111,8 @@ public class DataManager {
         }
         return RequestClient
                 .getServerAPI()
-                .getBookSectionList(hashMap);
+                .getBookSectionList(hashMap)
+                .map(new HttpResultFunc<ArrayList<BookSectionItem>>());
     }
 
     /**

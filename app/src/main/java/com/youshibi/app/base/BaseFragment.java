@@ -12,14 +12,34 @@ import android.view.ViewGroup;
  */
 public abstract class BaseFragment extends BaseSuperFragment {
 
+
     /**
      * 第一次暴露在外
      */
     protected boolean isFirstShow = true;
+
     /**
      * onViewCreated是否调用结束
      */
     protected boolean isViewCreated = false;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isFirstShow",isFirstShow);
+        outState.putBoolean("isViewCreated",isViewCreated);
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null) {
+           // isFirstShow = savedInstanceState.getBoolean("isFirstShow");
+          //  isViewCreated = savedInstanceState.getBoolean("isViewCreated");
+        }
+
+    }
 
     @Nullable
     @Override
