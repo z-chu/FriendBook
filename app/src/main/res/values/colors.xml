@@ -25,6 +25,12 @@
     <color name="white">#ffffffff</color>
     <color name="white_A25">#40FFFFFF</color>
     <color name="white_A80">#8affffff</color>
+    <color name="white_A16">#29ffffff</color><!---->
+    <color name="white_A85">#d9ffffff</color><!--85%透明度-->
+    <color name="white_A70">#b2ffffff</color><!--70%透明度-->
+    <color name="white_A60">#99ffffff</color><!--60%透明度-->
+    <color name="white_A50">#80ffffff</color><!--50%透明度-->
+    <color name="white_A30">#4dffffff</color><!--30%透明度-->
     <color name="black">#ff000000</color>
     <color name="green">#ff00a818</color>
     <color name="orange">#fb683b</color>

@@ -1,8 +1,13 @@
 package com.youshibi.app.presentation.bookcase;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListFragment;
 import com.youshibi.app.ui.help.RecycleViewDivider;
 
@@ -12,8 +17,25 @@ import com.youshibi.app.ui.help.RecycleViewDivider;
 
 public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
 
+    private Toolbar toolbar;
+
+
+
     public static BookcaseFragment newInstance() {
         return new BookcaseFragment();
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_bookcase;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        toolbar.inflateMenu(R.menu.main);
     }
 
     @Override

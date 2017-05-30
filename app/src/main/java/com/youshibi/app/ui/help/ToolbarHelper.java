@@ -23,13 +23,13 @@ public class ToolbarHelper {
                     "The subclass of ToolbarActivity must contain a toolbar.");
         }
         activity.setSupportActionBar(toolbar);
-        if (title != null) {
-            toolbar.setTitle(title);
-        }
         ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             if (canBack) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                if (title != null) {
+                    actionBar.setTitle(title);
+                }
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

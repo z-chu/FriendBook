@@ -19,6 +19,7 @@ import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.mvp.MvpActivity;
 import com.youshibi.app.ui.anim.InContentAnim;
 import com.youshibi.app.ui.help.RecycleViewDivider;
+import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.ui.widget.LoadErrorView;
 import com.youshibi.app.util.ToastUtil;
 
@@ -56,6 +57,7 @@ public class BookDetailActivity extends MvpActivity<BookDetailContract.Presenter
         initExtra();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
+        ToolbarHelper.initToolbar(this,R.id.toolbar,true,book!=null?book.getName():"书籍详情");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         loadErrorView = (LoadErrorView) findViewById(R.id.load_error_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -105,7 +107,8 @@ public class BookDetailActivity extends MvpActivity<BookDetailContract.Presenter
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        DBManger.getInstance().saveBookTb(book);
+                       DBManger.getInstance().saveBookTb(book);
+                        ToastUtil.showToast("已加入书架");
                     }
                 })
                 .negativeText("取消")

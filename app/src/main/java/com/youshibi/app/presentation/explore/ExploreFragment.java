@@ -62,9 +62,6 @@ public class ExploreFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
         toolbar.setTitle(getString(R.string.app_name));
-        toolbar.inflateMenu(R.menu.main);
-
-
     }
 
     @Override
