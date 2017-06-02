@@ -22,9 +22,12 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
 
     private FragmentManager mFragmentManager;
 
+    private int contentContainerId;
+
     @Override
-    public void initViewPage(@NonNull final FragmentManager fragmentManager) {
+    public void initContentContainer(@NonNull final FragmentManager fragmentManager,@IdRes int contentContainerId) {
         this.mFragmentManager = fragmentManager;
+        this.contentContainerId=contentContainerId;
     }
 
 
@@ -33,31 +36,30 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     @Override
     public void dispatchTabSelectedTabId(@IdRes int tabId) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         Fragment selectedFragment = mFragmentManager.findFragmentByTag(String.valueOf(tabId));
         switch (tabId){
             case R.id.tab_bookcase:
                 if (selectedFragment== null) {
                     selectedFragment= BookcaseFragment.newInstance();
-                    fragmentTransaction.add(R.id.content_view, selectedFragment,String.valueOf(tabId));
+                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
                 }
                 break;
             case R.id.tab_explore:
                 if (selectedFragment== null) {
                     selectedFragment= ExploreFragment.newInstance();
-                    fragmentTransaction.add(R.id.content_view, selectedFragment,String.valueOf(tabId));
+                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
                 }
                 break;
             case R.id.tab_mine:
                 if (selectedFragment== null) {
                     selectedFragment= MineFragment.newInstance();
-                    fragmentTransaction.add(R.id.content_view, selectedFragment,String.valueOf(tabId));
+                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
                 }
                 break;
         }
         List<Fragment> fragments = mFragmentManager.getFragments();
         if(fragments!=null&&fragments.size()>0){
-            for (Fragment fragment : mFragmentManager.getFragments()) {
+            for (Fragment fragment : fragments) {
                 if(fragment.getTag().equals(String.valueOf(tabId))){
                     fragmentTransaction.show(fragment);
                 }else{

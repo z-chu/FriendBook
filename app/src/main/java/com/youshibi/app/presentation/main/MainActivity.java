@@ -21,7 +21,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        getPresenter().initViewPage(getSupportFragmentManager());
+        getPresenter().initContentContainer(getSupportFragmentManager(),R.id.content_view);
         bottomBar.setOnTabSelectListener(this);
     }
 

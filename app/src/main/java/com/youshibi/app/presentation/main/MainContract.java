@@ -19,7 +19,7 @@ public interface MainContract {
 
     interface Presenter extends MvpPresenter<View> {
 
-        void initViewPage(@NonNull final FragmentManager fragmentManager);
+        void initContentContainer(@NonNull final FragmentManager fragmentManager,@IdRes int contentContainerId);
 
         void dispatchTabSelectedTabId(@IdRes int tabId);
     }
