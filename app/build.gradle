@@ -100,7 +100,7 @@ dependencies {
     //compile 'com.squareup.retrofit2:converter-gson:' + libs.retrofit
     //compile 'com.squareup.retrofit2:converter-scalars:' + libs.retrofit
     compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.zchu:rxcache:1.2.2'
+    compile 'com.zchu:rxcache:1.2.3'
 
     //rx
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -112,9 +112,9 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:' + libs.leakcanary
 
     //log打印-自己的东西还是要支持下滴
-    debugCompile 'com.zchu:zlog:1.0.0'
-    testCompile 'com.zchu:zlog:1.0.0'
-    releaseCompile 'com.zchu:zlog-no-op:1.0.0'//正式发布时会将所有的打印方法替换为空方法
+    debugCompile 'com.zchu:zlog:1.0.1'
+    testCompile 'com.zchu:zlog:1.0.1'
+    releaseCompile 'com.zchu:zlog-no-op:1.0.1'//正式发布时会将所有的打印方法替换为空方法
 
     //dagger
     compile 'com.google.dagger:dagger:2.10'

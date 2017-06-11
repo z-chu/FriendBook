@@ -1,7 +1,9 @@
 package com.youshibi.app.data;
 
 
+import com.google.gson.reflect.TypeToken;
 import com.youshibi.app.AppContext;
+import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
@@ -11,7 +13,7 @@ import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
 import com.zchu.rxcache.RxCache;
 import com.zchu.rxcache.data.CacheResult;
-import com.zchu.rxcache.diskconverter.SerializableDiskConverter;
+import com.zchu.rxcache.diskconverter.GsonDiskConverter;
 import com.zchu.rxcache.stategy.CacheStrategy;
 
 import java.io.File;
@@ -40,8 +42,9 @@ public class DataManager {
         rxCache = new RxCache.Builder()
                 .appVersion(1)
                 .diskDir(new File(AppContext.context().getCacheDir().getPath() + File.separator + "data-cache"))
-                .diskConverter(new SerializableDiskConverter())//支持Serializable、Json(GsonDiskConverter)
-                .memoryMax(2*1024*1024)
+                .setDebug(BuildConfig.DEBUG)
+                .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
+                .memoryMax(0)
                 .diskMax(20*1024*1024)
                 .build();
     }
@@ -69,7 +72,7 @@ public class DataManager {
                 .getServerAPI()
                 .getBookList(hashMap)
                 .map(new HttpResultFunc<DataList<Book>>())
-                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+bookType, CacheStrategy.firstCache()))
+                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+bookType,new TypeToken<DataList<Book>>() {}.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
                     @Override
                     public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
@@ -86,7 +89,7 @@ public class DataManager {
                 .getServerAPI()
                 .getBookType()
                 .map(new HttpResultFunc<List<BookType>>())
-                .compose(rxCache.<List<BookType>>transformer("getBookType", CacheStrategy.firstCache()))
+                .compose(rxCache.<List<BookType>>transformer("getBookType",new TypeToken<List<BookType>>() {}.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<List<BookType>>,List<BookType>>() {
                     @Override
                     public List<BookType> call(CacheResult<List<BookType>> cacheResult) {
@@ -113,7 +116,7 @@ public class DataManager {
                 .getServerAPI()
                 .getBookSectionList(hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
-                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList"+bookId+isOrderByAsc,CacheStrategy.firstCache()))
+                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList"+bookId+isOrderByAsc ,new TypeToken<List<BookSectionItem>>() {}.getType(),CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
                     @Override
                     public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
@@ -136,7 +139,7 @@ public class DataManager {
                 .getServerAPI()
                 .getBookSectionContent(hashMap)
                 .map(new HttpResultFunc<BookSectionContent>())
-                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent"+bookId+sectionIndex,CacheStrategy.firstCache()))
+                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent"+bookId+sectionIndex,BookSectionContent.class,CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {
                     @Override
                     public BookSectionContent call(CacheResult<BookSectionContent> bookSectionContentCacheResult) {
