@@ -13,6 +13,7 @@ import com.youshibi.app.ui.help.CommonViewHolder;
 
 import java.util.List;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -23,17 +24,25 @@ import rx.schedulers.Schedulers;
 public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.View> implements BookDetailContract.Presenter {
 
     private String bookId;
+    private CommonAdapter<BookSectionItem> bookSectionAdapter;
 
     public BookDetailPresenter(String bookId) {
         this.bookId = bookId;
     }
 
 
-
     @Override
     public void loadData() {
-        getView().showLoading();
-        DataManager
+        if (isViewAttached()) {
+            if (bookSectionAdapter != null) {
+                getView().setListAdapter(bookSectionAdapter);
+                getView().showContent();
+                return;
+            }
+            getView().showLoading();
+        }
+
+        Subscription subscribe = DataManager
                 .getInstance()
                 .getBookSectionList(bookId, true)
                 .subscribeOn(Schedulers.io())
@@ -60,10 +69,11 @@ public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.Vie
                     }
                 });
 
+
     }
 
     private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
-        return new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
+        bookSectionAdapter = new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
             @Override
             protected void convert(CommonViewHolder helper, final BookSectionItem item) {
                 helper.setText(R.id.tv_section_name, item.getSectionName());
@@ -75,5 +85,6 @@ public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.Vie
                 });
             }
         };
+        return bookSectionAdapter;
     }
 }

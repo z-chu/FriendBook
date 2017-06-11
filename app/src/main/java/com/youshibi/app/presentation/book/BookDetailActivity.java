@@ -16,7 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
-import com.youshibi.app.mvp.MvpActivity;
+import com.youshibi.app.mvp.loader.MvpLoaderActivity;
 import com.youshibi.app.ui.anim.InContentAnim;
 import com.youshibi.app.ui.help.RecycleViewDivider;
 import com.youshibi.app.ui.help.ToolbarHelper;
@@ -27,7 +27,7 @@ import com.youshibi.app.util.ToastUtil;
  * Created by Chu on 2017/5/28.
  */
 
-public class BookDetailActivity extends MvpActivity<BookDetailContract.Presenter> implements BookDetailContract.View {
+public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Presenter> implements BookDetailContract.View {
     private static final String K_EXTRA_BOOK_ID = "book_id";
     private static final String K_EXTRA_BOOK = "book";
 
@@ -69,9 +69,14 @@ public class BookDetailActivity extends MvpActivity<BookDetailContract.Presenter
                 getPresenter().loadData();
             }
         });
+
+
+    }
+
+    @Override
+    public void onAttachPresenter() {
         getPresenter().start();
         getPresenter().loadData();
-
     }
 
     private void initExtra() {

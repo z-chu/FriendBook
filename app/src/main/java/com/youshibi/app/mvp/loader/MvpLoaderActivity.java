@@ -1,5 +1,6 @@
 package com.youshibi.app.mvp.loader;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -8,6 +9,7 @@ import android.support.v4.content.Loader;
 import com.youshibi.app.base.BaseActivity;
 import com.youshibi.app.mvp.MvpPresenter;
 import com.youshibi.app.mvp.MvpView;
+import com.youshibi.app.util.ToastUtil;
 
 /**
  * Created by Chu on 2016/11/17.
@@ -34,7 +36,7 @@ public abstract class MvpLoaderActivity<P extends MvpPresenter> extends BaseActi
         getSupportLoaderManager().initLoader(1, null, this);
     }
 
-    public void onAttachPresenter() {}
+    public abstract void onAttachPresenter();
 
     @Override
     protected void onDestroy() {
@@ -76,5 +78,15 @@ public abstract class MvpLoaderActivity<P extends MvpPresenter> extends BaseActi
     @Override
     public void onLoaderReset(Loader<P> loader) {
         mPresenter.detachView();
+    }
+
+    @Override
+    public void showToast(String message) {
+        ToastUtil.showToast(message);
+    }
+
+    @Override
+    public Context provideContext() {
+        return this;
     }
 }
