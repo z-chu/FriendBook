@@ -46,7 +46,7 @@ public class LoadMoreView extends FrameLayout {
                 }
             }
         });
-        setStatus(Status.GONE);
+        change();
     }
 
     public int getStatus() {

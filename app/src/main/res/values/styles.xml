@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorGrounding</item>
+        <item name="android:listDivider">@drawable/bg_list_divider</item>
     </style>
 
     <style name="AppBaseTheme.Translucent" />
@@ -19,7 +20,15 @@
     <style name="AppTheme" parent="AppBaseTheme.Translucent.StateBar">
         <!--  -->
     </style>
-    <style name="AppTheme.noWindowBackground">
+
+    <!-- 如果界面需要侧滑必须设置这个主题 -->
+    <style name="AppTheme.Slide">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
+    <style name="AppTheme.NoWindowBackground">
         <item name="android:windowBackground">@null</item>
     </style>
 

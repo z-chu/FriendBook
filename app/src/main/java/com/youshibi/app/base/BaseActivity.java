@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.youshibi.app.R;
 
@@ -11,7 +13,7 @@ import com.youshibi.app.R;
  * 作者: 赵成柱 on 2016/7/13.
  * 职责：为所有的activity封装功能
  */
-public class BaseActivity extends BaseSuperActivity{
+public class BaseActivity extends BaseSuperActivity {
     /**
      * 窗体第一次获取焦点
      */
@@ -28,21 +30,38 @@ public class BaseActivity extends BaseSuperActivity{
         systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
+
+    @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+        if (isEnableSlideFinish()) {
+            Slidr.attach(this, new SlidrConfig
+                    .Builder()
+                    .edge(true)
+                    .edgeSize(0.18f)// The % of the screen that counts as the edge, default 18%
+                    .build());
+        }
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && isFirstFocus) {
             onWindowFocusFirstObtain();
-            isFirstFocus=false;
+            isFirstFocus = false;
         }
     }
 
     /**
      * 当窗体第一次获取到焦点会回调该方法
      */
-    protected void onWindowFocusFirstObtain() {}
+    protected void onWindowFocusFirstObtain() {
+    }
 
 
+    protected boolean isEnableSlideFinish() {
+        return true;
+    }
 
 
 }

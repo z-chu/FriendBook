@@ -38,4 +38,8 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
 
     }
 
+    @Override
+    protected boolean isEnableSlideFinish() {
+        return false;
+    }
 }
