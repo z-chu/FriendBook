@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.FrameLayout;
 
 import com.youshibi.app.R;
@@ -11,12 +12,12 @@ import com.youshibi.app.R;
 
 /**
  * Created by z-chu on 2016/6/8.
- *
  */
-public class LoadErrorView extends FrameLayout implements  View.OnClickListener {
+public class LoadErrorView extends FrameLayout implements View.OnClickListener {
 
+    private ViewStub stubViewLoading;
+    private ViewStub stubViewError;
     private View mLoadingView;
-
     private View mErrorView;
 
     private OnRetryListener mOnRetryListener;
@@ -37,28 +38,44 @@ public class LoadErrorView extends FrameLayout implements  View.OnClickListener 
 
     private void inflateView(Context context) {
 
-        LayoutInflater.from(context).inflate(R.layout.merge_loading_error, this, true);
-        mLoadingView = findViewById(R.id.loading_view);
-        mErrorView = findViewById(R.id.error_view);
-        mErrorView.findViewById(R.id.reload_view).setOnClickListener(this);
-        makeGone();
-
+        View view = LayoutInflater.from(context).inflate(R.layout.merge_loading_error, this, true);
+        stubViewLoading = (ViewStub) view.findViewById(R.id.stub_view_loading);
+        stubViewError = (ViewStub) view.findViewById(R.id.stub_view_error);
     }
 
 
     public void makeGone() {
-        mLoadingView.setVisibility(GONE);
-        mErrorView.setVisibility(GONE);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(GONE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(GONE);
+        }
     }
 
     public void makeLoading() {
-        mLoadingView.setVisibility(VISIBLE);
-        mErrorView.setVisibility(GONE);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(VISIBLE);
+        } else {
+            stubViewLoading.inflate();
+            mLoadingView = findViewById(R.id.loading_view);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(GONE);
+        }
     }
 
     public void makeError() {
-        mLoadingView.setVisibility(GONE);
-        mErrorView.setVisibility(VISIBLE);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(GONE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(VISIBLE);
+        } else {
+            stubViewError.inflate();
+            mErrorView = findViewById(R.id.error_view);
+            mErrorView.findViewById(R.id.reload_view).setOnClickListener(this);
+        }
     }
 
     public void setOnRetryListener(OnRetryListener listener) {
@@ -73,7 +90,9 @@ public class LoadErrorView extends FrameLayout implements  View.OnClickListener 
     }
 
     public interface OnRetryListener {
-        /**重新加载*/
+        /**
+         * 重新加载
+         */
         void onRetry(View view);
     }
 

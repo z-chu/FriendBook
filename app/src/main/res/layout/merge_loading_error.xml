@@ -4,9 +4,18 @@
     android:layout_height="match_parent">
 
 
-    <include layout="@layout/view_loading"/>
+    <ViewStub
+        android:id="@+id/stub_view_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/view_loading" />
 
-    <include layout="@layout/view_error"/>
+    <ViewStub
+        android:id="@+id/stub_view_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/view_error" />
+
 
 </merge>
 
