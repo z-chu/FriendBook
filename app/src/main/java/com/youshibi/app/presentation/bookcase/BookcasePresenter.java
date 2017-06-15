@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.youshibi.app.AppNavigator;
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.base.BaseListContract;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
@@ -33,7 +33,7 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
         getView().addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AppNavigator.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
+                AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
             }
         });
     }

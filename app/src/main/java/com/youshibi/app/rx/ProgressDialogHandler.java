@@ -31,7 +31,7 @@ public class ProgressDialogHandler extends Handler {
 
     private void initProgressDialog(){
         if (pd == null) {
-            //pd = AppNavigator.getLoadingDialog(context);
+            //pd = AppRouter.getLoadingDialog(context);
 
             pd.setCancelable(cancelable);
 

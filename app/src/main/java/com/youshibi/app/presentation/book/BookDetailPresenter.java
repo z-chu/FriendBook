@@ -2,7 +2,7 @@ package com.youshibi.app.presentation.book;
 
 import android.view.View;
 
-import com.youshibi.app.AppNavigator;
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookSectionItem;
@@ -80,7 +80,7 @@ public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.Vie
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppNavigator.showReadActivity(mContext, bookId, item.getSectionIndex());
+                        AppRouter.showReadActivity(mContext, bookId, item.getSectionIndex());
                     }
                 });
             }

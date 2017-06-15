@@ -18,7 +18,7 @@ import com.youshibi.app.presentation.read.ReadActivity;
  * 作者: 赵成柱 on 2016/7/13.
  * app路由，界面跳转帮助类，所有的界面跳转通过此类进行跳转,包括组件交互
  */
-public class AppNavigator {
+public class AppRouter {
 
 
     /**
