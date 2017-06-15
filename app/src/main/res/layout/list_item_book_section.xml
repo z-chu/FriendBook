@@ -15,14 +15,6 @@
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/text_size_medium" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorDivider" />
 
-    <com.youshibi.app.ui.widget.LoadErrorView
-        android:id="@id/load_error_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </LinearLayout>

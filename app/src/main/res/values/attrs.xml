@@ -24,4 +24,7 @@
         <attr name="pstsTextColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="LoadErrorView">
+        <attr name="layout" format="reference" />
+    </declare-styleable>
 </resources>

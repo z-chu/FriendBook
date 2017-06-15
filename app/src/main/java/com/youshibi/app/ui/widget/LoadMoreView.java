@@ -13,7 +13,7 @@ import com.youshibi.app.R;
  *
  */
 public class LoadMoreView extends FrameLayout {
-    private int mStatus;
+    private int mStatus=Status.GONE;
 
     private View mLoadingView;
 
