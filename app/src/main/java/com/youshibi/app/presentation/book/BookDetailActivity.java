@@ -146,7 +146,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     @Override
     public void showLoading() {
         recyclerView.setVisibility(View.GONE);
-        loadErrorView.makeLoading();
+        loadErrorView.showLoading();
 
     }
 
@@ -154,7 +154,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     public void showError(String errorMsg) {
         ToastUtil.showToast(errorMsg);
         recyclerView.setVisibility(View.GONE);
-        loadErrorView.makeError();
+        loadErrorView.showError();
 
     }
 }

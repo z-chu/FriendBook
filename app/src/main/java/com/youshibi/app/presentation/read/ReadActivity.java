@@ -48,6 +48,15 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 getPresenter().loadData();
             }
         });
+        loadErrorView.setContentViewCreatedListener(new LoadErrorView.OnViewCreatedListener() {
+            @Override
+            public void onViewCreated(@NonNull View view) {
+                readView = (NestedScrollView) view.findViewById(R.id.read_view);
+                tvReadSource = (TextView) view.findViewById(R.id.tv_read_source);
+                readView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+                tvReadSource.setText(mData.getContent());
+            }
+        });
 
         getPresenter().start();
         getPresenter().loadData();
@@ -56,22 +65,17 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @Override
     public void showContent() {
         loadErrorView.showContent();
-        readView = (NestedScrollView) findViewById(R.id.read_view);
-        readView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-        tvReadSource = (TextView) findViewById(R.id.tv_read_source);
-        tvReadSource.setText(mData.getContent());
-
     }
 
     @Override
     public void showLoading() {
-        loadErrorView.makeLoading();
+        loadErrorView.showLoading();
 
     }
 
     @Override
     public void showError(String errorMsg) {
-        loadErrorView.makeError();
+        loadErrorView.showError();
     }
 
     @NonNull
@@ -85,6 +89,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     @Override
     public void setData(BookSectionContent data) {
-        this.mData=data;
+        this.mData = data;
     }
 }

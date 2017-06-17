@@ -93,7 +93,7 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
             });
         } else {
             contentView.setVisibility(View.GONE);
-            loadErrorView.makeLoading();
+            loadErrorView.showLoading();
         }
 
     }
@@ -110,7 +110,7 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
                 }
             });
         } else {
-            loadErrorView.makeError();
+            loadErrorView.showError();
         }
 
     }

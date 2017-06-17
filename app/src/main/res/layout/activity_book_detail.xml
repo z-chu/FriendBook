@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/colorGrounding"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -35,12 +35,13 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:scrollbars="vertical"
-          />
+            android:scrollbars="vertical" />
 
         <com.youshibi.app.ui.widget.LoadErrorView
             android:id="@id/load_error_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:errorLayout="@layout/view_error"
+            app:loadingLayout="@layout/view_loading" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

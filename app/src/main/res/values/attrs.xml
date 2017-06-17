@@ -25,6 +25,8 @@
     </declare-styleable>
 
     <declare-styleable name="LoadErrorView">
-        <attr name="layout" format="reference" />
+        <attr name="contentLayout" format="reference" />
+        <attr name="loadingLayout" format="reference" />
+        <attr name="errorLayout" format="reference" />
     </declare-styleable>
 </resources>

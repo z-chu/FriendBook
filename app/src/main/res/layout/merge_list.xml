@@ -12,16 +12,17 @@
         <android.support.v7.widget.RecyclerView
             android:id="@id/recycler_view"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            />
+            android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.youshibi.app.ui.widget.LoadErrorView
+    <com.youshibi.app.ui.widget.LoadErrorView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@id/load_error_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:errorLayout="@layout/view_error"
+        app:loadingLayout="@layout/view_loading" />
 
 </merge>

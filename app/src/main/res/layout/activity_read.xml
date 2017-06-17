@@ -12,6 +12,8 @@
         android:id="@id/load_error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout="@layout/layout_read_content" />
+        app:contentLayout="@layout/layout_read_content"
+        app:errorLayout="@layout/view_error"
+        app:loadingLayout="@layout/view_loading" />
 
 </FrameLayout>
