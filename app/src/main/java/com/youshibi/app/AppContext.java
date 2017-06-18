@@ -27,7 +27,7 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化AppManager
-        registerActivityLifecycleCallbacks(AppManager.INSTANCE);
+        AppManager.init(this);
         //初始化全局异常捕获
         Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
         //初始化内存泄漏检测器

@@ -48,7 +48,7 @@ public class AppException implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
-        final Context context = AppManager.INSTANCE.currentActivity();
+        final Context context = AppManager.getInstance().currentActivity();
         if (context == null) {//如果所有activity已经关闭
             return false;
         }
@@ -62,7 +62,7 @@ public class AppException implements Thread.UncaughtExceptionHandler {
 
 
 
-                AppManager.INSTANCE.AppExit();
+                AppManager.getInstance().exit();
             }
 
         }.start();

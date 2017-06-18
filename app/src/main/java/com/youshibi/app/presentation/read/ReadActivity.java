@@ -70,7 +70,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @Override
     public void showLoading() {
         loadErrorView.showLoading();
-
     }
 
     @Override
