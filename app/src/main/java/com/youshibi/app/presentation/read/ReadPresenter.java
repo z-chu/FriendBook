@@ -1,10 +1,11 @@
 package com.youshibi.app.presentation.read;
 
+import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookSectionContent;
-import com.youshibi.app.mvp.MvpBasePresenter;
 import com.youshibi.app.rx.SimpleSubscriber;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -12,7 +13,7 @@ import rx.schedulers.Schedulers;
  * Created by Chu on 2017/5/28.
  */
 
-public class ReadPresenter extends MvpBasePresenter<ReadContract.View> implements ReadContract.Presenter {
+public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements ReadContract.Presenter {
 
     public String bookId;
     public int sectionIndex;
@@ -32,7 +33,7 @@ public class ReadPresenter extends MvpBasePresenter<ReadContract.View> implement
     @Override
     public void loadData() {
         getView().showLoading();
-        DataManager
+        Subscription subscribe = DataManager
                 .getInstance()
                 .getBookSectionContent(bookId, sectionIndex)
                 .subscribeOn(Schedulers.io())
@@ -55,5 +56,6 @@ public class ReadPresenter extends MvpBasePresenter<ReadContract.View> implement
                         }
                     }
                 });
+        addSubscription2Detach(subscribe);
     }
 }

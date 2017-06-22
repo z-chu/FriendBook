@@ -1,10 +1,7 @@
 package com.youshibi.app.mvp;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.youshibi.app.base.BaseFragment;
 import com.youshibi.app.util.ToastUtil;
@@ -14,43 +11,44 @@ import com.youshibi.app.util.ToastUtil;
  * Created by zchu on 16-11-17.
  */
 
-public abstract class MvpFragment<P extends MvpPresenter> extends BaseFragment
-        implements MvpView {
-    protected P mPresenter;
+public abstract class MvpFragment<P extends MvpPresenter> extends BaseFragment implements MvpView {
 
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mPresenter = createPresenter();
-        mPresenter.attachView(this);
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mPresenter != null) {
-            mPresenter.detachView();
-            mPresenter=null;
-        }
-    }
-
-    @NonNull
-    public abstract P createPresenter();
-
-    @NonNull
-    public P getPresenter() {
-        return mPresenter;
-    }
+    private P mPresenter;
 
     @Override
     public void showToast(String message) {
         ToastUtil.showToast(message);
     }
 
+    /**
+     * Fragment中获取Context的两种方法:getContext() 和getActivity()对比
+     * https://stackoverflow.com/questions/32227146/what-is-different-between-getcontext-and-getactivity-from-fragment-in-support-li
+     */
     @Override
     public Context provideContext() {
         return this.getContext();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mPresenter != null) {
+            mPresenter.destroy();
+        }
+    }
+
+    @NonNull
+    public abstract P createPresenter();
+
+    /**
+     * 子类通过调用该方法，获得绑定的presenter
+     * @return 绑定的presenter
+     */
+    protected P getPresenter() {
+        if(mPresenter==null){
+            mPresenter=createPresenter();
+            mPresenter.attachView(this);
+        }
+        return mPresenter;
     }
 }

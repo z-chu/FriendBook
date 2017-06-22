@@ -14,10 +14,7 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
 
     private ProgressDialogHandler mProgressDialogHandler;
 
-    private Context context;
-
     public ProgressSubscriber(Context context) {
-        this.context = context;
         mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 

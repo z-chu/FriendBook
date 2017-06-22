@@ -1,7 +1,6 @@
 package com.youshibi.app.mvp;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.youshibi.app.base.BaseActivity;
@@ -13,33 +12,8 @@ import com.youshibi.app.util.ToastUtil;
  */
 
 public abstract class MvpActivity<P extends MvpPresenter> extends BaseActivity implements MvpView {
-    protected P mPresenter;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPresenter = createPresenter();
-        mPresenter.attachView(this);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.detachView();
-            mPresenter=null;
-        }
-    }
-
-    @NonNull
-    public abstract P createPresenter();
-
-    @NonNull
-    public P getPresenter() {
-        return mPresenter;
-    }
+    private P mPresenter;
 
     @Override
     public void showToast(String message) {
@@ -49,5 +23,29 @@ public abstract class MvpActivity<P extends MvpPresenter> extends BaseActivity i
     @Override
     public Context provideContext() {
         return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.destroy();
+        }
+    }
+
+    @NonNull
+    public abstract P createPresenter();
+
+
+    /**
+     * 子类通过调用该方法，获得绑定的presenter
+     * @return 绑定的presenter
+     */
+    protected P getPresenter() {
+        if(mPresenter==null){
+            mPresenter=createPresenter();
+            mPresenter.attachView(this);
+        }
+        return mPresenter;
     }
 }

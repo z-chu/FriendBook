@@ -20,7 +20,7 @@ public abstract class BasePagerAdapter<T> extends PagerAdapter {
 
 
     public BasePagerAdapter(List<T> data, int layoutResId) {
-        this.data = data == null ? new ArrayList<T>() : data;
+        this.data = data != null ? data : new ArrayList<T>();
         layoutResIds=new ArrayList<Integer>();
         for (int i = 0; i < data.size(); i++) {
             layoutResIds.add(layoutResId);

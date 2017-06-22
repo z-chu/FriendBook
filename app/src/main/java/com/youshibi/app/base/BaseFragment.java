@@ -35,8 +35,8 @@ public abstract class BaseFragment extends BaseSuperFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState!=null) {
-           // isFirstShow = savedInstanceState.getBoolean("isFirstShow");
-          //  isViewCreated = savedInstanceState.getBoolean("isViewCreated");
+            isFirstShow = savedInstanceState.getBoolean("isFirstShow",isFirstShow);
+            isViewCreated = savedInstanceState.getBoolean("isViewCreated",isViewCreated);
         }
 
     }

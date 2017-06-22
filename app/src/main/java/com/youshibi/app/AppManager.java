@@ -1,5 +1,6 @@
 package com.youshibi.app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -21,40 +22,33 @@ public class AppManager {
 
     private static final String TAG = "AppManager";
 
-    private static Application sApplication;
+    private Application mApplication;
 
-    private static volatile AppManager sInstance;
+    @SuppressLint("StaticFieldLeak")
+    private static AppManager sInstance;
 
     private Stack<Activity> mActivityStack;
 
     private int mStageActivityCount = 0; //前台activity数
 
-    private AppManager() {
+    private AppManager(Application application) {
         mActivityStack = new Stack<>();
-        if (sApplication == null) {
-            throw new NullPointerException("AppManager is not initialized ,please call the init method first");
-        }
-        sApplication.registerActivityLifecycleCallbacks(new MyActivityLifecycleCallbacks());
+        mApplication = application;
+        application.registerActivityLifecycleCallbacks(new MyActivityLifecycleCallbacks());
     }
 
 
-    public static void init(Application application) {
+    public static AppManager init(Application application) {
         if (application == null) {
             throw new NullPointerException("You cannot start a init on a null Application");
         }
         if (sInstance == null) {
-            sApplication = application;
+            sInstance = new AppManager(application);
         }
+        return sInstance;
     }
 
     public static AppManager getInstance() {
-        if (sInstance == null) {
-            synchronized (AppManager.class) {
-                if (sInstance == null) {
-                    sInstance = new AppManager();
-                }
-            }
-        }
         return sInstance;
     }
 
@@ -87,9 +81,9 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        Activity activity=null;
-        if(!mActivityStack.empty()){
-            activity=mActivityStack.lastElement();
+        Activity activity = null;
+        if (!mActivityStack.empty()) {
+            activity = mActivityStack.lastElement();
         }
         return activity;
     }
@@ -166,10 +160,10 @@ public class AppManager {
      * 重启应用程序
      */
     public void resetApp() {
-        Intent i = sApplication.getPackageManager()
-                .getLaunchIntentForPackage(sApplication.getPackageName());
+        Intent i = mApplication.getPackageManager()
+                .getLaunchIntentForPackage(mApplication.getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        sApplication.startActivity(i);
+        mApplication.startActivity(i);
         exit();
     }
 
@@ -177,7 +171,7 @@ public class AppManager {
         try {
             finishAllActivity();
             // 友盟统计，统计关闭
-            //MobclickAgent.onKillProcess(sApplication);
+            //MobclickAgent.onKillProcess(mApplication);
             // 杀死该应用进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } catch (Exception e) {

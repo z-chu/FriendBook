@@ -4,9 +4,9 @@ import android.view.View;
 
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
+import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookSectionItem;
-import com.youshibi.app.mvp.MvpBasePresenter;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
@@ -21,7 +21,7 @@ import rx.schedulers.Schedulers;
  * Created by Chu on 2017/5/28.
  */
 
-public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.View> implements BookDetailContract.Presenter {
+public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View> implements BookDetailContract.Presenter {
 
     private String bookId;
     private CommonAdapter<BookSectionItem> bookSectionAdapter;
@@ -68,7 +68,7 @@ public class BookDetailPresenter extends MvpBasePresenter<BookDetailContract.Vie
 
                     }
                 });
-
+        addSubscription2Detach(subscribe);
 
     }
 

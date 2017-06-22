@@ -3,8 +3,6 @@ package com.youshibi.app.base;
 import com.youshibi.app.mvp.MvpBasePresenter;
 import com.youshibi.app.mvp.MvpView;
 
-import java.util.HashMap;
-
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -15,46 +13,54 @@ import rx.subscriptions.CompositeSubscription;
 public class BaseRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
 
     //管理所有的Subscription,便于回收资源
-    private CompositeSubscription mSubParent;
-    private HashMap<String,Subscription> mSubMap;
+    private CompositeSubscription mSubscriptions2Destroy;// 管理Destroy取消订阅者者
+    private CompositeSubscription mSubscriptions2Detach;// 管理Detach取消订阅者者
+
+
+    public BaseRxPresenter() {
+        mSubscriptions2Destroy = new CompositeSubscription();
+        mSubscriptions2Detach = new CompositeSubscription();
+    }
 
     @Override
     public void attachView(V view) {
         super.attachView(view);
-        mSubParent=new CompositeSubscription();
-        mSubMap=new HashMap<>();
+
     }
 
     @Override
     public void detachView() {
         super.detachView();
-        //与View断开联系时 ,取消注册RxJava 防止内存溢出
-        if (mSubParent.hasSubscriptions()) {
-            mSubParent.unsubscribe();
-            mSubParent=null;
-        }
-        if(!mSubMap.isEmpty()){
-            mSubMap.clear();
-            mSubMap=null;
+        if (mSubscriptions2Detach.hasSubscriptions()) {
+            mSubscriptions2Detach.unsubscribe();
         }
     }
 
-    /**
-     * 通过该方法添加的Subscription，会在Presenter与View解绑时unSubscribe
-     */
-    protected void addSubscription(Subscription s){
-        mSubParent.add(s);
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (mSubscriptions2Destroy.hasSubscriptions()) {
+            mSubscriptions2Destroy.unsubscribe();
+        }
+        mSubscriptions2Detach = null;
+        mSubscriptions2Destroy = null;
+
     }
 
-    /**
-     * 通过该方法添加相同的key的Subscription，会把原来的Subscription remove and unSubscribe,并会在Presenter与View解绑时unSubscribe
-     */
-    protected void addSubscription(Subscription s,String key){
-        Subscription subscription = mSubMap.get(key);
-        if(subscription!=null){
-            mSubParent.remove(subscription);
+    protected void addSubscription2Detach(Subscription subscription) {
+        mSubscriptions2Detach.add(subscription);
+    }
+
+    protected void addSubscription2Destroy(Subscription subscription) {
+        mSubscriptions2Destroy.add(subscription);
+    }
+
+    protected void remove(Subscription subscription) {
+        if (mSubscriptions2Detach != null) {
+            mSubscriptions2Detach.remove(subscription);
         }
-        mSubMap.put(key,s);
-        mSubParent.add(s);
+        if (mSubscriptions2Destroy != null) {
+            mSubscriptions2Destroy.remove(subscription);
+        }
     }
 }

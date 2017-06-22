@@ -1,6 +1,7 @@
 package com.youshibi.app.data.net;
 
 
+import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.net.converter.GsonConverterFactory;
 import com.youshibi.app.data.net.interceptor.LoggingInterceptor;
 
@@ -25,7 +26,11 @@ public class RequestClient {
                 if (sServerAPI == null) {
                     OkHttpClient.Builder clientBuilder = getClientBuilder();
                     //配置日志拦截器
-                    clientBuilder.interceptors().add(new LoggingInterceptor());
+                    if(BuildConfig.DEBUG) {
+                        clientBuilder
+                                .interceptors()
+                                .add(new LoggingInterceptor());
+                    }
 
                     sServerAPI = getRetrofitBuilder(sServerAPI.BASE_URL, clientBuilder.build()).build().create(ServerAPI.class);
                 }

@@ -10,6 +10,7 @@ import android.webkit.WebView;
 
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.pref.AppConfig;
+import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
 
@@ -58,6 +59,13 @@ public class AppRouter {
         webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCachePath(AppConfig.WEB_CACHE_PATH);
+    }
+
+    /**
+     * 显示崩溃提示
+     */
+    public static void showCrashActivity(Context context, String message, final String errorInfo) {
+        context.startActivity(CrashActivity.newIntent(context, message, errorInfo));
     }
 
     public static void showBookDetailActivity(Context context, String bookId) {

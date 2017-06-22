@@ -112,8 +112,8 @@ public class FileUtil {
         }
 
         File fileDir = new File(folderPath);
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
+        if (!fileDir.exists()&&!fileDir.mkdirs()) {
+            return false;
         }
 
         File file = new File(folderPath + fileName);
@@ -126,7 +126,9 @@ public class FileUtil {
             e.printStackTrace();
         } finally {
             try {
-                out.close();
+                if(out!=null) {
+                    out.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -401,11 +403,11 @@ public class FileUtil {
             File newPath = new File(path.toString() + fileName);
             checker.checkDelete(newPath.toString());
             if (newPath.isDirectory()) {
-                String[] listfile = newPath.list();
+                String[] filePaths = newPath.list();
                 try {
-                    for (int i = 0; i < listfile.length; i++) {
+                    for (String filePath : filePaths) {
                         File deletedFile = new File(newPath.toString() + "/"
-                                + listfile[i].toString());
+                                + filePath);
                         deletedFile.delete();
                     }
                     newPath.delete();

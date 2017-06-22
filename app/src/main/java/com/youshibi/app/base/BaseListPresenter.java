@@ -15,7 +15,6 @@ import rx.Subscription;
 
 public abstract class BaseListPresenter<V extends BaseListContract.View, M> extends BaseRxPresenter<V> implements BaseListContract.Presenter<V> {
     private int page;
-    private long count;
     private CommonAdapter<M> adapter;
 
     @Override
@@ -24,7 +23,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
         if (isViewAttached()) {
             getView().showLoading(isRefresh);
         }
-        Subscription subscribe = doLoadData(isRefresh)
+        Subscription subscribe = doLoadData(isRefresh,page,getPageSize())
                 .subscribe(new Subscriber<List<M>>() {
                     @Override
                     public void onCompleted() {
@@ -41,7 +40,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
                         onLoadDataSucceed(data, isRefresh);
                     }
                 });
-        addSubscription(subscribe);
+        addSubscription2Destroy(subscribe);
 
     }
 
@@ -66,40 +65,42 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
     }
 
 
-    protected abstract Observable<List<M>> doLoadData(boolean isRefresh);
+    protected abstract Observable<List<M>> doLoadData(boolean isRefresh,int page,int size);
+
 
     @Override
     public void loadMoreData() {
-        if (page * getPageSize() >= getCount()) {
-            if (isViewAttached()) {
+        if (page * getPageSize() >= getCount()&&isViewAttached()) {
                 getView().showTheEnd();
-                return;
+        }else {
+            page++;
+            if (isViewAttached()) {
+                getView().showMoreLoading();
             }
+            Subscription subscribe = doLoadMoreData(page,getPageSize())
+                    .subscribe(new Subscriber<List<M>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            onLoadMoreDataError(e);
+                        }
+
+                        @Override
+                        public void onNext(List<M> data) {
+                            onLoadMoreDataSucceed(data);
+                        }
+                    });
+            addSubscription2Destroy(subscribe);
         }
-        page++;
-        if (isViewAttached()) {
-            getView().showMoreLoading();
-        }
-        Subscription subscribe = doLoadMoreData()
-                .subscribe(new Subscriber<List<M>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        onLoadMoreDataError(e);
-                    }
-
-                    @Override
-                    public void onNext(List<M> data) {
-                        onLoadMoreDataSucceed(data);
-                    }
-                });
-        addSubscription(subscribe);
     }
 
+    /**
+     * 当试图去加载下一页时，如果还有下一页，则调用
+     */
     protected void onLoadMoreDataError(Throwable e) {
         Logger.e(e);
         if (isViewAttached()) {
@@ -114,27 +115,19 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
         }
     }
 
-    protected abstract Observable<List<M>> doLoadMoreData();
+    protected abstract Observable<List<M>> doLoadMoreData(int page,int size);
 
     protected abstract CommonAdapter<M> createAdapter(List<M> data);
 
-    protected int getPageSize() {
-        return 15;
-    }
+    protected abstract int getPageSize() ;
 
-    protected long getCount() {
-        return count;
-    }
-
-    protected void setCount(long count) {
-        this.count = count;
-    }
-
-    protected int getPage() {
-        return page;
-    }
+    /**
+     * 在 doLoadMoreData(int page,int size)时调用，返回0时只会加载1页
+     */
+    protected abstract long getCount();
 
     protected CommonAdapter<M> getAdapter() {
         return adapter;
     }
+
 }

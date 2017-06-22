@@ -1,15 +1,13 @@
-package com.youshibi.app.mvp.loader;
+package com.youshibi.app.mvp;
 
 import android.content.Context;
 import android.support.v4.content.Loader;
-
-import com.youshibi.app.mvp.MvpPresenter;
 
 
 /**
  * Created by Chu on 2016/11/17.
  */
-public abstract class PresenterLoader<T extends MvpPresenter> extends Loader<T> {
+abstract class PresenterLoader<T extends MvpPresenter> extends Loader<T> {
 
     private T presenter;
 

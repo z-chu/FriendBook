@@ -29,7 +29,7 @@ public class AppContext extends Application {
         //初始化AppManager
         AppManager.init(this);
         //初始化全局异常捕获
-        Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
+        Thread.setDefaultUncaughtExceptionHandler(new AppException(this));
         //初始化内存泄漏检测器
         LeakCanary.install(this);
         //初始化日志打印器

@@ -25,6 +25,7 @@ import rx.schedulers.Schedulers;
 
 public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book> {
     private long bookType;
+    private int count;
 
     public BookPresenter(long bookType) {
         this.bookType = bookType;
@@ -33,23 +34,25 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     @Override
     public void start() {
         super.start();
-        getView().addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
-            }
-        });
+        if (isViewAttached()) {
+            getView().addOnItemTouchListener(new OnItemClickListener() {
+                @Override
+                public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
+                }
+            });
+        }
     }
 
     @Override
-    protected Observable<List<Book>> doLoadData(boolean isRefresh) {
+    protected Observable<List<Book>> doLoadData(boolean isRefresh,int page,int size) {
         return DataManager
                 .getInstance()
-                .getBookList(getPage(), getPageSize(), bookType)
+                .getBookList(page, size, bookType)
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
-                        setCount(bookDataList.Count);
+                        count=bookDataList.Count;
                         return bookDataList.DataList;
                     }
                 })
@@ -58,9 +61,9 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     }
 
     @Override
-    protected Observable<List<Book>> doLoadMoreData() {
+    protected Observable<List<Book>> doLoadMoreData(int page,int size) {
         return DataManager.getInstance()
-                .getBookList(getPage(), getPageSize(), bookType)
+                .getBookList(page, size, bookType)
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
@@ -75,6 +78,16 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     @Override
     protected CommonAdapter<Book> createAdapter(List<Book> bookItems) {
         return new BookAdapter(bookItems);
+    }
+
+    @Override
+    protected int getPageSize() {
+        return 15;
+    }
+
+    @Override
+    protected long getCount() {
+        return count;
     }
 
 

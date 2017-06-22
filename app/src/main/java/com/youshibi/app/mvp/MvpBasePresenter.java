@@ -20,7 +20,6 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
     @Override
     public void attachView(V view) {
         viewRef = new WeakReference<>(view);
-
     }
 
     @UiThread
@@ -36,10 +35,10 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     /**
      * 每次调用业务请求的时候 即：getView().showXxx();时
-     * 请先调用方法检查是否与View建立连接，没有则会空指针异常
+     * 请先调用方法检查是否与View建立连接，没有则可能会空指针异常
      */
     @UiThread
-    public boolean isViewAttached() {
+    public final boolean isViewAttached() {
         return viewRef != null && viewRef.get() != null;
     }
 
@@ -52,6 +51,14 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
         if (viewRef != null) {
             viewRef.clear();
             viewRef = null;
+        }
+    }
+
+    @UiThread
+    @Override
+    public void destroy() {
+        if (isViewAttached()) {
+            detachView();
         }
     }
 }

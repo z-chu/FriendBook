@@ -30,25 +30,27 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
     @Override
     public void start() {
         super.start();
-        getView().addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
-            }
-        });
+        if (isViewAttached()) {
+            getView().addOnItemTouchListener(new OnItemClickListener() {
+                @Override
+                public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
+                }
+            });
+        }
     }
 
     @Override
-    protected Observable<List<Book>> doLoadData(boolean isRefresh) {
+    protected Observable<List<Book>> doLoadData(boolean isRefresh, int page, int size) {
         return DBManger
                 .getInstance()
                 .loadBookTb()
                 .map(new Func1<List<BookTb>, List<Book>>() {
                     @Override
                     public List<Book> call(List<BookTb> bookTbs) {
-                        Book [] books=new Book[bookTbs.size()];
+                        Book[] books = new Book[bookTbs.size()];
                         for (int i = 0; i < bookTbs.size(); i++) {
-                            books[i]= DataConvertUtil.bookTb2Book(bookTbs.get(i));
+                            books[i] = DataConvertUtil.bookTb2Book(bookTbs.get(i));
                         }
                         return Arrays.asList(books);
                     }
@@ -56,19 +58,17 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
+    /*@Override
     protected void onLoadDataSucceed(List<Book> data, boolean isRefresh) {
         super.onLoadDataSucceed(data, isRefresh);
-        getView().showTheEnd();
-    }
+        if(isViewAttached()) {
+            getView().showTheEnd();
+        }
+    }*/
+
 
     @Override
-    public void loadMoreData() {
-
-    }
-
-    @Override
-    protected Observable<List<Book>> doLoadMoreData() {
+    protected Observable<List<Book>> doLoadMoreData(int page, int size) {
         return null;
     }
 
@@ -76,5 +76,15 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
     @Override
     protected CommonAdapter<Book> createAdapter(List<Book> data) {
         return new BookAdapter(data);
+    }
+
+    @Override
+    protected int getPageSize() {
+        return 0;
+    }
+
+    @Override
+    protected long getCount() {
+        return 0;
     }
 }
