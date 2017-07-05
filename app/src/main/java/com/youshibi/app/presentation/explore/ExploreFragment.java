@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseFragment;
 import com.youshibi.app.data.DataManager;
@@ -54,6 +55,12 @@ public class ExploreFragment extends BaseFragment {
         appbar = (AppBarLayout) view.findViewById(R.id.appbar_explore);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_explore);
         tab = (TabLayout) view.findViewById(R.id.tab_explore);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppRouter.showSearchActivity(ExploreFragment.this.getContext());
+            }
+        });
     }
 
 

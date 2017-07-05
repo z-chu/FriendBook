@@ -25,6 +25,12 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     private int contentContainerId;
 
     @Override
+    public void start() {
+        super.start();
+
+    }
+
+    @Override
     public void initContentContainer(@NonNull final FragmentManager fragmentManager,@IdRes int contentContainerId) {
         this.mFragmentManager = fragmentManager;
         this.contentContainerId=contentContainerId;

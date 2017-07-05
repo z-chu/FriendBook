@@ -29,6 +29,8 @@ public class ToolbarHelper {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 if (title != null) {
                     actionBar.setTitle(title);
+                } else {
+                    actionBar.setDisplayShowTitleEnabled(false);
                 }
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override

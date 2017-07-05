@@ -13,6 +13,7 @@ import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
+import com.youshibi.app.presentation.search.SearchActivity;
 
 
 /**
@@ -76,8 +77,14 @@ public class AppRouter {
         context.startActivity(BookDetailActivity.newIntent(context, book));
     }
 
-    public static void showReadActivity(Context context, String bookId,int sectionIndex) {
-        context.startActivity(ReadActivity.newIntent(context, bookId,sectionIndex));
+    public static void showReadActivity(Context context, String bookId, int sectionIndex) {
+        context.startActivity(ReadActivity.newIntent(context, bookId, sectionIndex));
     }
+
+    public static void showSearchActivity(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        context.startActivity(intent);
+    }
+
 
 }

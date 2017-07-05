@@ -17,6 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Slide">
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:allowTaskReparenting="true"
@@ -39,8 +40,8 @@
         </activity>
 
         <activity android:name=".presentation.read.ReadActivity" />
-        <activity android:name=".presentation.CrashActivity"/>
-
+        <activity android:name=".presentation.CrashActivity" />
+        <activity android:name=".presentation.search.SearchActivity" />
 
 
     </application>

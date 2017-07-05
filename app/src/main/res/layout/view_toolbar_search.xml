@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?colorPrimary"
+    android:orientation="vertical"
+    app:layout_scrollFlags="enterAlways|scroll|snap">
+
+    <RelativeLayout
+        android:id="@+id/view_search"
+        android:layout_width="match_parent"
+        android:layout_height="40.0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8.0dp"
+        android:layout_marginRight="8.0dp"
+        android:background="@drawable/bg_toolbar_search_white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_arrow_back"
+            android:layout_width="24.0dp"
+            android:layout_height="24.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12.0dp"
+            android:layout_marginRight="12.0dp"
+            app:srcCompat="@drawable/ic_arrow_back_grey_24dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_action_search"
+            android:layout_toRightOf="@id/iv_arrow_back"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:hint="搜索在线书城"
+            android:textColor="@color/textPrimary"
+            android:textColorHint="@color/md_grey_500"
+            android:textSize="@dimen/text_size_large" />
+
+        <ImageView
+            android:id="@+id/iv_action_search"
+            android:layout_width="24.0dp"
+            android:layout_height="24.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12.0dp"
+            android:layout_marginRight="12.0dp"
+            app:srcCompat="@drawable/ic_vector_search_gray" />
+
+    </RelativeLayout>
+
+</FrameLayout>

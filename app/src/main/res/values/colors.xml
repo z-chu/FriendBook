@@ -12,7 +12,7 @@
     <color name="colorPictureDefault">#fff9f9f9</color>
 
     <!--文字颜色-->
-    <color name="textPrimary">#212121</color>
+    <color name="textPrimary">@color/md_grey_900</color>
     <color name="textSecondary">#999999</color>
     <color name="textPrimaryInverted">#ffffff</color>
     <color name="textSecondaryInverted">#8affffff</color>
