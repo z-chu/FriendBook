@@ -31,7 +31,7 @@ public class BaseRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscriptions2Detach.hasSubscriptions()) {
+        if (mSubscriptions2Destroy != null && mSubscriptions2Detach.hasSubscriptions()) {
             mSubscriptions2Detach.unsubscribe();
         }
     }
@@ -39,7 +39,7 @@ public class BaseRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
     @Override
     public void destroy() {
         super.destroy();
-        if (mSubscriptions2Destroy.hasSubscriptions()) {
+        if (mSubscriptions2Destroy != null && mSubscriptions2Destroy.hasSubscriptions()) {
             mSubscriptions2Destroy.unsubscribe();
         }
         mSubscriptions2Detach = null;
@@ -48,11 +48,15 @@ public class BaseRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
     }
 
     protected void addSubscription2Detach(Subscription subscription) {
-        mSubscriptions2Detach.add(subscription);
+        if (mSubscriptions2Detach != null) {
+            mSubscriptions2Detach.add(subscription);
+        }
     }
 
     protected void addSubscription2Destroy(Subscription subscription) {
-        mSubscriptions2Destroy.add(subscription);
+        if (mSubscriptions2Detach != null) {
+            mSubscriptions2Destroy.add(subscription);
+        }
     }
 
     protected void remove(Subscription subscription) {

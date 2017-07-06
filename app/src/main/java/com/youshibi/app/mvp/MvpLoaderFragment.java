@@ -46,17 +46,16 @@ public abstract class MvpLoaderFragment<P extends MvpPresenter> extends BaseFrag
     }
 
 
-
-
     @Nullable
     public P getPresenter() {
         return mPresenter;
     }
+
     @NonNull
     public abstract P createPresenter();
 
     @Override
-    public Loader<P> onCreateLoader(int i, Bundle bundle) {
+    public final Loader<P> onCreateLoader(int i, Bundle bundle) {
         return new PresenterLoader<P>(this.getContext()) {
             @Override
             P create() {
@@ -66,7 +65,7 @@ public abstract class MvpLoaderFragment<P extends MvpPresenter> extends BaseFrag
     }
 
     @Override
-    public void onLoadFinished(Loader<P> loader, P p) {
+    public final void onLoadFinished(Loader<P> loader, P p) {
         if (mPresenter == null) {
             this.mPresenter = p;
             mPresenter.attachView(this);
@@ -75,7 +74,7 @@ public abstract class MvpLoaderFragment<P extends MvpPresenter> extends BaseFrag
     }
 
     @Override
-    public void onLoaderReset(Loader<P> loader) {
+    public final void onLoaderReset(Loader<P> loader) {
         mPresenter.destroy();
     }
 
