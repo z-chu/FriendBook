@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.youshibi.app.AppRouter;
@@ -34,7 +33,7 @@ public class ExploreFragment extends BaseFragment {
 
     private ViewPager viewPager;
     private AppBarLayout appbar;
-    private Toolbar toolbar;
+ //   private Toolbar toolbar;
     private TabLayout tab;
 
     private Subscription mSubscribe;
@@ -53,9 +52,9 @@ public class ExploreFragment extends BaseFragment {
     private void findView(View view) {
         viewPager = (ViewPager) view.findViewById(R.id.vp_explore);
         appbar = (AppBarLayout) view.findViewById(R.id.appbar_explore);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar_explore);
+       /* toolbar = (Toolbar) view.findViewById(R.id.toolbar_explore);*/
         tab = (TabLayout) view.findViewById(R.id.tab_explore);
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.view_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppRouter.showSearchActivity(ExploreFragment.this.getContext());
@@ -68,7 +67,7 @@ public class ExploreFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
-        toolbar.setTitle(getString(R.string.app_name));
+       // toolbar.setTitle(getString(R.string.app_name));
     }
 
     @Override
