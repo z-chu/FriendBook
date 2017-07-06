@@ -8,6 +8,10 @@ import java.util.ArrayList;
  */
 
 public class DataList<T> implements Serializable {
+    public DataList(){
+        Count=0;
+        DataList=new ArrayList<>();
+    }
     public int Count;
     public ArrayList<T> DataList;
 }

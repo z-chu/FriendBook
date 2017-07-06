@@ -82,6 +82,33 @@ public class DataManager {
     }
 
     /**
+     * 搜索，根据关键字获取小说列表
+     * @param page 页码
+     * @param size 每页的条目数
+     * @param keyword 搜索关键字
+     */
+    public Observable<DataList<Book>> getBookList(int page, int size, String keyword) {
+        if(keyword==null||keyword.trim().length()==0){
+            return Observable.just(new DataList<Book>());
+        }
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("pageIndex", page);
+        hashMap.put("pageSize", size);
+        hashMap.put("keyword", keyword);
+        return RequestClient
+                .getServerAPI()
+                .getBookList(hashMap)
+                .map(new HttpResultFunc<DataList<Book>>())
+                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+keyword,new TypeToken<DataList<Book>>() {}.getType(), CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
+                    @Override
+                    public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
+                        return cacheResult.getData();
+                    }
+                });
+    }
+
+    /**
      * 获取小说类别
      */
     public Observable<List<BookType>> getBookType() {
