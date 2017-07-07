@@ -1,6 +1,7 @@
 package com.youshibi.app.base;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,5 +104,20 @@ public abstract class BaseFragment extends BaseSuperFragment {
     public void onHide() {
     }
 
+
+    public void bindOnClickLister(View rootView, View.OnClickListener listener, @IdRes int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            if (view != null) {
+                view.setOnClickListener(listener);
+            }
+        }
+    }
+
+    public void bindOnClickLister(View.OnClickListener listener,View... views) {
+        for (View view : views) {
+            view.setOnClickListener(listener);
+        }
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.youshibi.app.base;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -63,5 +65,28 @@ public class BaseActivity extends BaseSuperActivity {
         return true;
     }
 
+    public void bindOnClickLister(View rootView, View.OnClickListener listener, @IdRes int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            if (view != null) {
+                view.setOnClickListener(listener);
+            }
+        }
+    }
+
+    public void bindOnClickLister(View.OnClickListener listener,@IdRes int... ids) {
+        for (int id : ids) {
+            View view = findViewById(id);
+            if (view != null) {
+                view.setOnClickListener(listener);
+            }
+        }
+    }
+
+    public void bindOnClickLister(View.OnClickListener listener,View... views) {
+        for (View view : views) {
+            view.setOnClickListener(listener);
+        }
+    }
 
 }

@@ -38,6 +38,7 @@ public class DataManager {
     private static final DataManager sInstance = new DataManager();
 
     private RxCache rxCache;
+
     private DataManager() {
         rxCache = new RxCache.Builder()
                 .appVersion(1)
@@ -45,7 +46,7 @@ public class DataManager {
                 .setDebug(BuildConfig.DEBUG)
                 .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
                 .memoryMax(0)
-                .diskMax(20*1024*1024)
+                .diskMax(20 * 1024 * 1024)
                 .build();
     }
 
@@ -54,16 +55,17 @@ public class DataManager {
     }
 
     public Observable<DataList<Book>> getBookList(int page, int size) {
-        return getBookList(page, size, 0);
+        return getBookList(0, page, size);
     }
 
     /**
      * 获取小说列表
-     * @param page 页码
-     * @param size 每页的条目数
+     *
+     * @param page     页码
+     * @param size     每页的条目数
      * @param bookType 图书类别ID ，传0为获取全部
      */
-    public Observable<DataList<Book>> getBookList(int page, int size, long bookType) {
+    public Observable<DataList<Book>> getBookList( long bookType,int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("pageIndex", page);
         hashMap.put("pageSize", size);
@@ -72,7 +74,8 @@ public class DataManager {
                 .getServerAPI()
                 .getBookList(hashMap)
                 .map(new HttpResultFunc<DataList<Book>>())
-                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+bookType,new TypeToken<DataList<Book>>() {}.getType(), CacheStrategy.firstCache()))
+                .compose(rxCache.<DataList<Book>>transformer("getBookList" + page + size + bookType, new TypeToken<DataList<Book>>() {
+                }.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
                     @Override
                     public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
@@ -83,12 +86,13 @@ public class DataManager {
 
     /**
      * 搜索，根据关键字获取小说列表
-     * @param page 页码
-     * @param size 每页的条目数
+     *
+     * @param page    页码
+     * @param size    每页的条目数
      * @param keyword 搜索关键字
      */
-    public Observable<DataList<Book>> getBookList(int page, int size, String keyword) {
-        if(keyword==null||keyword.trim().length()==0){
+    public Observable<DataList<Book>> searchBook(String keyword, int page, int size) {
+        if (keyword == null || keyword.trim().length() == 0) {
             return Observable.just(new DataList<Book>());
         }
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -99,7 +103,8 @@ public class DataManager {
                 .getServerAPI()
                 .getBookList(hashMap)
                 .map(new HttpResultFunc<DataList<Book>>())
-                .compose(rxCache.<DataList<Book>>transformer("getBookList"+page+size+keyword,new TypeToken<DataList<Book>>() {}.getType(), CacheStrategy.firstCache()))
+                .compose(rxCache.<DataList<Book>>transformer("getBookList" + page + size + keyword, new TypeToken<DataList<Book>>() {
+                }.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
                     @Override
                     public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
@@ -116,8 +121,9 @@ public class DataManager {
                 .getServerAPI()
                 .getBookType()
                 .map(new HttpResultFunc<List<BookType>>())
-                .compose(rxCache.<List<BookType>>transformer("getBookType",new TypeToken<List<BookType>>() {}.getType(), CacheStrategy.firstCache()))
-                .map(new Func1<CacheResult<List<BookType>>,List<BookType>>() {
+                .compose(rxCache.<List<BookType>>transformer("getBookType", new TypeToken<List<BookType>>() {
+                }.getType(), CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<List<BookType>>, List<BookType>>() {
                     @Override
                     public List<BookType> call(CacheResult<List<BookType>> cacheResult) {
                         return cacheResult.getData();
@@ -128,7 +134,8 @@ public class DataManager {
 
     /**
      * 获取小说章节列表
-     * @param bookId 小说的id
+     *
+     * @param bookId       小说的id
      * @param isOrderByAsc 是否升序排序
      */
     public Observable<List<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
@@ -143,7 +150,8 @@ public class DataManager {
                 .getServerAPI()
                 .getBookSectionList(hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
-                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList"+bookId+isOrderByAsc ,new TypeToken<List<BookSectionItem>>() {}.getType(),CacheStrategy.firstCache()))
+                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
+                }.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
                     @Override
                     public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
@@ -154,19 +162,20 @@ public class DataManager {
 
     /**
      * 获取小说章节中的内容
-     * @param bookId 小说的id
+     *
+     * @param bookId       小说的id
      * @param sectionIndex 章节索引
      */
     public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("bookId",bookId);
-        hashMap.put("currentChapterIndex",sectionIndex);
-        hashMap.put("queryDirection","current");
+        hashMap.put("bookId", bookId);
+        hashMap.put("currentChapterIndex", sectionIndex);
+        hashMap.put("queryDirection", "current");
         return RequestClient
                 .getServerAPI()
                 .getBookSectionContent(hashMap)
                 .map(new HttpResultFunc<BookSectionContent>())
-                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent"+bookId+sectionIndex,BookSectionContent.class,CacheStrategy.firstCache()))
+                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionIndex, BookSectionContent.class, CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {
                     @Override
                     public BookSectionContent call(CacheResult<BookSectionContent> bookSectionContentCacheResult) {
@@ -174,9 +183,6 @@ public class DataManager {
                     }
                 });
     }
-
-
-
 
 
 }

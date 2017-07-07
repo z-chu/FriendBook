@@ -1,7 +1,8 @@
 package com.youshibi.app.presentation.search;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.youshibi.app.base.BaseLceView;
 import com.youshibi.app.mvp.MvpPresenter;
-import com.youshibi.app.mvp.MvpView;
 
 /**
  * author : zchu
@@ -11,13 +12,14 @@ import com.youshibi.app.mvp.MvpView;
 
 public class SearchContract {
 
-    interface View extends MvpView {
+    interface View extends BaseLceView {
 
-
+        void setListAdapter(BaseQuickAdapter adapter);
     }
 
     interface Presenter extends MvpPresenter<View> {
 
+        void search(String keyword);
 
     }
 }

@@ -29,6 +29,7 @@
             app:srcCompat="@drawable/ic_arrow_back_grey_24dp" />
 
         <EditText
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
