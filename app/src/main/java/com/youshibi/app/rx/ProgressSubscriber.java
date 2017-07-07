@@ -1,7 +1,11 @@
 package com.youshibi.app.rx;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.MainThread;
 
+import com.youshibi.app.exception.NetNotConnectedException;
 import com.zchu.log.Logger;
 
 import rx.Subscriber;
@@ -14,8 +18,28 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
 
     private ProgressDialogHandler mProgressDialogHandler;
 
+    private Context mContext;
+    /**
+     * 订阅时网络是否必须可以，不可用则抛出NetNotConnectedException
+     */
+    protected final boolean isMustNetAvailable;
+
+    @MainThread
     public ProgressSubscriber(Context context) {
-        mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
+        this(false, context, true);
+    }
+
+
+    @MainThread
+    public ProgressSubscriber(Context context, boolean cancelable) {
+        this(false, context, cancelable);
+    }
+
+    @MainThread
+    public ProgressSubscriber(boolean isMustNetAvailable, Context context, boolean cancelable) {
+        this.mContext = context;
+        this.isMustNetAvailable = isMustNetAvailable;
+        mProgressDialogHandler = new ProgressDialogHandler(context, this, cancelable);
     }
 
     protected void showProgressDialog() {
@@ -33,7 +57,16 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
 
     @Override
     public void onStart() {
+        if (isMustNetAvailable && isNetConnected(mContext)) {
+            throw new NetNotConnectedException();
+        }
         showProgressDialog();
+    }
+
+    private static boolean isNetConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     @Override
@@ -41,18 +74,20 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
         dismissProgressDialog();
     }
 
+    /**
+     * onError之后不会走onCompleted，所有注意也要关闭掉ProgressDialog
+     *
+     * @param e
+     */
     @Override
     public void onError(Throwable e) {
         Logger.e(e);
-        dismissProgressDialog();
-        /*if (e instanceof APIException) {
-            ToastUtil.showToast(e.getMessage());
+        /*if (e instanceof HttpException) {
+            ErrorUtils.showError(mContext, (HttpException) e);
         } else {
-            ToastUtil.showToast(AppContext
-                    .context()
-                    .getResources()
-                    .getString(R.string.error_network_common));
+            ErrorUtils.showError(mContext, new HttpException(-1, e.getMessage()));
         }*/
+        dismissProgressDialog();
     }
 
 
@@ -60,6 +95,7 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
     public void onCancelProgress() {
         if (!this.isUnsubscribed()) {
             this.unsubscribe();
+            mProgressDialogHandler = null;
         }
     }
 }

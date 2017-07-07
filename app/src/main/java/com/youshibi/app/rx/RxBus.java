@@ -3,24 +3,31 @@ package com.youshibi.app.rx;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay.Relay;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
 
 /**
- * Created by zchu on 16-11-22.<br>
- * 详细的使用方法请看这里：<br>
- * http://gogs.analyticservice.net/zchu/WaterDrop/src/master/Help/Rxbus%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8.md
+ * <p>author : zchu</p>
+ * <p>date   : 2017/6/21</p>
+ * <p>email  : zchu8073@gmail.com</p>
+ *   <ul>
+ *       <li>可跨进程传递消息</li>
+ *       <li>支持粘性广播</li>
+ *       <li>基于RxRelay，自带异常处理，订阅者处理事件出现异常后，订阅者依然能收到事件</li>
+ *       <li>不支持背压</li>
+ *   </ul>
+ *  进程间通讯使用的是BroadcastReceiver.，数据的传输格式为json，不能识别对象的泛型。
+ *
  */
 public class RxBus {
     private static volatile RxBus mDefaultInstance;
-    private final Subject<Object, Object> mBus;
+    private final Relay<Object, Object> mBus;
     private final Map<Class<?>, Object> mStickyEventMap;
     private RemoteRxBus mRemoteRxBus;
 
@@ -30,7 +37,7 @@ public class RxBus {
 
     public RxBus(RemoteRxBus remoteRxBus) {
         mRemoteRxBus = remoteRxBus;
-        mBus = new SerializedSubject<>(PublishSubject.create());
+        mBus =  PublishRelay.create();
         mStickyEventMap = new ConcurrentHashMap<>();
     }
 
@@ -60,7 +67,7 @@ public class RxBus {
      * 发送事件
      */
     public void post(Object event) {
-        mBus.onNext(event);
+        mBus.call(event);
     }
 
     /**
@@ -70,7 +77,7 @@ public class RxBus {
         if (mDefaultInstance == null) {
             throw new NullPointerException("You haven't call connectRemote load a Context");
         }
-        mRemoteRxBus.post(event);
+        mRemoteRxBus.getDefault().post(event);
     }
 
 
@@ -89,7 +96,8 @@ public class RxBus {
     }
 
     public void reset() {
-        mRemoteRxBus.release();
+        mRemoteRxBus.getDefault().release();
+        mStickyEventMap.clear();
         mDefaultInstance = null;
     }
 

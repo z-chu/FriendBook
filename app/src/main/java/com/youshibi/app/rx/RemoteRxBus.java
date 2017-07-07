@@ -8,11 +8,10 @@ import android.os.Process;
 import android.util.Base64;
 
 import com.google.gson.Gson;
+import com.jakewharton.rxrelay.PublishRelay;
+import com.jakewharton.rxrelay.Relay;
 
 import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
 
 /**
  * Created by zchu on 17-3-10.
@@ -22,14 +21,14 @@ import rx.subjects.Subject;
 class RemoteRxBus {
 
     private static volatile RemoteRxBus mDefaultInstance;
-    private final Subject<Object, Object> mBus;
+    private final Relay<Object, Object> mBus;
     private final BroadcastReceiver mReceiver;
     private Context mContext;
     private String mIntentAction;
     private Gson mGson;
     private int mPid;
 
-    RemoteRxBus(Context context, Gson gson, Subject<Object, Object> bus) {
+    RemoteRxBus(Context context, Gson gson, Relay<Object, Object> bus) {
         this.mContext = context;
         this.mGson = gson;
         this.mPid = Process.myPid();
@@ -45,10 +44,10 @@ class RemoteRxBus {
     }
 
     public static void connect(Context context, Gson gson) {
-        connect(context.getApplicationContext(), gson, new SerializedSubject<>(PublishSubject.create()));
+        connect(context.getApplicationContext(), gson, PublishRelay.create());
     }
 
-    public static void connect(Context context, Gson gson, Subject<Object, Object> bus) {
+    public static void connect(Context context, Gson gson, Relay<Object, Object> bus) {
         if (mDefaultInstance == null) {
             if (context == null) {
                 throw new IllegalArgumentException("You cannot start a load on a null Context");
@@ -69,7 +68,7 @@ class RemoteRxBus {
      * 发送事件
      */
     public void post(Object event) {
-        mBus.onNext(event);
+        mBus.call(event);
         send(event);
     }
 
@@ -102,10 +101,10 @@ class RemoteRxBus {
 
         private final Gson gson;
         private final String packageName;
-        private final Subject<Object, Object> bus;
+        private final Relay<Object, Object> bus;
         private final int pid;
 
-        public EventReceiver(Subject<Object, Object> bus, Gson gson, String packageName, int pid) {
+        public EventReceiver(Relay<Object, Object> bus, Gson gson, String packageName, int pid) {
             this.bus = bus;
             this.gson = gson;
             this.packageName = packageName;
@@ -118,7 +117,7 @@ class RemoteRxBus {
                 String json = intent.getStringExtra(EXTRA_CONTENT_JSON);
                 Class aClass = (Class) intent.getSerializableExtra(EXTRA_CLASS_TYPE);
                 Object event = gson.fromJson(json, aClass);
-                bus.onNext(event);
+                bus.call(event);
             }
 
         }

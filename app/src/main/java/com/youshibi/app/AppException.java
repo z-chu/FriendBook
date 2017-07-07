@@ -3,9 +3,21 @@ package com.youshibi.app;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ParseException;
 import android.util.Log;
 
+import com.google.gson.JsonParseException;
+import com.youshibi.app.exception.ApiException;
+import com.youshibi.app.exception.NetNotConnectedException;
 import com.zchu.log.Logger;
+
+import org.json.JSONException;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import retrofit2.adapter.rxjava.HttpException;
 
 
 /**
@@ -93,6 +105,36 @@ public class AppException implements Thread.UncaughtExceptionHandler {
 
 
         return exceptionStr.toString();
+    }
+
+    public static String getExceptionMessage(Throwable throwable) {
+        String message;
+        if (throwable instanceof ApiException) {
+            message = throwable.getMessage();
+        } else if (throwable instanceof SocketTimeoutException) {
+            message = "网络连接超时,请稍后再试";
+        } else if (throwable instanceof ConnectException) {
+            message = "网络连接失败,请稍后再试";
+        } else if (throwable instanceof HttpException) {
+            message = "网络出错,请稍后再试";
+        } else if (throwable instanceof UnknownHostException || throwable instanceof NetNotConnectedException) {
+            message = "当前无网络，请检查网络设置";
+        } else if (throwable instanceof SecurityException) {
+            message = "出错了，权限不足";
+        } else if (throwable instanceof JsonParseException
+                || throwable instanceof JSONException
+                || throwable instanceof ParseException) {
+            message = "数据解析错误";
+        } else if (throwable instanceof javax.net.ssl.SSLHandshakeException) {
+            message = "网络证书验证失败";
+        } else {
+            if (throwable.getMessage().length() <= 40) {
+                message = throwable.getMessage();
+            } else {
+                message = "出错了 ≥﹏≤ ,请稍后再试";
+            }
+        }
+        return message;
     }
 
 }
