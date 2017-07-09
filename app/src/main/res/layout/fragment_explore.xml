@@ -26,17 +26,14 @@
         android:elevation="@dimen/elevation_app_bar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_explore"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="enterAlways|scroll|snap"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:layout_scrollFlags="enterAlways|scroll|snap">
 
             <include layout="@layout/toolbar_view_search" />
 
-        </android.support.v7.widget.Toolbar>
+        </FrameLayout>
 
 
         <android.support.design.widget.TabLayout

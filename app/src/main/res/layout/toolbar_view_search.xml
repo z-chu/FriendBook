@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="40.0dp"
     android:background="@drawable/bg_toolbar_search"
-    android:layout_marginRight="16.0dp"
-    android:layout_marginLeft="16.0dp"
+    android:layout_marginRight="8.0dp"
+    android:layout_marginLeft="8.0dp"
+    android:layout_gravity="center_vertical"
     android:orientation="vertical">
 
     <ImageView

@@ -48,7 +48,7 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     protected Observable<List<Book>> doLoadData(boolean isRefresh,int page,int size) {
         return DataManager
                 .getInstance()
-                .getBookList(page, size, bookType)
+                .getBookList(bookType,page, size )
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
@@ -63,7 +63,7 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     @Override
     protected Observable<List<Book>> doLoadMoreData(int page,int size) {
         return DataManager.getInstance()
-                .getBookList(page, size, bookType)
+                .getBookList(bookType,page, size)
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {

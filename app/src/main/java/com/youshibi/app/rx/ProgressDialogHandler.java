@@ -15,45 +15,50 @@ public class ProgressDialogHandler extends Handler {
     public static final int SHOW_PROGRESS_DIALOG = 1;
     public static final int DISMISS_PROGRESS_DIALOG = 2;
 
-    private Dialog pd;
+    private Dialog mDialog;
 
-    private Context context;
-    private boolean cancelable;
+    private Context mContext;
+    private boolean mCancelable;
     private ProgressCancelListener mProgressCancelListener;
 
     public ProgressDialogHandler(Context context, ProgressCancelListener mProgressCancelListener,
                                  boolean cancelable) {
         super();
-        this.context = context;
+        this.mContext = context;
         this.mProgressCancelListener = mProgressCancelListener;
-        this.cancelable = cancelable;
+        this.mCancelable = cancelable;
     }
 
     private void initProgressDialog(){
-        if (pd == null) {
-            //pd = AppRouter.getLoadingDialog(context);
+        if (mDialog == null) {
+           // mDialog = new LoadingDialog(mContext); // FIXME: 2017/7/7 添加全局加载中对话框
+            mDialog.setCancelable(mCancelable);
 
-            pd.setCancelable(cancelable);
-
-            if (cancelable) {
-                pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            if (mCancelable) {
+                mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
                         mProgressCancelListener.onCancelProgress();
                     }
                 });
+                mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mContext=null;
+                        mDialog = null;
+                    }
+                });
             }
 
-            if (!pd.isShowing()) {
-                pd.show();
+            if (!mDialog.isShowing()) {
+                mDialog.show();
             }
         }
     }
 
     private void dismissProgressDialog(){
-        if (pd != null) {
-            pd.dismiss();
-            pd = null;
+        if (mDialog != null&&mDialog.isShowing()) {
+            mDialog.dismiss();
         }
     }
 

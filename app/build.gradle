@@ -105,6 +105,7 @@ dependencies {
     //rx
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.2'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
 
     //leakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:' + libs.leakcanary
