@@ -44,7 +44,13 @@
 
         <activity
             android:name=".presentation.search.SearchActivity"
-            android:theme="@style/AppTheme.Slide.NoActivityAnimation"/>
+            android:theme="@style/AppTheme.Slide"
+            android:windowSoftInputMode="stateVisible"/>
+
+        <activity
+            android:name=".presentation.search.SearchResultActivity"
+            android:theme="@style/AppTheme.Slide"
+            />
 
 
     </application>

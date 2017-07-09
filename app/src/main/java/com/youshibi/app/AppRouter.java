@@ -14,6 +14,7 @@ import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
 import com.youshibi.app.presentation.search.SearchActivity;
+import com.youshibi.app.presentation.search.SearchResultActivity;
 
 
 /**
@@ -82,8 +83,16 @@ public class AppRouter {
     }
 
     public static void showSearchActivity(Context context) {
-        Intent intent = new Intent(context, SearchActivity.class);
-        context.startActivity(intent);
+        showSearchActivity(context, null);
+    }
+
+    public static void showSearchActivity(Context context, String keyword) {
+        context.startActivity(SearchActivity.newIntent(context, keyword));
+
+    }
+
+    public static void showSearchResultActivity(Context context, String keyword) {
+        context.startActivity(SearchResultActivity.newIntent(context, keyword));
     }
 
 

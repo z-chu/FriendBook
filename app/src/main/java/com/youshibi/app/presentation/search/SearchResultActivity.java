@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
@@ -22,7 +18,7 @@ import com.youshibi.app.base.BaseActivity;
  * desc   :
  */
 
-public class SearchActivity extends BaseActivity implements View.OnClickListener {
+public class SearchResultActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String K_KEYWORD = "keyword";
 
@@ -30,12 +26,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private ImageView ivActionSearch;
     private EditText etSearch;
 
+    private String mKeyword;
+
     public static Intent newIntent(Context context, @Nullable String keyword) {
-        Intent intent = new Intent(context, SearchActivity.class);
+        Intent intent = new Intent(context, SearchResultActivity.class);
         intent.putExtra(K_KEYWORD, keyword);
         return intent;
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,22 +40,17 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         findView();
-        bindOnClickLister(this, ivActionSearch, ivArrowBack);
-        String keyword = getIntent().getStringExtra(K_KEYWORD);
-        if (keyword != null) {
-            etSearch.setText(keyword);
-            etSearch.setSelection(keyword.length());
-        }
-        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    goSearchResult();
-                    return true;
-                }
-                return false;
-            }
-        });
+        bindOnClickLister(this, ivActionSearch, ivArrowBack,etSearch);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.ll_content_view,
+                        SearchBookFragment.newInstance(getIntent().getStringExtra(K_KEYWORD))
+                )
+                .commit();
+        mKeyword = getIntent().getStringExtra(K_KEYWORD);
+        etSearch.setText(mKeyword);
+        etSearch.setFocusable(false);
+
     }
 
     private void findView() {
@@ -75,27 +67,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 onBackPressed();
                 break;
             case R.id.iv_action_search:
-                goSearchResult();
+            case R.id.et_search:
+                AppRouter.showSearchActivity(this,mKeyword);
                 break;
         }
     }
-
-    private void goSearchResult() {
-        Editable etSearchText = etSearch.getText();
-        if (etSearchText != null) {
-            String trim = etSearchText.toString().trim();
-            if (trim.length() > 0) {
-                AppRouter.showSearchResultActivity(this, trim);
-                finish();
-            }
-        }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        this.overridePendingTransition(0, 0);
-    }
-
 
 }

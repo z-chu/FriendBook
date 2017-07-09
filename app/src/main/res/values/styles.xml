@@ -25,12 +25,12 @@
         <item name="android:background">?attr/actionBarItemBackground</item>
         <item name="android:minWidth">36dp</item>
         <item name="android:minHeight">40dp</item>
-        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingLeft">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:scaleType">center</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
-        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingRight">8dp</item>
     </style>
 
     <!-- 如果界面需要侧滑必须设置这个主题 -->

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="?colorPrimary"
-    android:orientation="vertical"
-    app:layout_scrollFlags="enterAlways|scroll|snap">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:background="?colorPrimary"
+             android:orientation="vertical"
+             app:layout_scrollFlags="enterAlways|scroll|snap">
 
     <RelativeLayout
         android:id="@+id/view_search"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="2.0dp"
             android:clickable="true"
             android:padding="8.0dp"
-            app:srcCompat="@drawable/ic_arrow_back_grey_24dp" />
+            app:srcCompat="@drawable/ic_arrow_back_grey_24dp"/>
 
         <EditText
             android:id="@+id/et_search"
@@ -38,11 +38,12 @@
             android:background="@null"
             android:gravity="center_vertical"
             android:hint="搜索在线书城"
+            android:imeOptions="actionSearch"
             android:padding="8.0dp"
             android:singleLine="true"
             android:textColor="@color/textPrimary"
             android:textColorHint="@color/md_grey_500"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"/>
 
         <ImageView
             android:id="@+id/iv_action_search"
@@ -51,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_vector_search_gray" />
+            app:srcCompat="@drawable/ic_vector_search_gray"/>
 
     </RelativeLayout>
 

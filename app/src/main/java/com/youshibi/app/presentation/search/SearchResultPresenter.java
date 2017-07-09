@@ -13,13 +13,21 @@ import com.zchu.log.Logger;
  * Created by Chu on 2017/6/11.
  */
 
-public class SearchPresenter extends BaseRxPresenter<SearchContract.View> implements SearchContract.Presenter {
+public class SearchResultPresenter extends BaseRxPresenter<SearchResultView> {
+
+    private String mKeyword;
+
+    public SearchResultPresenter(String keyword) {
+        this.mKeyword = keyword;
+    }
 
     @Override
-    public void search(String keyword) {
-        if (keyword == null || keyword.length() == 0) {
-            return;
-        }
+    public void start() {
+        super.start();
+        loadData(mKeyword);
+    }
+
+    private void loadData(String keyword) {
         if (isViewAttached()) {
             getView().showLoading();
         }
