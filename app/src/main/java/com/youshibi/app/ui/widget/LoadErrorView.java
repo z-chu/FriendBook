@@ -30,23 +30,19 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     public static final int STATE_LOADING = 1;
     public static final int STATE_ERROR = 2;
     public static final int STATE_FINISH = 3;
-
-    private int mState = STATE_NONE;
-
-    private View mLoadingView;
-    private View mErrorView;
-    private View mContentView;
-
     //单位dp
     private static final int ANIM_TRANSLATE_Y = 40;
     //动画持续时间
     private static final int ANIM_TIME_LONG = 500;
 
-
+    private LayoutInflater mLayoutInflater;
+    private View mLoadingView;
+    private View mErrorView;
+    private View mContentView;
     private int mContentLayoutId;
     private int mLoadingLayoutId;
     private int mErrorLayoutId;
-    private LayoutInflater mLayoutInflater;
+    private int mState = STATE_NONE;
 
     private OnRetryListener mOnRetryListener;
     private OnViewCreatedListener mContentViewCreatedListener;

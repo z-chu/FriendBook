@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -148,25 +147,25 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
     @Override
     public void showMoreLoading() {
         if (loadMoreView != null)
-            loadMoreView.makeMoreLoading();
+            loadMoreView.showLoading();
     }
 
     @Override
     public void showMoreError() {
         if (loadMoreView != null)
-            loadMoreView.makeMoreError();
+            loadMoreView.showError();
     }
 
     @Override
     public void showTheEnd() {
         if (loadMoreView != null)
-            loadMoreView.makeTheEnd();
+            loadMoreView.showTheEnd();
     }
 
     @Override
     public void showMoreFrom() {
         if (loadMoreView != null)
-            loadMoreView.makeMoreGone();
+            loadMoreView.showNone();
     }
 
 
