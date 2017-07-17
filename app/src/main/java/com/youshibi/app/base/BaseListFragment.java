@@ -147,26 +147,30 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
 
     @Override
     public void showMoreLoading() {
-        if (loadMoreView != null)
+        if (loadMoreView != null) {
             loadMoreView.makeMoreLoading();
+        }
     }
 
     @Override
     public void showMoreError() {
-        if (loadMoreView != null)
+        if (loadMoreView != null) {
             loadMoreView.makeMoreError();
+        }
     }
 
     @Override
     public void showTheEnd() {
-        if (loadMoreView != null)
+        if (loadMoreView != null) {
             loadMoreView.makeTheEnd();
+        }
     }
 
     @Override
     public void showMoreFrom() {
-        if (loadMoreView != null)
+        if (loadMoreView != null) {
             loadMoreView.makeMoreGone();
+        }
     }
 
 

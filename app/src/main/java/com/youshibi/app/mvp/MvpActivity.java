@@ -30,6 +30,7 @@ public abstract class MvpActivity<P extends MvpPresenter> extends BaseActivity i
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.destroy();
+            mPresenter=null;
         }
     }
 

@@ -5,13 +5,14 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.youshibi.app.AppRouter;
+import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListContract;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
-import com.youshibi.app.presentation.book.BookAdapter;
 import com.youshibi.app.ui.help.CommonAdapter;
+import com.youshibi.app.ui.help.CommonViewHolder;
 import com.youshibi.app.util.DataConvertUtil;
 
 import java.util.Arrays;
@@ -58,14 +59,6 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    /*@Override
-    protected void onLoadDataSucceed(List<Book> data, boolean isRefresh) {
-        super.onLoadDataSucceed(data, isRefresh);
-        if(isViewAttached()) {
-            getView().showTheEnd();
-        }
-    }*/
-
 
     @Override
     protected Observable<List<Book>> doLoadMoreData(int page, int size) {
@@ -75,7 +68,12 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
 
     @Override
     protected CommonAdapter<Book> createAdapter(List<Book> data) {
-        return new BookAdapter(data);
+        return new CommonAdapter<Book>(R.layout.grid_item_bookcase_book, data) {
+            @Override
+            protected void convert(CommonViewHolder helper, Book item) {
+                helper.loadImage(R.id.iv_cover, item.getCoverUrl());
+            }
+        };
     }
 
     @Override
