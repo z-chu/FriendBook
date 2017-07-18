@@ -30,23 +30,19 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     public static final int STATE_LOADING = 1;
     public static final int STATE_ERROR = 2;
     public static final int STATE_FINISH = 3;
-
-    private int mState = STATE_NONE;
-
-    private View mLoadingView;
-    private View mErrorView;
-    private View mContentView;
-
     //单位dp
     private static final int ANIM_TRANSLATE_Y = 40;
     //动画持续时间
     private static final int ANIM_TIME_LONG = 500;
 
-
+    private LayoutInflater mLayoutInflater;
+    private View mLoadingView;
+    private View mErrorView;
+    private View mContentView;
     private int mContentLayoutId;
     private int mLoadingLayoutId;
     private int mErrorLayoutId;
-    private LayoutInflater mLayoutInflater;
+    private int mState = STATE_NONE;
 
     private OnRetryListener mOnRetryListener;
     private OnViewCreatedListener mContentViewCreatedListener;
@@ -135,7 +131,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         if (mErrorView != null) {
             mErrorView.setVisibility(View.GONE);
         }
-        if (mContentLayoutId != 0) {
+        if (mContentView != null || mContentLayoutId != 0) {
             if (mContentView == null) {
                 mContentView = mLayoutInflater.inflate(mContentLayoutId, this, false);
                 addView(mContentView, 0);
@@ -143,6 +139,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
                     mContentViewCreatedListener.onViewCreated(mContentView);
                 }
             }
+            mContentView.setVisibility(View.VISIBLE);
             startShowContentAnim(mContentView, mLoadingView);
         } else {
             if (mLoadingView != null) {
@@ -198,7 +195,15 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
 
     public void setLoadingView(View view) {
         checkIsLegalStatus();
-        this.mLoadingView = view;
+        if (view != null) {
+            this.mLoadingView = view;
+            addView(mLoadingView);
+            if (mLoadingViewCreatedListener != null) {
+                mLoadingViewCreatedListener.onViewCreated(mLoadingView);
+            }
+
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     public void setErrorLayoutId(int layoutId) {
@@ -208,7 +213,15 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
 
     public void setErrorView(View view) {
         checkIsLegalStatus();
-        this.mErrorView = view;
+        if (view != null) {
+            this.mErrorView = view;
+            addView(mErrorView);
+            if (mErrorViewCreatedListener != null) {
+                mErrorViewCreatedListener.onViewCreated(mErrorView);
+            }
+
+            mErrorView.setVisibility(View.GONE);
+        }
     }
 
     public void setContentLayoutId(int layoutId) {
@@ -218,12 +231,19 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
 
     public void setContentView(View view) {
         checkIsLegalStatus();
-        this.mContentView = view;
+        if (view != null) {
+            this.mContentView = view;
+            addView(mContentView, 0);
+            if (mContentViewCreatedListener != null) {
+                mContentViewCreatedListener.onViewCreated(mContentView);
+            }
+            mContentView.setVisibility(View.GONE);
+        }
     }
 
     private void checkIsLegalStatus() {
         if (mState != STATE_NONE) {
-            throw new IllegalStateException(getClass().getSimpleName() + "\'s state is not STATE_NONE and can not change view");
+            throw new IllegalStateException("Can not change view , because" + getClass().getSimpleName() + "\'s state is not STATE_NONE");
         }
     }
 
@@ -237,7 +257,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setLoadingViewCreatedListener(OnViewCreatedListener listener) {
-        if (mLoadingView != null) {
+        if (mLoadingView != null && mLoadingView.getParent() == this) {
             listener.onViewCreated(mContentView);
         } else {
             this.mLoadingViewCreatedListener = listener;
@@ -245,7 +265,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setContentViewCreatedListener(OnViewCreatedListener listener) {
-        if (mContentView != null) {
+        if (mContentView != null && mContentView.getParent() == this) {
             listener.onViewCreated(mContentView);
         } else {
             this.mContentViewCreatedListener = listener;
@@ -253,7 +273,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     }
 
     public void setErrorViewCreatedListener(OnViewCreatedListener listener) {
-        if (mErrorView != null) {
+        if (mErrorView != null && mErrorView.getParent() == this) {
             listener.onViewCreated(mErrorView);
         } else {
             this.mErrorViewCreatedListener = listener;

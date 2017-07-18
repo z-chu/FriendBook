@@ -10,18 +10,19 @@ import com.youshibi.app.R;
 
 /**
  * Created by z-chu on 2016/6/8.
- *
  */
 public class LoadMoreView extends FrameLayout {
-    private int mStatus=Status.GONE;
+
+    public static final int STATE_GONE = 0;
+    public static final int STATE_LOADING = 1;
+    public static final int STATE_ERROR = 2;
+    public static final int STATE_THE_END = 3;
 
     private View mLoadingView;
-
     private View mErrorView;
-
     private View mTheEndView;
-
     private OnLoadMoreRetryListener mOnRetryListener;
+    private int mState = STATE_GONE;
 
     public LoadMoreView(Context context) {
         this(context, null);
@@ -41,7 +42,7 @@ public class LoadMoreView extends FrameLayout {
         rootView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mStatus == Status.ERROR && mOnRetryListener != null) {
+                if (mState == STATE_ERROR && mOnRetryListener != null) {
                     mOnRetryListener.onLoadMoreRetry(LoadMoreView.this);
                 }
             }
@@ -49,77 +50,66 @@ public class LoadMoreView extends FrameLayout {
         change();
     }
 
-    public int getStatus() {
-        return mStatus;
+    public int getState() {
+        return mState;
     }
 
-    public void setStatus(int status) {
-        if(this.mStatus!=status) {
-            this.mStatus = status;
+    private void setState(int status) {
+        if (this.mState != status) {
+            this.mState = status;
             change();
         }
     }
 
     public boolean isTheEnd() {
-        return mStatus == Status.THE_END;
+        return mState == STATE_THE_END;
     }
 
-    public void makeMoreGone() {
-        setStatus(Status.GONE);
+    public void showNone() {
+        setState(STATE_GONE);
 
     }
 
-    public void makeMoreLoading() {
-        setStatus(Status.LOADING);
+    public void showLoading() {
+        setState(STATE_LOADING);
     }
 
-    public void makeMoreError() {
-        setStatus(Status.ERROR);
+    public void showError() {
+        setState(STATE_ERROR);
     }
 
-    public void makeTheEnd() {
-        setStatus(Status.THE_END);
+    public void showTheEnd() {
+        setState(STATE_THE_END);
     }
 
     public boolean canLoadMore() {
-        return mStatus == Status.GONE || mStatus == Status.ERROR;
+        return mState == STATE_GONE || mState == STATE_ERROR;
     }
 
     private void change() {
-        switch (mStatus) {
-            case Status.GONE:
-
+        switch (mState) {
+            case STATE_GONE:
                 mLoadingView.setVisibility(GONE);
                 mErrorView.setVisibility(GONE);
                 mTheEndView.setVisibility(GONE);
-
                 break;
 
-            case Status.LOADING:
-
+            case STATE_LOADING:
                 mLoadingView.setVisibility(VISIBLE);
                 mErrorView.setVisibility(GONE);
                 mTheEndView.setVisibility(GONE);
-
-
                 break;
 
-            case Status.ERROR:
-
+            case STATE_ERROR:
                 mLoadingView.setVisibility(GONE);
                 mErrorView.setVisibility(VISIBLE);
                 mTheEndView.setVisibility(GONE);
-
-
                 break;
 
-            case Status.THE_END:
-
+            case STATE_THE_END:
                 mLoadingView.setVisibility(GONE);
                 mErrorView.setVisibility(GONE);
                 mTheEndView.setVisibility(VISIBLE);
-
-
                 break;
         }
     }
@@ -129,12 +119,6 @@ public class LoadMoreView extends FrameLayout {
         this.mOnRetryListener = listener;
     }
 
-    public class Status {
-        public static final int GONE = 0;
-        public static final int LOADING = 1;
-        public static final int ERROR = 2;
-        public static final int THE_END = 3;
-    }
 
     public interface OnLoadMoreRetryListener {
         void onLoadMoreRetry(View view);
