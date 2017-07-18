@@ -89,7 +89,7 @@ public class LoadMoreView extends FrameLayout {
     private void change() {
         switch (mState) {
             case STATE_GONE:
-                mLoadingView.setVisibility(GONE);
+                mLoadingView.setVisibility(VISIBLE);
                 mErrorView.setVisibility(GONE);
                 mTheEndView.setVisibility(GONE);
                 break;

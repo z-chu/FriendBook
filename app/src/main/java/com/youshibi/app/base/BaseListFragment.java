@@ -19,8 +19,6 @@ import com.youshibi.app.ui.widget.LoadMoreView;
 import com.youshibi.app.util.DensityUtil;
 import com.youshibi.app.util.ToastUtil;
 
-import retrofit2.http.HEAD;
-
 
 /**
  * Created by Chu on 2016/12/3.
@@ -149,7 +147,7 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
     @Override
     public void showMoreLoading() {
         if (loadMoreView != null) {
-            loadMoreView.showTheEnd();
+            loadMoreView.showLoading();
         }
     }
 

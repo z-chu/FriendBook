@@ -9,24 +9,26 @@ import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListContract;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
-import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
+import com.youshibi.app.event.AddBook2BookcaseEvent;
+import com.youshibi.app.rx.RxBus;
+import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
-import com.youshibi.app.util.DataConvertUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 
 /**
  * Created by Chu on 2016/12/3.
  */
 
-public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, Book> {
+public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, BookTb> {
+
+    private CommonAdapter<BookTb> mAdapter;
 
     @Override
     public void start() {
@@ -35,45 +37,47 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
             getView().addOnItemTouchListener(new OnItemClickListener() {
                 @Override
                 public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
+                    AppRouter.showBookDetailActivity(view.getContext(), ((BookTb) adapter.getItem(position)).getId());
                 }
             });
         }
+
+        Subscription subscribe = RxBus
+                .getDefault()
+                .toObservable(AddBook2BookcaseEvent.class)
+                .subscribe(new SimpleSubscriber<AddBook2BookcaseEvent>() {
+                    @Override
+                    public void onNext(AddBook2BookcaseEvent addBook2BookcaseEvent) {
+                        mAdapter.addData(addBook2BookcaseEvent.bookTb);
+                    }
+                });
+        addSubscription2Destroy(subscribe);
     }
 
     @Override
-    protected Observable<List<Book>> doLoadData(boolean isRefresh, int page, int size) {
+    protected Observable<List<BookTb>> doLoadData(boolean isRefresh, int page, int size) {
         return DBManger
                 .getInstance()
                 .loadBookTb()
-                .map(new Func1<List<BookTb>, List<Book>>() {
-                    @Override
-                    public List<Book> call(List<BookTb> bookTbs) {
-                        Book[] books = new Book[bookTbs.size()];
-                        for (int i = 0; i < bookTbs.size(); i++) {
-                            books[i] = DataConvertUtil.bookTb2Book(bookTbs.get(i));
-                        }
-                        return Arrays.asList(books);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
 
     @Override
-    protected Observable<List<Book>> doLoadMoreData(int page, int size) {
+    protected Observable<List<BookTb>> doLoadMoreData(int page, int size) {
         return null;
     }
 
 
     @Override
-    protected CommonAdapter<Book> createAdapter(List<Book> data) {
-        return new CommonAdapter<Book>(R.layout.grid_item_bookcase_book, data) {
+    protected CommonAdapter<BookTb> createAdapter(List<BookTb> data) {
+        mAdapter = new CommonAdapter<BookTb>(R.layout.grid_item_bookcase_book, data) {
             @Override
-            protected void convert(CommonViewHolder helper, Book item) {
+            protected void convert(CommonViewHolder helper, BookTb item) {
                 helper.loadImage(R.id.iv_cover, item.getCoverUrl());
             }
         };
+        return mAdapter;
     }
 
     @Override

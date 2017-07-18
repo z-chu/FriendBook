@@ -5,13 +5,13 @@ import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.DBRepository;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.data.db.table.DaoSession;
+import com.youshibi.app.event.AddBook2BookcaseEvent;
+import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.util.DataConvertUtil;
 
 import java.util.List;
 
 import rx.Observable;
-
-import static com.youshibi.app.util.DataConvertUtil.book2BookTb;
 
 /**
  * Created by Chu on 2017/5/29.
@@ -40,10 +40,13 @@ public final class DBManger {
     public String saveBookTb(Book book) {
         BookTb bookTb = loadBookTbById(book.getId());
         if (bookTb == null) {
-            mDaoSession.getBookTbDao().insert(DataConvertUtil.book2BookTb(book, null));
+            bookTb = DataConvertUtil.book2BookTb(book, null);
+            mDaoSession.getBookTbDao().insert(bookTb);
         } else {
-            mDaoSession.getBookTbDao().update(DataConvertUtil.book2BookTb(book, bookTb));
+            bookTb = DataConvertUtil.book2BookTb(book, bookTb);
+            mDaoSession.getBookTbDao().update(bookTb);
         }
+        RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
         return book.getId();
     }
 

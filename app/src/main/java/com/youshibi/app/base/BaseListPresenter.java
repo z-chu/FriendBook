@@ -57,9 +57,15 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
                 adapter = createAdapter(data);
                 getView().setAdapter(adapter);
                 getView().showContent(isRefresh);
+                if(data.size()<getPageSize()){
+                    getView().showTheEnd();
+                }
             } else {
                 adapter.setNewData(data);
                 getView().showContent(isRefresh);
+                if(data.size()<getPageSize()){
+                    getView().showTheEnd();
+                }
             }
         }
     }
