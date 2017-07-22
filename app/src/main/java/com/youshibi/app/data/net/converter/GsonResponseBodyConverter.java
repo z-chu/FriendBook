@@ -16,6 +16,8 @@
 package com.youshibi.app.data.net.converter;
 
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -37,7 +39,7 @@ final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
     }
 
     @Override
-    public T convert(ResponseBody value) throws IOException {
+    public T convert(@NonNull ResponseBody value) throws IOException {
         JsonReader jsonReader = gson.newJsonReader(value.charStream());
         try {
             T read = adapter.read(jsonReader);

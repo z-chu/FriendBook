@@ -36,6 +36,11 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
     }
 
     @MainThread
+    public ProgressSubscriber(boolean isMustNetAvailable, Context context) {
+        this(isMustNetAvailable, context, true);
+    }
+
+    @MainThread
     public ProgressSubscriber(boolean isMustNetAvailable, Context context, boolean cancelable) {
         this.mContext = context;
         this.isMustNetAvailable = isMustNetAvailable;

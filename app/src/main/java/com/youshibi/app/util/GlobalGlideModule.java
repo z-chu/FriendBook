@@ -8,4 +8,9 @@ import com.bumptech.glide.module.AppGlideModule;
  */
 @GlideModule
 public class GlobalGlideModule extends AppGlideModule{
+
+    @Override
+    public boolean isManifestParsingEnabled() {
+        return false;
+    }
 }
