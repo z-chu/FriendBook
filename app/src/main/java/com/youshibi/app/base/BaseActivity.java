@@ -3,6 +3,7 @@ package com.youshibi.app.base;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -37,8 +38,25 @@ public class BaseActivity extends BaseSuperActivity {
         systemBarTintManager = new SystemBarTintManager(this);
         systemBarTintManager.setStatusBarTintEnabled(true);
         systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        //设置缓存
+
+
+       // decorView.buildDrawingCache();
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        final View decorView = getWindow().getDecorView();
+        decorView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                decorView.setTag(getActivityBitmap(BaseActivity.this));
+            }
+        }, 1000);
+
+    }
 
     @Override
     public void onContentChanged() {
@@ -52,7 +70,12 @@ public class BaseActivity extends BaseSuperActivity {
                         @Override
                         public void onSlideStateChanged(int state) {
                             if (state == 1) {
-                                getWindow().setBackgroundDrawable(getWindowBackground());
+                                Drawable windowBackground = getWindowBackground();
+                                if(windowBackground!=null) {
+                                    getWindow().setBackgroundDrawable(windowBackground);
+                                }else {
+                                    getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(BaseActivity.this,R.color.colorGrounding)));
+                                }
                             }
 
                         }
@@ -79,9 +102,17 @@ public class BaseActivity extends BaseSuperActivity {
     private Drawable windowBackground = null;
 
     public Drawable getWindowBackground() {
-        Activity beforeActivity = AppManager.getInstance().beforeActivity();
-        if (beforeActivity != null) {
-            windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
+        if (windowBackground == null) {
+            Activity beforeActivity = AppManager.getInstance().beforeActivity();
+            if (beforeActivity != null) {
+                Object tag = beforeActivity.getWindow().getDecorView().getTag();
+
+                if(tag!=null&&tag instanceof  Bitmap){
+                    windowBackground = BitmapUtil.bitmapToDrawable(getResources(), (Bitmap) tag);
+                }else{
+                    windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
+                }
+            }
         }
         return windowBackground;
     }
@@ -107,6 +138,18 @@ public class BaseActivity extends BaseSuperActivity {
      * 当窗体第一次获取到焦点会回调该方法
      */
     protected void onWindowFocusFirstObtain() {
+       /* final Activity beforeActivity = AppManager.getInstance().beforeActivity();
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (windowBackground == null) {
+                    if (beforeActivity != null) {
+                        windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
+                    }
+                }
+            }
+        }, 1000);*/
+
 
     }
 
