@@ -35,8 +35,9 @@
 
     <!-- 如果界面需要侧滑必须设置这个主题 -->
     <style name="AppTheme.Slide">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--<item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>-->
+        <item name="android:windowBackground">@null</item>
     </style>
 
 

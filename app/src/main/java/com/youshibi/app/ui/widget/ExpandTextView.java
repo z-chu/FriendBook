@@ -9,6 +9,8 @@ import android.util.AttributeSet;
  */
 
 public class ExpandTextView extends android.support.v7.widget.AppCompatTextView {
+    private boolean isSetMaxLines = false;
+
     public ExpandTextView(Context context) {
         super(context);
     }
@@ -22,10 +24,12 @@ public class ExpandTextView extends android.support.v7.widget.AppCompatTextView 
     }
 
 
-
     @Override
     protected void onDraw(Canvas canvas) {
-        setMaxLines(getMeasuredHeight()/getLineHeight());
+        if (!isSetMaxLines) {
+            setMaxLines(getMeasuredHeight() / getLineHeight());
+            isSetMaxLines = true;
+        }
         super.onDraw(canvas);
     }
 }

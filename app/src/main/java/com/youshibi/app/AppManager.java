@@ -88,6 +88,15 @@ public class AppManager {
         return activity;
     }
 
+    public Activity beforeActivity() {
+        Activity activity = null;
+        if (mActivityStack.size() > 1) {
+            activity = mActivityStack.get(mActivityStack.size() - 2);
+        }
+        return activity;
+    }
+
+
     /**
      * 结束当前Activity（堆栈中最后一个压入的）
      */
