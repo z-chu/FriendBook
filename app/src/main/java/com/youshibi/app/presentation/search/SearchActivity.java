@@ -76,11 +76,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void onSlideStateChanged(int state) {
-        InputMethodUtils.hideSoftInput(this);
-    }
-
-    @Override
     protected void initImmersionBar(ImmersionBar immersionBar) {
         immersionBar
                 .statusBarView(R.id.status_bar_view)

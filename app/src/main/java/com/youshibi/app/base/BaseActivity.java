@@ -62,6 +62,11 @@ public class BaseActivity extends BaseSuperActivity {
                         public void onSlideOpened() {
                             getWindow().setBackgroundDrawable(getDefaultWindowBackground());
                         }
+
+                        @Override
+                        public void onSlideClosed() {
+                            InputMethodUtils.hideSoftInput(BaseActivity.this);
+                        }
                     })
                     .build());
         }
@@ -69,7 +74,6 @@ public class BaseActivity extends BaseSuperActivity {
 
     protected void onSlideStateChanged(int state) {
         if (state == ViewDragHelper.STATE_DRAGGING) {
-            InputMethodUtils.hideSoftInput(this);
             Drawable windowBackground = getWindowBackground();
             if (windowBackground != null) {
                 getWindow().setBackgroundDrawable(windowBackground);
