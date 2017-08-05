@@ -57,7 +57,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         initExtra();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-        ToolbarHelper.initToolbar(this,R.id.toolbar,true,book!=null?book.getName():"书籍详情");
+        ToolbarHelper.initToolbar(this, R.id.toolbar, true, book != null ? book.getName() : "书籍详情");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         loadErrorView = (LoadErrorView) findViewById(R.id.load_error_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -87,7 +87,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     @Override
     public void onBackPressed() {
 
-        if (isShowCollectionDialog||DBManger.getInstance().hasBookTb(bookId)) {
+        if (isShowCollectionDialog || DBManger.getInstance().hasBookTb(bookId)) {
             //书架已经有这本书了
             super.onBackPressed();
         } else {
@@ -112,7 +112,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                       DBManger.getInstance().saveBookTb(book);
+                        DBManger.getInstance().saveBookTb(book);
                         ToastUtil.showToast("已加入书架");
                     }
                 })

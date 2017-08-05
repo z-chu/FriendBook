@@ -122,13 +122,13 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
     //ui
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+   // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.17'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     compile 'com.r0adkll:slidableactivity:2.0.5'//测化退出
-    compile 'com.github.arimorty:floatingsearchview:2.1.1'
+    compile 'com.gyf.barlibrary:barlibrary:2.2.7'
 
     //ImageLoader
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'

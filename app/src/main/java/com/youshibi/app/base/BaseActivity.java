@@ -11,10 +11,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.View;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrListenerAdapter;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
 import com.youshibi.app.util.BitmapUtil;
@@ -29,15 +29,11 @@ public class BaseActivity extends BaseSuperActivity {
      */
     private boolean isFirstFocus = true;
 
-    protected SystemBarTintManager systemBarTintManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //设置沉淀式状态栏
-        systemBarTintManager = new SystemBarTintManager(this);
-        systemBarTintManager.setStatusBarTintEnabled(true);
-        systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
         //设置缓存
         View decorView = getWindow().getDecorView();
         decorView.setDrawingCacheEnabled(true);
@@ -47,15 +43,17 @@ public class BaseActivity extends BaseSuperActivity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
+        //设置沉淀式状态栏
+        initImmersionBar(ImmersionBar.with(this));
         if (isEnableSlideFinish()) {
             Slidr.attach(this, new SlidrConfig
                     .Builder()
                     .edge(true)
                     .edgeSize(0.18f)// The % of the screen that counts as the edge, default 18%
-                    .listener(new SlidrListenerAdapter(){
+                    .listener(new SlidrListenerAdapter() {
                         @Override
                         public void onSlideStateChanged(int state) {
-                            if(state==ViewDragHelper.STATE_DRAGGING){
+                            if (state == ViewDragHelper.STATE_DRAGGING) {
                                 Drawable windowBackground = getWindowBackground();
                                 if (windowBackground != null) {
                                     getWindow().setBackgroundDrawable(windowBackground);
@@ -110,10 +108,11 @@ public class BaseActivity extends BaseSuperActivity {
      */
     protected void onWindowFocusFirstObtain() {
         if (isEnableSlideFinish()) {
-            final Activity beforeActivity = AppManager.getInstance().beforeActivity();
+
             getWindow().getDecorView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Activity beforeActivity = AppManager.getInstance().beforeActivity();
                     if (windowBackground == null) {
                         if (beforeActivity != null) {
                             windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
@@ -122,6 +121,22 @@ public class BaseActivity extends BaseSuperActivity {
                 }
             }, 1000);
         }
+    }
+
+    protected void initImmersionBar(ImmersionBar immersionBar) {
+        View statusBarView = findViewById(R.id.status_bar_view);
+        if (statusBarView != null) {
+            immersionBar
+                    .statusBarView(statusBarView)
+                    .init();
+        } else {
+            immersionBar
+                    .fitsSystemWindows(true)
+                    .statusBarColor(R.color.colorPrimaryDark)
+                    .init();
+        }
+
+
     }
 
 
