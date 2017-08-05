@@ -2,18 +2,18 @@ package com.youshibi.app.base;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ViewDragHelper;
 import android.view.View;
 
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrListenerAdapter;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
@@ -39,22 +39,8 @@ public class BaseActivity extends BaseSuperActivity {
         systemBarTintManager.setStatusBarTintEnabled(true);
         systemBarTintManager.setStatusBarTintColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         //设置缓存
-
-
-       // decorView.buildDrawingCache();
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        final View decorView = getWindow().getDecorView();
-        decorView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                decorView.setTag(getActivityBitmap(BaseActivity.this));
-            }
-        }, 1000);
+        View decorView = getWindow().getDecorView();
+        decorView.setDrawingCacheEnabled(true);
 
     }
 
@@ -66,33 +52,17 @@ public class BaseActivity extends BaseSuperActivity {
                     .Builder()
                     .edge(true)
                     .edgeSize(0.18f)// The % of the screen that counts as the edge, default 18%
-                    .listener(new SlidrListener() {
+                    .listener(new SlidrListenerAdapter(){
                         @Override
                         public void onSlideStateChanged(int state) {
-                            if (state == 1) {
+                            if(state==ViewDragHelper.STATE_DRAGGING){
                                 Drawable windowBackground = getWindowBackground();
-                                if(windowBackground!=null) {
+                                if (windowBackground != null) {
                                     getWindow().setBackgroundDrawable(windowBackground);
-                                }else {
-                                    getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(BaseActivity.this,R.color.colorGrounding)));
+                                } else {
+                                    getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(BaseActivity.this, R.color.colorGrounding)));
                                 }
                             }
-
-                        }
-
-                        @Override
-                        public void onSlideChange(float percent) {
-
-                        }
-
-                        @Override
-                        public void onSlideOpened() {
-
-                        }
-
-                        @Override
-                        public void onSlideClosed() {
-
                         }
                     })
                     .build());
@@ -107,9 +77,9 @@ public class BaseActivity extends BaseSuperActivity {
             if (beforeActivity != null) {
                 Object tag = beforeActivity.getWindow().getDecorView().getTag();
 
-                if(tag!=null&&tag instanceof  Bitmap){
+                if (tag != null && tag instanceof Bitmap) {
                     windowBackground = BitmapUtil.bitmapToDrawable(getResources(), (Bitmap) tag);
-                }else{
+                } else {
                     windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
                 }
             }
@@ -128,29 +98,30 @@ public class BaseActivity extends BaseSuperActivity {
 
     public static Bitmap getActivityBitmap(Activity activity) {
         View view = activity.getWindow().getDecorView();
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
+/*        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
+        view.draw(canvas);*/
+        view.buildDrawingCache();
+        return view.getDrawingCache();
     }
 
     /**
      * 当窗体第一次获取到焦点会回调该方法
      */
     protected void onWindowFocusFirstObtain() {
-       /* final Activity beforeActivity = AppManager.getInstance().beforeActivity();
-        getWindow().getDecorView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (windowBackground == null) {
-                    if (beforeActivity != null) {
-                        windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
+        if (isEnableSlideFinish()) {
+            final Activity beforeActivity = AppManager.getInstance().beforeActivity();
+            getWindow().getDecorView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (windowBackground == null) {
+                        if (beforeActivity != null) {
+                            windowBackground = BitmapUtil.bitmapToDrawable(getResources(), getActivityBitmap(beforeActivity));
+                        }
                     }
                 }
-            }
-        }, 1000);*/
-
-
+            }, 1000);
+        }
     }
 
 
