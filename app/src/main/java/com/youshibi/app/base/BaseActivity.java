@@ -1,13 +1,12 @@
 package com.youshibi.app.base;
 
 import android.app.Activity;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.View;
 
@@ -18,6 +17,7 @@ import com.r0adkll.slidr.model.SlidrListenerAdapter;
 import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
 import com.youshibi.app.util.BitmapUtil;
+import com.youshibi.app.util.InputMethodUtils;
 
 /**
  * 作者: 赵成柱 on 2016/7/13.
@@ -29,7 +29,8 @@ public class BaseActivity extends BaseSuperActivity {
      */
     private boolean isFirstFocus = true;
 
-
+    private ImmersionBar mImmersionBar;
+    private Drawable mDefaultWindowBackground;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,7 @@ public class BaseActivity extends BaseSuperActivity {
     public void onContentChanged() {
         super.onContentChanged();
         //设置沉淀式状态栏
+        mImmersionBar = ImmersionBar.with(this);
         initImmersionBar(ImmersionBar.with(this));
         if (isEnableSlideFinish()) {
             Slidr.attach(this, new SlidrConfig
@@ -53,17 +55,27 @@ public class BaseActivity extends BaseSuperActivity {
                     .listener(new SlidrListenerAdapter() {
                         @Override
                         public void onSlideStateChanged(int state) {
-                            if (state == ViewDragHelper.STATE_DRAGGING) {
-                                Drawable windowBackground = getWindowBackground();
-                                if (windowBackground != null) {
-                                    getWindow().setBackgroundDrawable(windowBackground);
-                                } else {
-                                    getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(BaseActivity.this, R.color.colorGrounding)));
-                                }
-                            }
+                            BaseActivity.this.onSlideStateChanged(state);
+                        }
+
+                        @Override
+                        public void onSlideOpened() {
+                            getWindow().setBackgroundDrawable(getDefaultWindowBackground());
                         }
                     })
                     .build());
+        }
+    }
+
+    protected void onSlideStateChanged(int state) {
+        if (state == ViewDragHelper.STATE_DRAGGING) {
+            InputMethodUtils.hideSoftInput(this);
+            Drawable windowBackground = getWindowBackground();
+            if (windowBackground != null) {
+                getWindow().setBackgroundDrawable(windowBackground);
+            } else {
+                getWindow().setBackgroundDrawable(getDefaultWindowBackground());
+            }
         }
     }
 
@@ -84,6 +96,19 @@ public class BaseActivity extends BaseSuperActivity {
         }
         return windowBackground;
     }
+
+
+
+    public Drawable getDefaultWindowBackground() {
+        if(mDefaultWindowBackground==null) {
+            int[] attrsArray = {android.R.attr.windowBackground};
+            TypedArray typedArray = this.obtainStyledAttributes(attrsArray);
+            mDefaultWindowBackground = typedArray.getDrawable(0);
+            typedArray.recycle();
+        }
+        return mDefaultWindowBackground;
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -107,8 +132,7 @@ public class BaseActivity extends BaseSuperActivity {
      * 当窗体第一次获取到焦点会回调该方法
      */
     protected void onWindowFocusFirstObtain() {
-        if (isEnableSlideFinish()) {
-
+    /*    if (isEnableSlideFinish()) {
             getWindow().getDecorView().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -120,7 +144,7 @@ public class BaseActivity extends BaseSuperActivity {
                     }
                 }
             }, 1000);
-        }
+        }*/
     }
 
     protected void initImmersionBar(ImmersionBar immersionBar) {
@@ -168,4 +192,9 @@ public class BaseActivity extends BaseSuperActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mImmersionBar.destroy();
+    }
 }

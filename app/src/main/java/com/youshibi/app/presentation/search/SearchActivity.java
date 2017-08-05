@@ -3,18 +3,24 @@ package com.youshibi.app.presentation.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
+import com.youshibi.app.AppManager;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseActivity;
+import com.youshibi.app.util.InputMethodUtils;
+
 
 /**
  * author : zchu
@@ -29,6 +35,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private ImageView ivArrowBack;
     private ImageView ivActionSearch;
     private EditText etSearch;
+
+    private Handler mHandler = new Handler();
 
     public static Intent newIntent(Context context, @Nullable String keyword) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -59,6 +67,26 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 return false;
             }
         });
+        etSearch.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodUtils.showSoftInput(etSearch);
+            }
+        });
+    }
+
+    @Override
+    protected void onSlideStateChanged(int state) {
+        InputMethodUtils.hideSoftInput(this);
+    }
+
+    @Override
+    protected void initImmersionBar(ImmersionBar immersionBar) {
+        immersionBar
+                .statusBarView(R.id.status_bar_view)
+                .keyboardEnable(true, WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                        | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                .init();
     }
 
     private void findView() {
@@ -73,6 +101,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.iv_arrow_back:
                 onBackPressed();
+                InputMethodUtils.hideSoftInput(this);
                 break;
             case R.id.iv_action_search:
                 goSearchResult();
@@ -86,7 +115,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             String trim = etSearchText.toString().trim();
             if (trim.length() > 0) {
                 AppRouter.showSearchResultActivity(this, trim);
-                finish();
+                AppManager.getInstance().finishActivity(getClass());
             }
         }
     }

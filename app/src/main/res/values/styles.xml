@@ -17,7 +17,7 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme.Translucent.StateBar">
+    <style name="AppTheme" parent="AppBaseTheme">
         <!--  -->
     </style>
 
@@ -37,7 +37,12 @@
     <style name="AppTheme.Slide">
         <!--<item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>-->
-        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="AppTheme.Translucent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
     </style>
 
 
