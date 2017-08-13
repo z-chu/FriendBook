@@ -107,6 +107,15 @@
 
     <style name="Read"/>
 
+    <style name="Read.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="actionMenuTextColor">@color/read_text_primary</item>
+        <item name="colorControlNormal">@color/read_text_primary</item>
+    </style>
+
+    <style name="Read.TextAppearance.ActionBar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/read_text_primary</item>
+    </style>
+
     <style name="Read.BottomMenu">
         <item name="android:textColor">@color/read_menu_text</item>
         <item name="android:textSize">12sp</item>

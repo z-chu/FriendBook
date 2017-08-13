@@ -14,8 +14,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/Read.ActionBar"
         app:layout_scrollFlags="enterAlways|scroll|snap"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Read.TextAppearance.ActionBar.Title"/>
 
 </android.support.design.widget.AppBarLayout>
