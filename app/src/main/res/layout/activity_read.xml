@@ -7,15 +7,20 @@
     android:background="@color/colorGrounding"
     android:orientation="vertical">
 
-    <include layout="@layout/view_state_bar"/>
-
-
-    <com.youshibi.app.ui.widget.LoadErrorView
-        android:id="@id/load_error_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:contentLayout="@layout/layout_read_content"
-        app:errorLayout="@layout/view_error"
-        app:loadingLayout="@layout/view_loading"/>
+        android:layout_height="match_parent">
+
+        <com.zchu.reader.PageView
+            android:id="@+id/pv_read"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include layout="@layout/toolbar_read"/>
+
+        <include layout="@layout/layout_read_bottom"/>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

@@ -10,5 +10,10 @@
     <string name="bookcase">书架</string>
     <string name="explore">发现</string>
     <string name="mine">我的</string>
+    <string name="read_catalog">目录</string>
+    <string name="read_night">夜间</string>
+    <string name="read_setting">设置</string>
+    <string name="read_previous_chapter">上一章</string>
+    <string name="read_next_chapter">下一章</string>
 
 </resources>

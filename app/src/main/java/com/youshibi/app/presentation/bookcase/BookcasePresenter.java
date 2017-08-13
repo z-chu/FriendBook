@@ -15,6 +15,7 @@ import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
+import com.youshibi.app.util.DataConvertUtil;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
             getView().addOnItemTouchListener(new OnItemClickListener() {
                 @Override
                 public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    AppRouter.showBookDetailActivity(view.getContext(), ((BookTb) adapter.getItem(position)).getId());
+                    AppRouter.showBookDetailActivity(view.getContext(), DataConvertUtil.bookTb2Book((BookTb) adapter.getItem(position)));
                 }
             });
         }

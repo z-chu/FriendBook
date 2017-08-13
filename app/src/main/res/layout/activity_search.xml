@@ -9,6 +9,6 @@
 
     <include layout="@layout/view_state_bar"/>
 
-    <include layout="@layout/view_toolbar_search"/>
+    <include layout="@layout/toolbar_search"/>
 
 </LinearLayout>

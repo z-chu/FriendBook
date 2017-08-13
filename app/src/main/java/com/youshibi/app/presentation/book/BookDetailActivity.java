@@ -13,6 +13,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
@@ -136,6 +137,11 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     @Override
     public void setListAdapter(BaseQuickAdapter adapter) {
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showRead(String bookId, int sectionIndex) {
+        AppRouter.showReadActivity(this, bookId, book != null ? book.getName() : null, sectionIndex);
     }
 
     @Override

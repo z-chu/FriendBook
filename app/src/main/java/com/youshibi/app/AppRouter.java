@@ -82,6 +82,10 @@ public class AppRouter {
         context.startActivity(ReadActivity.newIntent(context, bookId, sectionIndex));
     }
 
+    public static void showReadActivity(Context context, String bookId, String bookName, int sectionIndex) {
+        context.startActivity(ReadActivity.newIntent(context, bookId, bookName, sectionIndex));
+    }
+
     public static void showSearchActivity(Context context) {
         showSearchActivity(context, null);
     }

@@ -80,7 +80,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppRouter.showReadActivity(mContext, bookId, item.getSectionIndex());
+                        getView().showRead(bookId,item.getSectionIndex());
                     }
                 });
             }
