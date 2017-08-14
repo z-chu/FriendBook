@@ -24,7 +24,7 @@ import java.util.List;
  * Created by newbiechen on 17-7-1.
  */
 
- class PageLoader {
+class PageLoader {
     private static final String TAG = "PageLoader";
 
     //当前页面的状态
@@ -116,10 +116,9 @@ import java.util.List;
     protected boolean isBookOpen = false;
 
 
-    public PageLoader(PageView pageView, PageLoaderAdapter adapter) {
+    public PageLoader(PageView pageView) {
         mPageView = pageView;
         mContext = pageView.getContext();
-        mAdapter = adapter;
         //初始化数据
         initData();
         //初始化画笔
@@ -128,7 +127,13 @@ import java.util.List;
         initPageView();
     }
 
+    public void setAdapter(PageLoaderAdapter adapter) {
+        this.mAdapter = adapter;
+    }
 
+    public PageLoaderAdapter getAdapter() {
+        return mAdapter;
+    }
 
     private void initData() {
         mSettingManager = ReadSettingManager.getInstance();
@@ -463,14 +468,6 @@ import java.util.List;
         }*/
     }
 
-    /*******************************abstract method***************************************/
-    //TODO 设置章节
-    //  public abstract void setChapterList(List<BookChapterBean> bookChapters);
-  /*  @Nullable
-    protected abstract List<TxtPage> loadPageList(int chapter);
-*/
-    //public abstract String getContent(int chapter);
-
 
     /***********************************default method***********************************************/
     //通过流获取Page的方法
@@ -538,7 +535,7 @@ import java.util.List;
             float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
             //根据状态不一样，数据不一样
             if (mStatus != STATUS_FINISH) {
-                if (mAdapter.getSectionCount() != 0) {
+                if (mAdapter!=null&&mAdapter.getSectionCount() != 0) {
                     canvas.drawText(mAdapter.getSectionName(mCurChapterPos)
                             , mMarginWidth, tipTop, mTipPaint);
                 }

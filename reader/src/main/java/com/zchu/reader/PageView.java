@@ -97,10 +97,15 @@ public class PageView extends View {
         mViewHeight = h;
         //重置图片的大小,由于w,h可能比原始的Bitmap更大，所以如果使用Bitmap.setWidth/Height()是会报错的。
         //所以最终还是创建Bitmap的方式。这种方式比较消耗性能，暂时没有找到更好的方法。
+
         setPageMode(mPageMode);
         //重置页面加载器的页面
-        if (mPageLoader != null) {
-            mPageLoader.setDisplaySize(w, h);
+        if (mPageLoader == null) {
+            mPageLoader = new PageLoader(this);
+        }
+        mPageLoader.setDisplaySize(w, h);
+        if (mPageLoader.getAdapter() != null) {
+            mPageLoader.openChapter();
         }
         //初始化完成
         isPrepare = true;
@@ -337,16 +342,20 @@ public class PageView extends View {
 
 
     public void setAdapter(PageLoaderAdapter adapter) {
-        this.mPageLoader = new PageLoader(this, adapter);
+        mPageLoader.setAdapter(adapter);
+        if (isPrepare) {
+            mPageLoader.openChapter();
+        }
+     /*   this.mPageLoader = new PageLoader(this, adapter);
         if (isPrepare) {
             mPageLoader.setDisplaySize(mViewWidth, mViewHeight);
         }
         post(new Runnable() {
             @Override
             public void run() {
-                mPageLoader.openChapter();
+
             }
-        });
+        });*/
     }
 
     public interface TouchListener {

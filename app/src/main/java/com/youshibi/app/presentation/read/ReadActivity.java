@@ -168,7 +168,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
             @Override
             public int getSectionCount() {
-                return 10;
+                return 1;
             }
 
             @Override
