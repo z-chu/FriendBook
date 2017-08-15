@@ -2,7 +2,6 @@ package com.youshibi.app.presentation.book;
 
 import android.view.View;
 
-import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
@@ -80,7 +79,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getView().showRead(bookId,item.getSectionIndex());
+                        getView().showRead(bookId, item.getSectionIndex());
                     }
                 });
             }

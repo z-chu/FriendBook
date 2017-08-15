@@ -14,7 +14,6 @@ import com.zchu.reader.utils.ScreenUtils;
 import com.zchu.reader.utils.StringUtils;
 import com.zchu.reader.utils.ToastUtils;
 
-import java.io.BufferedReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -452,6 +451,41 @@ class PageLoader {
         mPageView.drawCurPage(false);
     }
 
+    public void openChapter(int section) {
+        // mCurPageList = loadPageList(mCurChapterPos);
+        mCurChapterPos=section;
+        int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
+        if (pageCount > 0) {
+            List<TxtPage> txtPages = new ArrayList<>();
+            for (int i = 0; i < pageCount; i++) {
+                txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, mPageProperty)));
+            }
+            mCurPageList = txtPages;
+        }
+        //进行预加载
+        preLoadNextChapter();
+        //加载完成
+        mStatus = STATUS_FINISH;
+        //获取制定页面
+        if (!isBookOpen) {
+            isBookOpen = true;
+            //TODO 可能会出现当前页的大小大于记录页的情况。
+           /* int position = mBookRecord.getPagePos();
+            if (position >= mCurPageList.size()) {
+                position = mCurPageList.size() - 1;
+            }
+            mCurPage = getCurPage(position);*/
+            mCurPage = getCurPage(0);
+            if (mPageChangeListener != null) {
+                mPageChangeListener.onChapterChange(mCurChapterPos);
+            }
+        } else {
+            mCurPage = getCurPage(0);
+        }
+
+        mPageView.drawCurPage(false);
+    }
+
     public void chapterError() {
         //加载错误
         mStatus = STATUS_ERROR;
@@ -469,48 +503,7 @@ class PageLoader {
     }
 
 
-    /***********************************default method***********************************************/
-    //通过流获取Page的方法
-    public List<TxtPage> loadPages(String chapterTitle, BufferedReader br) {
-        List<TxtPage> pages = PageHelper
-                .loadPages(br, mTextPaint, mVisibleHeight, mVisibleWidth, mIntervalSize, mParagraphSize);
 
-        //可能出现内容为空的情况
-        if (pages.size() == 0) {
-            TxtPage page = new TxtPage();
-            page.lines = new ArrayList<>(1);
-            pages.add(page);
-
-            mStatus = STATUS_EMPTY;
-        }
-
-        //提示章节数量改变了。
-        if (mPageChangeListener != null) {
-            mPageChangeListener.onPageCountChange(pages.size());
-        }
-        return pages;
-    }
-
-    //通过流获取Page的方法
-    public List<TxtPage> loadPages(String source) {
-        List<TxtPage> pages = PageHelper
-                .loadPages(source, mTextPaint, mVisibleHeight, mVisibleWidth, mIntervalSize, mParagraphSize);
-
-        //可能出现内容为空的情况
-        if (pages.size() == 0) {
-            TxtPage page = new TxtPage();
-            page.lines = new ArrayList<>(1);
-            pages.add(page);
-
-            mStatus = STATUS_EMPTY;
-        }
-
-        //提示章节数量改变了。
-        if (mPageChangeListener != null) {
-            mPageChangeListener.onPageCountChange(pages.size());
-        }
-        return pages;
-    }
 
     void onDraw(Bitmap bitmap, boolean isUpdate) {
         //如果是上下滑动
@@ -722,7 +715,7 @@ class PageLoader {
     //加载上一章
     boolean prevChapter() {
         //判断是否上一章节为空
-        if (mCurChapterPos - 1 < 0) {
+        if (mCurChapterPos - 1 < 1) {
             ToastUtils.showToast(mContext, "已经没有上一章了");
             return false;
         }
@@ -968,15 +961,5 @@ class PageLoader {
         return true;
     }
 
-    /*****************************************interface*****************************************/
 
-    public interface OnPageChangeListener {
-        void onChapterChange(int pos);
-
-        //页码改变
-        void onPageCountChange(int count);
-
-        //页面改变
-        void onPageChange(int pos);
-    }
 }

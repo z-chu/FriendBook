@@ -75,8 +75,13 @@ public class PageView extends View {
 
     //点击监听
     private TouchListener mTouchListener;
+
+    private OnPageChangeListener mPageChangeListener;
+
     //内容加载器
     private PageLoader mPageLoader;
+
+    private int mStartSection=-1;
 
     public PageView(Context context) {
         this(context, null);
@@ -102,10 +107,11 @@ public class PageView extends View {
         //重置页面加载器的页面
         if (mPageLoader == null) {
             mPageLoader = new PageLoader(this);
+            mPageLoader.setOnPageChangeListener(mPageChangeListener);
         }
         mPageLoader.setDisplaySize(w, h);
-        if (mPageLoader.getAdapter() != null) {
-            mPageLoader.openChapter();
+        if (mPageLoader.getAdapter() != null&&mStartSection!=-1) {
+            mPageLoader.openChapter(mStartSection);
         }
         //初始化完成
         isPrepare = true;
@@ -343,9 +349,6 @@ public class PageView extends View {
 
     public void setAdapter(PageLoaderAdapter adapter) {
         mPageLoader.setAdapter(adapter);
-        if (isPrepare) {
-            mPageLoader.openChapter();
-        }
      /*   this.mPageLoader = new PageLoader(this, adapter);
         if (isPrepare) {
             mPageLoader.setDisplaySize(mViewWidth, mViewHeight);
@@ -356,6 +359,20 @@ public class PageView extends View {
 
             }
         });*/
+    }
+
+    public void openSection(int section){
+        mStartSection=section;
+        if(isPrepare){
+            mPageLoader.openChapter(section);
+        }
+    }
+
+    public void setOnPageChangeListener(OnPageChangeListener listener) {
+        this.mPageChangeListener = listener;
+        if (mPageLoader != null) {
+            mPageLoader.setOnPageChangeListener(listener);
+        }
     }
 
     public interface TouchListener {

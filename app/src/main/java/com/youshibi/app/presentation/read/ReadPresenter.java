@@ -15,12 +15,13 @@ import rx.schedulers.Schedulers;
 
 public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements ReadContract.Presenter {
 
-    public String bookId;
-    public int sectionIndex;
+    public String mBookId;
+    public int mSectionIndex;
+    public ReadAdapter mReadAdapter;
 
     public ReadPresenter(String bookId, int sectionIndex) {
-        this.bookId = bookId;
-        this.sectionIndex = sectionIndex;
+        this.mBookId = bookId;
+        this.mSectionIndex = sectionIndex;
 
     }
 
@@ -33,9 +34,17 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     @Override
     public void loadData() {
         getView().showLoading();
+        doLoadData(mSectionIndex);
+        doLoadData(mSectionIndex + 1);
+        if (mSectionIndex != 0) {
+            doLoadData(mSectionIndex - 1);
+        }
+    }
+
+    private void doLoadData(final int sectionIndex) {
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookSectionContent(bookId, sectionIndex)
+                .getBookSectionContent(mBookId, sectionIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<BookSectionContent>() {
@@ -51,11 +60,42 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                     @Override
                     public void onNext(BookSectionContent bookSectionContent) {
                         if (isViewAttached()) {
-                            getView().setData(bookSectionContent);
-                            getView().showContent();
+                            if (mReadAdapter == null) {
+                                mReadAdapter = new ReadAdapter();
+                                mReadAdapter.addData(sectionIndex, bookSectionContent);
+                                getView().setPageAdapter(mReadAdapter);
+                                getView().openSection(sectionIndex);
+                            } else {
+                                mReadAdapter.addData(sectionIndex, bookSectionContent);
+                            }
+
                         }
                     }
                 });
         addSubscription2Detach(subscribe);
+    }
+
+    @Override
+    public void onChapterChange(int pos) {
+        this.mSectionIndex = pos;
+        if (!mReadAdapter.hasSection(mSectionIndex + 1)) {
+            doLoadData(mSectionIndex + 1);
+        }
+        if (mSectionIndex != 0) {
+            if (!mReadAdapter.hasSection(mSectionIndex - 1)) {
+                doLoadData(mSectionIndex - 1);
+            }
+        }
+
+    }
+
+    @Override
+    public void onPageCountChange(int count) {
+
+    }
+
+    @Override
+    public void onPageChange(int pos) {
+
     }
 }

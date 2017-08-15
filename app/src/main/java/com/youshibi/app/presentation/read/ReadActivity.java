@@ -18,6 +18,7 @@ import com.youshibi.app.mvp.MvpActivity;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.SystemBarUtils;
+import com.zchu.reader.PageLoaderAdapter;
 import com.zchu.reader.PageView;
 import com.zchu.reader.ReadSettingManager;
 import com.zchu.reader.StringAdapter;
@@ -58,11 +59,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         return intent;
     }
 
-    public static Intent newIntent(Context context, String bookId,String bookName, int sectionIndex) {
+    public static Intent newIntent(Context context, String bookId, String bookName, int sectionIndex) {
         Intent intent = new Intent(context, ReadActivity.class);
         intent
                 .putExtra(K_EXTRA_BOOK_ID, bookId)
-                .putExtra(K_EXTRA_BOOK_NAME,bookName)
+                .putExtra(K_EXTRA_BOOK_NAME, bookName)
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
@@ -74,7 +75,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         setContentView(R.layout.activity_read);
         String bookName = getIntent().getStringExtra(K_EXTRA_BOOK_NAME);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true,
-                bookName==null?getString(R.string.app_name):bookName);
+                bookName == null ? getString(R.string.app_name) : bookName);
         ReadSettingManager.init(this);
         readView = (PageView) findViewById(R.id.pv_read);
         appBar = (AppBarLayout) findViewById(R.id.appbar);
@@ -176,6 +177,18 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 return data.getSectionName();
             }
         });
+
+    }
+
+    @Override
+    public void setPageAdapter(PageLoaderAdapter adapter) {
+        readView.setAdapter(adapter);
+        readView.setOnPageChangeListener(getPresenter());
+    }
+
+    @Override
+    public void openSection(int section) {
+        readView.openSection(section);
     }
 
     /**
