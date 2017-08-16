@@ -21,7 +21,6 @@ import com.youshibi.app.util.SystemBarUtils;
 import com.zchu.reader.PageLoaderAdapter;
 import com.zchu.reader.PageView;
 import com.zchu.reader.ReadSettingManager;
-import com.zchu.reader.StringAdapter;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -158,27 +157,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         );
     }
 
-    @Override
-    public void setData(final BookSectionContent data) {
-        this.mData = data;
-        readView.setAdapter(new StringAdapter() {
-            @Override
-            protected String getPageSource(int section) {
-                return data.getContent();
-            }
 
-            @Override
-            public int getSectionCount() {
-                return 1;
-            }
-
-            @Override
-            public String getSectionName(int section) {
-                return data.getSectionName();
-            }
-        });
-
-    }
 
     @Override
     public void setPageAdapter(PageLoaderAdapter adapter) {

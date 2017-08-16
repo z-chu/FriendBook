@@ -453,7 +453,7 @@ class PageLoader {
 
     public void openChapter(int section) {
         // mCurPageList = loadPageList(mCurChapterPos);
-        mCurChapterPos=section;
+        mCurChapterPos = section;
         int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
         if (pageCount > 0) {
             List<TxtPage> txtPages = new ArrayList<>();
@@ -503,8 +503,6 @@ class PageLoader {
     }
 
 
-
-
     void onDraw(Bitmap bitmap, boolean isUpdate) {
         //如果是上下滑动
         drawBackground(mPageView.getBgBitmap(), isUpdate);
@@ -528,7 +526,7 @@ class PageLoader {
             float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
             //根据状态不一样，数据不一样
             if (mStatus != STATUS_FINISH) {
-                if (mAdapter!=null&&mAdapter.getSectionCount() != 0) {
+                if (mAdapter != null && mAdapter.getSectionCount() != 0) {
                     canvas.drawText(mAdapter.getSectionName(mCurChapterPos)
                             , mMarginWidth, tipTop, mTipPaint);
                 }
@@ -715,7 +713,7 @@ class PageLoader {
     //加载上一章
     boolean prevChapter() {
         //判断是否上一章节为空
-        if (mCurChapterPos - 1 < 1) {
+        if (!mAdapter.hasPreviousSection(mCurChapterPos)) {
             ToastUtils.showToast(mContext, "已经没有上一章了");
             return false;
         }
@@ -789,7 +787,7 @@ class PageLoader {
 
     boolean nextChapter() {
         //加载一章
-        if (mCurChapterPos + 1 >= mAdapter.getSectionCount()) {
+        if (!mAdapter.hasNextSection(mCurChapterPos)) {
             ToastUtils.showToast(mContext, "已经没有下一章了");
             return false;
         }

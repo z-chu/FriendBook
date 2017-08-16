@@ -36,7 +36,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         getView().showLoading();
         doLoadData(mSectionIndex);
         doLoadData(mSectionIndex + 1);
-        if (mSectionIndex != 0) {
+        if (mSectionIndex > 1) {
             doLoadData(mSectionIndex - 1);
         }
     }
@@ -81,7 +81,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         if (!mReadAdapter.hasSection(mSectionIndex + 1)) {
             doLoadData(mSectionIndex + 1);
         }
-        if (mSectionIndex != 0) {
+        if (mSectionIndex > 1) {
             if (!mReadAdapter.hasSection(mSectionIndex - 1)) {
                 doLoadData(mSectionIndex - 1);
             }
