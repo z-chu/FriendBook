@@ -45,6 +45,8 @@
                 android:layout_height="match_parent"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+
                 android:scrollbars="vertical"/>
 
             <com.youshibi.app.ui.widget.LoadErrorView

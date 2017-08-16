@@ -119,6 +119,8 @@
     <style name="Read.BottomMenu">
         <item name="android:textColor">@color/read_menu_text</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/read_bg_bottom_menu</item>
     </style>
 
     <style name="Read.BottomMenu.IconButton">

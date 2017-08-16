@@ -6,10 +6,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.youshibi.app.R;
@@ -29,17 +33,26 @@ import static android.view.View.VISIBLE;
  * Created by Chu on 2017/5/28.
  */
 
-public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements ReadContract.View {
+public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements ReadContract.View, View.OnClickListener {
 
     private static final String K_EXTRA_BOOK_ID = "book_id";
     private static final String K_EXTRA_BOOK_NAME = "book_name";
     private static final String K_EXTRA_SECTION_INDEX = "section_index";
 
+    private DrawerLayout readDrawer;
+    private LinearLayout readSide;
+
+
 
     private PageView readView;
     private AppBarLayout appBar;
     private View readBottom;
-
+    private SeekBar readSbChapterProgress;
+    private TextView readTvPreChapter;
+    private TextView readTvNextChapter;
+    private TextView readTvCategory;
+    private TextView readTvNightMode;
+    private TextView readTvSetting;
     private Animation mTopInAnim;
     private Animation mTopOutAnim;
     private Animation mBottomInAnim;
@@ -76,10 +89,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         ToolbarHelper.initToolbar(this, R.id.toolbar, true,
                 bookName == null ? getString(R.string.app_name) : bookName);
         ReadSettingManager.init(this);
-        readView = (PageView) findViewById(R.id.pv_read);
-        appBar = (AppBarLayout) findViewById(R.id.appbar);
-        readBottom = findViewById(R.id.read_bottom);
-
+        findView();
+        bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
         if (Build.VERSION.SDK_INT >= 19) {
             appBar.setPadding(0, DisplayUtil.getStateBarHeight(this), 0, 0);
         }
@@ -126,6 +137,21 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     }
 
+    private void findView() {
+        readDrawer = (DrawerLayout) findViewById(R.id.read_drawer);
+        readSide = (LinearLayout) findViewById(R.id.read_side);
+        readView = (PageView) findViewById(R.id.pv_read);
+        appBar = (AppBarLayout) findViewById(R.id.appbar);
+        readBottom = findViewById(R.id.read_bottom);
+        readTvPreChapter = (TextView) findViewById(R.id.read_tv_pre_chapter);
+        readSbChapterProgress = (SeekBar) findViewById(R.id.read_sb_chapter_progress);
+        readTvNextChapter = (TextView) findViewById(R.id.read_tv_next_chapter);
+        readTvCategory = (TextView) findViewById(R.id.read_tv_category);
+        readTvNightMode = (TextView) findViewById(R.id.read_tv_night_mode);
+        readTvSetting = (TextView) findViewById(R.id.read_tv_setting);
+    }
+
+
     @Override
     protected void initImmersionBar(ImmersionBar immersionBar) {
         immersionBar.init();
@@ -156,7 +182,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 getIntent().getIntExtra(K_EXTRA_SECTION_INDEX, 0)
         );
     }
-
 
 
     @Override
@@ -239,6 +264,28 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         SystemBarUtils.hideStableStatusBar(this);
         if (isFullScreen) {
             SystemBarUtils.hideStableNavBar(this);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.read_tv_pre_chapter:
+
+                break;
+            case R.id.read_tv_next_chapter:
+
+                break;
+            case R.id.read_tv_category:
+                readDrawer.openDrawer(readSide);
+                break;
+            case R.id.read_tv_night_mode:
+
+                break;
+            case R.id.read_tv_setting:
+
+                break;
+
         }
     }
 }
