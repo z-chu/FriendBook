@@ -6,7 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,10 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youshibi.app.R;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.mvp.MvpActivity;
+import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.SystemBarUtils;
@@ -42,8 +47,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private DrawerLayout readDrawer;
     private LinearLayout readSide;
 
-
-
+    private RecyclerView readRvSection;
     private PageView readView;
     private AppBarLayout appBar;
     private View readBottom;
@@ -91,6 +95,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         ReadSettingManager.init(this);
         findView();
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
+        readRvSection.setLayoutManager(new LinearLayoutManager(this));
+        readRvSection.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+                .color(ContextCompat.getColor(this, R.color.colorDivider))
+                .thickness(1)
+                .create());
         if (Build.VERSION.SDK_INT >= 19) {
             appBar.setPadding(0, DisplayUtil.getStateBarHeight(this), 0, 0);
         }
@@ -140,6 +149,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private void findView() {
         readDrawer = (DrawerLayout) findViewById(R.id.read_drawer);
         readSide = (LinearLayout) findViewById(R.id.read_side);
+        readRvSection = (RecyclerView) findViewById(R.id.read_rv_section);
         readView = (PageView) findViewById(R.id.pv_read);
         appBar = (AppBarLayout) findViewById(R.id.appbar);
         readBottom = findViewById(R.id.read_bottom);
@@ -191,8 +201,14 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
     @Override
+    public void setSectionListAdapter(BaseQuickAdapter adapter) {
+        readRvSection.setAdapter(adapter);
+    }
+
+    @Override
     public void openSection(int section) {
         readView.openSection(section);
+        readDrawer.closeDrawers();
     }
 
     /**

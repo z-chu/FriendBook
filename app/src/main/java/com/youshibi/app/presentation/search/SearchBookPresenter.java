@@ -24,7 +24,7 @@ import rx.schedulers.Schedulers;
  * Created by Chu on 2016/12/3.
  */
 
- class SearchBookPresenter extends BaseListPresenter<BaseListContract.View, Book> {
+class SearchBookPresenter extends BaseListPresenter<BaseListContract.View, Book> {
     private String keyword;
     private int count;
 
@@ -39,6 +39,8 @@ import rx.schedulers.Schedulers;
             getView().addOnItemTouchListener(new OnItemClickListener() {
                 @Override
                 public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                   /* Book book = (Book) adapter.getItem(position);
+                    AppRouter.showReadActivity(view.getContext(), book.getId(), book.getName(), 0);*/
                     AppRouter.showBookDetailActivity(view.getContext(), ((Book) adapter.getItem(position)));
                 }
             });

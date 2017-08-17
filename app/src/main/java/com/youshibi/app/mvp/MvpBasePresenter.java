@@ -3,6 +3,8 @@ package com.youshibi.app.mvp;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 
+import com.youshibi.app.AppException;
+
 import java.lang.ref.WeakReference;
 
 
@@ -24,7 +26,8 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     @UiThread
     @Override
-    public void start(){}
+    public void start() {
+    }
 
     @UiThread
     @Nullable
@@ -60,5 +63,9 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
         if (isViewAttached()) {
             detachView();
         }
+    }
+
+    protected String handleException(Throwable throwable) {
+        return AppException.getExceptionMessage(throwable);
     }
 }
