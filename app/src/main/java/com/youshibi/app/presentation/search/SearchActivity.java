@@ -84,6 +84,16 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 .init();
     }
 
+    @Override
+    protected void onSlideStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onSlideCancel() {
+
+    }
+
     private void findView() {
         ivArrowBack = (ImageView) findViewById(R.id.iv_arrow_back);
         ivActionSearch = (ImageView) findViewById(R.id.iv_action_search);

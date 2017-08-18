@@ -117,7 +117,8 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
     @Override
     public void setAdapter(BaseQuickAdapter adapter) {
         loadMoreView = new LoadMoreView(getActivity());
-        loadMoreView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(getContext(), 64)));
+        loadMoreView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                getResources().getDimensionPixelSize(R.dimen.load_more_height)));
         loadMoreView.setOnLoadMoreRetryListener(new LoadMoreView.OnLoadMoreRetryListener() {
             @Override
             public void onLoadMoreRetry(View view) {

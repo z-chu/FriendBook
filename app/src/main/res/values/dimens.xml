@@ -12,4 +12,5 @@
 
     <dimen name="tab_height">40dp</dimen>
     <dimen name="elevation_app_bar">0dp</dimen>
+    <dimen name="load_more_height">48dp</dimen>
 </resources>

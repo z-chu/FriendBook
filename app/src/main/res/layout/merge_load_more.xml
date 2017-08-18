@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/footer"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="@dimen/load_more_height"
     >
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.LoadMore" />
+        style="@style/LoadingProgressBar.LoadMore" />
 
     <TextView
         android:id="@id/error_view"

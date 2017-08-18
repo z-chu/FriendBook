@@ -60,12 +60,12 @@ public class BaseActivity extends BaseSuperActivity {
 
                         @Override
                         public void onSlideOpened() {
-                            getWindow().setBackgroundDrawable(getDefaultWindowBackground());
+                            BaseActivity.this.onSlideCancel();
                         }
 
                         @Override
                         public void onSlideClosed() {
-                            InputMethodUtils.hideSoftInput(BaseActivity.this);
+                            BaseActivity.this.onSlideClosed();
                         }
                     })
                     .build());
@@ -81,6 +81,14 @@ public class BaseActivity extends BaseSuperActivity {
                 getWindow().setBackgroundDrawable(getDefaultWindowBackground());
             }
         }
+    }
+
+    public void onSlideCancel(){
+        getWindow().setBackgroundDrawable(getDefaultWindowBackground());
+    }
+
+    public void onSlideClosed(){
+        InputMethodUtils.hideSoftInput(BaseActivity.this);
     }
 
     private Drawable windowBackground = null;

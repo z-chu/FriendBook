@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -39,6 +40,11 @@ import static android.view.View.VISIBLE;
  */
 
 public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements ReadContract.View, View.OnClickListener {
+
+    //适配5.0 以下手机可以正常显示vector图片
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private static final String K_EXTRA_BOOK_ID = "book_id";
     private static final String K_EXTRA_BOOK_NAME = "book_name";
@@ -83,6 +89,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
+
 
 
     @Override

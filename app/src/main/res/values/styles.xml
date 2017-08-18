@@ -8,9 +8,9 @@
         <item name="android:listDivider">@drawable/bg_list_divider</item>
     </style>
 
-    <style name="AppBaseTheme.Translucent"/>
+    <style name="AppBaseTheme.Translucent" />
 
-    <style name="AppBaseTheme.Translucent.StateBar"/>
+    <style name="AppBaseTheme.Translucent.StateBar" />
 
     <!-- 启动界面style -->
     <style name="AppBaseTheme.Launcher" parent="AppBaseTheme.Translucent">
@@ -51,13 +51,6 @@
     </style>
 
 
-    <style name="Widget.MaterialProgressBar.ProgressBar.LoadMore">
-        <item name="android:minWidth">32dp</item>
-        <item name="android:maxWidth">32dp</item>
-        <item name="android:minHeight">32dp</item>
-        <item name="android:maxHeight">32dp</item>
-    </style>
-
     <style name="NoActivityAnimation">
         <item name="android:activityOpenEnterAnimation">@null</item>
         <item name="android:activityOpenExitAnimation">@null</item>
@@ -80,17 +73,24 @@
     </style>
 
     <style name="LoadingProgressBar" parent="Widget.MaterialProgressBar.ProgressBar">
-        <item name="android:minWidth">20dp</item>
-        <item name="android:maxWidth">20dp</item>
-        <item name="android:minHeight">20dp</item>
-        <item name="android:maxHeight">20dp</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:maxWidth">32dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
     </style>
 
-    <style name="NB.Theme" parent="AppTheme"/>
+    <style name="LoadingProgressBar.LoadMore">
+        <item name="android:minWidth">24dp</item>
+        <item name="android:maxWidth">24dp</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
+    </style>
 
-    <style name="NB.Theme.TextAppearance"/>
+    <style name="NB.Theme" parent="AppTheme" />
 
-    <style name="NB.Theme.TextAppearance.Read"/>
+    <style name="NB.Theme.TextAppearance" />
+
+    <style name="NB.Theme.TextAppearance.Read" />
 
     <style name="NB.Theme.TextAppearance.Read.TopMenu">
         <item name="android:layout_width">50dp</item>
@@ -105,7 +105,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Read"/>
+    <style name="Read" />
 
     <style name="Read.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="actionMenuTextColor">@color/read_text_primary</item>
@@ -142,15 +142,14 @@
     </style>
 
 
-    <style name="NB.Theme.TextAppearance.Read.BottomMenu.Button"
-           parent="NB.Theme.TextAppearance.Read.BottomMenu">
+    <style name="NB.Theme.TextAppearance.Read.BottomMenu.Button" parent="NB.Theme.TextAppearance.Read.BottomMenu">
         <item name="android:gravity">center_horizontal|bottom</item>
         <item name="android:layout_width">68dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
 
-    <style name="NB.Theme.TextAppearance.File"/>
+    <style name="NB.Theme.TextAppearance.File" />
 
     <style name="NB.Theme.TextAppearance.File.Tag">
         <item name="android:layout_width">38dp</item>

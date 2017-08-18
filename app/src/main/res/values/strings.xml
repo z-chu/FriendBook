@@ -2,7 +2,7 @@
     <string name="app_name">FriendBook</string>
 
     <string name="search">搜索</string>
-    <string name="list_the_end">~ 到底儿了 ~</string>
+    <string name="list_the_end">没有更多数据</string>
     <string name="click_retry">点击重试</string>
     <string name="no">开启</string>
     <string name="off">关闭</string>
