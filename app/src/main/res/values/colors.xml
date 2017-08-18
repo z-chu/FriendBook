@@ -39,4 +39,10 @@
     <color name="light_gray">#99a4b7</color>
     <color name="bg_gray">#e1e1e1</color>
     <color name="grey">#676767</color>
+
+    <!--其他抽取-->
+    <color name="read_text_primary">@color/md_blue_grey_100</color>
+    <color name="read_menu_text">@color/md_blue_grey_400</color>
+    <color name="read_menu_container_bg">#fa263238</color>
+
 </resources>

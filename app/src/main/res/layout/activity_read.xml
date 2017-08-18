@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/read_drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGrounding"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <com.youshibi.app.ui.widget.LoadErrorView
-        android:id="@id/load_error_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:contentLayout="@layout/layout_read_content"
-        app:errorLayout="@layout/view_error"
-        app:loadingLayout="@layout/view_loading" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <com.zchu.reader.PageView
+            android:id="@+id/pv_read"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include layout="@layout/toolbar_read"/>
+
+        <include layout="@layout/layout_read_bottom"/>
+
+    </FrameLayout>
+
+    <!--侧滑栏-->
+    <LinearLayout
+        android:id="@+id/read_side"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/read_rv_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

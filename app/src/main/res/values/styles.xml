@@ -17,7 +17,7 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme.Translucent.StateBar">
+    <style name="AppTheme" parent="AppBaseTheme">
         <!--  -->
     </style>
 
@@ -35,8 +35,14 @@
 
     <!-- 如果界面需要侧滑必须设置这个主题 -->
     <style name="AppTheme.Slide">
+        <!--<item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="AppTheme.Translucent">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+
     </style>
 
 
@@ -71,6 +77,88 @@
         <item name="android:windowAnimationStyle">@style/NoActivityAnimation</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="LoadingProgressBar" parent="Widget.MaterialProgressBar.ProgressBar">
+        <item name="android:minWidth">20dp</item>
+        <item name="android:maxWidth">20dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
+
+    <style name="NB.Theme" parent="AppTheme"/>
+
+    <style name="NB.Theme.TextAppearance"/>
+
+    <style name="NB.Theme.TextAppearance.Read"/>
+
+    <style name="NB.Theme.TextAppearance.Read.TopMenu">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/nb.read.menu.text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="NB.Theme.TextAppearance.Read.BottomMenu">
+        <item name="android:textColor">@color/nb.read.menu.text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Read"/>
+
+    <style name="Read.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="actionMenuTextColor">@color/read_text_primary</item>
+        <item name="colorControlNormal">@color/read_text_primary</item>
+    </style>
+
+    <style name="Read.TextAppearance.ActionBar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/read_text_primary</item>
+    </style>
+
+    <style name="Read.BottomMenu">
+        <item name="android:textColor">@color/read_menu_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/read_bg_bottom_menu</item>
+    </style>
+
+    <style name="Read.BottomMenu.IconButton">
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:layout_width">68dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="Read.BottomMenu.Button">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10.0dp</item>
+        <item name="android:paddingRight">10.0dp</item>
+        <item name="android:paddingTop">18.0dp</item>
+        <item name="android:paddingBottom">18.0dp</item>
+    </style>
+
+
+    <style name="NB.Theme.TextAppearance.Read.BottomMenu.Button"
+           parent="NB.Theme.TextAppearance.Read.BottomMenu">
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:layout_width">68dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="NB.Theme.TextAppearance.File"/>
+
+    <style name="NB.Theme.TextAppearance.File.Tag">
+        <item name="android:layout_width">38dp</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

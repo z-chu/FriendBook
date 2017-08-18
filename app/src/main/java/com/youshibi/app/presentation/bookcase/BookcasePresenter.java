@@ -37,7 +37,9 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
             getView().addOnItemTouchListener(new OnItemClickListener() {
                 @Override
                 public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    AppRouter.showBookDetailActivity(view.getContext(), ((BookTb) adapter.getItem(position)).getId());
+                    BookTb bookTb = (BookTb) adapter.getItem(position);
+                    AppRouter.showReadActivity(view.getContext(),bookTb.getId(),bookTb.getName(),0);
+                   // AppRouter.showBookDetailActivity(view.getContext(), DataConvertUtil.bookTb2Book((BookTb) adapter.getItem(position)));
                 }
             });
         }

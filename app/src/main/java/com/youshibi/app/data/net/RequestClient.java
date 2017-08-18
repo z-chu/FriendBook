@@ -3,6 +3,7 @@ package com.youshibi.app.data.net;
 
 import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.net.converter.GsonConverterFactory;
+import com.youshibi.app.data.net.converter.NullOnEmptyConverterFactory;
 import com.youshibi.app.data.net.interceptor.LoggingInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -17,7 +18,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 public class RequestClient {
 
 
-
     private static volatile ServerAPI sServerAPI;//单例模式
 
     public static ServerAPI getServerAPI() {
@@ -26,13 +26,13 @@ public class RequestClient {
                 if (sServerAPI == null) {
                     OkHttpClient.Builder clientBuilder = getClientBuilder();
                     //配置日志拦截器
-                    if(BuildConfig.DEBUG) {
+                    if (BuildConfig.DEBUG) {
                         clientBuilder
                                 .interceptors()
                                 .add(new LoggingInterceptor());
                     }
 
-                    sServerAPI = getRetrofitBuilder(sServerAPI.BASE_URL, clientBuilder.build()).build().create(ServerAPI.class);
+                    sServerAPI = getRetrofitBuilder(ServerAPI.BASE_URL, clientBuilder.build()).build().create(ServerAPI.class);
                 }
             }
         }
@@ -48,6 +48,7 @@ public class RequestClient {
     private static Retrofit.Builder getRetrofitBuilder(String url, OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(url)
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client);

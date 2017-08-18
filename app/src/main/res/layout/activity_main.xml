@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".presentation.main.MainActivity">
 
 
     <FrameLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"
@@ -20,5 +20,5 @@
         android:layout_gravity="bottom"
         app:bb_behavior="shy"
         app:bb_longPressHintsEnabled="true"
-        app:bb_tabXmlResource="@xml/bottom_tab_main" />
+        app:bb_tabXmlResource="@xml/bottom_tab_main"/>
 </android.support.design.widget.CoordinatorLayout>

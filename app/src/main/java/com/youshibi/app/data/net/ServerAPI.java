@@ -19,7 +19,7 @@ import rx.Observable;
  */
 
 public interface ServerAPI {
-    String BASE_URL = "http://api.laiyoushu.com";
+    String BASE_URL = "http://115.159.214.196:8099";
 
     /**
      * 获取所有小说

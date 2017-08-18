@@ -14,6 +14,8 @@ public interface BookDetailContract {
 
         void setListAdapter(BaseQuickAdapter adapter);
 
+        void showRead(String bookId, int sectionIndex);
+
     }
 
     interface Presenter extends MvpPresenter<View> {
