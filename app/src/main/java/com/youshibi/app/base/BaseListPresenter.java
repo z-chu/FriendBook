@@ -104,9 +104,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
         }
     }
 
-    /**
-     * 当试图去加载下一页时，如果还有下一页，则调用
-     */
+
     protected void onLoadMoreDataError(Throwable e) {
         Logger.e(e);
         if (isViewAttached()) {
