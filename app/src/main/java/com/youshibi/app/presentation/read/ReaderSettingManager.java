@@ -11,22 +11,22 @@ import com.zchu.reader.PageView;
 
 public class ReaderSettingManager {
     /*************实在想不出什么好记的命名方式。。******************/
-    public static final int READ_BG_DEFAULT = 0;
+    private static final int READ_BG_DEFAULT = 0;
     public static final int READ_BG_1 = 1;
     public static final int READ_BG_2 = 2;
     public static final int READ_BG_3 = 3;
     public static final int READ_BG_4 = 4;
     public static final int NIGHT_MODE = 5;
 
-    public static final String SHARED_READ_BG = "shared_read_bg";
-    public static final String SHARED_READ_BRIGHTNESS = "shared_read_brightness";
-    public static final String SHARED_READ_IS_BRIGHTNESS_AUTO = "shared_read_is_brightness_auto";
-    public static final String SHARED_READ_TEXT_SIZE = "shared_read_text_size";
-    public static final String SHARED_READ_IS_TEXT_DEFAULT = "shared_read_text_default";
-    public static final String SHARED_READ_PAGE_MODE = "shared_read_mode";
-    public static final String SHARED_READ_NIGHT_MODE = "shared_night_mode";
-    public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
-    public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
+    private static final String SHARED_READ_BG = "shared_read_bg";
+    private static final String SHARED_READ_BRIGHTNESS = "shared_read_brightness";
+    private static final String SHARED_READ_IS_BRIGHTNESS_AUTO = "shared_read_is_brightness_auto";
+    private static final String SHARED_READ_TEXT_SIZE = "shared_read_text_size";
+    private static final String SHARED_READ_IS_TEXT_DEFAULT = "shared_read_text_default";
+    private static final String SHARED_READ_PAGE_MODE = "shared_read_mode";
+    private static final String SHARED_READ_NIGHT_MODE = "shared_night_mode";
+    private static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
+    private static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
 
     private static volatile ReaderSettingManager sInstance;
     private static Context sContext;

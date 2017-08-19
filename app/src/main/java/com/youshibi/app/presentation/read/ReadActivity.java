@@ -316,7 +316,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     private void openReadSetting(Context context) {
         if (mReadSettingDialog == null) {
-            mReadSettingDialog = new BottomSheetDialog(context);
+            mReadSettingDialog = new BottomSheetDialog(context,R.style.Read_Setting_Dialog);
             mReadSettingDialog.setContentView(R.layout.bottom_sheet_read_setting);
         }
         mReadSettingDialog.show();
