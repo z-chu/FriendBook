@@ -4,16 +4,27 @@
     <string name="search">搜索</string>
     <string name="list_the_end">没有更多数据</string>
     <string name="click_retry">点击重试</string>
+    <string name="load_more_failure">加载失败，点击重试</string>
     <string name="no">开启</string>
     <string name="off">关闭</string>
     <string name="add">添加</string>
     <string name="bookcase">书架</string>
     <string name="explore">发现</string>
     <string name="mine">我的</string>
+
+    <!-- read -->
     <string name="read_catalog">目录</string>
     <string name="read_night">夜间</string>
     <string name="read_setting">设置</string>
     <string name="read_previous_chapter">上一章</string>
     <string name="read_next_chapter">下一章</string>
+    <string name="read_setting_lightness_system">系统</string>
+    <string name="read_setting_font_size_minus">A-</string>
+    <string name="read_setting_font_size_plus">A+</string>
+    <string name="read_setting_font_size_default">默认</string>
+    <string name="read_setting_font_setting">字体</string>
+    <string name="read_setting_flip_over_cover">覆盖</string>
+    <string name="read_setting_flip_over_simulation">仿真</string>
+    <string name="read_setting_flip_over_none">无</string>
 
 </resources>

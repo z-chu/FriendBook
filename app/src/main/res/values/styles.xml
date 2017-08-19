@@ -8,9 +8,9 @@
         <item name="android:listDivider">@drawable/bg_list_divider</item>
     </style>
 
-    <style name="AppBaseTheme.Translucent" />
+    <style name="AppBaseTheme.Translucent"/>
 
-    <style name="AppBaseTheme.Translucent.StateBar" />
+    <style name="AppBaseTheme.Translucent.StateBar"/>
 
     <!-- 启动界面style -->
     <style name="AppBaseTheme.Launcher" parent="AppBaseTheme.Translucent">
@@ -86,11 +86,11 @@
         <item name="android:maxHeight">24dp</item>
     </style>
 
-    <style name="NB.Theme" parent="AppTheme" />
+    <style name="NB.Theme" parent="AppTheme"/>
 
-    <style name="NB.Theme.TextAppearance" />
+    <style name="NB.Theme.TextAppearance"/>
 
-    <style name="NB.Theme.TextAppearance.Read" />
+    <style name="NB.Theme.TextAppearance.Read"/>
 
     <style name="NB.Theme.TextAppearance.Read.TopMenu">
         <item name="android:layout_width">50dp</item>
@@ -105,7 +105,29 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Read" />
+    <style name="Read"/>
+
+    <style name="Read.Setting"/>
+
+    <style name="Read.Setting.Button">
+        <item name="android:background">@drawable/read_bg_setting_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/read_menu_text</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:minWidth">42dp</item>
+    </style>
+
+    <style name="Read.Setting.ImageButton">
+        <item name="android:background">@drawable/read_bg_setting_button</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
 
     <style name="Read.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="actionMenuTextColor">@color/read_text_primary</item>
@@ -149,7 +171,7 @@
     </style>
 
 
-    <style name="NB.Theme.TextAppearance.File" />
+    <style name="NB.Theme.TextAppearance.File"/>
 
     <style name="NB.Theme.TextAppearance.File.Tag">
         <item name="android:layout_width">38dp</item>

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatDelegate;
@@ -30,7 +31,6 @@ import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.SystemBarUtils;
 import com.zchu.reader.PageLoaderAdapter;
 import com.zchu.reader.PageView;
-import com.zchu.reader.ReadSettingManager;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -52,7 +52,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     private DrawerLayout readDrawer;
     private LinearLayout readSide;
-
     private RecyclerView readRvSection;
     private PageView readView;
     private AppBarLayout appBar;
@@ -63,10 +62,14 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private TextView readTvCategory;
     private TextView readTvNightMode;
     private TextView readTvSetting;
+
     private Animation mTopInAnim;
     private Animation mTopOutAnim;
     private Animation mBottomInAnim;
     private Animation mBottomOutAnim;
+
+    private BottomSheetDialog mReadSettingDialog;
+
     private boolean canTouch = true;
 
     private BookSectionContent mData;
@@ -91,7 +94,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         String bookName = getIntent().getStringExtra(K_EXTRA_BOOK_NAME);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true,
                 bookName == null ? getString(R.string.app_name) : bookName);
-        ReadSettingManager.init(this);
         findView();
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
         readRvSection.setLayoutManager(new LinearLayoutManager(this));
@@ -306,9 +307,20 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
                 break;
             case R.id.read_tv_setting:
-
+                toggleMenu(true);
+                openReadSetting(this);
                 break;
 
         }
     }
+
+    private void openReadSetting(Context context) {
+        if (mReadSettingDialog == null) {
+            mReadSettingDialog = new BottomSheetDialog(context);
+            mReadSettingDialog.setContentView(R.layout.bottom_sheet_read_setting);
+        }
+        mReadSettingDialog.show();
+
+    }
+
 }

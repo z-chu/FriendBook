@@ -34,6 +34,15 @@ class PageLoader {
     public static final int STATUS_PARSE = 5;    //正在解析 (一般用于本地数据加载)
     public static final int STATUS_PARSE_ERROR = 6; //本地文件解析错误(暂未被使用)
 
+    /*************实在想不出什么好记的命名方式。。******************/
+    public static final int READ_BG_DEFAULT = 0;
+    public static final int READ_BG_1 = 1;
+    public static final int READ_BG_2 = 2;
+    public static final int READ_BG_3 = 3;
+    public static final int READ_BG_4 = 4;
+    public static final int NIGHT_MODE = 5;
+
+
     static final int DEFAULT_MARGIN_HEIGHT = 30;
     static final int DEFAULT_MARGIN_WIDTH = 14;
 
@@ -58,8 +67,6 @@ class PageLoader {
     private Paint mBgPaint;
     //绘制小说内容的画笔
     private TextPaint mTextPaint;
-    //阅读器的配置选项
-    private ReadSettingManager mSettingManager;
     //当前的状态
     protected int mStatus = STATUS_LOADING;
 
@@ -75,7 +82,7 @@ class PageLoader {
     //字体的颜色
     private int mTextColor;
     //字体的大小
-    private int mTextSize;
+    private int mTextSize=40;
     //行间距
     private int mIntervalSize;
     //段落距离(基于行间距的额外距离)
@@ -83,13 +90,13 @@ class PageLoader {
     //电池的百分比
     private int mBatteryLevel;
     //页面的翻页效果模式
-    private int mPageMode;
+    private int mPageMode=PageView.PAGE_MODE_SIMULATION;
     //加载器的颜色主题
-    private int mBgTheme;
+    private int mBgTheme=READ_BG_DEFAULT;
     //当前页面的背景
     private int mPageBg;
     //当前是否是夜间模式
-    private boolean isNightMode;
+    private boolean isNightMode=false;
     //页面的配置属性
     private PageProperty mPageProperty;
 
@@ -135,14 +142,8 @@ class PageLoader {
     }
 
     private void initData() {
-        mSettingManager = ReadSettingManager.getInstance();
-        mTextSize = mSettingManager.getTextSize();
-        mPageMode = mSettingManager.getPageMode();
-        isNightMode = mSettingManager.isNightMode();
-        mBgTheme = mSettingManager.getReadBgTheme();
-
         if (isNightMode) {
-            setBgColor(ReadSettingManager.NIGHT_MODE);
+            setBgColor(NIGHT_MODE);
         } else {
             setBgColor(mBgTheme);
         }
@@ -288,7 +289,7 @@ class PageLoader {
         //设置画笔的字体大小
         mTextPaint.setTextSize(mTextSize);
         //存储状态
-        mSettingManager.setTextSize(mTextSize);
+        //mSettingManager.setTextSize(mTextSize);
         //取消缓存
         mWeakPrePageList = null;
         mNextPageList = null;
@@ -321,42 +322,39 @@ class PageLoader {
         isNightMode = nightMode;
         if (isNightMode) {
             mBatteryPaint.setColor(Color.WHITE);
-            setBgColor(ReadSettingManager.NIGHT_MODE);
+            setBgColor(NIGHT_MODE);
         } else {
             mBatteryPaint.setColor(Color.BLACK);
             setBgColor(mBgTheme);
         }
-        mSettingManager.setNightMode(nightMode);
     }
 
     //绘制背景
     public void setBgColor(int theme) {
-        if (isNightMode && theme == ReadSettingManager.NIGHT_MODE) {
+        if (isNightMode && theme == NIGHT_MODE) {
             mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_night);
             mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_night);
         } else if (isNightMode) {
             mBgTheme = theme;
-            mSettingManager.setReadBackground(theme);
         } else {
-            mSettingManager.setReadBackground(theme);
             switch (theme) {
-                case ReadSettingManager.READ_BG_DEFAULT:
+                case READ_BG_DEFAULT:
                     mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_1);
                     mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_1);
                     break;
-                case ReadSettingManager.READ_BG_1:
+                case READ_BG_1:
                     mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_2);
                     mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_2);
                     break;
-                case ReadSettingManager.READ_BG_2:
+                case READ_BG_2:
                     mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_3);
                     mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_3);
                     break;
-                case ReadSettingManager.READ_BG_3:
+                case READ_BG_3:
                     mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_4);
                     mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_4);
                     break;
-                case ReadSettingManager.READ_BG_4:
+                case READ_BG_4:
                     mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_5);
                     mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_5);
                     break;
@@ -376,7 +374,6 @@ class PageLoader {
     public void setPageMode(int pageMode) {
         mPageMode = pageMode;
         mPageView.setPageMode(mPageMode);
-        mSettingManager.setPageMode(mPageMode);
         //重绘
         mPageView.drawCurPage(false);
     }

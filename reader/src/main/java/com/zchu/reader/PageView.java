@@ -341,24 +341,11 @@ public class PageView extends View {
         mPageLoader.onDraw(getNextPage(), isUpdate);
     }
 
-/*    //获取PageLoader
-    public PageLoader getPageLoader() {
-        return mPageLoader;
-    }*/
+
 
 
     public void setAdapter(PageLoaderAdapter adapter) {
         mPageLoader.setAdapter(adapter);
-     /*   this.mPageLoader = new PageLoader(this, adapter);
-        if (isPrepare) {
-            mPageLoader.setDisplaySize(mViewWidth, mViewHeight);
-        }
-        post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
     }
 
     public void openSection(int section){

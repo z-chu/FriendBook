@@ -30,4 +30,22 @@
         <attr name="loadingLayout" format="reference"/>
         <attr name="errorLayout" format="reference"/>
     </declare-styleable>
+
+
+    <declare-styleable name="SuperShapeView">
+        <attr name="super_cornerRadius" format="dimension"/>
+        <attr name="super_strokeWidth" format="dimension"/>
+
+        <attr name="super_strokeColor" format="color|reference"/>
+        <attr name="super_solidColor" format="color|reference"/>
+
+        <attr name="super_dashWidth" format="dimension"/>
+        <attr name="super_dashGap" format="dimension"/>
+
+        <attr name="super_topLeftRadius" format="dimension"/>
+        <attr name="super_topRightRadius" format="dimension"/>
+        <attr name="super_bottomLeftRadius" format="dimension"/>
+        <attr name="super_bottomRightRadius" format="dimension"/>
+
+    </declare-styleable>
 </resources>

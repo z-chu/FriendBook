@@ -42,7 +42,7 @@ public class DataManager {
     private DataManager() {
         rxCache = new RxCache.Builder()
                 .appVersion(1)
-                .diskDir(new File(AppContext.context().getCacheDir().getPath() + File.separator + "data-cache"))
+                .diskDir(new File(AppContext.context().getFilesDir().getPath() + File.separator + "data-cache"))
                 .setDebug(BuildConfig.DEBUG)
                 .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
                 .memoryMax(0)

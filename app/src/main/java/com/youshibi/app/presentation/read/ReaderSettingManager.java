@@ -1,14 +1,15 @@
-package com.zchu.reader;
+package com.youshibi.app.presentation.read;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.zchu.reader.PageView;
+
 /**
- * Created by newbiechen on 17-5-17.
- * 阅读器的配置管理
+ * Created by Chu on 2017/8/19.
  */
 
-public class ReadSettingManager {
+public class ReaderSettingManager {
     /*************实在想不出什么好记的命名方式。。******************/
     public static final int READ_BG_DEFAULT = 0;
     public static final int READ_BG_1 = 1;
@@ -27,7 +28,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
 
-    private static volatile ReadSettingManager sInstance;
+    private static volatile ReaderSettingManager sInstance;
     private static Context sContext;
 
     private SharedPreferences mPreferences;
@@ -36,18 +37,18 @@ public class ReadSettingManager {
         sContext = context.getApplicationContext();
     }
 
-    public static ReadSettingManager getInstance() {
+    public static ReaderSettingManager getInstance() {
         if (sInstance == null) {
-            synchronized (ReadSettingManager.class) {
+            synchronized (ReaderSettingManager.class) {
                 if (sInstance == null) {
-                    sInstance = new ReadSettingManager();
+                    sInstance = new ReaderSettingManager();
                 }
             }
         }
         return sInstance;
     }
 
-    private ReadSettingManager() {
+    private ReaderSettingManager() {
         mPreferences = sContext.getSharedPreferences("read-setting", Context.MODE_PRIVATE);
     }
 
@@ -115,7 +116,7 @@ public class ReadSettingManager {
     }
 
     public int getBrightness() {
-       return mPreferences
+        return mPreferences
                 .getInt(SHARED_READ_BRIGHTNESS, 40);
     }
 
