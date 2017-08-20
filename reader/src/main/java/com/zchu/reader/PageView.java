@@ -388,7 +388,7 @@ public class PageView extends View {
         return mPageLoader.getTextColor();
     }
 
-    public void setPageBackgroud(int color) {
+    public void setPageBackground(int color) {
         mPageLoader.setPageBackground(color);
     }
 
@@ -398,6 +398,10 @@ public class PageView extends View {
 
     public int getPageMode() {
         return mPageMode;
+    }
+
+    public void setPageAnimMode(int mode){
+        mPageLoader.setPageMode(mode);
     }
 
 }

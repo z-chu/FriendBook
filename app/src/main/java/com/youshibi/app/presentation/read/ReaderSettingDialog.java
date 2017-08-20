@@ -138,31 +138,31 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 setPageMode(PageView.PAGE_MODE_NONE);
                 break;
             case R.id.read_theme_white:
-                mTargetPageView.setPageBackgroud(Color.parseColor("#F5F4F0"));
+                mTargetPageView.setPageBackground(Color.parseColor("#F5F4F0"));
                 mTargetPageView.setTextColor(Color.parseColor("#3D3D3D"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeWhite);
                 break;
             case R.id.read_theme_amber:
-                mTargetPageView.setPageBackgroud(Color.parseColor("#C5B284"));
+                mTargetPageView.setPageBackground(Color.parseColor("#C5B284"));
                 mTargetPageView.setTextColor(Color.parseColor("#3A342B"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeAmber);
                 break;
             case R.id.read_theme_green:
-                mTargetPageView.setPageBackgroud(Color.parseColor("#CCE8CF"));
+                mTargetPageView.setPageBackground(Color.parseColor("#CCE8CF"));
                 mTargetPageView.setTextColor(Color.parseColor("#333333"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeGreen);
                 break;
             case R.id.read_theme_brown:
-                mTargetPageView.setPageBackgroud(Color.parseColor("#3A3131"));
+                mTargetPageView.setPageBackground(Color.parseColor("#3A3131"));
                 mTargetPageView.setTextColor(Color.parseColor("#95938F"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeBrown);
                 break;
             case R.id.read_theme_black:
-                mTargetPageView.setPageBackgroud(Color.parseColor("#001C29"));
+                mTargetPageView.setPageBackground(Color.parseColor("#001C29"));
                 mTargetPageView.setTextColor(Color.parseColor("#637079"));
                 mTargetPageView.refreshPage();
                 break;
@@ -228,7 +228,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
             }
         }
         if (pageMode != mTargetPageView.getPageMode()) {
-            mTargetPageView.setPageMode(pageMode);
+            mTargetPageView.setPageAnimMode(pageMode);
             ReaderSettingManager
                     .getInstance()
                     .setPageMode(pageMode);
