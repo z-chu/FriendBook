@@ -82,7 +82,7 @@ class PageLoader {
     //字体的颜色
     private int mTextColor;
     //字体的大小
-    private int mTextSize=40;
+    private int mTextSize = 40;
     //行间距
     private int mIntervalSize;
     //段落距离(基于行间距的额外距离)
@@ -90,15 +90,13 @@ class PageLoader {
     //电池的百分比
     private int mBatteryLevel;
     //页面的翻页效果模式
-    private int mPageMode=PageView.PAGE_MODE_SIMULATION;
+    private int mPageMode = PageView.PAGE_MODE_SIMULATION;
     //加载器的颜色主题
-    private int mBgTheme=READ_BG_DEFAULT;
+    private int mBgTheme = READ_BG_DEFAULT;
     //当前页面的背景
     private int mPageBg;
     //当前是否是夜间模式
-    private boolean isNightMode=false;
-    //页面的配置属性
-    private PageProperty mPageProperty;
+    private boolean isNightMode = false;
 
     protected Context mContext;
 
@@ -297,11 +295,11 @@ class PageLoader {
         if (mStatus == STATUS_FINISH) {
             //重新计算页面
             // mCurPageList = loadPageList(mCurChapterPos);
-            int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
+            int pageCount = mAdapter.getPageCount(mCurChapterPos, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
             if (pageCount > 0) {
                 List<TxtPage> txtPages = new ArrayList<>();
                 for (int i = 0; i < pageCount; i++) {
-                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, mPageProperty)));
+                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
                 }
                 mCurPageList = txtPages;
             }
@@ -416,11 +414,11 @@ class PageLoader {
     //打开具体章节
     public void openChapter() {
         // mCurPageList = loadPageList(mCurChapterPos);
-        int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
+        int pageCount = mAdapter.getPageCount(mCurChapterPos, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
         if (pageCount > 0) {
             List<TxtPage> txtPages = new ArrayList<>();
             for (int i = 0; i < pageCount; i++) {
-                txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, mPageProperty)));
+                txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
             }
             mCurPageList = txtPages;
         }
@@ -451,11 +449,11 @@ class PageLoader {
     public void openChapter(int section) {
         // mCurPageList = loadPageList(mCurChapterPos);
         mCurChapterPos = section;
-        int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
+        int pageCount = mAdapter.getPageCount(mCurChapterPos, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
         if (pageCount > 0) {
             List<TxtPage> txtPages = new ArrayList<>();
             for (int i = 0; i < pageCount; i++) {
-                txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, mPageProperty)));
+                txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
             }
             mCurPageList = txtPages;
         }
@@ -660,23 +658,17 @@ class PageLoader {
         //如果章节已显示，那么就重新计算页面
         if (mStatus == STATUS_FINISH) {
             //   mCurPageList = loadPageList(mCurChapterPos);
-            int pageCount = mAdapter.getPageCount(mCurChapterPos, mPageProperty);
+            int pageCount = mAdapter.getPageCount(mCurChapterPos, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
             if (pageCount > 0) {
                 List<TxtPage> txtPages = new ArrayList<>();
                 for (int i = 0; i < pageCount; i++) {
-                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, mPageProperty)));
+                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(mCurChapterPos, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
                 }
                 mCurPageList = txtPages;
             }
             //重新设置文章指针的位置
             mCurPage = getCurPage(mCurPage.position);
         }
-        mPageProperty = new PageProperty();
-        mPageProperty.textPaint = mTextPaint;
-        mPageProperty.visibleWidth = mVisibleWidth;
-        mPageProperty.visibleHeight = mVisibleHeight;
-        mPageProperty.intervalSize = mIntervalSize;
-        mPageProperty.paragraphSize = mParagraphSize;
 
         mPageView.drawCurPage(false);
     }
@@ -727,11 +719,11 @@ class PageLoader {
         }
         //如果不存在则加载数据
         else {
-            int pageCount = mAdapter.getPageCount(prevChapter, mPageProperty);
+            int pageCount = mAdapter.getPageCount(prevChapter, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
             if (pageCount > 0) {
                 List<TxtPage> txtPages = new ArrayList<>();
                 for (int i = 0; i < pageCount; i++) {
-                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(prevChapter, i, mPageProperty)));
+                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(prevChapter, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
                 }
                 mCurPageList = txtPages;
             }
@@ -801,11 +793,11 @@ class PageLoader {
             mNextPageList = null;
         } else {
             //这个PageList可能为 null，可能会造成问题。
-            int pageCount = mAdapter.getPageCount(nextChapter, mPageProperty);
+            int pageCount = mAdapter.getPageCount(nextChapter, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
             if (pageCount > 0) {
                 List<TxtPage> txtPages = new ArrayList<>();
                 for (int i = 0; i < pageCount; i++) {
-                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(nextChapter, i, mPageProperty)));
+                    txtPages.add(new TxtPage(i, mAdapter.getPageLines(nextChapter, i, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize))));
                 }
                 mCurPageList = txtPages;
             }
@@ -954,6 +946,33 @@ class PageLoader {
         }
         //由于解析失败，让其退出
         return true;
+    }
+
+
+    public int getTextSize() {
+        return mTextSize;
+    }
+
+    public int getTextColor() {
+        return mTextColor;
+    }
+
+    public void setTextColor(int color) {
+        mTextColor = color;
+        mTextPaint.setColor(color);
+    }
+
+    public int getPageMode() {
+        return mPageMode;
+    }
+
+    public int getPageBackground() {
+        return mPageBg;
+    }
+
+    public void setPageBackground(int color) {
+        mPageBg = color;
+        mPageView.setBgColor(color);
     }
 
 

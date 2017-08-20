@@ -81,7 +81,7 @@ public class PageView extends View {
     //内容加载器
     private PageLoader mPageLoader;
 
-    private int mStartSection=-1;
+    private int mStartSection = -1;
 
     public PageView(Context context) {
         this(context, null);
@@ -110,7 +110,7 @@ public class PageView extends View {
             mPageLoader.setOnPageChangeListener(mPageChangeListener);
         }
         mPageLoader.setDisplaySize(w, h);
-        if (mPageLoader.getAdapter() != null&&mStartSection!=-1) {
+        if (mPageLoader.getAdapter() != null && mStartSection != -1) {
             mPageLoader.openChapter(mStartSection);
         }
         //初始化完成
@@ -118,6 +118,7 @@ public class PageView extends View {
     }
 
     //设置翻页的模式
+    @Deprecated
     public void setPageMode(int pageMode) {
         mPageMode = pageMode;
         //视图未初始化的时候，禁止调用
@@ -148,6 +149,10 @@ public class PageView extends View {
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
         }
+    }
+
+    public void setPageAnim(PageAnimation pageAnim) {
+
     }
 
     public Bitmap getNextPage() {
@@ -342,15 +347,13 @@ public class PageView extends View {
     }
 
 
-
-
     public void setAdapter(PageLoaderAdapter adapter) {
         mPageLoader.setAdapter(adapter);
     }
 
-    public void openSection(int section){
-        mStartSection=section;
-        if(isPrepare){
+    public void openSection(int section) {
+        mStartSection = section;
+        if (isPrepare) {
             mPageLoader.openChapter(section);
         }
     }
@@ -360,6 +363,7 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setOnPageChangeListener(listener);
         }
+
     }
 
     public interface TouchListener {
@@ -367,4 +371,33 @@ public class PageView extends View {
 
         void cancel();
     }
+
+    public void setTextSize(int sizePx) {
+        mPageLoader.setTextSize(sizePx);
+    }
+
+    public int getTextSize() {
+        return mPageLoader.getTextSize();
+    }
+
+    public void setTextColor(int color) {
+        mPageLoader.setTextColor(color);
+    }
+
+    public int getTextColor() {
+        return mPageLoader.getTextColor();
+    }
+
+    public void setPageBackgroud(int color) {
+        mPageLoader.setPageBackground(color);
+    }
+
+    public int getPageBackground() {
+        return mPageLoader.getPageBackground();
+    }
+
+    public int getPageMode() {
+        return mPageMode;
+    }
+
 }

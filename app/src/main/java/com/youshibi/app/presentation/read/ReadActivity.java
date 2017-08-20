@@ -98,6 +98,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+        ReaderSettingManager.init(this);
         String bookName = getIntent().getStringExtra(K_EXTRA_BOOK_NAME);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true,
                 bookName == null ? getString(R.string.app_name) : bookName);
@@ -316,11 +317,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     private void openReadSetting(Context context) {
         if (mReadSettingDialog == null) {
-            mReadSettingDialog = new BottomSheetDialog(context,R.style.Read_Setting_Dialog);
-            mReadSettingDialog.setContentView(R.layout.bottom_sheet_read_setting);
+            mReadSettingDialog = new ReaderSettingDialog(context, readView);
         }
         mReadSettingDialog.show();
-
     }
 
 }

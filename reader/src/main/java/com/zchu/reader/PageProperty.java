@@ -8,32 +8,39 @@ import android.graphics.Paint;
 
 public final class PageProperty {
 
-   // private int hash;
+    public PageProperty(Paint textPaint, int visibleWidth, int visibleHeight, int intervalSize, int paragraphSize) {
+        this.textPaint = textPaint;
+        this.visibleHeight = visibleHeight;
+        this.visibleWidth = visibleWidth;
+        this.intervalSize = intervalSize;
+        this.paragraphSize = paragraphSize;
+    }
 
     /**
      * 画笔
      */
-    public Paint textPaint;
+    public final Paint textPaint;
 
     /**
      * 文本绘制区域的高
      */
-    public int visibleHeight;
+    public final int visibleHeight;
 
     /**
      * 文本绘制区域的宽
      */
-    public int visibleWidth;
+    public final int visibleWidth;
 
     /**
      * 行间距
      */
-    public int intervalSize;
+    public final int intervalSize;
 
     /**
      * 段落间距(基于行间距的额外距离)
      */
-    public int paragraphSize;
+    public final int paragraphSize;
+
 
     @Override
     public boolean equals(Object obj) {
@@ -74,6 +81,6 @@ public final class PageProperty {
 
             hash = h;
         }*/
-        return (int) (textPaint.getTextSize()+visibleHeight+visibleWidth+intervalSize+paragraphSize);
+        return (int) (textPaint.getTextSize() + visibleHeight + visibleWidth + intervalSize + paragraphSize);
     }
 }

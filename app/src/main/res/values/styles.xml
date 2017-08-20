@@ -120,6 +120,7 @@
         <item name="android:paddingLeft">10dp</item>
         <item name="android:minWidth">42dp</item>
     </style>
+
     <style name="Read.Setting.Dialog" parent="Theme.Design.BottomSheetDialog">
         <item name="android:windowFullscreen">true</item>
         <item name="android:backgroundDimEnabled">false</item>

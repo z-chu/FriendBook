@@ -75,10 +75,10 @@
             android:id="@+id/read_tv_font_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:textColor="@color/read_text_primary"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             tools:text="45"/>
 
         <TextView
@@ -129,6 +129,16 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/read_tv_flip_over_slide"
+            style="@style/Read.Setting.Button"
+            android:layout_weight="1"
+            android:text="@string/read_setting_flip_over_slide"/>
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
             android:id="@+id/read_tv_flip_over_none"
             style="@style/Read.Setting.Button"
             android:layout_weight="1"
@@ -142,6 +152,7 @@
         android:orientation="horizontal">
 
         <com.youshibi.app.ui.widget.ShapeView
+            android:id="@+id/read_theme_white"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
@@ -154,6 +165,7 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            android:id="@+id/read_theme_amber"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
@@ -167,18 +179,7 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#3A3431"/>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <com.youshibi.app.ui.widget.ShapeView
+            android:id="@+id/read_theme_green"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
@@ -191,12 +192,26 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            android:id="@+id/read_theme_brown"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            app:super_cornerRadius="10dp"
+            app:super_solidColor="#3A3431"/>
+
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <com.youshibi.app.ui.widget.ShapeView
+            android:id="@+id/read_theme_black"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
             app:super_solidColor="#001A29"/>
-
 
         <Space
             android:layout_width="0dp"
@@ -207,6 +222,7 @@
             android:id="@+id/read_tv_color_setting"
             style="@style/Read.Setting.Button"
             android:layout_gravity="center_vertical"
+            android:contentDescription=""
             app:srcCompat="@drawable/ic_vector_read_setting_more"/>
     </LinearLayout>
 

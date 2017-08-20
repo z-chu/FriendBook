@@ -10,4 +10,10 @@
     <style name="AppBaseTheme.Translucent.StateBar">
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
+
+    <style name="Read.Setting.Dialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>
