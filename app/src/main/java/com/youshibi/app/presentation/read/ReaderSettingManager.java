@@ -2,7 +2,9 @@ package com.youshibi.app.presentation.read;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 
+import com.youshibi.app.R;
 import com.zchu.reader.PageView;
 
 /**
@@ -27,6 +29,9 @@ public class ReaderSettingManager {
     private static final String SHARED_READ_NIGHT_MODE = "shared_night_mode";
     private static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     private static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
+    private static final String SHARED_READ_PAGE_BACKGROUND = "shared_read_page_background";
+    private static final String SHARED_READ_TEXT_COLOR = "shared_read_text_color";
+
 
     private static volatile ReaderSettingManager sInstance;
     private static Context sContext;
@@ -59,6 +64,7 @@ public class ReaderSettingManager {
                 .apply();
     }
 
+
     public void setBrightness(int progress) {
         mPreferences
                 .edit()
@@ -86,6 +92,11 @@ public class ReaderSettingManager {
                 .putInt(SHARED_READ_TEXT_SIZE, textSize)
                 .apply();
     }
+
+    public int getTextSize() {
+        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, 40);
+    }
+
 
     public void setPageMode(int mode) {
         mPreferences
@@ -124,9 +135,6 @@ public class ReaderSettingManager {
         return mPreferences.getBoolean(SHARED_READ_IS_BRIGHTNESS_AUTO, false);
     }
 
-    public int getTextSize() {
-        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, 40);
-    }
 
     public boolean isDefaultTextSize() {
         return mPreferences.getBoolean(SHARED_READ_IS_TEXT_DEFAULT, false);
@@ -151,5 +159,29 @@ public class ReaderSettingManager {
 
     public boolean isFullScreen() {
         return mPreferences.getBoolean(SHARED_READ_FULL_SCREEN, false);
+    }
+
+    public int getPageBackground() {
+        return mPreferences
+                .getInt(SHARED_READ_PAGE_BACKGROUND, ContextCompat.getColor(sContext, R.color.nb_read_bg_1));
+    }
+
+    public void setPageBackground(int color) {
+        mPreferences
+                .edit()
+                .putInt(SHARED_READ_PAGE_BACKGROUND, color)
+                .apply();
+    }
+
+
+    public int getTextColor() {
+        return mPreferences.getInt(SHARED_READ_TEXT_COLOR, ContextCompat.getColor(sContext, R.color.nb_read_font_1));
+    }
+
+    public void setTextColor(int color) {
+        mPreferences
+                .edit()
+                .putInt(SHARED_READ_TEXT_COLOR, color)
+                .apply();
     }
 }

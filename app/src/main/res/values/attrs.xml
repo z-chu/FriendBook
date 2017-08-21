@@ -37,7 +37,12 @@
         <attr name="super_strokeWidth" format="dimension"/>
 
         <attr name="super_strokeColor" format="color|reference"/>
+        <attr name="super_strokeColor_pressed" format="color|reference"/>
+        <attr name="super_strokeColor_selected" format="color|reference"/>
+
         <attr name="super_solidColor" format="color|reference"/>
+        <attr name="super_solidColor_pressed" format="color|reference"/>
+        <attr name="super_solidColor_selected" format="color|reference"/>
 
         <attr name="super_dashWidth" format="dimension"/>
         <attr name="super_dashGap" format="dimension"/>

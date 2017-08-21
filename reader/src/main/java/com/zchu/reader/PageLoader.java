@@ -280,12 +280,11 @@ class PageLoader {
 
     //设置文字大小
     public void setTextSize(int textSize) {
-        if (!isBookOpen) return;
-
         //设置textSize
         mTextSize = textSize;
         //设置画笔的字体大小
         mTextPaint.setTextSize(mTextSize);
+        if (!isBookOpen) return;
         //存储状态
         //mSettingManager.setTextSize(mTextSize);
         //取消缓存

@@ -157,7 +157,10 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
-            app:super_solidColor="#F5F4F0"/>
+            app:super_solidColor="#F5F4F0"
+            app:super_solidColor_selected="#F5F4F0"
+            app:super_strokeColor_selected="@color/colorAccent"
+            app:super_strokeWidth="2dp"/>
 
         <Space
             android:layout_width="0dp"
@@ -170,7 +173,10 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
-            app:super_solidColor="#D3C09C"/>
+            app:super_solidColor="#D3C09C"
+            app:super_solidColor_selected="#D3C09C"
+            app:super_strokeColor_selected="@color/colorAccent"
+            app:super_strokeWidth="2dp"/>
 
         <Space
             android:layout_width="0dp"
@@ -184,7 +190,10 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
-            app:super_solidColor="#CCE8CF"/>
+            app:super_solidColor="#CCE8CF"
+            app:super_solidColor_selected="#CCE8CF"
+            app:super_strokeColor_selected="@color/colorAccent"
+            app:super_strokeWidth="2dp"/>
 
         <Space
             android:layout_width="0dp"
@@ -197,7 +206,10 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
-            app:super_solidColor="#3A3431"/>
+            app:super_solidColor="#3A3431"
+            app:super_solidColor_selected="#3A3431"
+            app:super_strokeColor_selected="@color/colorAccent"
+            app:super_strokeWidth="2dp"/>
 
 
         <Space
@@ -211,7 +223,10 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             app:super_cornerRadius="10dp"
-            app:super_solidColor="#001A29"/>
+            app:super_solidColor="#001A29"
+            app:super_solidColor_selected="#001A29"
+            app:super_strokeColor_selected="@color/colorAccent"
+            app:super_strokeWidth="2dp"/>
 
         <Space
             android:layout_width="0dp"
@@ -222,7 +237,6 @@
             android:id="@+id/read_tv_color_setting"
             style="@style/Read.Setting.Button"
             android:layout_gravity="center_vertical"
-            android:contentDescription=""
             app:srcCompat="@drawable/ic_vector_read_setting_more"/>
     </LinearLayout>
 

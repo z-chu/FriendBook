@@ -123,7 +123,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         });
 
 
-        readView.setPageMode(PageView.PAGE_MODE_COVER);
         readView.setTouchListener(new PageView.TouchListener() {
             @Override
             public void center() {
@@ -207,6 +206,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     public void setPageAdapter(PageLoaderAdapter adapter) {
         readView.setAdapter(adapter);
         readView.setOnPageChangeListener(getPresenter());
+
+        readView.setPageMode(ReaderSettingManager.getInstance().getPageMode());
+        readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
+        readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
+        readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());
     }
 
     @Override

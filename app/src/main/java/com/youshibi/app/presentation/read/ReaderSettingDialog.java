@@ -25,15 +25,19 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     private SeekBar readSbLightnessProgress;
     private ImageView readIvLightnessPlus;
     private TextView readTvLightnessSystem;
+
     private TextView readTvFontSizeMinus;
     private TextView readTvFontSize;
     private TextView readTvFontSizePlus;
     private TextView readTvFontSizeDefault;
     private TextView readTvFontSetting;
+
     private TextView readTvFlipOverCover;
     private TextView readTvFlipOverSimulation;
     private TextView readTvFlipOverSlide;
     private TextView readTvFlipOverNone;
+    private View[] flipOverViews;
+
     private ImageView readTvColorSetting;
 
     private ShapeView readThemeWhite;
@@ -41,6 +45,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     private ShapeView readThemeGreen;
     private ShapeView readThemeBrown;
     private ShapeView readThemeBlack;
+    private View[] themeViews;
 
 
     public ReaderSettingDialog(@NonNull Context context, @NonNull PageView pageView) {
@@ -57,22 +62,37 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
         readSbLightnessProgress = (SeekBar) findViewById(R.id.read_sb_lightness_progress);
         readIvLightnessPlus = (ImageView) findViewById(R.id.read_iv_lightness_plus);
         readTvLightnessSystem = (TextView) findViewById(R.id.read_tv_lightness_system);
+
         readTvFontSizeMinus = (TextView) findViewById(R.id.read_tv_font_size_minus);
         readTvFontSize = (TextView) findViewById(R.id.read_tv_font_size);
         readTvFontSizePlus = (TextView) findViewById(R.id.read_tv_font_size_plus);
         readTvFontSizeDefault = (TextView) findViewById(R.id.read_tv_font_size_default);
         readTvFontSetting = (TextView) findViewById(R.id.read_tv_font_setting);
+
         readTvFlipOverCover = (TextView) findViewById(R.id.read_tv_flip_over_cover);
         readTvFlipOverSimulation = (TextView) findViewById(R.id.read_tv_flip_over_simulation);
         readTvFlipOverSlide = (TextView) findViewById(R.id.read_tv_flip_over_slide);
         readTvFlipOverNone = (TextView) findViewById(R.id.read_tv_flip_over_none);
         readTvColorSetting = (ImageView) findViewById(R.id.read_tv_color_setting);
+        flipOverViews = new View[]{
+                readTvFlipOverSimulation,
+                readTvFlipOverCover,
+                readTvFlipOverSlide,
+                readTvFlipOverNone
+        };
 
         readThemeWhite = (ShapeView) findViewById(R.id.read_theme_white);
         readThemeAmber = (ShapeView) findViewById(R.id.read_theme_amber);
         readThemeGreen = (ShapeView) findViewById(R.id.read_theme_green);
         readThemeBrown = (ShapeView) findViewById(R.id.read_theme_brown);
         readThemeBlack = (ShapeView) findViewById(R.id.read_theme_black);
+        themeViews = new View[]{
+                readThemeWhite,
+                readThemeAmber,
+                readThemeGreen,
+                readThemeBrown,
+                readThemeBlack
+        };
     }
 
     private void initListener() {
@@ -114,13 +134,16 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 readTvLightnessSystem.setSelected(true);
                 break;
             case R.id.read_tv_font_size_minus://字体大小减
+                ReaderSettingManager.getInstance().setTextSize(mTargetPageView.getTextSize()-1);
                 setTextSize(mTargetPageView.getTextSize() - 1);
                 break;
             case R.id.read_tv_font_size_plus://字体大小加
+                ReaderSettingManager.getInstance().setTextSize(mTargetPageView.getTextSize()+1);
                 setTextSize(mTargetPageView.getTextSize() + 1);
                 break;
             case R.id.read_tv_font_size_default://字体大小 默认
                 setTextSize(40);
+                ReaderSettingManager.getInstance().setTextSize(40);
                 break;
             case R.id.read_tv_font_setting://字体设置
 
@@ -140,31 +163,42 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
             case R.id.read_theme_white:
                 mTargetPageView.setPageBackground(Color.parseColor("#F5F4F0"));
                 mTargetPageView.setTextColor(Color.parseColor("#3D3D3D"));
+                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#F5F4F0"));
+                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#3D3D3D"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeWhite);
                 break;
             case R.id.read_theme_amber:
                 mTargetPageView.setPageBackground(Color.parseColor("#C5B284"));
                 mTargetPageView.setTextColor(Color.parseColor("#3A342B"));
+                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#C5B284"));
+                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#3A342B"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeAmber);
                 break;
             case R.id.read_theme_green:
                 mTargetPageView.setPageBackground(Color.parseColor("#CCE8CF"));
                 mTargetPageView.setTextColor(Color.parseColor("#333333"));
+                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#CCE8CF"));
+                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#333333"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeGreen);
                 break;
             case R.id.read_theme_brown:
                 mTargetPageView.setPageBackground(Color.parseColor("#3A3131"));
                 mTargetPageView.setTextColor(Color.parseColor("#95938F"));
+                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#3A3131"));
+                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#95938F"));
                 mTargetPageView.refreshPage();
                 selectedThemeView(readThemeBrown);
                 break;
             case R.id.read_theme_black:
                 mTargetPageView.setPageBackground(Color.parseColor("#001C29"));
                 mTargetPageView.setTextColor(Color.parseColor("#637079"));
+                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#001C29"));
+                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#637079"));
                 mTargetPageView.refreshPage();
+                selectedThemeView(readThemeBlack);
                 break;
             case R.id.read_tv_color_setting://更多主题设置
 
@@ -176,14 +210,8 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
 
     private void selectedThemeView(@NonNull View selectedView) {
         selectedView.setSelected(true);
-        View[] views = {
-                readThemeWhite,
-                readThemeAmber,
-                readThemeGreen,
-                readThemeBrown,
-                readThemeBlack
-        };
-        for (View view : views) {
+
+        for (View view : themeViews) {
             if (view != selectedView && view.isSelected()) {
                 view.setSelected(false);
             }
@@ -216,13 +244,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 selectedView = readTvFlipOverNone;
                 break;
         }
-        View[] views = {
-                readTvFlipOverCover,
-                readTvFlipOverSimulation,
-                readTvFlipOverSlide,
-                readTvFlipOverNone
-        };
-        for (View view : views) {
+        for (View view : flipOverViews) {
             if (view != selectedView && view.isSelected()) {
                 view.setSelected(false);
             }
