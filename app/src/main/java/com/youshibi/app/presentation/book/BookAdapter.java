@@ -1,9 +1,5 @@
 package com.youshibi.app.presentation.book;
 
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.youshibi.app.R;
@@ -19,18 +15,11 @@ import java.util.List;
  */
 
 public class BookAdapter extends CommonAdapter<Book> {
-    private Drawable placeDrawable;
 
     public BookAdapter(List<Book> data) {
         super(R.layout.list_item_book, data);
     }
 
-    @Override
-    public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CommonViewHolder commonViewHolder = super.onCreateViewHolder(parent, viewType);
-        placeDrawable = new ColorDrawable(ContextCompat.getColor(mContext, R.color.colorPictureDefault));
-        return commonViewHolder;
-    }
 
     @Override
     protected void convert(CommonViewHolder holder, Book bookItem) {
@@ -38,7 +27,7 @@ public class BookAdapter extends CommonAdapter<Book> {
         GlideApp
                 .with(mContext)
                 .load(bookItem.getCoverUrl())
-                .placeholder(placeDrawable)
+                .placeholder(R.drawable.ic_book_cover_default)
                 .into(ivCover);
         holder
                 .setText(R.id.tv_author, bookItem.getAuthor())

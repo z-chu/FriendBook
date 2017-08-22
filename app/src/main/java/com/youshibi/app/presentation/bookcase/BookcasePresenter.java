@@ -1,6 +1,7 @@
 package com.youshibi.app.presentation.bookcase;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -15,6 +16,7 @@ import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
+import com.youshibi.app.util.GlideApp;
 
 import java.util.List;
 
@@ -76,7 +78,11 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
         mAdapter = new CommonAdapter<BookTb>(R.layout.grid_item_bookcase_book, data) {
             @Override
             protected void convert(CommonViewHolder helper, BookTb item) {
-                helper.loadImage(R.id.iv_cover, item.getCoverUrl());
+                GlideApp
+                        .with(mContext)
+                        .load(item.getCoverUrl())
+                        .placeholder(R.drawable.ic_book_cover_default)
+                        .into((ImageView) helper.getView(R.id.iv_cover));
             }
         };
         return mAdapter;
