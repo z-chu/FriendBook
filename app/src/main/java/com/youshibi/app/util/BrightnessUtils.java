@@ -2,6 +2,9 @@ package com.youshibi.app.util;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.view.WindowManager;
 
@@ -38,7 +41,7 @@ public class BrightnessUtils {
      */
     public static void setBrightness(Activity activity, int brightness) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.screenBrightness = Float.valueOf(brightness) * (1f / 255f);
+        lp.screenBrightness = (float) brightness * (1f / 255f);
         activity.getWindow().setAttributes(lp);
     }
 
@@ -64,6 +67,15 @@ public class BrightnessUtils {
      * @param activity
      */
     public static void stopAutoBrightness(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(activity)) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+                return;
+            }
+        }
         Settings.System.putInt(activity.getContentResolver(),
                 Settings.System.SCREEN_BRIGHTNESS_MODE,
                 Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -75,8 +87,18 @@ public class BrightnessUtils {
      * @param activity
      */
     public static void startAutoBrightness(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(activity)) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+                return;
+            }
+        }
         Settings.System.putInt(activity.getContentResolver(),
                 Settings.System.SCREEN_BRIGHTNESS_MODE,
                 Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
     }
+
 }

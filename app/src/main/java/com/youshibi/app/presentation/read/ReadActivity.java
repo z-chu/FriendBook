@@ -28,6 +28,7 @@ import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.mvp.MvpActivity;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
+import com.youshibi.app.util.BrightnessUtils;
 import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.SystemBarUtils;
 import com.zchu.reader.PageLoaderAdapter;
@@ -127,6 +128,13 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         //初始化屏幕常亮类
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
+        //设置当前Activity的Bright
+        if (ReaderSettingManager.getInstance().isBrightnessAuto()){
+            BrightnessUtils.setBrightness(this,BrightnessUtils.getScreenBrightness(this));
+        }
+        else {
+            BrightnessUtils.setBrightness(this,ReaderSettingManager.getInstance().getBrightness());
+        }
         readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
         readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
         readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());

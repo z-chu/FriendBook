@@ -1,5 +1,6 @@
 package com.youshibi.app.presentation.read;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
@@ -10,13 +11,14 @@ import android.widget.TextView;
 
 import com.youshibi.app.R;
 import com.youshibi.app.ui.widget.ShapeView;
+import com.youshibi.app.util.BrightnessUtils;
 import com.zchu.reader.PageView;
 
 /**
  * Created by Chu on 2017/8/20.
  */
 
-public class ReaderSettingDialog extends BottomSheetDialog implements View.OnClickListener {
+public class ReaderSettingDialog extends BottomSheetDialog implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     private PageView mPageView;
 
@@ -49,6 +51,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
 
     public ReaderSettingDialog(@NonNull Context context, @NonNull PageView pageView) {
         super(context, R.style.Read_Setting_Dialog);
+        setOwnerActivity((Activity) context);
         super.setContentView(R.layout.bottom_sheet_read_setting);
         this.mPageView = pageView;
         initView();
@@ -113,6 +116,9 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
         readThemeGreen.setOnClickListener(this);
         readThemeBrown.setOnClickListener(this);
         readThemeBlack.setOnClickListener(this);
+
+        readSbLightnessProgress.setOnSeekBarChangeListener(this);
+
     }
 
     private void initDisplay() {
@@ -120,22 +126,24 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
         setPageMode(mPageView.getPageMode());
         ReadTheme readTheme = ReadTheme.getReadTheme(mPageView.getPageBackground(),
                 mPageView.getTextColor());
-        if(readTheme!=null){
+        if (readTheme != null) {
             setReadTheme(readTheme);
         }
+        setBrightness(ReaderSettingManager.getInstance().getBrightness(), readSbLightnessProgress);
+        setAutoBrightness(ReaderSettingManager.getInstance().isBrightnessAuto(), readTvLightnessSystem);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.read_iv_lightness_minus://亮度减
-
+                setBrightness(readSbLightnessProgress.getProgress() - 1, readSbLightnessProgress);
                 break;
             case R.id.read_iv_lightness_plus://亮度加
-
+                setBrightness(readSbLightnessProgress.getProgress() + 1, readSbLightnessProgress);
                 break;
             case R.id.read_tv_lightness_system://亮度跟随系统
-                readTvLightnessSystem.setSelected(true);
+                setAutoBrightness(!readTvLightnessSystem.isSelected(), readTvLightnessSystem);
                 break;
             case R.id.read_tv_font_size_minus://字体大小减
                 ReaderSettingManager.getInstance().setTextSize(mPageView.getTextSize() - 1);
@@ -186,13 +194,36 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
 
     }
 
+    private void setBrightness(int progress, SeekBar seekBar) {
+        if (progress < 0 || progress > seekBar.getMax()) {
+            return;
+        }
+        if (readTvLightnessSystem.isSelected()) {
+            setAutoBrightness(false, readTvLightnessSystem);
+        }
+        seekBar.setProgress(progress);
+        BrightnessUtils.setBrightness(getOwnerActivity(), progress);
+    }
+
+    private void setAutoBrightness(boolean isEnabled, View view) {
+        if (isEnabled) {
+            BrightnessUtils.startAutoBrightness(getOwnerActivity());
+            BrightnessUtils.setBrightness(getOwnerActivity(), BrightnessUtils.getScreenBrightness(getOwnerActivity()));
+        } else {
+            BrightnessUtils.stopAutoBrightness(getOwnerActivity());
+            BrightnessUtils.setBrightness(getOwnerActivity(), readSbLightnessProgress.getProgress());
+        }
+        ReaderSettingManager.getInstance().setAutoBrightness(isEnabled);
+        view.setSelected(isEnabled);
+    }
+
     private void setReadTheme(ReadTheme readTheme) {
         mPageView.setPageBackground(readTheme.getPageBackground());
         mPageView.setTextColor(readTheme.getTextColor());
         ReaderSettingManager.getInstance().setPageBackground(readTheme.getPageBackground());
         ReaderSettingManager.getInstance().setTextColor(readTheme.getTextColor());
         mPageView.refreshPage();
-        switch (readTheme){
+        switch (readTheme) {
             case WHITE:
                 selectedThemeView(readThemeWhite);
                 break;
@@ -260,5 +291,24 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                     .setPageMode(pageMode);
         }
 
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (readTvLightnessSystem.isSelected()) {
+            setAutoBrightness(false, readTvLightnessSystem);
+        }
+        BrightnessUtils.setBrightness(getOwnerActivity(), progress);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        //设置进度
+        ReaderSettingManager.getInstance().setBrightness(seekBar.getProgress());
     }
 }
