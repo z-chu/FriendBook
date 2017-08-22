@@ -152,15 +152,10 @@
         android:orientation="horizontal">
 
         <com.youshibi.app.ui.widget.ShapeView
+            style="@style/Read.Setting.ThemeView"
             android:id="@+id/read_theme_white"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#F5F4F0"
-            app:super_solidColor_selected="#F5F4F0"
-            app:super_strokeColor_selected="@color/colorAccent"
-            app:super_strokeWidth="2dp"/>
+            app:super_solidColor="@color/read_theme_white_page_background"
+            app:super_solidColor_selected="@color/read_theme_white_page_background"/>
 
         <Space
             android:layout_width="0dp"
@@ -168,15 +163,10 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            style="@style/Read.Setting.ThemeView"
             android:id="@+id/read_theme_amber"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#D3C09C"
-            app:super_solidColor_selected="#D3C09C"
-            app:super_strokeColor_selected="@color/colorAccent"
-            app:super_strokeWidth="2dp"/>
+            app:super_solidColor="@color/read_theme_amber_page_background"
+            app:super_solidColor_selected="@color/read_theme_amber_page_background"/>
 
         <Space
             android:layout_width="0dp"
@@ -185,15 +175,10 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            style="@style/Read.Setting.ThemeView"
             android:id="@+id/read_theme_green"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#CCE8CF"
-            app:super_solidColor_selected="#CCE8CF"
-            app:super_strokeColor_selected="@color/colorAccent"
-            app:super_strokeWidth="2dp"/>
+            app:super_solidColor="@color/read_theme_green_page_background"
+            app:super_solidColor_selected="@color/read_theme_green_page_background"/>
 
         <Space
             android:layout_width="0dp"
@@ -201,15 +186,10 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            style="@style/Read.Setting.ThemeView"
             android:id="@+id/read_theme_brown"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#3A3431"
-            app:super_solidColor_selected="#3A3431"
-            app:super_strokeColor_selected="@color/colorAccent"
-            app:super_strokeWidth="2dp"/>
+            app:super_solidColor="@color/read_theme_brown_page_background"
+            app:super_solidColor_selected="@color/read_theme_brown_page_background"/>
 
 
         <Space
@@ -218,15 +198,10 @@
             android:layout_weight="1"/>
 
         <com.youshibi.app.ui.widget.ShapeView
+            style="@style/Read.Setting.ThemeView"
             android:id="@+id/read_theme_black"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:super_cornerRadius="10dp"
-            app:super_solidColor="#001A29"
-            app:super_solidColor_selected="#001A29"
-            app:super_strokeColor_selected="@color/colorAccent"
-            app:super_strokeWidth="2dp"/>
+            app:super_solidColor="@color/read_theme_black_page_background"
+            app:super_solidColor_selected="@color/read_theme_black_page_background"/>
 
         <Space
             android:layout_width="0dp"

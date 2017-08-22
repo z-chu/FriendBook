@@ -1,6 +1,9 @@
 package com.zchu.reader;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
@@ -80,8 +83,30 @@ public class PageView extends View {
 
     //内容加载器
     private PageLoader mPageLoader;
+    private int mTextSize = 40;
+    private int mTextColor = 0xFF212121;
+    private int mPageBackground = 0xFFCEC29C;
 
     private int mStartSection = -1;
+
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
+                int level = intent.getIntExtra("level", 0);
+                if(mPageLoader!=null) {
+                    mPageLoader.updateBattery(level);
+                }
+            }
+            //监听分钟的变化
+            else if (intent.getAction().equals(Intent.ACTION_TIME_TICK)){
+                if(mPageLoader!=null) {
+                    mPageLoader.updateTime();
+                }
+            }
+        }
+    };
 
     public PageView(Context context) {
         this(context, null);
@@ -89,10 +114,27 @@ public class PageView extends View {
 
     public PageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+
     }
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        //注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        getContext().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        getContext().unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -152,7 +194,7 @@ public class PageView extends View {
     }
 
     public void setPageAnim(PageAnimation pageAnim) {
-
+        this.mPageAnim = pageAnim;
     }
 
     public Bitmap getNextPage() {
@@ -373,35 +415,46 @@ public class PageView extends View {
     }
 
     public void setTextSize(int sizePx) {
-        mPageLoader.setTextSize(sizePx);
+        this.mTextSize = sizePx;
+        if(mPageLoader!=null) {
+            mPageLoader.setTextSize(sizePx);
+        }
     }
 
     public int getTextSize() {
-        return mPageLoader.getTextSize();
+        return mTextSize;
     }
 
     public void setTextColor(int color) {
-        mPageLoader.setTextColor(color);
+        this.mTextColor = color;
+        if(mPageLoader!=null) {
+            mPageLoader.setTextColor(color);
+        }
     }
 
     public int getTextColor() {
-        return mPageLoader.getTextColor();
+        return mTextColor;
     }
 
     public void setPageBackground(int color) {
-        mPageLoader.setPageBackground(color);
+        this.mPageBackground = color;
+        if(mPageLoader!=null) {
+            mPageLoader.setPageBackground(color);
+        }
     }
 
     public int getPageBackground() {
-        return mPageLoader.getPageBackground();
+        return mPageBackground;
     }
 
     public int getPageMode() {
         return mPageMode;
     }
 
-    public void setPageAnimMode(int mode){
-        mPageLoader.setPageMode(mode);
+    public void setPageAnimMode(int mode) {
+        if(mPageLoader!=null) {
+            mPageLoader.setPageMode(mode);
+        }
     }
 
 }

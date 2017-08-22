@@ -1,7 +1,6 @@
 package com.youshibi.app.presentation.read;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
@@ -19,7 +18,7 @@ import com.zchu.reader.PageView;
 
 public class ReaderSettingDialog extends BottomSheetDialog implements View.OnClickListener {
 
-    private PageView mTargetPageView;
+    private PageView mPageView;
 
     private ImageView readIvLightnessMinus;
     private SeekBar readSbLightnessProgress;
@@ -51,7 +50,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     public ReaderSettingDialog(@NonNull Context context, @NonNull PageView pageView) {
         super(context, R.style.Read_Setting_Dialog);
         super.setContentView(R.layout.bottom_sheet_read_setting);
-        this.mTargetPageView = pageView;
+        this.mPageView = pageView;
         initView();
         initListener();
         initDisplay();
@@ -117,8 +116,13 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     }
 
     private void initDisplay() {
-        readTvFontSize.setText(String.valueOf(mTargetPageView.getTextSize()));
-        setPageMode(mTargetPageView.getPageMode());
+        readTvFontSize.setText(String.valueOf(mPageView.getTextSize()));
+        setPageMode(mPageView.getPageMode());
+        ReadTheme readTheme = ReadTheme.getReadTheme(mPageView.getPageBackground(),
+                mPageView.getTextColor());
+        if(readTheme!=null){
+            setReadTheme(readTheme);
+        }
     }
 
     @Override
@@ -134,12 +138,12 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 readTvLightnessSystem.setSelected(true);
                 break;
             case R.id.read_tv_font_size_minus://字体大小减
-                ReaderSettingManager.getInstance().setTextSize(mTargetPageView.getTextSize()-1);
-                setTextSize(mTargetPageView.getTextSize() - 1);
+                ReaderSettingManager.getInstance().setTextSize(mPageView.getTextSize() - 1);
+                setTextSize(mPageView.getTextSize() - 1);
                 break;
             case R.id.read_tv_font_size_plus://字体大小加
-                ReaderSettingManager.getInstance().setTextSize(mTargetPageView.getTextSize()+1);
-                setTextSize(mTargetPageView.getTextSize() + 1);
+                ReaderSettingManager.getInstance().setTextSize(mPageView.getTextSize() + 1);
+                setTextSize(mPageView.getTextSize() + 1);
                 break;
             case R.id.read_tv_font_size_default://字体大小 默认
                 setTextSize(40);
@@ -161,50 +165,50 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 setPageMode(PageView.PAGE_MODE_NONE);
                 break;
             case R.id.read_theme_white:
-                mTargetPageView.setPageBackground(Color.parseColor("#F5F4F0"));
-                mTargetPageView.setTextColor(Color.parseColor("#3D3D3D"));
-                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#F5F4F0"));
-                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#3D3D3D"));
-                mTargetPageView.refreshPage();
-                selectedThemeView(readThemeWhite);
+                setReadTheme(ReadTheme.WHITE);
                 break;
             case R.id.read_theme_amber:
-                mTargetPageView.setPageBackground(Color.parseColor("#C5B284"));
-                mTargetPageView.setTextColor(Color.parseColor("#3A342B"));
-                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#C5B284"));
-                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#3A342B"));
-                mTargetPageView.refreshPage();
-                selectedThemeView(readThemeAmber);
+                setReadTheme(ReadTheme.AMBER);
                 break;
             case R.id.read_theme_green:
-                mTargetPageView.setPageBackground(Color.parseColor("#CCE8CF"));
-                mTargetPageView.setTextColor(Color.parseColor("#333333"));
-                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#CCE8CF"));
-                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#333333"));
-                mTargetPageView.refreshPage();
-                selectedThemeView(readThemeGreen);
+                setReadTheme(ReadTheme.GREEN);
                 break;
             case R.id.read_theme_brown:
-                mTargetPageView.setPageBackground(Color.parseColor("#3A3131"));
-                mTargetPageView.setTextColor(Color.parseColor("#95938F"));
-                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#3A3131"));
-                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#95938F"));
-                mTargetPageView.refreshPage();
-                selectedThemeView(readThemeBrown);
+                setReadTheme(ReadTheme.BROWN);
                 break;
             case R.id.read_theme_black:
-                mTargetPageView.setPageBackground(Color.parseColor("#001C29"));
-                mTargetPageView.setTextColor(Color.parseColor("#637079"));
-                ReaderSettingManager.getInstance().setPageBackground(Color.parseColor("#001C29"));
-                ReaderSettingManager.getInstance().setTextColor(Color.parseColor("#637079"));
-                mTargetPageView.refreshPage();
-                selectedThemeView(readThemeBlack);
+                setReadTheme(ReadTheme.BLACK);
                 break;
             case R.id.read_tv_color_setting://更多主题设置
 
                 break;
         }
 
+    }
+
+    private void setReadTheme(ReadTheme readTheme) {
+        mPageView.setPageBackground(readTheme.getPageBackground());
+        mPageView.setTextColor(readTheme.getTextColor());
+        ReaderSettingManager.getInstance().setPageBackground(readTheme.getPageBackground());
+        ReaderSettingManager.getInstance().setTextColor(readTheme.getTextColor());
+        mPageView.refreshPage();
+        switch (readTheme){
+            case WHITE:
+                selectedThemeView(readThemeWhite);
+                break;
+            case AMBER:
+                selectedThemeView(readThemeAmber);
+                break;
+            case GREEN:
+                selectedThemeView(readThemeGreen);
+                break;
+            case BROWN:
+                selectedThemeView(readThemeBrown);
+                break;
+            case BLACK:
+                selectedThemeView(readThemeBlack);
+                break;
+        }
     }
 
 
@@ -220,7 +224,7 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     }
 
     private void setTextSize(int size) {
-        mTargetPageView.setTextSize(size);
+        mPageView.setTextSize(size);
         readTvFontSize.setText(String.valueOf(size));
     }
 
@@ -249,8 +253,8 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
                 view.setSelected(false);
             }
         }
-        if (pageMode != mTargetPageView.getPageMode()) {
-            mTargetPageView.setPageAnimMode(pageMode);
+        if (pageMode != mPageView.getPageMode()) {
+            mPageView.setPageAnimMode(pageMode);
             ReaderSettingManager
                     .getInstance()
                     .setPageMode(pageMode);

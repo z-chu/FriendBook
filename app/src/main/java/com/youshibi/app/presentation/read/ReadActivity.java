@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
@@ -73,7 +74,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private boolean canTouch = true;
 
     private BookSectionContent mData;
-
+    //控制屏幕常亮
+    private PowerManager.WakeLock mWakeLock;
     private boolean isFullScreen = false;
 
     public static Intent newIntent(Context context, String bookId, int sectionIndex) {
@@ -122,7 +124,12 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
             }
         });
 
-
+        //初始化屏幕常亮类
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
+        readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
+        readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
+        readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());
         readView.setTouchListener(new PageView.TouchListener() {
             @Override
             public void center() {
@@ -152,6 +159,18 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         getPresenter().start();
         getPresenter().loadData();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWakeLock.acquire();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWakeLock.release();
     }
 
     private void findView() {
@@ -206,11 +225,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     public void setPageAdapter(PageLoaderAdapter adapter) {
         readView.setAdapter(adapter);
         readView.setOnPageChangeListener(getPresenter());
-
         readView.setPageMode(ReaderSettingManager.getInstance().getPageMode());
-        readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
-        readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
-        readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());
+
     }
 
     @Override

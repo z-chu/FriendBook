@@ -8,9 +8,9 @@
         <item name="android:listDivider">@drawable/bg_list_divider</item>
     </style>
 
-    <style name="AppBaseTheme.Translucent"/>
+    <style name="AppBaseTheme.Translucent" />
 
-    <style name="AppBaseTheme.Translucent.StateBar"/>
+    <style name="AppBaseTheme.Translucent.StateBar" />
 
     <!-- 启动界面style -->
     <style name="AppBaseTheme.Launcher" parent="AppBaseTheme.Translucent">
@@ -86,11 +86,11 @@
         <item name="android:maxHeight">24dp</item>
     </style>
 
-    <style name="NB.Theme" parent="AppTheme"/>
+    <style name="NB.Theme" parent="AppTheme" />
 
-    <style name="NB.Theme.TextAppearance"/>
+    <style name="NB.Theme.TextAppearance" />
 
-    <style name="NB.Theme.TextAppearance.Read"/>
+    <style name="NB.Theme.TextAppearance.Read" />
 
     <style name="NB.Theme.TextAppearance.Read.TopMenu">
         <item name="android:layout_width">50dp</item>
@@ -105,9 +105,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Read"/>
+    <style name="Read" />
 
-    <style name="Read.Setting"/>
+    <style name="Read.Setting" />
 
     <style name="Read.Setting.Button">
         <item name="android:background">@drawable/read_bg_setting_button</item>
@@ -119,6 +119,17 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:minWidth">42dp</item>
+    </style>
+
+    <style name="Read.Setting.ThemeView">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="super_cornerRadius">10dp</item>
+        <item name="super_strokeWidth">1dp</item>
+        <item name="super_strokeColor_selected">@color/colorAccent</item>
+
+
     </style>
 
     <style name="Read.Setting.Dialog" parent="Theme.Design.BottomSheetDialog">
@@ -176,7 +187,7 @@
     </style>
 
 
-    <style name="NB.Theme.TextAppearance.File"/>
+    <style name="NB.Theme.TextAppearance.File" />
 
     <style name="NB.Theme.TextAppearance.File.Tag">
         <item name="android:layout_width">38dp</item>

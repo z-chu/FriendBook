@@ -120,7 +120,7 @@ public class AppException implements Thread.UncaughtExceptionHandler {
         } else if (throwable instanceof UnknownHostException || throwable instanceof NetNotConnectedException) {
             message = "当前无网络，请检查网络设置";
         } else if (throwable instanceof SecurityException) {
-            message = "出错了，权限不足";
+            message = "系统权限不足";
         } else if (throwable instanceof JsonParseException
                 || throwable instanceof JSONException
                 || throwable instanceof ParseException) {
@@ -128,9 +128,8 @@ public class AppException implements Thread.UncaughtExceptionHandler {
         } else if (throwable instanceof javax.net.ssl.SSLHandshakeException) {
             message = "网络证书验证失败";
         } else {
-            if (throwable.getMessage().length() <= 40) {
-                message = throwable.getMessage();
-            } else {
+            message = throwable.getMessage();
+            if (message==null||message.length() <= 40) {
                 message = "出错了 ≥﹏≤ ,请稍后再试";
             }
         }

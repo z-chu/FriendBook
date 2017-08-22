@@ -3,11 +3,9 @@ package com.zchu.reader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 
 import com.zchu.reader.utils.ScreenUtils;
@@ -80,9 +78,9 @@ class PageLoader {
     private int mMarginWidth;
     private int mMarginHeight;
     //字体的颜色
-    private int mTextColor;
+    //private int mTextColor;
     //字体的大小
-    private int mTextSize = 40;
+  //  private int mTextSize = 40;
     //行间距
     private int mIntervalSize;
     //段落距离(基于行间距的额外距离)
@@ -94,7 +92,7 @@ class PageLoader {
     //加载器的颜色主题
     private int mBgTheme = READ_BG_DEFAULT;
     //当前页面的背景
-    private int mPageBg;
+    //private int mPageBg;
     //当前是否是夜间模式
     private boolean isNightMode = false;
 
@@ -120,6 +118,7 @@ class PageLoader {
     protected boolean isBookOpen = false;
 
 
+
     public PageLoader(PageView pageView) {
         mPageView = pageView;
         mContext = pageView.getContext();
@@ -129,6 +128,8 @@ class PageLoader {
         initPaint();
         //初始化PageView
         initPageView();
+
+
     }
 
     public void setAdapter(PageLoaderAdapter adapter) {
@@ -140,12 +141,6 @@ class PageLoader {
     }
 
     private void initData() {
-        if (isNightMode) {
-            setBgColor(NIGHT_MODE);
-        } else {
-            setBgColor(mBgTheme);
-        }
-
         //初始化参数
         mMarginWidth = ScreenUtils.dpToPx(mContext, DEFAULT_MARGIN_WIDTH);
         mMarginHeight = ScreenUtils.dpToPx(mContext, DEFAULT_MARGIN_HEIGHT);
@@ -156,7 +151,7 @@ class PageLoader {
     private void initPaint() {
         //绘制提示的画笔
         mTipPaint = new Paint();
-        mTipPaint.setColor(mTextColor);
+        mTipPaint.setColor(mPageView.getTextColor());
         mTipPaint.setTextAlign(Paint.Align.LEFT);//绘制的起始点
         mTipPaint.setTextSize(ScreenUtils.spToPx(mContext, DEFAULT_TIP_SIZE));//Tip默认的字体大小
         mTipPaint.setAntiAlias(true);
@@ -164,27 +159,24 @@ class PageLoader {
 
         //绘制页面内容的画笔
         mTextPaint = new TextPaint();
-        mTextPaint.setColor(mTextColor);
-        mTextPaint.setTextSize(mTextSize);
+        mTextPaint.setColor(mPageView.getTextColor());
+        mTextPaint.setTextSize(mPageView.getTextSize());
         mTextPaint.setAntiAlias(true);
 
         mBgPaint = new Paint();
-        mBgPaint.setColor(mPageBg);
+        mBgPaint.setColor(mPageView.getPageBackground());
 
         mBatteryPaint = new Paint();
         mBatteryPaint.setAntiAlias(true);
         mBatteryPaint.setDither(true);
-        if (isNightMode) {
-            mBatteryPaint.setColor(Color.WHITE);
-        } else {
-            mBatteryPaint.setColor(Color.BLACK);
-        }
+        mBatteryPaint.setColor(mPageView.getTextColor());
+
     }
 
     private void initPageView() {
         //配置参数
         mPageView.setPageMode(mPageMode);
-        mPageView.setBgColor(mPageBg);
+      //  mPageView.setBgColor(mPageBg);
     }
 
     /****************************** public method***************************/
@@ -280,10 +272,8 @@ class PageLoader {
 
     //设置文字大小
     public void setTextSize(int textSize) {
-        //设置textSize
-        mTextSize = textSize;
         //设置画笔的字体大小
-        mTextPaint.setTextSize(mTextSize);
+        mTextPaint.setTextSize(textSize);
         if (!isBookOpen) return;
         //存储状态
         //mSettingManager.setTextSize(mTextSize);
@@ -312,59 +302,6 @@ class PageLoader {
         mCurPage = getCurPage(mCurPage.position);
         //绘制
         mPageView.refreshPage();
-    }
-
-    //设置夜间模式
-    public void setNightMode(boolean nightMode) {
-        isNightMode = nightMode;
-        if (isNightMode) {
-            mBatteryPaint.setColor(Color.WHITE);
-            setBgColor(NIGHT_MODE);
-        } else {
-            mBatteryPaint.setColor(Color.BLACK);
-            setBgColor(mBgTheme);
-        }
-    }
-
-    //绘制背景
-    public void setBgColor(int theme) {
-        if (isNightMode && theme == NIGHT_MODE) {
-            mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_night);
-            mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_night);
-        } else if (isNightMode) {
-            mBgTheme = theme;
-        } else {
-            switch (theme) {
-                case READ_BG_DEFAULT:
-                    mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_1);
-                    mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_1);
-                    break;
-                case READ_BG_1:
-                    mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_2);
-                    mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_2);
-                    break;
-                case READ_BG_2:
-                    mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_3);
-                    mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_3);
-                    break;
-                case READ_BG_3:
-                    mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_4);
-                    mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_4);
-                    break;
-                case READ_BG_4:
-                    mTextColor = ContextCompat.getColor(mContext, R.color.nb_read_font_5);
-                    mPageBg = ContextCompat.getColor(mContext, R.color.nb_read_bg_5);
-                    break;
-            }
-        }
-
-        if (isBookOpen) {
-            //设置参数
-            mPageView.setBgColor(mPageBg);
-            mTextPaint.setColor(mTextColor);
-            //重绘
-            mPageView.refreshPage();
-        }
     }
 
     //翻页动画
@@ -513,7 +450,7 @@ class PageLoader {
         int tipMarginHeight = ScreenUtils.dpToPx(mContext, 3);
         if (!isUpdate) {
             /****绘制背景****/
-            canvas.drawColor(mPageBg);
+            canvas.drawColor(mPageView.getPageBackground());
 
             /*****初始化标题的参数********/
             //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
@@ -538,7 +475,7 @@ class PageLoader {
             }
         } else {
             //擦除区域
-            mBgPaint.setColor(mPageBg);
+            mBgPaint.setColor(mPageView.getPageBackground());
             canvas.drawRect(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(mContext, 2), mDisplayWidth, mDisplayHeight, mBgPaint);
         }
         /******绘制电池********/
@@ -593,7 +530,7 @@ class PageLoader {
         Canvas canvas = new Canvas(bitmap);
 
         if (mPageMode == PageView.PAGE_MODE_SCROLL) {
-            canvas.drawColor(mPageBg);
+            canvas.drawColor(mPageView.getPageBackground());
         }
 
         /******绘制内容****/
@@ -948,29 +885,19 @@ class PageLoader {
     }
 
 
-    public int getTextSize() {
-        return mTextSize;
-    }
-
-    public int getTextColor() {
-        return mTextColor;
-    }
 
     public void setTextColor(int color) {
-        mTextColor = color;
         mTextPaint.setColor(color);
+        mBatteryPaint.setColor(color);
+        mTipPaint.setColor(color);
     }
 
     public int getPageMode() {
         return mPageMode;
     }
 
-    public int getPageBackground() {
-        return mPageBg;
-    }
 
     public void setPageBackground(int color) {
-        mPageBg = color;
         mPageView.setBgColor(color);
     }
 

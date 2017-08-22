@@ -25,7 +25,7 @@
     <color name="white">#ffffffff</color>
     <color name="white_A25">#40FFFFFF</color>
     <color name="white_A80">#8affffff</color>
-    <color name="white_A16">#29ffffff</color><!---->
+    <color name="white_A16">#29ffffff</color>
     <color name="white_A85">#d9ffffff</color><!--85%透明度-->
     <color name="white_A70">#b2ffffff</color><!--70%透明度-->
     <color name="white_A60">#99ffffff</color><!--60%透明度-->
@@ -40,10 +40,30 @@
     <color name="bg_gray">#e1e1e1</color>
     <color name="grey">#676767</color>
 
-    <!--其他抽取-->
+    <!-- read -->
     <color name="read_text_primary">@color/md_blue_grey_100</color>
     <color name="read_icon_primary">@color/md_blue_grey_100</color>
     <color name="read_menu_text">@color/md_blue_grey_400</color>
     <color name="read_menu_container_bg">#fa263238</color>
+    <!-- default-->
+    <color name="read_theme_default_page_background">#CEC29C</color>
+    <color name="read_theme_default_text">#212121</color>
+    <!--white-->
+    <color name="read_theme_white_page_background">#F5F4F0</color>
+    <color name="read_theme_white_text">#3D3D3D</color>
+    <!--amber-->
+    <color name="read_theme_amber_page_background">#C5B284</color>
+    <color name="read_theme_amber_text">#3A342B</color>
+    <!--green-->
+    <color name="read_theme_green_page_background">#CCE8CF</color>
+    <color name="read_theme_green_text">#333333</color>
+    <!--brown-->
+    <color name="read_theme_brown_page_background">#3A3131</color>
+    <color name="read_theme_brown_text">#95938F</color>
+    <!--black-->
+    <color name="read_theme_black_page_background">#001C29</color>
+    <color name="read_theme_black_text">#637079</color>
+
+    <!--其他抽取-->
 
 </resources>
