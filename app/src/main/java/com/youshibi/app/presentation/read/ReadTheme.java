@@ -20,7 +20,9 @@ public enum ReadTheme {
     AMBER(AppContext.context(), R.color.read_theme_amber_page_background, R.color.read_theme_amber_text),
     GREEN(AppContext.context(), R.color.read_theme_green_page_background, R.color.read_theme_green_text),
     BROWN(AppContext.context(), R.color.read_theme_brown_page_background, R.color.read_theme_brown_text),
-    BLACK(AppContext.context(), R.color.read_theme_black_page_background, R.color.read_theme_black_text);
+    BLACK(AppContext.context(), R.color.read_theme_black_page_background, R.color.read_theme_black_text),
+    NIGHT(AppContext.context(), R.color.read_theme_night_page_background, R.color.read_theme_night_text),
+    DEFAULT(AppContext.context(), R.color.read_theme_default_page_background, R.color.read_theme_default_text);
 
 
     ReadTheme(Context context, @ColorRes int pageBackgroundRes, @ColorRes int textColorRes) {

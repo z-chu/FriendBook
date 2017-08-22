@@ -12,9 +12,14 @@
     <string name="explore">发现</string>
     <string name="mine">我的</string>
 
+    <!--book-->
+    <string name="book_unfinished">连载中</string>
+    <string name="book_finished">已完结</string>
+
     <!-- read -->
     <string name="read_catalog">目录</string>
     <string name="read_night">夜间</string>
+    <string name="read_daytime">日间</string>
     <string name="read_setting">设置</string>
     <string name="read_previous_chapter">上一章</string>
     <string name="read_next_chapter">下一章</string>

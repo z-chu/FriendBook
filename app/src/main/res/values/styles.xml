@@ -133,7 +133,6 @@
     </style>
 
     <style name="Read.Setting.Dialog" parent="Theme.Design.BottomSheetDialog">
-        <item name="android:windowFullscreen">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 

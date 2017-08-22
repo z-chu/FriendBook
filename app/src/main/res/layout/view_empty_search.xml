@@ -16,5 +16,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="抱歉没有找到你要搜索的内容"
-        android:textColor="@color/textSecondary"/>
+        android:textColor="@color/textAssist"/>
 </LinearLayout>

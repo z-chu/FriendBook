@@ -2,10 +2,12 @@ package com.youshibi.app.presentation.book;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 
+import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListFragment;
-import com.youshibi.app.ui.help.RecycleViewDivider;
+import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 
 /**
  * Created by Chu on 2016/12/3.
@@ -35,7 +37,10 @@ public class BookFragment extends BaseListFragment<BookPresenter> {
     @Override
     public void setRecyclerView(RecyclerView recyclerView) {
         super.setRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new RecycleViewDivider(getActivity()));
+        recyclerView.addItemDecoration(new RecyclerViewItemDecoration.Builder(getActivity())
+                .color(ContextCompat.getColor(getActivity(), R.color.colorDivider))
+                .thickness(1)
+                .create());
     }
 
     @NonNull

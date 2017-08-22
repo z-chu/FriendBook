@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_search"
     android:layout_width="match_parent"
     android:layout_height="40.0dp"
-    android:background="@drawable/bg_toolbar_search"
-    android:layout_marginRight="8.0dp"
-    android:layout_marginLeft="8.0dp"
     android:layout_gravity="center_vertical"
-    android:orientation="vertical">
+    android:layout_marginLeft="8.0dp"
+    android:layout_marginRight="8.0dp"
+    android:background="@drawable/bg_toolbar_search"
+    android:orientation="vertical"
+    tools:showIn="@layout/fragment_explore">
 
     <ImageView
         android:id="@+id/iv_search_flag"
@@ -17,7 +20,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="12.0dp"
         android:layout_marginRight="12.0dp"
-        app:srcCompat="@drawable/ic_vector_search" />
+        app:srcCompat="@drawable/ic_vector_search"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +28,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_search_flag"
         android:text="搜索在线书城"
-        android:textSize="@dimen/text_size_large"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_large"/>
 
 </RelativeLayout>

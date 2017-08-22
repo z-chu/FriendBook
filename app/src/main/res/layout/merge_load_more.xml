@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/load_more_failure"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/textAssistSecondary"
         android:textSize="@dimen/text_size_medium"/>
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/list_the_end"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/textAssistSecondary"
         android:textSize="@dimen/text_size_medium"
         tools:visibility="gone"/>
 

@@ -47,7 +47,7 @@ public class Book implements Serializable, Parcelable {
 
     private String BookOneTypeName;
 
-    private int BookWordNum;
+    private long BookWordNum;
 
 
     public String getId() {
@@ -114,14 +114,17 @@ public class Book implements Serializable, Parcelable {
         BookOneTypeName = bookOneTypeName;
     }
 
-    public int getBookWordNum() {
+    public long getBookWordNum() {
         return BookWordNum;
     }
 
-    public void setBookWordNum(int bookWordNum) {
+    public void setBookWordNum(long bookWordNum) {
         BookWordNum = bookWordNum;
     }
 
+
+    public Book() {
+    }
 
     @Override
     public int describeContents() {
@@ -138,10 +141,7 @@ public class Book implements Serializable, Parcelable {
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
         dest.writeInt(this.BookOneType);
         dest.writeString(this.BookOneTypeName);
-        dest.writeInt(this.BookWordNum);
-    }
-
-    public Book() {
+        dest.writeLong(this.BookWordNum);
     }
 
     protected Book(Parcel in) {
@@ -153,10 +153,10 @@ public class Book implements Serializable, Parcelable {
         this.isFinished = in.readByte() != 0;
         this.BookOneType = in.readInt();
         this.BookOneTypeName = in.readString();
-        this.BookWordNum = in.readInt();
+        this.BookWordNum = in.readLong();
     }
 
-    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
         public Book createFromParcel(Parcel source) {
             return new Book(source);

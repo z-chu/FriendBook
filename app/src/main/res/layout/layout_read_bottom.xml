@@ -67,7 +67,7 @@
             android:id="@+id/read_tv_night_mode"
             style="@style/Read.BottomMenu.IconButton"
             android:layout_centerInParent="true"
-            android:drawableTop="@drawable/ic_read_night"
+            android:drawableTop="@drawable/ic_read_mode"
             android:text="@string/read_night"/>
 
 

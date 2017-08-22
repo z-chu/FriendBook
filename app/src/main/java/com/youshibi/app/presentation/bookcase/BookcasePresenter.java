@@ -83,6 +83,7 @@ public class BookcasePresenter extends BaseListPresenter<BaseListContract.View, 
                         .load(item.getCoverUrl())
                         .placeholder(R.drawable.ic_book_cover_default)
                         .into((ImageView) helper.getView(R.id.iv_cover));
+                helper.setText(R.id.tv_title,item.getName());
             }
         };
         return mAdapter;

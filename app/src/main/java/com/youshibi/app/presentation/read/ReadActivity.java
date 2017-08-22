@@ -129,15 +129,15 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
         //设置当前Activity的Bright
-        if (ReaderSettingManager.getInstance().isBrightnessAuto()){
-            BrightnessUtils.setBrightness(this,BrightnessUtils.getScreenBrightness(this));
-        }
-        else {
-            BrightnessUtils.setBrightness(this,ReaderSettingManager.getInstance().getBrightness());
+        if (ReaderSettingManager.getInstance().isBrightnessAuto()) {
+            BrightnessUtils.setBrightness(this, BrightnessUtils.getScreenBrightness(this));
+        } else {
+            BrightnessUtils.setBrightness(this, ReaderSettingManager.getInstance().getBrightness());
         }
         readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
         readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
         readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());
+
         readView.setTouchListener(new PageView.TouchListener() {
             @Override
             public void center() {
@@ -270,7 +270,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
             readBottom.setVisibility(VISIBLE);
             appBar.startAnimation(mTopInAnim);
             readBottom.startAnimation(mBottomInAnim);
-
+            boolean isNight = ReadTheme.getReadTheme(readView.getPageBackground(), readView.getTextColor()) == ReadTheme.NIGHT;
+            readTvNightMode.setSelected(isNight);
+            readTvNightMode.setText(isNight?getString(R.string.read_daytime):getString(R.string.read_night));
             showSystemBar();
         }
     }
@@ -333,13 +335,35 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 readDrawer.openDrawer(readSide);
                 break;
             case R.id.read_tv_night_mode:
-
+                boolean nightModeSelected = !readTvNightMode.isSelected();
+                toggleNightMode(nightModeSelected);
+                ReaderSettingManager.getInstance().setNightMode(nightModeSelected);
                 break;
             case R.id.read_tv_setting:
                 toggleMenu(true);
                 openReadSetting(this);
                 break;
 
+        }
+    }
+
+    private void toggleNightMode(boolean isOpen) {
+        if (isOpen) {
+            readTvNightMode.setText(getString(R.string.read_daytime));
+            readTvNightMode.setSelected(true);
+            readView.setPageBackground(ReadTheme.NIGHT.getPageBackground());
+            readView.setTextColor(ReadTheme.NIGHT.getTextColor());
+            readView.refreshPage();
+            ReaderSettingManager.getInstance().setPageBackground(readView.getPageBackground());
+            ReaderSettingManager.getInstance().setTextColor(readView.getTextColor());
+        } else {
+            readTvNightMode.setText(getString(R.string.read_night));
+            readTvNightMode.setSelected(false);
+            readView.setPageBackground(ReadTheme.DEFAULT.getPageBackground());
+            readView.setTextColor(ReadTheme.DEFAULT.getTextColor());
+            readView.refreshPage();
+            ReaderSettingManager.getInstance().setPageBackground(readView.getPageBackground());
+            ReaderSettingManager.getInstance().setTextColor(readView.getTextColor());
         }
     }
 

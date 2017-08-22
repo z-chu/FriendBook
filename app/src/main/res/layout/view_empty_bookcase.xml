@@ -18,6 +18,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:text="多读书，读好书，马上去书城发现好书"
-        android:textColor="@color/textSecondary"
+        android:textColor="@color/textAssist"
         android:textSize="@dimen/text_size_medium"/>
 </LinearLayout>

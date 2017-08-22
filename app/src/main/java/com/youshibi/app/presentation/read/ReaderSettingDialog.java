@@ -220,9 +220,9 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     private void setReadTheme(ReadTheme readTheme) {
         mPageView.setPageBackground(readTheme.getPageBackground());
         mPageView.setTextColor(readTheme.getTextColor());
+        mPageView.refreshPage();
         ReaderSettingManager.getInstance().setPageBackground(readTheme.getPageBackground());
         ReaderSettingManager.getInstance().setTextColor(readTheme.getTextColor());
-        mPageView.refreshPage();
         switch (readTheme) {
             case WHITE:
                 selectedThemeView(readThemeWhite);
