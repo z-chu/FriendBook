@@ -52,13 +52,26 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
     public void setRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+
+        int i = getResources().getDisplayMetrics().widthPixels;
+        int y = DensityUtil.dp2px(getContext(), 90);
+        int p = DensityUtil.dp2px(getContext(), 15);
+        int padding = (3 * y + 2 * 3 * p + 2 * p - i) / (2 * 3);
+
+        recyclerView.setPadding(
+                padding,
+                DensityUtil.dp2px(getContext(), 8),
+                padding,
+                DensityUtil.dp2px(getContext(), 8)
+        );
     }
+
 
     @Override
     public void setAdapter(BaseQuickAdapter adapter) {
         adapter.setEmptyView(R.layout.view_empty_bookcase, recyclerView);
         recyclerView.setAdapter(adapter);
-        recyclerView.setPadding(0, DensityUtil.dp2px(getContext(), 8), 0, DensityUtil.dp2px(getContext(), 8));
+
     }
 
 

@@ -6,6 +6,8 @@
     <dimen name="text_size_large">16.0sp</dimen>
     <dimen name="text_size_xlarge">18.0sp</dimen>
 
+    <dimen name="space_ground_horizontal">20dp</dimen><!--全局的根布局左右水平间距-->
+
     <dimen name="toolbar_title_size">18sp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
     <dimen name="bottomBar_height">56dp</dimen>
