@@ -43,12 +43,19 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
     private int mLoadingLayoutId;
     private int mErrorLayoutId;
     private int mState = STATE_NONE;
-    private boolean isLazyLoading = true;//是否为懒加载
 
     private OnRetryListener mOnRetryListener;
     private OnViewCreatedListener mContentViewCreatedListener;
     private OnViewCreatedListener mLoadingViewCreatedListener;
-    private OnViewCreatedListener mErrorViewCreatedListener;
+    private OnViewCreatedListener mErrorViewCreatedListener = new OnViewCreatedListener() {
+        @Override
+        public void onViewCreated(@NonNull View view) {
+            View viewById = view.findViewById(R.id.reload_view);
+            if(viewById!=null) {
+                viewById.setOnClickListener(LoadErrorView.this);
+            }
+        }
+    };
 
 
     public LoadErrorView(Context context) {
@@ -73,10 +80,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
 
     private void inflateView(Context context, TypedArray typedArray) {
         mLayoutInflater = LayoutInflater.from(context);
-        isLazyLoading = typedArray.getBoolean(R.styleable.LoadErrorView_LazyLoading, isLazyLoading);
-        setContentView(typedArray.getResourceId(R.styleable.LoadErrorView_contentLayout, 0));
-        setLoadingView(typedArray.getResourceId(R.styleable.LoadErrorView_loadingLayout, 0));
-        setErrorView(typedArray.getResourceId(R.styleable.LoadErrorView_errorLayout, 0));
+        mContentLayoutId = typedArray.getResourceId(R.styleable.LoadErrorView_contentLayout, 0);
+        mLoadingLayoutId = typedArray.getResourceId(R.styleable.LoadErrorView_loadingLayout, 0);
+        mErrorLayoutId = typedArray.getResourceId(R.styleable.LoadErrorView_errorLayout, 0);
         typedArray.recycle();
     }
 
@@ -120,7 +126,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
                 if (mErrorViewCreatedListener != null) {
                     mErrorViewCreatedListener.onViewCreated(mErrorView);
                 }
-                mErrorView.findViewById(R.id.reload_view).setOnClickListener(this);
+                // mErrorView.findViewById(R.id.reload_view).setOnClickListener(this);
             }
         }
     }
@@ -133,6 +139,7 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         if (mErrorView != null) {
             mErrorView.setVisibility(View.GONE);
         }
+
         if (mContentView != null || mContentLayoutId != 0) {
             if (mContentView == null) {
                 mContentView = mLayoutInflater.inflate(mContentLayoutId, this, false);
@@ -190,16 +197,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public void setLoadingView(@LayoutRes int layoutId) {
-        if (layoutId == 0) {
-            return;
-        }
-        if (isLazyLoading) {
-            checkIsLegalStatus();
-            this.mLoadingLayoutId = layoutId;
-        } else {
-            setLoadingView(mLayoutInflater.inflate(layoutId, this, false));
-        }
+    public void setLoadingLayoutId(@LayoutRes int layoutId) {
+        checkIsLegalStatus();
+        this.mLoadingLayoutId = layoutId;
     }
 
     public void setLoadingView(View view) {
@@ -215,16 +215,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public void setErrorView(@LayoutRes int layoutId) {
-        if (layoutId == 0) {
-            return;
-        }
-        if (isLazyLoading) {
-            checkIsLegalStatus();
-            this.mErrorLayoutId = layoutId;
-        } else {
-            setErrorView(mLayoutInflater.inflate(layoutId, this, false));
-        }
+    public void setErrorLayoutId(int layoutId) {
+        checkIsLegalStatus();
+        this.mErrorLayoutId = layoutId;
     }
 
     public void setErrorView(View view) {
@@ -240,16 +233,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    public void setContentView(@LayoutRes int layoutId) {
-        if (layoutId == 0) {
-            return;
-        }
-        if (isLazyLoading) {
-            checkIsLegalStatus();
-            this.mContentLayoutId = layoutId;
-        } else {
-            setContentView(mLayoutInflater.inflate(layoutId, this, false));
-        }
+    public void setContentLayoutId(int layoutId) {
+        checkIsLegalStatus();
+        this.mContentLayoutId = layoutId;
     }
 
     public void setContentView(View view) {
@@ -275,6 +261,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         return mState;
     }
 
+    /**
+     * 设置点击重试的回调，注意如果还设置ErrorViewCreatedListener，那setOnRetryListener设置的listener将会失效
+     */
     public void setOnRetryListener(OnRetryListener listener) {
         this.mOnRetryListener = listener;
     }
@@ -295,6 +284,9 @@ public class LoadErrorView extends FrameLayout implements View.OnClickListener {
         }
     }
 
+    /**
+     * 设置ErrorView 在创建时回调，注意设置完之后，setOnRetryListener设置的listener将会失效
+     */
     public void setErrorViewCreatedListener(OnViewCreatedListener listener) {
         if (mErrorView != null && mErrorView.getParent() == this) {
             listener.onViewCreated(mErrorView);

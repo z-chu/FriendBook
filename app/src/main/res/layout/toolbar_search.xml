@@ -37,7 +37,7 @@
             android:layout_toRightOf="@id/iv_arrow_back"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="搜索在线书城"
+            android:hint="@string/search_book_edit_hint"
             android:imeOptions="actionSearch"
             android:padding="8.0dp"
             android:singleLine="true"

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_search_flag"
-        android:text="搜索在线书城"
+        android:text="@string/search_book_edit_hint"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"/>
 

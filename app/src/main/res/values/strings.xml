@@ -5,6 +5,7 @@
     <string name="list_the_end">没有更多数据</string>
     <string name="click_retry">点击重试</string>
     <string name="load_more_failure">加载失败，点击重试</string>
+    <string name="load_data_failure">网络出了点问题，请稍后再试 ～</string>
     <string name="no">开启</string>
     <string name="off">关闭</string>
     <string name="add">添加</string>
@@ -32,5 +33,9 @@
     <string name="read_setting_flip_over_simulation">仿真</string>
     <string name="read_setting_flip_over_slide">滑动</string>
     <string name="read_setting_flip_over_none">无</string>
+    <string name="empty_search_book">抱歉没有找到你要搜索的内容</string>
+    <string name="empty_bookcase">多读书，读好书，马上去书城发现好书</string>
+    <string name="search_book_edit_hint">搜索在线书城</string>
+
 
 </resources>

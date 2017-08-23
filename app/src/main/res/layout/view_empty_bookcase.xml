@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="多读书，读好书，马上去书城发现好书"
+        android:text="@string/empty_bookcase"
         android:textColor="@color/textAssist"
         android:textSize="@dimen/text_size_medium"/>
 </LinearLayout>
