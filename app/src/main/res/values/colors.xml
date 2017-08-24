@@ -6,7 +6,7 @@
     <color name="colorGrounding">@color/md_grey_50</color><!--界面底色-->
     <color name="colorDivider">@color/md_grey_300</color> <!-- 分割线颜色-->
     <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
-    <color name="colorRipple">#d4bdbdbd</color><!--点击时水波纹颜色-->
+    <color name="colorRipple">#e0e0e0</color><!--点击时水波纹颜色-->
     <color name="colorInactive">#ff909090</color> <!--不活跃的颜色  icon的默认灰色-->
     <color name="colorPress">#ffe0e0e0</color>
     <color name="colorPictureDefault">#fff9f9f9</color>
@@ -17,7 +17,7 @@
     <color name="textAssist">#9e9e9e</color><!--用于普通级信息、引导词,如昵正文、弹层文案、查看更多之类-->
     <color name="textAssistSecondary">#B0B0B0</color><!--用于辅助、次要的文字信息、普通按钮描边,如时间、来自等补充信息文案-->
     <color name="textPrimaryInverted">#ffffff</color>
-    <color name="textSecondaryInverted">#8affffff</color>
+    <color name="textSecondaryInverted">#c8ffffff</color>
     <color name="textError">#ffe7492e</color>
 
     <!--通用颜色-->

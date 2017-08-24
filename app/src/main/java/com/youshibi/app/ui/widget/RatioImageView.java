@@ -27,7 +27,7 @@ import android.widget.ImageView;
  * 作者: 赵成柱 on 2016/4/14.
  * 用于支持瀑布流
  */
-public class RatioImageView extends ImageView {
+public class RatioImageView extends android.support.v7.widget.AppCompatImageView {
 
     private int originalWidth;
     private int originalHeight;

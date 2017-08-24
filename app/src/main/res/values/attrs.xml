@@ -57,6 +57,7 @@
     <declare-styleable name="MineRowView">
         <attr name="mine_icon" format="color|reference"/>
         <attr name="mine_title" format="string"/>
+        <attr name="mine_divider_visibility" format="boolean"/>
 
 
 
