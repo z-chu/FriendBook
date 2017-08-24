@@ -53,4 +53,12 @@
         <attr name="super_bottomRightRadius" format="dimension"/>
 
     </declare-styleable>
+
+    <declare-styleable name="MineRowView">
+        <attr name="mine_icon" format="color|reference"/>
+        <attr name="mine_title" format="string"/>
+
+
+
+    </declare-styleable>
 </resources>

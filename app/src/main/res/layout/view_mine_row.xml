@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp">
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="24dp"
-        android:layout_height="24dp"/>
+        android:layout_centerVertical="true"
+        android:layout_height="24dp" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_icon"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/text_size_large"
-        tools:text="我的书籍"/>
+        tools:text="我的书籍" />
 
     <ImageView
         android:layout_width="14dp"
+        android:layout_centerVertical="true"
         android:layout_height="14dp"
         android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/ic_vector_arrow_open"/>
+        app:srcCompat="@drawable/ic_vector_arrow_open" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorDivider" />
 
 </RelativeLayout>

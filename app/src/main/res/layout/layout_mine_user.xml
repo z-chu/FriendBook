@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="148dp"
+    android:background="@color/colorPrimary"
+    android:paddingLeft="@dimen/space_ground_horizontal"
+    android:paddingRight="@dimen/space_ground_horizontal">
+
+    <TextView
+        android:id="@+id/tv_login_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="未登录"
+        android:textColor="@color/textPrimaryInverted"
+        android:textSize="@dimen/text_size_extra_large" />
+
+    <TextView
+        android:id="@+id/tv_login_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login_flag"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/textSecondaryInverted"
+        android:text="登录更安全,可以同步书籍,多设备切换" />
+
+    <com.youshibi.app.ui.widget.ShapeTextView
+        android:id="@+id/reload_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login_hint"
+        android:layout_marginTop="12.0dp"
+        android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="6dp"
+        android:text="点击登录"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        app:super_cornerRadius="50dp"
+        android:elevation="@dimen/elevation_app_bar"
+        app:super_solidColor="@color/md_light_green_50"
+        app:super_strokeWidth="1dp" />
+
+</RelativeLayout>

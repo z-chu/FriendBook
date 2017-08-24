@@ -1,8 +1,16 @@
 package com.youshibi.app.ui.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.youshibi.app.R;
 
 /**
  * author : zchu
@@ -12,15 +20,38 @@ import android.widget.RelativeLayout;
 
 public class MineRowView extends RelativeLayout {
 
+    private ImageView ivIcon;
+    private TextView tvTitle;
+    private View divider;
+
     public MineRowView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public MineRowView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public MineRowView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initView(context);
+        initAttributeSet(context,attrs);
+    }
+
+    private void initView(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.view_mine_row, this, true);
+        ivIcon = (ImageView) findViewById(R.id.iv_icon);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        divider = findViewById(R.id.divider);
+    }
+
+    private void initAttributeSet(Context context,AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MineRowView);
+        Drawable icon = typedArray.getDrawable(R.styleable.MineRowView_mine_icon);
+        String title = typedArray.getString(R.styleable.MineRowView_mine_title);
+        typedArray.recycle();
+        ivIcon.setImageDrawable(icon);
+        tvTitle.setText(title);
+
     }
 }

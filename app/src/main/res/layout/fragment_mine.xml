@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我的" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_mine_user" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="设置" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="夜间模式" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="分享友书" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="给友书好评" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="关于友书" />
+
+        <com.youshibi.app.ui.widget.MineRowView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list_item"
+            app:mine_title="意见反馈" />
+    </LinearLayout>
+
+</ScrollView>
