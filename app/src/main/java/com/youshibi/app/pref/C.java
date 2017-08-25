@@ -7,5 +7,6 @@ package com.youshibi.app.pref;
  */
 
 public class C {
-
+    public static final String UMENG_APP_KEY="599f7faf07fe6570dd000818";
+    public static final String UMENG_APP_CHANNEL="default";
 }

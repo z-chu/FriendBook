@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.umeng.analytics.MobclickAgent;
 import com.zchu.log.Logger;
 
 import java.util.Iterator;
@@ -180,7 +181,7 @@ public class AppManager {
         try {
             finishAllActivity();
             // 友盟统计，统计关闭
-            //MobclickAgent.onKillProcess(mApplication);
+            MobclickAgent.onKillProcess(mApplication);
             // 杀死该应用进程
             android.os.Process.killProcess(android.os.Process.myPid());
         } catch (Exception e) {

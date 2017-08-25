@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseFragment;
@@ -17,6 +18,7 @@ import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.presentation.book.BookFragment;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.BaseFragmentAdapter;
+import com.youshibi.app.util.CountEventHelper;
 import com.youshibi.app.util.ToastUtil;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class ExploreFragment extends BaseFragment {
 
     private ViewPager viewPager;
     private AppBarLayout appbar;
- //   private Toolbar toolbar;
+    //   private Toolbar toolbar;
     private TabLayout tab;
 
     private Subscription mSubscribe;
@@ -67,7 +69,7 @@ public class ExploreFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findView(view);
-       // toolbar.setTitle(getString(R.string.app_name));
+        // toolbar.setTitle(getString(R.string.app_name));
     }
 
     @Override
@@ -113,17 +115,36 @@ public class ExploreFragment extends BaseFragment {
                 });
     }
 
-    public void setViewPage(PagerAdapter adapter) {
+    public void setViewPage(final PagerAdapter adapter) {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
+        CountEventHelper.countExploreTab(getContext(),
+                adapter.getPageTitle(viewPager.getCurrentItem()).toString());
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                CountEventHelper.countExploreTab(getContext(),
+                        adapter.getPageTitle(position).toString());
+            }
+        });
         tab.setupWithViewPager(viewPager);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mSubscribe!=null&&!mSubscribe.isUnsubscribed()) {
+        if (mSubscribe != null && !mSubscribe.isUnsubscribed()) {
             mSubscribe.unsubscribe();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            MobclickAgent.onPageEnd(getClass().getName());
+        } else {
+            MobclickAgent.onPageStart(getClass().getName());
         }
     }
 }

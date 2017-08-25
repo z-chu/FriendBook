@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zchu.log.Logger;
+
 /**
  * 作者: 赵成柱 on 2016/7/26 0026.
  * 职责：为所有的Fragment封装功能
@@ -94,6 +96,7 @@ public abstract class BaseFragment extends BaseSuperFragment {
      * @param isFirstShow 是否为第一次显示
      */
     public void onShow(boolean isFirstShow) {
+        Logger.e("onShow");
 
     }
 
@@ -102,6 +105,7 @@ public abstract class BaseFragment extends BaseSuperFragment {
      * 当fragment隐藏
      */
     public void onHide() {
+        Logger.e("onHide");
     }
 
 

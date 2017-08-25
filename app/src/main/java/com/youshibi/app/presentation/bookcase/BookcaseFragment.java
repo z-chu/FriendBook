@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListFragment;
@@ -74,6 +75,15 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            MobclickAgent.onPageEnd(getClass().getName());
+        }else{
+            MobclickAgent.onPageStart(getClass().getName());
+        }
+    }
 
     @NonNull
     @Override

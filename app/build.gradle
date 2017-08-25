@@ -118,8 +118,8 @@ dependencies {
     releaseCompile 'com.zchu:zlog-no-op:1.0.1'//正式发布时会将所有的打印方法替换为空方法
 
     //dagger
-    compile 'com.google.dagger:dagger:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+   /* compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'*/
 
     //ui
    // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -137,6 +137,9 @@ dependencies {
 
     //orm
     compile 'org.greenrobot:greendao:3.2.2'
+
+    //umeng
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
 
     compile project(':bottom-bar')

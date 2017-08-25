@@ -15,6 +15,7 @@ import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
 import com.youshibi.app.presentation.search.SearchActivity;
 import com.youshibi.app.presentation.search.SearchResultActivity;
+import com.youshibi.app.util.CountEventHelper;
 
 
 /**
@@ -76,6 +77,7 @@ public class AppRouter {
 
     public static void showBookDetailActivity(Context context, Book book) {
         context.startActivity(BookDetailActivity.newIntent(context, book));
+        CountEventHelper.countBookDetailDispay(context, book);
     }
 
     public static void showReadActivity(Context context, String bookId, int sectionIndex) {
@@ -84,6 +86,7 @@ public class AppRouter {
 
     public static void showReadActivity(Context context, String bookId, String bookName, int sectionIndex) {
         context.startActivity(ReadActivity.newIntent(context, bookId, bookName, sectionIndex));
+        CountEventHelper.countBookRead(context, bookId, bookName);
     }
 
     public static void showSearchActivity(Context context) {
@@ -97,6 +100,7 @@ public class AppRouter {
 
     public static void showSearchResultActivity(Context context, String keyword) {
         context.startActivity(SearchResultActivity.newIntent(context, keyword));
+        CountEventHelper.countBookSearch(context, keyword);
     }
 
 

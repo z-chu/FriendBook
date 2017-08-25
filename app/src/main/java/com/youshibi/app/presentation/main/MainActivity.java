@@ -59,4 +59,9 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected boolean isCountingPage() {
+        return false;
+    }
 }
