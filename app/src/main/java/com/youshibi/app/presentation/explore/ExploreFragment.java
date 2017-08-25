@@ -1,5 +1,6 @@
 package com.youshibi.app.presentation.explore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -21,6 +22,7 @@ import com.youshibi.app.ui.help.BaseFragmentAdapter;
 import com.youshibi.app.util.CountEventHelper;
 import com.youshibi.app.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -37,8 +39,13 @@ public class ExploreFragment extends BaseFragment {
     private AppBarLayout appbar;
     //   private Toolbar toolbar;
     private TabLayout tab;
+    private View ivBookTypeMore;
 
     private Subscription mSubscribe;
+
+    private ArrayList<BookType> alwaySelectedBookTypes = new ArrayList<>();
+    private ArrayList<BookType> selectedBookTypes = new ArrayList<>();
+    private ArrayList<BookType> unselectedBookTypes = new ArrayList<>();
 
 
     public static ExploreFragment newInstance() {
@@ -62,6 +69,15 @@ public class ExploreFragment extends BaseFragment {
                 AppRouter.showSearchActivity(ExploreFragment.this.getContext());
             }
         });
+        ivBookTypeMore = view.findViewById(R.id.iv_book_type_more);
+        ivBookTypeMore
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = BookTypeSelectionActivity.newIntent(getContext(), selectedBookTypes, unselectedBookTypes, alwaySelectedBookTypes);
+                        getContext().startActivity(intent);
+                    }
+                });
     }
 
 
@@ -104,15 +120,30 @@ public class ExploreFragment extends BaseFragment {
                         pageTitles[0] = "全部";
                         for (int i = 0; i < bookTypes.size(); i++) {
                             BookType bookType = bookTypes.get(i);
-                            pageTitles[i + 1] = bookType.getTypeName().replaceAll("小说","");
+                            pageTitles[i + 1] = bookType.getTypeName().replaceAll("小说", "");
                             fragments[i + 1] = BookFragment.newInstance(bookType.getId());
                         }
                         fragmentAdapter.setFragmentPages(fragments);
                         fragmentAdapter.setPageTitles(pageTitles);
                         setViewPage(fragmentAdapter);
+                        initSelectedBookType(bookTypes);
                     }
 
+
                 });
+    }
+
+    private void initSelectedBookType(List<BookType> bookTypes) {
+        for (int i = 0; i < bookTypes.size(); i++) {
+            if (i == 0) {
+                alwaySelectedBookTypes.add(bookTypes.get(i));
+            } else if (i < 5) {
+                selectedBookTypes.add(bookTypes.get(i));
+            } else {
+                unselectedBookTypes.add(bookTypes.get(i));
+            }
+        }
+        ivBookTypeMore.setVisibility(View.VISIBLE);
     }
 
     public void setViewPage(final PagerAdapter adapter) {

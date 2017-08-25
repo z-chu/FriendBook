@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:elevation="@dimen/elevation_label"
+            android:background="@drawable/bg_label_normal"
+            android:gravity="center"
+            android:text="精华"
+            android:textColor="@color/label_text"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_remove"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:elevation="@dimen/elevation_label"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="end"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_label_remove" />
+
+    </FrameLayout>
+</FrameLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6.0dp"
+        android:paddingTop="6.0dp"
+        android:text="点击添加更多标签"
+        android:textColor="@color/label_text"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="48.0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:paddingBottom="6.0dp"
+        android:paddingTop="6.0dp"
+        android:text="编辑"
+        android:textColor="@color/label_text"
+        android:textSize="14sp" />
+
+
+</FrameLayout>

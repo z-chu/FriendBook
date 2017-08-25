@@ -55,6 +55,8 @@
             android:name=".presentation.search.SearchResultActivity"
             android:theme="@style/AppTheme.Slide"
             />
+        <activity android:name=".presentation.explore.BookTypeSelectionActivity"
+            android:theme="@style/AppTheme.Translucent"/>
 
 
     </application>
