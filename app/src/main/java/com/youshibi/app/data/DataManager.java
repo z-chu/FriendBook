@@ -122,7 +122,7 @@ public class DataManager {
                 .getBookType()
                 .map(new HttpResultFunc<List<BookType>>())
                 .compose(rxCache.<List<BookType>>transformer("getBookType", new TypeToken<List<BookType>>() {
-                }.getType(), CacheStrategy.firstCache()))
+                }.getType(), CacheStrategy.firstRemote()))
                 .map(new Func1<CacheResult<List<BookType>>, List<BookType>>() {
                     @Override
                     public List<BookType> call(CacheResult<List<BookType>> cacheResult) {
@@ -140,7 +140,6 @@ public class DataManager {
      */
     public Observable<List<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("bookId", bookId);
         if (isOrderByAsc) {
             hashMap.put("order", "asc");
         } else {
@@ -148,7 +147,7 @@ public class DataManager {
         }
         return RequestClient
                 .getServerAPI()
-                .getBookSectionList(hashMap)
+                .getBookSectionList(bookId,hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
                 .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
                 }.getType(), CacheStrategy.firstCache()))
@@ -168,12 +167,10 @@ public class DataManager {
      */
     public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("bookId", bookId);
-        hashMap.put("currentChapterIndex", sectionIndex);
         hashMap.put("queryDirection", "current");
         return RequestClient
                 .getServerAPI()
-                .getBookSectionContent(hashMap)
+                .getBookSectionContent(bookId,sectionIndex,hashMap)
                 .map(new HttpResultFunc<BookSectionContent>())
                 .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionIndex, BookSectionContent.class, CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {

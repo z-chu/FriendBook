@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -24,27 +25,27 @@ public interface ServerAPI {
     /**
      * 获取所有小说
      */
-    @GET("/bookList")
+    @GET("v1/books")
     Observable<HttpResult<DataList<Book>>> getBookList(@QueryMap HashMap<String, Object> map);
 
     /**
      * 获取小说类别
      */
-    @GET("/book/GetBookType")
+    @GET("v1/book-types")
     Observable<HttpResult<List<BookType>>> getBookType();
 
     /**
      * 获取小说章节列表
      */
-    @GET("/Book/GetChapterList")
-    Observable<HttpResult<List<BookSectionItem>>> getBookSectionList(@QueryMap HashMap<String, Object> map);
+    @GET("v1/books/{bookId}/chapters")
+    Observable<HttpResult<List<BookSectionItem>>> getBookSectionList(@Path("bookId")String bookId,@QueryMap HashMap<String, Object> map);
 
 
     /**
      * 获取小说章节中的内容
      */
-    @GET("/Book/GetChapterDetail")
-    Observable<HttpResult<BookSectionContent>> getBookSectionContent(@QueryMap HashMap<String, Object> map);
+    @GET("v1/books/{bookId}/chapters/{position}")
+    Observable<HttpResult<BookSectionContent>> getBookSectionContent(@Path("bookId")String bookId,@Path("position") int position,@QueryMap HashMap<String, Object> map);
 
 
 }

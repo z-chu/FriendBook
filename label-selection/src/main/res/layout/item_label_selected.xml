@@ -12,8 +12,8 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_width="72dp"
+            android:layout_height="38dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:elevation="@dimen/elevation_label"
@@ -21,7 +21,7 @@
             android:gravity="center"
             android:text="精华"
             android:textColor="@color/label_text"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/iv_remove"
