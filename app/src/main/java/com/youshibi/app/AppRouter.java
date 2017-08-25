@@ -12,6 +12,7 @@ import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
+import com.youshibi.app.presentation.main.MainActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
 import com.youshibi.app.presentation.search.SearchActivity;
 import com.youshibi.app.presentation.search.SearchResultActivity;
@@ -62,6 +63,11 @@ public class AppRouter {
         webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCachePath(AppConfig.WEB_CACHE_PATH);
+    }
+
+    public static void showMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 
     /**

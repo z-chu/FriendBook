@@ -31,6 +31,7 @@ public class BaseActivity extends BaseSuperActivity {
 
     private ImmersionBar mImmersionBar;
     private Drawable mDefaultWindowBackground;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +84,11 @@ public class BaseActivity extends BaseSuperActivity {
         }
     }
 
-    public void onSlideCancel(){
+    public void onSlideCancel() {
         getWindow().setBackgroundDrawable(getDefaultWindowBackground());
     }
 
-    public void onSlideClosed(){
+    public void onSlideClosed() {
         InputMethodUtils.hideSoftInput(BaseActivity.this);
     }
 
@@ -110,9 +111,8 @@ public class BaseActivity extends BaseSuperActivity {
     }
 
 
-
     public Drawable getDefaultWindowBackground() {
-        if(mDefaultWindowBackground==null) {
+        if (mDefaultWindowBackground == null) {
             int[] attrsArray = {android.R.attr.windowBackground};
             TypedArray typedArray = this.obtainStyledAttributes(attrsArray);
             mDefaultWindowBackground = typedArray.getDrawable(0);
@@ -207,6 +207,8 @@ public class BaseActivity extends BaseSuperActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mImmersionBar.destroy();
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
+        }
     }
 }

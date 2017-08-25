@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".AppContext"
@@ -20,6 +20,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Slide">
+
+        <activity android:name=".presentation.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.main.MainActivity"
@@ -32,11 +40,7 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity android:name=".presentation.book.BookDetailActivity">
@@ -55,7 +59,8 @@
             android:name=".presentation.search.SearchResultActivity"
             android:theme="@style/AppTheme.Slide"
             />
-        <activity android:name=".presentation.explore.BookTypeSelectionActivity"
+        <activity
+            android:name=".presentation.explore.BookTypeSelectionActivity"
             android:theme="@style/AppTheme.Translucent"/>
 
 

@@ -69,15 +69,22 @@ public static java.lang.String TABLENAME;
 }
 -keep class **$Properties
 # If you do not use SQLCipher:
-#-dontwarn org.greenrobot.greendao.database.**
+-dontwarn org.greenrobot.greendao.database.**
 # If you do not use Rx:
-#-dontwarn rx.**
+-dontwarn rx.**
 
 # umeng
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
 -keepclassmembers enum com.umeng.analytics.* {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep public class com.youshibi.app.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
