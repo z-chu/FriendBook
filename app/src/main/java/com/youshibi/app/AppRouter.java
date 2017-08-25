@@ -83,7 +83,7 @@ public class AppRouter {
 
     public static void showBookDetailActivity(Context context, Book book) {
         context.startActivity(BookDetailActivity.newIntent(context, book));
-        CountEventHelper.countBookDetailDispay(context, book);
+        CountEventHelper.countBookDetail(context, book);
     }
 
     public static void showReadActivity(Context context, String bookId, int sectionIndex) {

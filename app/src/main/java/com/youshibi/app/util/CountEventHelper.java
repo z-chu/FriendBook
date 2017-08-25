@@ -27,7 +27,7 @@ public class CountEventHelper {
     /**
      * 统计书籍详情打开
      */
-    public static void countBookDetailDispay(Context context, Book book) {
+    public static void countBookDetail(Context context, Book book) {
         HashMap<String, String> map = new HashMap<>();
         map.put("bookId", book.getId());
         map.put("bookName", book.getName());
@@ -35,7 +35,7 @@ public class CountEventHelper {
         map.put("bookTypeName", book.getBookOneTypeName());
         map.put("bookIsFinished", String.valueOf(book.isFinished()));
         map.put("bookWordNum", String.valueOf(book.getBookWordNum()));
-        MobclickAgent.onEvent(context, "book_detail_dispay", map);
+        MobclickAgent.onEvent(context, "book_detail", map);
     }
 
     /**
@@ -54,7 +54,7 @@ public class CountEventHelper {
     public static void countExploreTab(Context context, String tabName) {
         HashMap<String, String> map = new HashMap<>();
         map.put("tabName", tabName);
-        MobclickAgent.onEvent(context, "explore_Tab", map);
+        MobclickAgent.onEvent(context, "explore_tab", map);
     }
 
 }
