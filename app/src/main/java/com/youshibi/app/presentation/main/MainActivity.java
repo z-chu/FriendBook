@@ -17,14 +17,15 @@ import com.youshibi.app.util.ToastUtil;
 
 public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, OnTabSelectListener {
 
+    private BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         getPresenter().start();
-        getPresenter().initContentContainer(getSupportFragmentManager(),R.id.content_view);
+        getPresenter().initContentContainer(getSupportFragmentManager(), R.id.content_view);
         bottomBar.setOnTabSelectListener(this);
     }
 
@@ -47,6 +48,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     }
 
     private long exitTime = 0;
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
@@ -63,5 +65,20 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     @Override
     protected boolean isCountingPage() {
         return false;
+    }
+
+    @Override
+    public void switchBookcase() {
+        bottomBar.setCanUpdateShy(false);
+    }
+
+    @Override
+    public void switchExplore() {
+        bottomBar.setCanUpdateShy(true);
+    }
+
+    @Override
+    public void switchMine() {
+        bottomBar.setCanUpdateShy(false);
     }
 }

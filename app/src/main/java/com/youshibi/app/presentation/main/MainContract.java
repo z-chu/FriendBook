@@ -14,12 +14,17 @@ import com.youshibi.app.mvp.MvpView;
 public interface MainContract {
     interface View extends MvpView {
 
+        void switchBookcase();
+
+        void switchExplore();
+
+        void switchMine();
 
     }
 
     interface Presenter extends MvpPresenter<View> {
 
-        void initContentContainer(@NonNull final FragmentManager fragmentManager,@IdRes int contentContainerId);
+        void initContentContainer(@NonNull final FragmentManager fragmentManager, @IdRes int contentContainerId);
 
         void dispatchTabSelectedTabId(@IdRes int tabId);
     }

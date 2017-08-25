@@ -39,8 +39,8 @@ public class BottomBarTab extends LinearLayout {
     static final String STATE_BADGE_COUNT = "STATE_BADGE_COUNT_FOR_TAB_";
 
     private static final long ANIMATION_DURATION = 150;
-    private static final float ACTIVE_TITLE_SCALE = 1;
-    private static final float INACTIVE_FIXED_TITLE_SCALE = 0.86f;
+    private static final float ACTIVE_TITLE_SCALE = 1.08f;
+    private static final float INACTIVE_FIXED_TITLE_SCALE = 1f;
     private static final float ACTIVE_SHIFTING_TITLELESS_ICON_SCALE = 1.24f;
     private static final float INACTIVE_SHIFTING_TITLELESS_ICON_SCALE = 1f;
 
@@ -92,7 +92,7 @@ public class BottomBarTab extends LinearLayout {
     void prepareLayout() {
         inflate(getContext(), getLayoutResource(), this);
         setOrientation(VERTICAL);
-        setGravity(isTitleless? Gravity.CENTER : Gravity.CENTER_HORIZONTAL);
+        setGravity(isTitleless? Gravity.CENTER : Gravity.CENTER);
         setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         setBackgroundResource(MiscUtils.getDrawableRes(getContext(), R.attr.selectableItemBackgroundBorderless));
 

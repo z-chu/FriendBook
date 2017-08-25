@@ -31,51 +31,58 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     }
 
     @Override
-    public void initContentContainer(@NonNull final FragmentManager fragmentManager,@IdRes int contentContainerId) {
+    public void initContentContainer(@NonNull final FragmentManager fragmentManager, @IdRes int contentContainerId) {
         this.mFragmentManager = fragmentManager;
-        this.contentContainerId=contentContainerId;
+        this.contentContainerId = contentContainerId;
     }
-
-
 
 
     @Override
     public void dispatchTabSelectedTabId(@IdRes int tabId) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         Fragment selectedFragment = mFragmentManager.findFragmentByTag(String.valueOf(tabId));
-        switch (tabId){
+        switch (tabId) {
             case R.id.tab_bookcase:
-                if (selectedFragment== null) {
-                    selectedFragment= BookcaseFragment.newInstance();
-                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
+                if (selectedFragment == null) {
+                    selectedFragment = BookcaseFragment.newInstance();
+                    fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
+                checkedTab(fragmentTransaction, tabId);
+                getView().switchBookcase();
                 break;
             case R.id.tab_explore:
-                if (selectedFragment== null) {
-                    selectedFragment= ExploreFragment.newInstance();
-                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
+                if (selectedFragment == null) {
+                    selectedFragment = ExploreFragment.newInstance();
+                    fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
+                checkedTab(fragmentTransaction, tabId);
+                getView().switchExplore();
                 break;
             case R.id.tab_mine:
-                if (selectedFragment== null) {
-                    selectedFragment= MineFragment.newInstance();
-                    fragmentTransaction.add(contentContainerId, selectedFragment,String.valueOf(tabId));
+                if (selectedFragment == null) {
+                    selectedFragment = MineFragment.newInstance();
+                    fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
+                checkedTab(fragmentTransaction, tabId);
+                getView().switchMine();
                 break;
         }
+
+
+    }
+
+    private void checkedTab(FragmentTransaction fragmentTransaction, @IdRes int tabId) {
         List<Fragment> fragments = mFragmentManager.getFragments();
-        if(fragments!=null&&fragments.size()>0){
+        if (fragments != null && fragments.size() > 0) {
             for (Fragment fragment : fragments) {
-                if(fragment.getTag().equals(String.valueOf(tabId))){
+                if (fragment.getTag().equals(String.valueOf(tabId))) {
                     fragmentTransaction.show(fragment);
-                }else{
+                } else {
                     fragmentTransaction.hide(fragment);
                 }
             }
         }
-
         fragmentTransaction.commit();
-
     }
 
 }

@@ -39,7 +39,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_explore"
             android:layout_width="match_parent"
-            android:layout_height="48.0dp"
+            android:layout_height="40.0dp"
             android:clipToPadding="false"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

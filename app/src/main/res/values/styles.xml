@@ -21,6 +21,11 @@
         <!--  -->
     </style>
 
+    <style name="BottomBar_TitleAppearance">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
     <style name="ToolbarMenu">
         <item name="android:background">?attr/actionBarItemBackground</item>
         <item name="android:minWidth">36dp</item>

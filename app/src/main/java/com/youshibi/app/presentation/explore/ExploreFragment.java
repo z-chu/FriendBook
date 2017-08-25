@@ -104,7 +104,7 @@ public class ExploreFragment extends BaseFragment {
                         pageTitles[0] = "全部";
                         for (int i = 0; i < bookTypes.size(); i++) {
                             BookType bookType = bookTypes.get(i);
-                            pageTitles[i + 1] = bookType.getTypeName();
+                            pageTitles[i + 1] = bookType.getTypeName().replaceAll("小说","");
                             fragments[i + 1] = BookFragment.newInstance(bookType.getId());
                         }
                         fragmentAdapter.setFragmentPages(fragments);

@@ -28,6 +28,8 @@ class BottomNavigationBehavior<V extends View> extends VerticalScrollingBehavior
     private int mSnackbarHeight = -1;
     private final BottomNavigationWithSnackbar mWithSnackBarImpl = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? new LollipopBottomNavWithSnackBarImpl() : new PreLollipopBottomNavWithSnackBarImpl();
     private boolean mScrollingEnabled = true;
+    private boolean canUpdateShy=true;
+
 
     /**
      * Minimum touch distance
@@ -108,7 +110,7 @@ class BottomNavigationBehavior<V extends View> extends VerticalScrollingBehavior
     }
 
     private void handleDirection(V child, int scrollDirection) {
-        if (!mScrollingEnabled) return;
+        if (!mScrollingEnabled||!canUpdateShy) return;
         if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_DOWN && hidden) {
             hidden = false;
             animateOffset(child, defaultOffset);
@@ -116,6 +118,10 @@ class BottomNavigationBehavior<V extends View> extends VerticalScrollingBehavior
             hidden = true;
             animateOffset(child, bottomNavHeight + defaultOffset);
         }
+    }
+
+    public void setCanUpdateShy(boolean canUpdateShy) {
+        this.canUpdateShy = canUpdateShy;
     }
 
     @Override

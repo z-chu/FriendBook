@@ -10,8 +10,8 @@
 
     <style name="BB_BottomBarItem_TitleStyle">
         <!-- Material spec: "Avoid long text labels as these labels do not truncate or wrap." -->
-        <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 

@@ -118,11 +118,11 @@ dependencies {
     releaseCompile 'com.zchu:zlog-no-op:1.0.1'//正式发布时会将所有的打印方法替换为空方法
 
     //dagger
-   /* compile 'com.google.dagger:dagger:2.10'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'*/
+    /* compile 'com.google.dagger:dagger:2.10'
+     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'*/
 
     //ui
-   // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.17'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
@@ -140,8 +140,6 @@ dependencies {
 
     //umeng
     compile 'com.umeng.analytics:analytics:latest.integration'
-
-
     compile project(':bottom-bar')
     compile project(':reader')
 
