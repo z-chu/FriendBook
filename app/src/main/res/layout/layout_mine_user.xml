@@ -45,7 +45,7 @@
         android:paddingRight="12dp"
         android:paddingTop="6dp"
         android:text="点击登录"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp"
         app:super_cornerRadius="50dp"
         android:elevation="@dimen/elevation_app_bar"

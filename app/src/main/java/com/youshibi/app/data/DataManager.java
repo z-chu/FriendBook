@@ -11,12 +11,15 @@ import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
+import com.zchu.rxcache.CacheTarget;
 import com.zchu.rxcache.RxCache;
 import com.zchu.rxcache.data.CacheResult;
 import com.zchu.rxcache.diskconverter.GsonDiskConverter;
+import com.zchu.rxcache.stategy.BaseStrategy;
 import com.zchu.rxcache.stategy.CacheStrategy;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,7 +68,7 @@ public class DataManager {
      * @param size     每页的条目数
      * @param bookType 图书类别ID ，传0为获取全部
      */
-    public Observable<DataList<Book>> getBookList( long bookType,int page, int size) {
+    public Observable<DataList<Book>> getBookList(long bookType, int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("pageIndex", page);
         hashMap.put("pageSize", size);
@@ -116,19 +119,35 @@ public class DataManager {
     /**
      * 获取小说类别
      */
-    public Observable<List<BookType>> getBookType() {
+    public Observable<CacheResult<List<BookType>>> getBookType() {
         return RequestClient
                 .getServerAPI()
                 .getBookType()
                 .map(new HttpResultFunc<List<BookType>>())
-                .compose(rxCache.<List<BookType>>transformer("getBookType", new TypeToken<List<BookType>>() {
-                }.getType(), CacheStrategy.firstRemote()))
-                .map(new Func1<CacheResult<List<BookType>>, List<BookType>>() {
-                    @Override
-                    public List<BookType> call(CacheResult<List<BookType>> cacheResult) {
-                        return cacheResult.getData();
-                    }
-                });
+                .compose(rxCache.<List<BookType>>transformer(
+                        "getBookType",
+                        new TypeToken<List<BookType>>() {}.getType(),
+                        new BaseStrategy() {
+                            @Override
+                            public <T> Observable<CacheResult<T>> execute(RxCache rxCache, String key, Observable<T> source, Type type) {
+                                Observable<CacheResult<T>> cache = loadCache(rxCache, key, type);
+                                Observable<CacheResult<T>> remote = loadRemote(rxCache, key, source, CacheTarget.MemoryAndDisk)
+                                        .onErrorReturn(new Func1<Throwable, CacheResult<T>>() {
+                                            @Override
+                                            public CacheResult<T> call(Throwable throwable) {
+                                                return null;
+                                            }
+                                        });
+                                return Observable.concat(cache, remote)
+                                        .filter(new Func1<CacheResult<T>, Boolean>() {
+                                            @Override
+                                            public Boolean call(CacheResult<T> result) {
+                                                return result != null && result.getData() != null;
+                                            }
+                                        });
+                            }
+                        })
+                );
     }
 
 
@@ -138,7 +157,8 @@ public class DataManager {
      * @param bookId       小说的id
      * @param isOrderByAsc 是否升序排序
      */
-    public Observable<List<BookSectionItem>> getBookSectionList(String bookId, boolean isOrderByAsc) {
+    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
+                                                                boolean isOrderByAsc) {
         HashMap<String, Object> hashMap = new HashMap<>();
         if (isOrderByAsc) {
             hashMap.put("order", "asc");
@@ -147,7 +167,7 @@ public class DataManager {
         }
         return RequestClient
                 .getServerAPI()
-                .getBookSectionList(bookId,hashMap)
+                .getBookSectionList(bookId, hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
                 .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
                 }.getType(), CacheStrategy.firstCache()))
@@ -170,7 +190,7 @@ public class DataManager {
         hashMap.put("queryDirection", "current");
         return RequestClient
                 .getServerAPI()
-                .getBookSectionContent(bookId,sectionIndex,hashMap)
+                .getBookSectionContent(bookId, sectionIndex, hashMap)
                 .map(new HttpResultFunc<BookSectionContent>())
                 .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionIndex, BookSectionContent.class, CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {

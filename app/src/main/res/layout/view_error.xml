@@ -37,10 +37,10 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:text="@string/click_retry"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp"
         app:super_cornerRadius="50dp"
-        app:super_strokeColor="@color/colorPrimary"
+        app:super_strokeColor="@color/colorAccent"
         app:super_solidColor="@color/md_light_green_50"
         app:super_strokeWidth="1dp" />
 

@@ -1,47 +1,46 @@
 package com.youshibi.app.presentation.explore;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
-import com.youshibi.app.base.BaseFragment;
-import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookType;
-import com.youshibi.app.presentation.book.BookFragment;
-import com.youshibi.app.rx.SimpleSubscriber;
+import com.youshibi.app.mvp.MvpLoaderFragment;
 import com.youshibi.app.ui.help.BaseFragmentAdapter;
 import com.youshibi.app.util.CountEventHelper;
-import com.youshibi.app.util.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
  * Created by Chu on 2017/5/28.
  */
 
-public class ExploreFragment extends BaseFragment {
+public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter> implements ExploreContract.View, View.OnClickListener {
 
     private ViewPager viewPager;
     private AppBarLayout appbar;
     //   private Toolbar toolbar;
     private TabLayout tab;
     private View ivBookTypeMore;
+    private MaterialProgressBar progress;
+    private AppCompatImageView ivBookTypeRetry;
 
-    private Subscription mSubscribe;
+
+    private boolean isShow = false;
+    private boolean isBindPresenter = false;
+
 
     private ArrayList<BookType> alwaySelectedBookTypes = new ArrayList<>();
     private ArrayList<BookType> selectedBookTypes = new ArrayList<>();
@@ -58,97 +57,33 @@ public class ExploreFragment extends BaseFragment {
         return R.layout.fragment_explore;
     }
 
-    private void findView(View view) {
-        viewPager = (ViewPager) view.findViewById(R.id.vp_explore);
-        appbar = (AppBarLayout) view.findViewById(R.id.appbar_explore);
-       /* toolbar = (Toolbar) view.findViewById(R.id.toolbar_explore);*/
-        tab = (TabLayout) view.findViewById(R.id.tab_explore);
-        view.findViewById(R.id.view_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppRouter.showSearchActivity(ExploreFragment.this.getContext());
-            }
-        });
-        ivBookTypeMore = view.findViewById(R.id.iv_book_type_more);
-        ivBookTypeMore
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = BookTypeSelectionActivity.newIntent(getContext(), selectedBookTypes, unselectedBookTypes, alwaySelectedBookTypes);
-                        getContext().startActivity(intent);
-                    }
-                });
-    }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        findView(view);
-        // toolbar.setTitle(getString(R.string.app_name));
+        viewPager = (ViewPager) view.findViewById(R.id.vp_explore);
+        appbar = (AppBarLayout) view.findViewById(R.id.appbar_explore);
+        tab = (TabLayout) view.findViewById(R.id.tab_explore);
+        progress = (MaterialProgressBar) view.findViewById(R.id.progress);
+        ivBookTypeRetry = (AppCompatImageView) view.findViewById(R.id.iv_book_type_retry);
+        ivBookTypeMore = view.findViewById(R.id.iv_book_type_more);
+        view.findViewById(R.id.view_search).setOnClickListener(this);
+        view.findViewById(R.id.fl_action).setOnClickListener(this);
     }
 
     @Override
     public void onShow(boolean isFirstShow) {
+        isShow = true;
         super.onShow(isFirstShow);
-        if (isFirstShow) {
-            initViewPager();
+        if (isFirstShow && isBindPresenter) {
+            getPresenter().start();
+            getPresenter().loadData();
         }
     }
 
-    private void initViewPager() {
-        mSubscribe = DataManager
-                .getInstance()
-                .getBookType()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<List<BookType>>() {
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        ToastUtil.showToast(e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onNext(List<BookType> bookTypes) {
-                        final BaseFragmentAdapter fragmentAdapter = new BaseFragmentAdapter(ExploreFragment.this.getChildFragmentManager());
-                        Fragment[] fragments = new Fragment[bookTypes.size() + 1];
-                        fragments[0] = BookFragment.newInstance();
-                        String[] pageTitles = new String[bookTypes.size() + 1];
-                        pageTitles[0] = "全部";
-                        for (int i = 0; i < bookTypes.size(); i++) {
-                            BookType bookType = bookTypes.get(i);
-                            pageTitles[i + 1] = bookType.getTypeName().replaceAll("小说", "");
-                            fragments[i + 1] = BookFragment.newInstance(bookType.getId());
-                        }
-                        fragmentAdapter.setFragmentPages(fragments);
-                        fragmentAdapter.setPageTitles(pageTitles);
-                        setViewPage(fragmentAdapter);
-                        initSelectedBookType(bookTypes);
-                    }
-
-
-                });
-    }
-
-    private void initSelectedBookType(List<BookType> bookTypes) {
-        for (int i = 0; i < bookTypes.size(); i++) {
-            if (i == 0) {
-                alwaySelectedBookTypes.add(bookTypes.get(i));
-            } else if (i < 5) {
-                selectedBookTypes.add(bookTypes.get(i));
-            } else {
-                unselectedBookTypes.add(bookTypes.get(i));
-            }
-        }
-        ivBookTypeMore.setVisibility(View.VISIBLE);
-    }
-
-    public void setViewPage(final PagerAdapter adapter) {
-        viewPager.setAdapter(adapter);
+    private void setAdapter(final PagerAdapter adapter) {
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
+        viewPager.setAdapter(adapter);
         CountEventHelper.countExploreTab(getContext(),
                 adapter.getPageTitle(viewPager.getCurrentItem()).toString());
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -162,12 +97,14 @@ public class ExploreFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mSubscribe != null && !mSubscribe.isUnsubscribed()) {
-            mSubscribe.unsubscribe();
+    public void onBindPresenter(ExploreContract.Presenter presenter) {
+        isBindPresenter = true;
+        if (isShow) {
+            presenter.start();
+            presenter.loadData();
         }
     }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -176,6 +113,66 @@ public class ExploreFragment extends BaseFragment {
             MobclickAgent.onPageEnd(getClass().getName());
         } else {
             MobclickAgent.onPageStart(getClass().getName());
+        }
+    }
+
+    @Override
+    public void showContent() {
+        progress.setVisibility(View.GONE);
+        ivBookTypeRetry.setVisibility(View.GONE);
+        ivBookTypeMore.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showLoading() {
+        progress.setVisibility(View.VISIBLE);
+        ivBookTypeRetry.setVisibility(View.GONE);
+        ivBookTypeMore.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        progress.setVisibility(View.GONE);
+        ivBookTypeRetry.setVisibility(View.VISIBLE);
+        ivBookTypeMore.setVisibility(View.GONE);
+    }
+
+
+    @NonNull
+    @Override
+    public ExploreContract.Presenter createPresenter() {
+        return new ExplorePresenter();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.view_search:
+                AppRouter.showSearchActivity(ExploreFragment.this.getContext());
+                break;
+            case R.id.fl_action:
+                if(ivBookTypeMore.getVisibility()==View.VISIBLE) {
+                    getPresenter().openBookTypeSelection(getContext());
+                }else if(ivBookTypeRetry.getVisibility()==View.VISIBLE){
+                    getPresenter().loadData();
+                }
+                break;
+        }
+    }
+
+
+    @Override
+    public void setTabContent(@NonNull Fragment[] fragments, @NonNull String[] titles) {
+        if(viewPager.getAdapter()==null) {
+            BaseFragmentAdapter adapter = new BaseFragmentAdapter(getChildFragmentManager());
+            adapter.setFragmentPages(fragments);
+            adapter.setPageTitles(titles);
+            setAdapter(adapter);
+        }else{
+            BaseFragmentAdapter adapter = (BaseFragmentAdapter) viewPager.getAdapter();
+            adapter.setFragmentPages(fragments);
+            adapter.setPageTitles(titles);
+            adapter.notifyDataSetChanged();
         }
     }
 }

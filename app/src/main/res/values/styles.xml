@@ -91,6 +91,16 @@
         <item name="android:maxHeight">24dp</item>
     </style>
 
+    <style name="LoadingProgressBar.ExploreTab">
+        <item name="android:minWidth">18dp</item>
+        <item name="android:maxWidth">18dp</item>
+        <item name="android:minHeight">18dp</item>
+        <item name="android:maxHeight">18dp</item>
+    </style>
+
+
+
+
     <style name="NB.Theme" parent="AppTheme" />
 
     <style name="NB.Theme.TextAppearance" />

@@ -13,11 +13,27 @@ import java.io.Serializable;
 
 public class BookType implements Serializable, Parcelable {
 
+    public static final int STATUS_COMMON= 0;
+    public static final int STATUS_DEFAULT_SELECTED = 1;
+    public static final int STATUS_ALWAYS_SELECTED = 2;
+
+    public BookType() {
+    }
+
+    public BookType(long id, String typeName, int selectedStatus) {
+        this.id = id;
+        this.typeName = typeName;
+        this.selectedStatus = selectedStatus;
+    }
+
     @SerializedName("Id")
     private long id;
 
     @SerializedName("TypeName")
     private String typeName;
+
+    @SerializedName("SelectedStatus")
+    private int selectedStatus;
 
     public long getId() {
         return id;
@@ -35,6 +51,30 @@ public class BookType implements Serializable, Parcelable {
         this.typeName = typeName;
     }
 
+    public int getSelectedStatus() {
+        return selectedStatus;
+    }
+
+    public void setSelectedStatus(int selectedStatus) {
+        this.selectedStatus = selectedStatus;
+    }
+
+    public boolean isUnselected() {
+        return selectedStatus == 0;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BookType) {
+            return ((BookType) obj).getId() == id;
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(String.valueOf(id));
+    }
 
     @Override
     public int describeContents() {
@@ -45,17 +85,16 @@ public class BookType implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.id);
         dest.writeString(this.typeName);
-    }
-
-    public BookType() {
+        dest.writeInt(this.selectedStatus);
     }
 
     protected BookType(Parcel in) {
         this.id = in.readLong();
         this.typeName = in.readString();
+        this.selectedStatus = in.readInt();
     }
 
-    public static final Parcelable.Creator<BookType> CREATOR = new Parcelable.Creator<BookType>() {
+    public static final Creator<BookType> CREATOR = new Creator<BookType>() {
         @Override
         public BookType createFromParcel(Parcel source) {
             return new BookType(source);

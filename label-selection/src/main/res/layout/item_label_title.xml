@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+             android:layout_width="match_parent"
+             android:layout_height="64dp">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
         android:paddingBottom="6.0dp"
         android:paddingTop="6.0dp"
-        android:text="点击添加更多标签"
-        android:textColor="@color/label_text"
-        android:textSize="14sp" />
+        android:text="点击添加更多频道"
+        android:textColor="@color/label_section_text"
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tv_action"
         android:layout_width="48.0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:gravity="right"
+        android:layout_height="40dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginRight="20dp"
+        android:gravity="end|center_vertical"
         android:paddingBottom="6.0dp"
         android:paddingTop="6.0dp"
         android:text="编辑"
-        android:textColor="@color/label_text"
-        android:textSize="14sp" />
+        android:textColor="?colorAccent"
+        android:textSize="14sp"/>
 
 
 </FrameLayout>

@@ -46,7 +46,7 @@ public class BaseFragmentAdapter extends FragmentPagerAdapter {
 			for (Fragment f : this.FragmentPages) {
 				ft.remove(f);
 			}
-			ft.commit();
+			ft.commitAllowingStateLoss();
 			fragmentManager.executePendingTransactions();
 		}
 		this.FragmentPages = FragmentPages;

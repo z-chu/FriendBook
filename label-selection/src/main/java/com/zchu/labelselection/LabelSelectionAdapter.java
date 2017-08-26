@@ -95,7 +95,7 @@ class LabelSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         if (isEditing) {
                             changeEditState(false);
-                            selectedTitleViewHolder.tvTitle.setText("切换栏目");
+                            selectedTitleViewHolder.tvTitle.setText("切换频道");
                             selectedTitleViewHolder.tvAction.setText("编辑");
                         } else {
                             selectedTitleViewHolder.tvTitle.setText("拖动排序");
@@ -440,7 +440,7 @@ class LabelSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             selectedTitleViewHolder.tvTitle.setText("拖动排序");
             selectedTitleViewHolder.tvAction.setText("完成");
         } else {
-            selectedTitleViewHolder.tvTitle.setText("切换栏目");
+            selectedTitleViewHolder.tvTitle.setText("切换频道");
             selectedTitleViewHolder.tvAction.setText("编辑");
             finishEdit();
 

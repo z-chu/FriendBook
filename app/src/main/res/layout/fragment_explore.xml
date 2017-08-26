@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.youshibi.app.ui.help.NestedChildCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.main.MainActivity">
+                                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       tools:context=".presentation.main.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_explore"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
 
@@ -31,7 +31,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="enterAlways|scroll|snap">
 
-            <include layout="@layout/toolbar_view_search" />
+            <include layout="@layout/toolbar_view_search"/>
 
         </FrameLayout>
 
@@ -47,24 +47,49 @@
                 android:layout_height="40.0dp"
                 android:layout_weight="1"
                 android:clipToPadding="false"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 app:tabBackground="@drawable/bg_tab_item_main"
                 app:tabIndicatorColor="@color/white"
                 app:tabMaxWidth="144dp"
-                app:tabMinWidth="48dp"
+                app:tabMinWidth="60dp"
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/white"
-                app:tabTextColor="@color/white" />
+                app:tabTextColor="@color/white"/>
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_book_type_more"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_more_horiz_black_24dp"
-                tools:visibility="visible" />
+            <FrameLayout
+                android:id="@+id/fl_action"
+                android:layout_width="48dp"
+                android:layout_height="40dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_book_type_more"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_more_horiz_black_24dp"
+                    tools:visibility="visible"/>
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/progress"
+                    style="@style/LoadingProgressBar.ExploreTab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:tint="@color/white"
+                    app:mpb_indeterminateTint="@color/white"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_book_type_retry"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_vector_retry"
+                    tools:visibility="visible"/>
+
+            </FrameLayout>
+
         </LinearLayout>
 
 
