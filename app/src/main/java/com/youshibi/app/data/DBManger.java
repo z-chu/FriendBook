@@ -42,11 +42,11 @@ public final class DBManger {
         if (bookTb == null) {
             bookTb = DataConvertUtil.book2BookTb(book, null);
             mDaoSession.getBookTbDao().insert(bookTb);
+            RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
         } else {
             bookTb = DataConvertUtil.book2BookTb(book, bookTb);
             mDaoSession.getBookTbDao().update(bookTb);
         }
-        RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
         return book.getId();
     }
 
