@@ -38,7 +38,7 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
 
 
     @Override
-    public void dispatchTabSelectedTabId(@IdRes int tabId) {
+    public boolean dispatchTabSelectedTabId(@IdRes int tabId) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         Fragment selectedFragment = mFragmentManager.findFragmentByTag(String.valueOf(tabId));
         switch (tabId) {
@@ -49,7 +49,7 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
                 }
                 checkedTab(fragmentTransaction, tabId);
                 getView().switchBookcase();
-                break;
+                return true;
             case R.id.tab_explore:
                 if (selectedFragment == null) {
                     selectedFragment = ExploreFragment.newInstance();
@@ -57,7 +57,7 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
                 }
                 checkedTab(fragmentTransaction, tabId);
                 getView().switchExplore();
-                break;
+                return true;
             case R.id.tab_mine:
                 if (selectedFragment == null) {
                     selectedFragment = MineFragment.newInstance();
@@ -65,10 +65,10 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
                 }
                 checkedTab(fragmentTransaction, tabId);
                 getView().switchMine();
-                break;
+                return true;
         }
 
-
+        return false;
     }
 
     private void checkedTab(FragmentTransaction fragmentTransaction, @IdRes int tabId) {

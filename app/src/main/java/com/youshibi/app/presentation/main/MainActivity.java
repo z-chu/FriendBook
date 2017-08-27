@@ -3,7 +3,9 @@ package com.youshibi.app.presentation.main;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -15,14 +17,18 @@ import com.youshibi.app.util.ToastUtil;
  * Created by Chu on 2016/11/30.
  */
 
-public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, OnTabSelectListener {
+public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, OnTabSelectListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomBar bottomBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         getPresenter().start();
         getPresenter().initContentContainer(getSupportFragmentManager(), R.id.content_view);
@@ -80,5 +86,10 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     @Override
     public void switchMine() {
         bottomBar.setCanUpdateShy(false);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return getPresenter().dispatchTabSelectedTabId(item.getItemId());
     }
 }

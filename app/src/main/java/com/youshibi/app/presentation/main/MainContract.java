@@ -26,7 +26,7 @@ public interface MainContract {
 
         void initContentContainer(@NonNull final FragmentManager fragmentManager, @IdRes int contentContainerId);
 
-        void dispatchTabSelectedTabId(@IdRes int tabId);
+        boolean dispatchTabSelectedTabId(@IdRes int tabId);
     }
 
 

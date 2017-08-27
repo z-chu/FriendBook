@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab_bookcase"
+        android:icon="@drawable/ic_book_black_24dp"
+        android:title="@string/bookcase"/>
+
+    <item
+        android:id="@+id/tab_explore"
+        android:icon="@drawable/ic_explore_black_24dp"
+        android:title="@string/explore"/>
+
+    <item
+        android:id="@+id/tab_mine"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/mine"/>
+
+</menu>

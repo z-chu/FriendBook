@@ -19,8 +19,17 @@
         android:layout_gravity="bottom"
         app:bb_behavior="shy"
         app:bb_inActiveTabColor="#A1A1A1"
+        android:visibility="gone"
         app:bb_longPressHintsEnabled="true"
         app:bb_tabXmlResource="@xml/bottom_tab_main"
         app:bb_titleTextAppearance="@style/BottomBar_TitleAppearance"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        app:menu="@menu/main_bottom_navigation"/>
 
 </android.support.design.widget.CoordinatorLayout>

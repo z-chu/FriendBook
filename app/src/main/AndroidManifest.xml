@@ -20,7 +20,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Slide">
-
         <activity android:name=".presentation.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.main.MainActivity"
             android:allowTaskReparenting="true"
@@ -40,29 +38,21 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-
         </activity>
-
         <activity android:name=".presentation.book.BookDetailActivity">
-
         </activity>
-
         <activity android:name=".presentation.read.ReadActivity"/>
         <activity android:name=".presentation.CrashActivity"/>
-
         <activity
             android:name=".presentation.search.SearchActivity"
             android:theme="@style/AppTheme.Translucent"
             android:windowSoftInputMode="stateAlwaysVisible"/>
-
         <activity
             android:name=".presentation.search.SearchResultActivity"
-            android:theme="@style/AppTheme.Slide"
-            />
+            android:theme="@style/AppTheme.Slide"/>
         <activity
             android:name=".presentation.explore.BookTypeSelectionActivity"
             android:theme="@style/AppTheme.Translucent"/>
-
 
     </application>
 

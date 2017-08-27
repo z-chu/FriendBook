@@ -172,6 +172,7 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
             BaseFragmentAdapter adapter = (BaseFragmentAdapter) viewPager.getAdapter();
             adapter.setFragmentPages(fragments);
             adapter.setPageTitles(titles);
+            viewPager.setOffscreenPageLimit(adapter.getCount()-1);
             adapter.notifyDataSetChanged();
         }
     }

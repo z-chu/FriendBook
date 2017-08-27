@@ -111,17 +111,18 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
             mAlwaysSelectedBookLabels = new ArrayList<>();
             mUnselectedBookLabels = new ArrayList<>();
             for (BookType bookType : bookTypes) {
-                if (isFirst) {
+             /*   if (isFirst) {
                     if (!bookType.isUnselected()) {
                         selectedBookLabels.add(bookType);
                     }
-                }
+                }*/
                 if (bookType.getSelectedStatus() == BookType.STATUS_ALWAYS_SELECTED) {
                     mAlwaysSelectedBookLabels.add(bookType);
                 }else{
 
                     if(isFirst&&bookType.getSelectedStatus() == BookType.STATUS_DEFAULT_SELECTED){
                         mCommonSelectedBookLabels.add(bookType);
+                        selectedBookLabels.add(bookType);
                         continue;
                     }
                     if(!selectedBookLabels.contains(bookType)){
@@ -130,9 +131,9 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                     }
                 }
             }
-            if (!isFirst) {
+           // if (!isFirst) {
                 selectedBookLabels.addAll(0, mAlwaysSelectedBookLabels);
-            }
+           // }
             Fragment[] fragments = null;
             String[] pageTitles = null;
             if (selectedBookLabels.size() > 0) {

@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="142dp"
-    android:background="@drawable/bg_list_item"
-    android:clickable="true"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary"
+    app:layout_collapseMode="parallax"
+    app:layout_collapseParallaxMultiplier="0.7"
     android:paddingBottom="16.0dp"
     android:paddingLeft="@dimen/space_ground_horizontal"
     android:paddingRight="@dimen/space_ground_horizontal"
-    android:paddingTop="16.0dp">
+    android:paddingTop="64.0dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cover"
@@ -39,67 +39,72 @@
         android:layout_toRightOf="@+id/cover"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/textPrimary"
-        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/textPrimaryInverted"
+        android:textSize="@dimen/text_size_xlarge"
         tools:text="资生堂 安热沙"/>
 
     <TextView
-        android:id="@+id/tv_describe"
+        android:id="@+id/tv_read_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/textSecondaryInverted"
         android:layout_alignLeft="@id/tv_title"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/tv_title"
-        android:layout_marginTop="4.0dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="@color/textSecondary"
         android:textSize="@dimen/text_size_medium"
-        tools:text="网易旗下利用大数据技术提供移动互联网应用的子公司,过去8年,先后推出有道词典、有道翻译官、有道云笔记、惠惠网、有道推广、有道精品课、有道口语大师等系列产品,总.cas sac as  s"/>
-
-    <TextView
-        android:id="@+id/tv_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cover"
-        android:layout_alignLeft="@id/tv_title"
-        android:textColor="@color/textAssistSecondary"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="茶叶蛋"/>
+        android:text="2000人读过"/>
 
     <com.youshibi.app.ui.widget.ShapeTextView
         android:id="@+id/tv_is_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cover"
-        android:layout_alignParentRight="true"
-        android:paddingBottom="1.5dp"
+        android:layout_alignTop="@id/tv_read_count"
+        android:layout_toRightOf="@id/tv_read_count"
+        android:layout_alignBottom="@id/tv_read_count"
+        android:gravity="center"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:paddingTop="1.5dp"
-        android:textColor="@color/md_red_200"
+        android:textColor="@color/textSecondaryInverted"
         android:textSize="@dimen/text_size_micro"
         app:super_cornerRadius="2dp"
-        app:super_strokeColor="@color/md_red_200"
-        app:super_strokeWidth="1px"
+        android:visibility="gone"
+        android:layout_marginLeft="6dp"
+        app:super_strokeColor="@color/textSecondaryInverted"
+        app:super_strokeWidth="1dp"
         tools:text="已完结"/>
 
-    <com.youshibi.app.ui.widget.ShapeTextView
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/tv_read_count"
+        android:text="玄幻 | 茶叶蛋"
+        android:textColor="@color/textSecondaryInverted"
+        android:textSize="@dimen/text_size_medium"/>
+
+    <TextView
         android:id="@+id/tv_word_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cover"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/tv_is_finish"
-        android:paddingBottom="1.5dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
-        android:paddingTop="1.5dp"
-        android:textColor="@color/textAssistSecondary"
-        android:textSize="@dimen/text_size_micro"
-        app:super_cornerRadius="2dp"
-        app:super_strokeColor="@color/textAssistSecondary"
-        app:super_strokeWidth="1px"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_author"
+        android:textColor="@color/textSecondaryInverted"
+        android:layout_marginTop="6dp"
+        android:textSize="@dimen/text_size_small"
         tools:text="2.5万字"/>
+
+    <TextView
+        android:id="@+id/tv_type_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+
+
+
 
 
 </RelativeLayout>
