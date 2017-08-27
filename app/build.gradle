@@ -140,7 +140,6 @@ dependencies {
 
     //umeng
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile project(':bottom-bar')
     compile project(':reader')
     compile project(':label-selection')
 

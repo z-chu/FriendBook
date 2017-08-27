@@ -39,7 +39,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
         super.onViewCreated(view, savedInstanceState);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
-        toolbar.inflateMenu(R.menu.main);
+        toolbar.inflateMenu(R.menu.bookcase);
         toolbar.getMenu().findItem(R.id.action_search).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
