@@ -1,5 +1,7 @@
 package com.youshibi.app.presentation.book;
 
+import android.content.Context;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.base.BaseLceView;
 import com.youshibi.app.mvp.MvpPresenter;
@@ -14,11 +16,12 @@ public interface BookDetailContract {
 
         void setListAdapter(BaseQuickAdapter adapter);
 
-        void showRead(String bookId, int sectionIndex);
 
     }
 
     interface Presenter extends MvpPresenter<View> {
         void loadData();
+
+        void openRead(Context context, int sectionIndex);
     }
 }

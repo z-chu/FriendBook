@@ -11,9 +11,11 @@
 
 
     <FrameLayout
+        android:id="@+id/fl_download_book"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:clickable="true"
         android:paddingBottom="7dp"
         android:paddingTop="8dp">
 
@@ -34,10 +36,12 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/fl_open_book"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?colorPrimary"
+        android:clickable="true"
         android:paddingBottom="7dp"
         android:paddingTop="8dp">
 
@@ -51,16 +55,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:text="试读一下"
+            android:text="打开试读"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"/>
 
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/fl_add_bookcase"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:clickable="true"
         android:paddingBottom="7dp"
         android:paddingTop="8dp">
 

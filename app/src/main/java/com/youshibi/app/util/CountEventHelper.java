@@ -32,7 +32,7 @@ public class CountEventHelper {
         map.put("bookId", book.getId());
         map.put("bookName", book.getName());
         map.put("bookAuthor", book.getAuthor());
-        map.put("bookTypeName", book.getBookOneTypeName());
+        map.put("bookTypeName", book.getBookTypeName());
         map.put("bookIsFinished", String.valueOf(book.isFinished()));
         map.put("bookWordNum", String.valueOf(book.getBookWordNum()));
         MobclickAgent.onEvent(context, "book_detail", map);

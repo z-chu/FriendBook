@@ -77,10 +77,6 @@ public class AppRouter {
         context.startActivity(CrashActivity.newIntent(context, message, errorInfo));
     }
 
-    public static void showBookDetailActivity(Context context, String bookId) {
-        context.startActivity(BookDetailActivity.newIntent(context, bookId));
-    }
-
     public static void showBookDetailActivity(Context context, Book book) {
         context.startActivity(BookDetailActivity.newIntent(context, book));
         CountEventHelper.countBookDetail(context, book);

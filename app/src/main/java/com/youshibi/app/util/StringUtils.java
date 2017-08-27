@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -580,6 +581,18 @@ public class StringUtils {
      */
     public static String getDataTime(String format) {
         return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
+    }
+
+    public static String formatCount(long number) {
+        if (number >= 100000000) {
+            return new DecimalFormat("0.0").format(number / 100000000.0) + "亿";
+        } else if (number >= 1000000) {
+            return number / 10000 + "万";
+        } else if (number >= 10000) {
+            return new DecimalFormat("0.0").format(number / 10000.0) + "万";
+        } else {
+            return number + "";
+        }
     }
 
 }

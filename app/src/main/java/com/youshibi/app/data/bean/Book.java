@@ -43,11 +43,14 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("IsFinish")
     private boolean isFinished;
 
-    private int BookOneType;
+    private int BookTypeId;
 
-    private String BookOneTypeName;
+    private String BookTypeName;
 
     private long BookWordNum;
+
+    private long ClickNum;
+
 
 
     public String getId() {
@@ -98,20 +101,20 @@ public class Book implements Serializable, Parcelable {
         isFinished = finished;
     }
 
-    public int getBookOneType() {
-        return BookOneType;
+    public int getBookTypeId() {
+        return BookTypeId;
     }
 
-    public void setBookOneType(int bookOneType) {
-        BookOneType = bookOneType;
+    public void setBookTypeId(int bookTypeId) {
+        BookTypeId = bookTypeId;
     }
 
-    public String getBookOneTypeName() {
-        return BookOneTypeName;
+    public String getBookTypeName() {
+        return BookTypeName;
     }
 
-    public void setBookOneTypeName(String bookOneTypeName) {
-        BookOneTypeName = bookOneTypeName;
+    public void setBookTypeName(String bookTypeName) {
+        BookTypeName = bookTypeName;
     }
 
     public long getBookWordNum() {
@@ -122,9 +125,17 @@ public class Book implements Serializable, Parcelable {
         BookWordNum = bookWordNum;
     }
 
+    public long getClickNum() {
+        return ClickNum;
+    }
+
+    public void setClickNum(long clickNum) {
+        ClickNum = clickNum;
+    }
 
     public Book() {
     }
+
 
     @Override
     public int describeContents() {
@@ -139,9 +150,10 @@ public class Book implements Serializable, Parcelable {
         dest.writeString(this.describe);
         dest.writeString(this.author);
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.BookOneType);
-        dest.writeString(this.BookOneTypeName);
+        dest.writeInt(this.BookTypeId);
+        dest.writeString(this.BookTypeName);
         dest.writeLong(this.BookWordNum);
+        dest.writeLong(this.ClickNum);
     }
 
     protected Book(Parcel in) {
@@ -151,9 +163,10 @@ public class Book implements Serializable, Parcelable {
         this.describe = in.readString();
         this.author = in.readString();
         this.isFinished = in.readByte() != 0;
-        this.BookOneType = in.readInt();
-        this.BookOneTypeName = in.readString();
+        this.BookTypeId = in.readInt();
+        this.BookTypeName = in.readString();
         this.BookWordNum = in.readLong();
+        this.ClickNum = in.readLong();
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {

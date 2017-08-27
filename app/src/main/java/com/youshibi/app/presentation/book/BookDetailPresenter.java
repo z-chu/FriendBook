@@ -1,10 +1,13 @@
 package com.youshibi.app.presentation.book;
 
+import android.content.Context;
 import android.view.View;
 
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
@@ -22,11 +25,11 @@ import rx.schedulers.Schedulers;
 
 public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View> implements BookDetailContract.Presenter {
 
-    private String bookId;
+    private Book book;
     private CommonAdapter<BookSectionItem> bookSectionAdapter;
 
-    public BookDetailPresenter(String bookId) {
-        this.bookId = bookId;
+    public BookDetailPresenter(Book book) {
+        this.book = book;
     }
 
 
@@ -43,7 +46,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
 
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookSectionList(bookId, true)
+                .getBookSectionList(book.getId(), true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
@@ -71,6 +74,11 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
 
     }
 
+    @Override
+    public void openRead(Context context, int sectionIndex) {
+        AppRouter.showReadActivity(context, book.getId(), this.book.getName(), sectionIndex);
+    }
+
     private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
         bookSectionAdapter = new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
             @Override
@@ -79,7 +87,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getView().showRead(bookId, item.getSectionIndex());
+                        openRead(v.getContext(), item.getSectionIndex());
                     }
                 });
             }
