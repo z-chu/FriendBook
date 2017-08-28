@@ -49,13 +49,12 @@ public class MineRowView extends RelativeLayout {
 
     private void initAttributeSet(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MineRowView);
-        Drawable icon = typedArray.getDrawable(R.styleable.MineRowView_mine_icon);
-        if (icon != null && icon instanceof VectorDrawableCompat) {
-            TypedValue typedValue = new TypedValue();
-            typedArray.getValue(R.styleable.MineRowView_mine_icon, typedValue);
-            icon = VectorDrawableCompat.create(typedArray.getResources(), typedValue.resourceId, null);
+        int iconResId = typedArray.getResourceId(R.styleable.MineRowView_mine_icon, 0);
+        if (iconResId != 0) {
+            Drawable icon = VectorDrawableCompat.create(typedArray.getResources(),iconResId, null);
+            ivIcon.setImageDrawable(icon);
         }
-        ivIcon.setImageDrawable(icon);
+
         String title = typedArray.getString(R.styleable.MineRowView_mine_title);
         tvTitle.setText(title);
         boolean dividerVisibility = typedArray.getBoolean(R.styleable.MineRowView_mine_divider_visibility, true);

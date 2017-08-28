@@ -11,7 +11,8 @@
 
     <dimen name="toolbar_title_size">18sp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
-    <dimen name="bottomBar_height">56dp</dimen>
+    <dimen name="bottom_navigation_height">56dp</dimen>
+    <dimen name="compat_bottom_navigation_shadow_height">1dp</dimen>
 
     <dimen name="tab_height">40dp</dimen>
     <dimen name="elevation_app_bar">0dp</dimen>

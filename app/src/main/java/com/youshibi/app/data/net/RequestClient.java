@@ -4,8 +4,10 @@ package com.youshibi.app.data.net;
 import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.net.converter.GsonConverterFactory;
 import com.youshibi.app.data.net.converter.NullOnEmptyConverterFactory;
+import com.youshibi.app.data.net.interceptor.HeaderInterceptor;
 import com.youshibi.app.data.net.interceptor.LoggingInterceptor;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -25,11 +27,13 @@ public class RequestClient {
             synchronized (RequestClient.class) {
                 if (sServerAPI == null) {
                     OkHttpClient.Builder clientBuilder = getClientBuilder();
+                    HashMap<String, String> headerMap = new HashMap<>();
+                    headerMap.put("appver", String.valueOf(BuildConfig.VERSION_CODE));
+                    clientBuilder.addInterceptor(new HeaderInterceptor(headerMap));
                     //配置日志拦截器
                     if (BuildConfig.DEBUG) {
                         clientBuilder
-                                .interceptors()
-                                .add(new LoggingInterceptor());
+                                .addInterceptor(new LoggingInterceptor());
                     }
 
                     sServerAPI = getRetrofitBuilder(ServerAPI.BASE_URL, clientBuilder.build()).build().create(ServerAPI.class);

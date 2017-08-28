@@ -97,7 +97,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         tvAuthor.setText(book.getBookTypeName()+" | "+book.getAuthor());
         tvIsFinish.setText(book.isFinished() ?
                 getString(R.string.book_finished) : getString(R.string.book_unfinished));
-        tvWordCount.setText(StringUtils.formatCount(book.getBookWordNum()));
+        tvWordCount.setText(StringUtils.formatCount(book.getBookWordNum())+"字");
 
     }
 

@@ -37,7 +37,7 @@ public class BookFragment extends BaseListFragment<BookPresenter> {
             @Override
             public void onViewCreated(@NonNull View view) {
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
-                layoutParams.topMargin=-getResources().getDimensionPixelSize(R.dimen.bottomBar_height);
+                layoutParams.topMargin=-getResources().getDimensionPixelSize(R.dimen.bottom_navigation_height);
                 view.requestLayout();
             }
         });
