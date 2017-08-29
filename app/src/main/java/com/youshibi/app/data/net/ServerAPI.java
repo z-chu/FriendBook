@@ -25,27 +25,37 @@ public interface ServerAPI {
     /**
      * 获取所有小说
      */
-    @GET("v1/books")
+    @GET("/v1/books")
     Observable<HttpResult<DataList<Book>>> getBookList(@QueryMap HashMap<String, Object> map);
 
     /**
      * 获取小说类别
      */
-    @GET("v1/book-types")
+    @GET("/v1/book-types")
     Observable<HttpResult<List<BookType>>> getBookType();
 
     /**
      * 获取小说章节列表
      */
-    @GET("v1/books/{bookId}/chapters")
-    Observable<HttpResult<List<BookSectionItem>>> getBookSectionList(@Path("bookId")String bookId,@QueryMap HashMap<String, Object> map);
+    @GET("/v1/books/{bookId}/chapters")
+    Observable<HttpResult<List<BookSectionItem>>> getBookSectionList(@Path("bookId") String bookId,
+                                                                     @QueryMap HashMap<String, Object> map);
 
 
     /**
      * 获取小说章节中的内容
      */
-    @GET("v1/books/{bookId}/chapters/{position}")
-    Observable<HttpResult<BookSectionContent>> getBookSectionContent(@Path("bookId")String bookId,@Path("position") int position,@QueryMap HashMap<String, Object> map);
+    @GET("/v1/books/{bookId}/chapters/{position}")
+    Observable<HttpResult<BookSectionContent>> getBookSectionContent(@Path("bookId") String bookId,
+                                                                     @Path("position") int position,
+                                                                     @QueryMap HashMap<String, Object> map);
+
+
+    /**
+     * 获取最新的app版本信息
+     */
+    @GET("/android/releases/latest")
+    Observable<HttpResult> getLatestReleases();
 
 
 }
