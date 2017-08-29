@@ -1,18 +1,28 @@
 package com.youshibi.app.presentation.main;
 
+import android.app.Activity;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.youshibi.app.BuildConfig;
 import com.youshibi.app.R;
+import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.mvp.MvpBasePresenter;
 import com.youshibi.app.presentation.bookcase.BookcaseFragment;
 import com.youshibi.app.presentation.explore.ExploreFragment;
 import com.youshibi.app.presentation.mine.MineFragment;
+import com.youshibi.app.rx.SchedulersCompat;
+import com.youshibi.app.rx.SimpleSubscriber;
 
 import java.util.List;
+
+import me.shenfan.updateapp.UpdateService;
 
 /**
  * Created by Chu on 2016/12/3.
@@ -27,6 +37,38 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     @Override
     public void start() {
         super.start();
+        checkAppUpdate();
+    }
+
+    private void checkAppUpdate() {
+        DataManager
+                .getInstance()
+                .getLatestReleases()
+                .compose(SchedulersCompat.<AppRelease>applyIoSchedulers())
+                .subscribe(new SimpleSubscriber<AppRelease>() {
+                    @Override
+                    public void onNext(AppRelease release) {
+                        if (isViewAttached() && release.getVersionCode()> BuildConfig.VERSION_CODE) {
+                            showAppUpdateDialog((Activity) getView().provideContext(), release);
+                        }
+                    }
+                });
+    }
+
+    private void showAppUpdateDialog(final Activity activity, final AppRelease release) {
+        new MaterialDialog
+                .Builder(activity)
+                .title("新版本："+release.getVersionName())
+                .content(release.getReleaseNotes())
+                .positiveText("立即下载")
+                .negativeText("以后再说")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        UpdateService.Builder.create(release.getVersionName()).build(activity);
+                    }
+                })
+                .show();
 
     }
 

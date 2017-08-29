@@ -6,6 +6,7 @@ import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.bean.HttpResult;
+import com.youshibi.app.data.bean.AppRelease;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,12 @@ public interface ServerAPI {
      */
     @GET("/v1/books")
     Observable<HttpResult<DataList<Book>>> getBookList(@QueryMap HashMap<String, Object> map);
+
+    /**
+     * 搜索小说
+     */
+    @GET("/v1/search/books")
+    Observable<HttpResult<DataList<Book>>> searchBooks(@QueryMap HashMap<String, Object> map);
 
     /**
      * 获取小说类别
@@ -55,7 +62,7 @@ public interface ServerAPI {
      * 获取最新的app版本信息
      */
     @GET("/android/releases/latest")
-    Observable<HttpResult> getLatestReleases();
+    Observable<HttpResult<AppRelease>> getLatestReleases();
 
 
 }

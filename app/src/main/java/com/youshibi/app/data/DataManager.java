@@ -9,6 +9,7 @@ import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.DataList;
+import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
 import com.zchu.rxcache.CacheTarget;
@@ -104,16 +105,8 @@ public class DataManager {
         hashMap.put("keyword", keyword);
         return RequestClient
                 .getServerAPI()
-                .getBookList(hashMap)
-                .map(new HttpResultFunc<DataList<Book>>())
-                .compose(rxCache.<DataList<Book>>transformer("getBookList" + page + size + keyword, new TypeToken<DataList<Book>>() {
-                }.getType(), CacheStrategy.firstCache()))
-                .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
-                    @Override
-                    public DataList<Book> call(CacheResult<DataList<Book>> cacheResult) {
-                        return cacheResult.getData();
-                    }
-                });
+                .searchBooks(hashMap)
+                .map(new HttpResultFunc<DataList<Book>>());
     }
 
     /**
@@ -126,7 +119,8 @@ public class DataManager {
                 .map(new HttpResultFunc<List<BookType>>())
                 .compose(rxCache.<List<BookType>>transformer(
                         "getBookType",
-                        new TypeToken<List<BookType>>() {}.getType(),
+                        new TypeToken<List<BookType>>() {
+                        }.getType(),
                         new BaseStrategy() {
                             @Override
                             public <T> Observable<CacheResult<T>> execute(RxCache rxCache, String key, Observable<T> source, Type type) {
@@ -201,5 +195,12 @@ public class DataManager {
                 });
     }
 
+
+    public Observable<AppRelease> getLatestReleases() {
+        return RequestClient
+                .getServerAPI()
+                .getLatestReleases()
+                .map(new HttpResultFunc<AppRelease>());
+    }
 
 }
