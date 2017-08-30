@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:text="缓存全书"
+            android:text="@string/book_detail_download_book"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/text_size_small"/>
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:text="打开试读"
+            android:text="@string/book_detail_open_book"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"/>
 
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:text="加入书架"
+            android:text="@string/book_detail_add_bookcase"
             android:textColor="@color/textPrimary"
             android:textSize="@dimen/text_size_small"/>
 

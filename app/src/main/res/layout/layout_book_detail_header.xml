@@ -80,7 +80,7 @@
         android:layout_alignLeft="@id/tv_title"
         android:layout_marginTop="6dp"
         android:layout_below="@+id/tv_read_count"
-        android:text="玄幻 | 茶叶蛋"
+        tools:text="玄幻 | 茶叶蛋"
         android:textColor="@color/textSecondaryInverted"
         android:textSize="@dimen/text_size_medium"/>
 
