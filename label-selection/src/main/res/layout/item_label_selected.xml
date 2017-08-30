@@ -12,10 +12,12 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="72dp"
+            android:layout_width="75dp"
             android:layout_height="38dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:elevation="@dimen/elevation_label"
             android:background="@drawable/bg_label_normal"
             android:gravity="center"
