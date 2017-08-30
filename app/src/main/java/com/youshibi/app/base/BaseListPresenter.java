@@ -79,11 +79,10 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
         if (page * getPageSize() >= getCount()&&isViewAttached()) {
                 getView().showTheEnd();
         }else {
-            page++;
             if (isViewAttached()) {
                 getView().showMoreLoading();
             }
-            Subscription subscribe = doLoadMoreData(page,getPageSize())
+            Subscription subscribe = doLoadMoreData(page+1,getPageSize())
                     .subscribe(new Subscriber<List<M>>() {
                         @Override
                         public void onCompleted() {
@@ -98,6 +97,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
                         @Override
                         public void onNext(List<M> data) {
                             onLoadMoreDataSucceed(data);
+                            page++;
                         }
                     });
             addSubscription2Destroy(subscribe);
