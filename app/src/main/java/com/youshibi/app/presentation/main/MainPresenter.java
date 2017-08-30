@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.youshibi.app.BuildConfig;
 import com.youshibi.app.R;
+import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.mvp.MvpBasePresenter;
@@ -23,12 +24,13 @@ import com.youshibi.app.rx.SimpleSubscriber;
 import java.util.List;
 
 import me.shenfan.updateapp.UpdateService;
+import rx.Subscription;
 
 /**
  * Created by Chu on 2016/12/3.
  */
 
-public class MainPresenter extends MvpBasePresenter<MainContract.View> implements MainContract.Presenter {
+public class MainPresenter extends BaseRxPresenter<MainContract.View> implements MainContract.Presenter {
 
     private FragmentManager mFragmentManager;
 
@@ -41,18 +43,19 @@ public class MainPresenter extends MvpBasePresenter<MainContract.View> implement
     }
 
     private void checkAppUpdate() {
-        DataManager
+        Subscription subscribe = DataManager
                 .getInstance()
                 .getLatestReleases()
                 .compose(SchedulersCompat.<AppRelease>applyIoSchedulers())
                 .subscribe(new SimpleSubscriber<AppRelease>() {
                     @Override
                     public void onNext(AppRelease release) {
-                        if (isViewAttached() && release.getVersionCode()> BuildConfig.VERSION_CODE) {
+                        if (isViewAttached() && release.getVersionCode() > BuildConfig.VERSION_CODE) {
                             showAppUpdateDialog((Activity) getView().provideContext(), release);
                         }
                     }
                 });
+        addSubscription2Destroy(subscribe);
     }
 
     private void showAppUpdateDialog(final Activity activity, final AppRelease release) {

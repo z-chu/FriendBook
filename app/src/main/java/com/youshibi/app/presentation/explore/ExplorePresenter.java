@@ -94,7 +94,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
     private void processData(@NonNull List<BookType> bookTypes, @Nullable List<BookType> selectedBookLabels) {
         if (mBookTypes == null) {
             mBookTypes = bookTypes;
-            boolean isFirst = selectedBookLabels == null || selectedBookLabels.size() == 0;
+            boolean isFirst =( selectedBookLabels == null || selectedBookLabels.size() == 0);
             if (isFirst && selectedBookLabels == null) {
                 selectedBookLabels = new ArrayList<>();
             }
