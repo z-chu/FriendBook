@@ -47,7 +47,7 @@ public class BaseActivity extends BaseSuperActivity {
         super.onContentChanged();
         //设置沉淀式状态栏
         mImmersionBar = ImmersionBar.with(this);
-        initImmersionBar(ImmersionBar.with(this));
+        initImmersionBar(mImmersionBar);
         if (isEnableSlideFinish()) {
             Slidr.attach(this, new SlidrConfig
                     .Builder()
