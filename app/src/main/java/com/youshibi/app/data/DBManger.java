@@ -65,6 +65,13 @@ public final class DBManger {
         return bookTb.getId();
     }
 
+    public boolean updateBookTb(BookTb bookTb) {
+        if (loadBookTbById(bookTb.getId()) != null) {
+            mDaoSession.getBookTbDao().update(bookTb);
+            return true;
+        }
+        return false;
+    }
 
     public boolean hasBookTb(String bookId) {
         return loadBookTbById(bookId) != null;
@@ -90,6 +97,5 @@ public final class DBManger {
                 .rx()
                 .loadAll();
     }
-
 
 }

@@ -30,6 +30,10 @@ public class BookTb implements Parcelable {
 
     private boolean isFinished;
 
+    private int readNumber; //阅读次数
+
+    private long latestReadTimestamp;//最后一次的阅读时间
+
     /**
      * Used to resolve relations
      */
@@ -42,15 +46,17 @@ public class BookTb implements Parcelable {
     @Generated(hash = 1075074410)
     private transient BookTbDao myDao;
 
-    @Generated(hash = 154087344)
-    public BookTb(String id, String name, String coverUrl, String describe,
-                  String author, boolean isFinished) {
+    @Generated(hash = 847588366)
+    public BookTb(String id, String name, String coverUrl, String describe, String author,
+            boolean isFinished, int readNumber, long latestReadTimestamp) {
         this.id = id;
         this.name = name;
         this.coverUrl = coverUrl;
         this.describe = describe;
         this.author = author;
         this.isFinished = isFinished;
+        this.readNumber = readNumber;
+        this.latestReadTimestamp = latestReadTimestamp;
     }
 
     @Generated(hash = 1469509304)
@@ -154,6 +160,24 @@ public class BookTb implements Parcelable {
         dest.writeString(this.describe);
         dest.writeString(this.author);
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.readNumber);
+        dest.writeLong(this.latestReadTimestamp);
+    }
+
+    public int getReadNumber() {
+        return this.readNumber;
+    }
+
+    public void setReadNumber(int readNumber) {
+        this.readNumber = readNumber;
+    }
+
+    public long getLatestReadTimestamp() {
+        return this.latestReadTimestamp;
+    }
+
+    public void setLatestReadTimestamp(long latestReadTimestamp) {
+        this.latestReadTimestamp = latestReadTimestamp;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -170,9 +194,11 @@ public class BookTb implements Parcelable {
         this.describe = in.readString();
         this.author = in.readString();
         this.isFinished = in.readByte() != 0;
+        this.readNumber = in.readInt();
+        this.latestReadTimestamp = in.readLong();
     }
 
-    public static final Parcelable.Creator<BookTb> CREATOR = new Parcelable.Creator<BookTb>() {
+    public static final Creator<BookTb> CREATOR = new Creator<BookTb>() {
         @Override
         public BookTb createFromParcel(Parcel source) {
             return new BookTb(source);

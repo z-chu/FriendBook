@@ -60,7 +60,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
     private static final String K_EXTRA_SECTION_INDEX = "section_index";
-    private static final String K_EXTRA_COLLECTED = "collected";
     private static final String K_EXTRA_BOOK_TB = "book_tb";
 
     private DrawerLayout readDrawer;
@@ -97,7 +96,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         Intent intent = new Intent(context, ReadActivity.class);
         intent
                 .putExtra(K_EXTRA_BOOK_TB, (Parcelable) DataConvertUtil.book2BookTb(book, null))
-                .putExtra(K_EXTRA_COLLECTED, false)
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
@@ -106,7 +104,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         Intent intent = new Intent(context, ReadActivity.class);
         intent
                 .putExtra(K_EXTRA_BOOK_TB, (Parcelable) bookTb)
-                .putExtra(K_EXTRA_COLLECTED, true)
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
@@ -117,6 +114,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         setContentView(R.layout.activity_read);
         ReaderSettingManager.init(this);
         mBookTb = getIntent().getParcelableExtra(K_EXTRA_BOOK_TB);
+        mBookTb.setLatestReadTimestamp(System.currentTimeMillis());
+        mBookTb.setReadNumber(mBookTb.getReadNumber() + 1);
+        DBManger.getInstance().updateBookTb(mBookTb);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true, mBookTb.getName());
         findView();
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
@@ -390,8 +390,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @Override
     public void onBackPressed() {
 
-        if (getIntent().getBooleanExtra(K_EXTRA_COLLECTED, true) || isShowCollectionDialog
-                ||DBManger.getInstance().hasBookTb(mBookTb.getId())) {
+        if (isShowCollectionDialog || DBManger.getInstance().hasBookTb(mBookTb.getId())) {
             //书架已经有这本书了
             super.onBackPressed();
         } else {
