@@ -50,6 +50,20 @@ public final class DBManger {
         return book.getId();
     }
 
+    /**
+     * 添加图书到书架
+     *
+     * @return book 在数据库中的Id
+     */
+    public String saveBookTb(BookTb bookTb) {
+        if (loadBookTbById(bookTb.getId()) == null) {
+            mDaoSession.getBookTbDao().insert(bookTb);
+            RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
+        } else {
+            mDaoSession.getBookTbDao().update(bookTb);
+        }
+        return bookTb.getId();
+    }
 
 
     public boolean hasBookTb(String bookId) {
@@ -66,11 +80,11 @@ public final class DBManger {
                 .load(bookId);
     }
 
-    public long getBookTbCount(){
+    public long getBookTbCount() {
         return mDaoSession.getBookTbDao().count();
     }
 
-    public Observable<List<BookTb>> loadBookTb(){
+    public Observable<List<BookTb>> loadBookTb() {
         return mDaoSession
                 .getBookTbDao()
                 .rx()

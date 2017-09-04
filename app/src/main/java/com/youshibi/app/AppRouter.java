@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
@@ -82,13 +83,14 @@ public class AppRouter {
         CountEventHelper.countBookDetail(context, book);
     }
 
-    public static void showReadActivity(Context context, String bookId, int sectionIndex) {
-        context.startActivity(ReadActivity.newIntent(context, bookId, sectionIndex));
+    public static void showReadActivity(Context context, Book book, int sectionIndex) {
+        context.startActivity(ReadActivity.newIntent(context, book, sectionIndex));
+        CountEventHelper.countBookRead(context, book.getId(), book.getName());
     }
 
-    public static void showReadActivity(Context context, String bookId, String bookName, int sectionIndex) {
-        context.startActivity(ReadActivity.newIntent(context, bookId, bookName, sectionIndex));
-        CountEventHelper.countBookRead(context, bookId, bookName);
+    public static void showReadActivity(Context context, BookTb bookTb, int sectionIndex) {
+        context.startActivity(ReadActivity.newIntent(context, bookTb, sectionIndex));
+        CountEventHelper.countBookRead(context, bookTb.getId(), bookTb.getName());
     }
 
     public static void showSearchActivity(Context context) {

@@ -76,7 +76,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
 
     @Override
     public void openRead(Context context, int sectionIndex) {
-        AppRouter.showReadActivity(context, book.getId(), this.book.getName(), sectionIndex);
+        AppRouter.showReadActivity(context, book, sectionIndex);
     }
 
     private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {

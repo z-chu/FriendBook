@@ -1,5 +1,8 @@
 package com.youshibi.app.data.db.table;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -12,7 +15,7 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity(
         active = true
 )
-public class BookTb {
+public class BookTb implements Parcelable {
 
     @Id
     private String id;
@@ -138,6 +141,21 @@ public class BookTb {
         myDao.update(this);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.coverUrl);
+        dest.writeString(this.describe);
+        dest.writeString(this.author);
+        dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1406023060)
     public void __setDaoSession(DaoSession daoSession) {
@@ -145,5 +163,24 @@ public class BookTb {
         myDao = daoSession != null ? daoSession.getBookTbDao() : null;
     }
 
+    protected BookTb(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.coverUrl = in.readString();
+        this.describe = in.readString();
+        this.author = in.readString();
+        this.isFinished = in.readByte() != 0;
+    }
 
+    public static final Parcelable.Creator<BookTb> CREATOR = new Parcelable.Creator<BookTb>() {
+        @Override
+        public BookTb createFromParcel(Parcel source) {
+            return new BookTb(source);
+        }
+
+        @Override
+        public BookTb[] newArray(int size) {
+            return new BookTb[size];
+        }
+    };
 }

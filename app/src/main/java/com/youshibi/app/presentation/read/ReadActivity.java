@@ -1,9 +1,11 @@
 package com.youshibi.app.presentation.read;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -21,21 +23,30 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youshibi.app.R;
+import com.youshibi.app.data.DBManger;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionContent;
+import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.mvp.MvpActivity;
+import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.BrightnessUtils;
+import com.youshibi.app.util.DataConvertUtil;
 import com.youshibi.app.util.DisplayUtil;
 import com.youshibi.app.util.SystemBarUtils;
+import com.youshibi.app.util.ToastUtil;
 import com.zchu.reader.PageLoaderAdapter;
 import com.zchu.reader.PageView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.umeng.analytics.pro.x.at;
 
 /**
  * Created by Chu on 2017/5/28.
@@ -48,9 +59,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private static final String K_EXTRA_BOOK_ID = "book_id";
-    private static final String K_EXTRA_BOOK_NAME = "book_name";
     private static final String K_EXTRA_SECTION_INDEX = "section_index";
+    private static final String K_EXTRA_COLLECTED = "collected";
+    private static final String K_EXTRA_BOOK_TB = "book_tb";
 
     private DrawerLayout readDrawer;
     private LinearLayout readSide;
@@ -74,37 +85,39 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     private boolean canTouch = true;
 
-    private BookSectionContent mData;
     //控制屏幕常亮
     private PowerManager.WakeLock mWakeLock;
     private boolean isFullScreen = false;
 
-    public static Intent newIntent(Context context, String bookId, int sectionIndex) {
+    private boolean isShowCollectionDialog = false;
+    private BookTb mBookTb;
+
+
+    public static Intent newIntent(Context context, Book book, int sectionIndex) {
         Intent intent = new Intent(context, ReadActivity.class);
         intent
-                .putExtra(K_EXTRA_BOOK_ID, bookId)
+                .putExtra(K_EXTRA_BOOK_TB, (Parcelable) DataConvertUtil.book2BookTb(book, null))
+                .putExtra(K_EXTRA_COLLECTED, false)
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
 
-    public static Intent newIntent(Context context, String bookId, String bookName, int sectionIndex) {
+    public static Intent newIntent(Context context, BookTb bookTb, int sectionIndex) {
         Intent intent = new Intent(context, ReadActivity.class);
         intent
-                .putExtra(K_EXTRA_BOOK_ID, bookId)
-                .putExtra(K_EXTRA_BOOK_NAME, bookName)
+                .putExtra(K_EXTRA_BOOK_TB, (Parcelable) bookTb)
+                .putExtra(K_EXTRA_COLLECTED, true)
                 .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
         return intent;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         ReaderSettingManager.init(this);
-        String bookName = getIntent().getStringExtra(K_EXTRA_BOOK_NAME);
-        ToolbarHelper.initToolbar(this, R.id.toolbar, true,
-                bookName == null ? getString(R.string.app_name) : bookName);
+        mBookTb = getIntent().getParcelableExtra(K_EXTRA_BOOK_TB);
+        ToolbarHelper.initToolbar(this, R.id.toolbar, true, mBookTb.getName());
         findView();
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
         readRvSection.setLayoutManager(new LinearLayoutManager(this));
@@ -223,7 +236,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @Override
     public ReadContract.Presenter createPresenter() {
         return new ReadPresenter(
-                getIntent().getStringExtra(K_EXTRA_BOOK_ID),
+                mBookTb.getId(),
                 getIntent().getIntExtra(K_EXTRA_SECTION_INDEX, 0)
         );
     }
@@ -272,7 +285,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
             readBottom.startAnimation(mBottomInAnim);
             boolean isNight = ReadTheme.getReadTheme(readView.getPageBackground(), readView.getTextColor()) == ReadTheme.NIGHT;
             readTvNightMode.setSelected(isNight);
-            readTvNightMode.setText(isNight?getString(R.string.read_daytime):getString(R.string.read_night));
+            readTvNightMode.setText(isNight ? getString(R.string.read_daytime) : getString(R.string.read_night));
             showSystemBar();
         }
     }
@@ -374,4 +387,40 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         mReadSettingDialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (getIntent().getBooleanExtra(K_EXTRA_COLLECTED, true) || isShowCollectionDialog
+                ||DBManger.getInstance().hasBookTb(mBookTb.getId())) {
+            //书架已经有这本书了
+            super.onBackPressed();
+        } else {
+            //书架没有这本书了
+            showCollectionDialog();
+        }
+    }
+
+    private void showCollectionDialog() {
+        new MaterialDialog
+                .Builder(this)
+                .title("加入书架")
+                .content("是否将《" + mBookTb.getName() + "》加入书架")
+                .positiveText("加入")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        DBManger.getInstance().saveBookTb(mBookTb);
+                        ToastUtil.showToast("已加入书架");
+                    }
+                })
+                .negativeText("取消")
+                .dismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                })
+                .show();
+        isShowCollectionDialog = true;
+    }
 }
