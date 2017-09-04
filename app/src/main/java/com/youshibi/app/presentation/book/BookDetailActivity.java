@@ -42,7 +42,6 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     private String bookId;
     private Book book;
 
-    private boolean isShowCollectionDialog = false;
     private ImageView ivCover;
     private TextView tvReadCount;
     private ShapeTextView tvIsFinish;
@@ -110,49 +109,6 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     private void initExtra() {
         bookId = getIntent().getStringExtra(K_EXTRA_BOOK_ID);
         book = getIntent().getParcelableExtra(K_EXTRA_BOOK);
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (isShowCollectionDialog || DBManger.getInstance().hasBookTb(bookId)) {
-            //书架已经有这本书了
-            super.onBackPressed();
-        } else {
-            //书架没有这本书了
-            if (book == null) {
-                super.onBackPressed();
-            } else {
-                showCollectionDialog();
-
-            }
-
-
-        }
-    }
-
-    private void showCollectionDialog() {
-        new MaterialDialog
-                .Builder(this)
-                .title("加入书架")
-                .content("是否将《" + book.getName() + "》加入书架")
-                .positiveText("加入")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        DBManger.getInstance().saveBookTb(book);
-                        ToastUtil.showToast("已加入书架");
-                    }
-                })
-                .negativeText("取消")
-                .dismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        BookDetailActivity.this.finish();
-                    }
-                })
-                .show();
-        isShowCollectionDialog = true;
     }
 
     @NonNull
