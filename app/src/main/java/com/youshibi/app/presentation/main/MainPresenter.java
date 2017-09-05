@@ -14,7 +14,6 @@ import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.AppRelease;
-import com.youshibi.app.mvp.MvpBasePresenter;
 import com.youshibi.app.presentation.bookcase.BookcaseFragment;
 import com.youshibi.app.presentation.explore.ExploreFragment;
 import com.youshibi.app.presentation.mine.MineFragment;
@@ -68,7 +67,7 @@ public class MainPresenter extends BaseRxPresenter<MainContract.View> implements
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        UpdateService.Builder.create(release.getVersionName()).build(activity);
+                        UpdateService.Builder.create(release.getSourceFileUrl()).build(activity);
                     }
                 })
                 .show();
