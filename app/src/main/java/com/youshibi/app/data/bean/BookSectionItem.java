@@ -14,10 +14,10 @@ public class BookSectionItem implements Serializable {
      * "ChapterName": "2181.第2181章 终极神话"
      */
 
-    @SerializedName("ChapterIndex")
+    @SerializedName("chapter_index")
     private int sectionIndex;
 
-    @SerializedName("ChapterName")
+    @SerializedName("chapter_name")
     private String sectionName;
 
     public int getSectionIndex() {
