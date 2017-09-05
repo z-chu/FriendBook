@@ -26,13 +26,13 @@ public class BookType implements Serializable, Parcelable {
         this.selectedStatus = selectedStatus;
     }
 
-    @SerializedName("Id")
+    @SerializedName("id")
     private long id;
 
-    @SerializedName("TypeName")
+    @SerializedName("type_name")
     private String typeName;
 
-    @SerializedName("SelectedStatus")
+    @SerializedName("selected_status")
     private int selectedStatus;
 
     public long getId() {

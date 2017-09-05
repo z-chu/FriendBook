@@ -25,32 +25,44 @@ public class Book implements Serializable, Parcelable {
      */
 
 
-    @SerializedName("BookId")
+    @SerializedName("book_id")
     private String id;
 
-    @SerializedName("BookImg")
+    @SerializedName("book_img")
     private String coverUrl;
 
-    @SerializedName("BookName")
+    @SerializedName("book_name")
     private String name;
 
-    @SerializedName("BookIntro")
+    @SerializedName("book_intro")
     private String describe;
 
-    @SerializedName("BookAuthor")
+    @SerializedName("book_author")
     private String author;
 
-    @SerializedName("IsFinish")
+    @SerializedName("is_finish")
     private boolean isFinished;
 
-    private int BookTypeId;
+    @SerializedName("book_typeid")
+    private int bookTypeId;
 
-    private String BookTypeName;
+    @SerializedName("book_type_name")
+    private String bookTypeName;
 
-    private long BookWordNum;
+    @SerializedName("book_word_num")
+    private long bookWordNum;
 
-    private long ClickNum;
+    @SerializedName("click_num")
+    private long clickNum;
 
+    @SerializedName("collection_num")
+    private long collectionNum;
+
+    @SerializedName("recommend_num")
+    private long recommendNum;
+
+    @SerializedName("create_datetime")
+    private String createDateTime;
 
 
     public String getId() {
@@ -102,35 +114,60 @@ public class Book implements Serializable, Parcelable {
     }
 
     public int getBookTypeId() {
-        return BookTypeId;
+        return bookTypeId;
     }
 
     public void setBookTypeId(int bookTypeId) {
-        BookTypeId = bookTypeId;
+        this.bookTypeId = bookTypeId;
     }
 
     public String getBookTypeName() {
-        return BookTypeName;
+        return bookTypeName;
     }
 
     public void setBookTypeName(String bookTypeName) {
-        BookTypeName = bookTypeName;
+        this.bookTypeName = bookTypeName;
     }
 
     public long getBookWordNum() {
-        return BookWordNum;
+        return bookWordNum;
     }
 
     public void setBookWordNum(long bookWordNum) {
-        BookWordNum = bookWordNum;
+        this.bookWordNum = bookWordNum;
     }
 
     public long getClickNum() {
-        return ClickNum;
+        return clickNum;
     }
 
     public void setClickNum(long clickNum) {
-        ClickNum = clickNum;
+        this.clickNum = clickNum;
+    }
+
+
+    public long getCollectionNum() {
+        return collectionNum;
+    }
+
+    public void setCollectionNum(long collectionNum) {
+        this.collectionNum = collectionNum;
+    }
+
+    public long getRecommendNum() {
+        return recommendNum;
+    }
+
+    public void setRecommendNum(long recommendNum) {
+        this.recommendNum = recommendNum;
+    }
+
+    public String getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public Book() {
@@ -150,10 +187,13 @@ public class Book implements Serializable, Parcelable {
         dest.writeString(this.describe);
         dest.writeString(this.author);
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.BookTypeId);
-        dest.writeString(this.BookTypeName);
-        dest.writeLong(this.BookWordNum);
-        dest.writeLong(this.ClickNum);
+        dest.writeInt(this.bookTypeId);
+        dest.writeString(this.bookTypeName);
+        dest.writeLong(this.bookWordNum);
+        dest.writeLong(this.clickNum);
+        dest.writeLong(this.collectionNum);
+        dest.writeLong(this.recommendNum);
+        dest.writeString(this.createDateTime);
     }
 
     protected Book(Parcel in) {
@@ -163,10 +203,13 @@ public class Book implements Serializable, Parcelable {
         this.describe = in.readString();
         this.author = in.readString();
         this.isFinished = in.readByte() != 0;
-        this.BookTypeId = in.readInt();
-        this.BookTypeName = in.readString();
-        this.BookWordNum = in.readLong();
-        this.ClickNum = in.readLong();
+        this.bookTypeId = in.readInt();
+        this.bookTypeName = in.readString();
+        this.bookWordNum = in.readLong();
+        this.clickNum = in.readLong();
+        this.collectionNum = in.readLong();
+        this.recommendNum = in.readLong();
+        this.createDateTime = in.readString();
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {

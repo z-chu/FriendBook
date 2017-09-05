@@ -17,16 +17,16 @@ public class BookSectionContent implements Serializable{
      * CreateDateTime : 2017-03-28T23:30:43.01
      */
 
-    @SerializedName("ChapterIndex")
+    @SerializedName("chapter_index")
     private int sectionIndex;
 
-    @SerializedName("ChapterName")
+    @SerializedName("chapter_name")
     private String sectionName;
 
-    @SerializedName("ChapterContent")
+    @SerializedName("chapter_content")
     private String content;
 
-    @SerializedName("CreateDateTime")
+    @SerializedName("create_datetime")
     private String createDateTime;
 
     public int getSectionIndex() {
