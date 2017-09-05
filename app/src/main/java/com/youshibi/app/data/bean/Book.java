@@ -43,7 +43,7 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("is_finish")
     private boolean isFinished;
 
-    @SerializedName("book_typeid")
+    @SerializedName("book_type_id")
     private int bookTypeId;
 
     @SerializedName("book_type_name")
@@ -61,7 +61,7 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("recommend_num")
     private long recommendNum;
 
-    @SerializedName("create_datetime")
+    @SerializedName("create_date_time")
     private String createDateTime;
 
 

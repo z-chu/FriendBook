@@ -26,7 +26,7 @@ public class BookSectionContent implements Serializable{
     @SerializedName("chapter_content")
     private String content;
 
-    @SerializedName("create_datetime")
+    @SerializedName("create_date_time")
     private String createDateTime;
 
     public int getSectionIndex() {

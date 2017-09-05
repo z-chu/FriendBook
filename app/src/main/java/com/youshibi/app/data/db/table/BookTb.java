@@ -34,6 +34,10 @@ public class BookTb implements Parcelable {
 
     private long latestReadTimestamp;//最后一次的阅读时间
 
+    private Integer latestReadSection;//最后一次阅读的章节
+
+    private int latestReadPage;//最后一次阅读章节的页码
+
     /**
      * Used to resolve relations
      */
@@ -46,9 +50,10 @@ public class BookTb implements Parcelable {
     @Generated(hash = 1075074410)
     private transient BookTbDao myDao;
 
-    @Generated(hash = 847588366)
+    @Generated(hash = 889121155)
     public BookTb(String id, String name, String coverUrl, String describe, String author,
-            boolean isFinished, int readNumber, long latestReadTimestamp) {
+            boolean isFinished, int readNumber, long latestReadTimestamp,
+            Integer latestReadSection, int latestReadPage) {
         this.id = id;
         this.name = name;
         this.coverUrl = coverUrl;
@@ -57,6 +62,8 @@ public class BookTb implements Parcelable {
         this.isFinished = isFinished;
         this.readNumber = readNumber;
         this.latestReadTimestamp = latestReadTimestamp;
+        this.latestReadSection = latestReadSection;
+        this.latestReadPage = latestReadPage;
     }
 
     @Generated(hash = 1469509304)
@@ -147,6 +154,38 @@ public class BookTb implements Parcelable {
         myDao.update(this);
     }
 
+    public int getReadNumber() {
+        return this.readNumber;
+    }
+
+    public void setReadNumber(int readNumber) {
+        this.readNumber = readNumber;
+    }
+
+    public long getLatestReadTimestamp() {
+        return this.latestReadTimestamp;
+    }
+
+    public void setLatestReadTimestamp(long latestReadTimestamp) {
+        this.latestReadTimestamp = latestReadTimestamp;
+    }
+
+    public Integer getLatestReadSection() {
+        return this.latestReadSection;
+    }
+
+    public void setLatestReadSection(Integer latestReadSection) {
+        this.latestReadSection = latestReadSection;
+    }
+
+    public int getLatestReadPage() {
+        return this.latestReadPage;
+    }
+
+    public void setLatestReadPage(int latestReadPage) {
+        this.latestReadPage = latestReadPage;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -162,22 +201,8 @@ public class BookTb implements Parcelable {
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
         dest.writeInt(this.readNumber);
         dest.writeLong(this.latestReadTimestamp);
-    }
-
-    public int getReadNumber() {
-        return this.readNumber;
-    }
-
-    public void setReadNumber(int readNumber) {
-        this.readNumber = readNumber;
-    }
-
-    public long getLatestReadTimestamp() {
-        return this.latestReadTimestamp;
-    }
-
-    public void setLatestReadTimestamp(long latestReadTimestamp) {
-        this.latestReadTimestamp = latestReadTimestamp;
+        dest.writeValue(this.latestReadSection);
+        dest.writeInt(this.latestReadPage);
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -196,6 +221,8 @@ public class BookTb implements Parcelable {
         this.isFinished = in.readByte() != 0;
         this.readNumber = in.readInt();
         this.latestReadTimestamp = in.readLong();
+        this.latestReadSection = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.latestReadPage = in.readInt();
     }
 
     public static final Creator<BookTb> CREATOR = new Creator<BookTb>() {

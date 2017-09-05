@@ -30,10 +30,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
-import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.mvp.MvpActivity;
-import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.BrightnessUtils;
@@ -46,7 +44,6 @@ import com.zchu.reader.PageView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.umeng.analytics.pro.x.at;
 
 /**
  * Created by Chu on 2017/5/28.
@@ -59,7 +56,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private static final String K_EXTRA_SECTION_INDEX = "section_index";
     private static final String K_EXTRA_BOOK_TB = "book_tb";
 
     private DrawerLayout readDrawer;
@@ -92,19 +88,22 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private BookTb mBookTb;
 
 
-    public static Intent newIntent(Context context, Book book, int sectionIndex) {
+    public static Intent newIntent(Context context, Book book, Integer sectionIndex) {
         Intent intent = new Intent(context, ReadActivity.class);
+        BookTb bookTb = DataConvertUtil.book2BookTb(book, null);
+        bookTb.setLatestReadSection(sectionIndex);
         intent
-                .putExtra(K_EXTRA_BOOK_TB, (Parcelable) DataConvertUtil.book2BookTb(book, null))
-                .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
+                .putExtra(K_EXTRA_BOOK_TB, bookTb);
         return intent;
     }
 
-    public static Intent newIntent(Context context, BookTb bookTb, int sectionIndex) {
+    public static Intent newIntent(Context context, BookTb bookTb) {
+        BookTb dbBookTb = DBManger.getInstance().loadBookTbById(bookTb.getId());
+        if (dbBookTb != null) {//优先使用数据库中的bookTb
+            bookTb = dbBookTb;
+        }
         Intent intent = new Intent(context, ReadActivity.class);
-        intent
-                .putExtra(K_EXTRA_BOOK_TB, (Parcelable) bookTb)
-                .putExtra(K_EXTRA_SECTION_INDEX, sectionIndex);
+        intent.putExtra(K_EXTRA_BOOK_TB, (Parcelable) bookTb);
         return intent;
     }
 
@@ -112,11 +111,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
-        ReaderSettingManager.init(this);
         mBookTb = getIntent().getParcelableExtra(K_EXTRA_BOOK_TB);
-        mBookTb.setLatestReadTimestamp(System.currentTimeMillis());
-        mBookTb.setReadNumber(mBookTb.getReadNumber() + 1);
-        DBManger.getInstance().updateBookTb(mBookTb);
+        ReaderSettingManager.init(this);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true, mBookTb.getName());
         findView();
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
@@ -235,10 +231,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @NonNull
     @Override
     public ReadContract.Presenter createPresenter() {
-        return new ReadPresenter(
-                mBookTb.getId(),
-                getIntent().getIntExtra(K_EXTRA_SECTION_INDEX, 0)
-        );
+        return new ReadPresenter(mBookTb);
     }
 
 
@@ -421,5 +414,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 })
                 .show();
         isShowCollectionDialog = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //最后一次阅读的章节
     }
 }

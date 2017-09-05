@@ -1,7 +1,6 @@
 package com.youshibi.app.presentation.book;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,8 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.R;
@@ -149,7 +146,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
             case R.id.fab:
             case R.id.fl_open_book:
                 if (recyclerView.getAdapter() != null) {
-                    getPresenter().openRead(this, 0);
+                    getPresenter().openRead(this, null);
                 }
                 break;
             case R.id.fl_add_bookcase:

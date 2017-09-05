@@ -75,7 +75,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
     }
 
     @Override
-    public void openRead(Context context, int sectionIndex) {
+    public void openRead(Context context, Integer sectionIndex) {
         AppRouter.showReadActivity(context, book, sectionIndex);
     }
 

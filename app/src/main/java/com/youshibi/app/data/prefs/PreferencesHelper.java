@@ -17,6 +17,8 @@ import java.util.List;
 
 public class PreferencesHelper {
     private static final String K_SELECTED_ARTICLE_LABELS = "selected_book_labels";
+    private static final String K_FIRST_START_APP = "first_start_app";
+
 
     private static PreferencesHelper sPreferencesHelper;
     private SharedPreferences mPreferences;
@@ -27,6 +29,7 @@ public class PreferencesHelper {
         mGson = new Gson();
 
     }
+
     public static PreferencesHelper getInstance() {
         if (sPreferencesHelper == null) {
             sPreferencesHelper = new PreferencesHelper(AppContext.context());
@@ -48,6 +51,7 @@ public class PreferencesHelper {
                     .apply();
         }
     }
+
     public List<BookType> getSelectedBookLabels() {
         String string = mPreferences.getString(K_SELECTED_ARTICLE_LABELS, null);
         if (string != null) {
@@ -59,6 +63,17 @@ public class PreferencesHelper {
             }
         }
         return null;
+    }
+
+    public boolean isFirstStartApp() {
+        return mPreferences.getBoolean(K_FIRST_START_APP, true);
+    }
+
+    public void setFirstStartApp(boolean b) {
+        mPreferences
+                .edit()
+                .putBoolean(K_FIRST_START_APP, b)
+                .apply();
     }
 
 }

@@ -45,7 +45,7 @@ public class DataManager {
 
     private DataManager() {
         rxCache = new RxCache.Builder()
-                .appVersion(1)
+                .appVersion(BuildConfig.VERSION_CODE)
                 .diskDir(new File(AppContext.context().getFilesDir().getPath() + File.separator + "data-cache"))
                 .setDebug(BuildConfig.DEBUG)
                 .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
@@ -71,9 +71,9 @@ public class DataManager {
      */
     public Observable<DataList<Book>> getBookList(long bookType, int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("pageIndex", page);
-        hashMap.put("pageSize", size);
-        if (bookType > 0) hashMap.put("bookType", bookType);
+        hashMap.put("page_index", page);
+        hashMap.put("page_size", size);
+        if (bookType > 0) hashMap.put("book_type", bookType);
         return RequestClient
                 .getServerAPI()
                 .getBookList(hashMap)
@@ -100,7 +100,7 @@ public class DataManager {
             return Observable.just(new DataList<Book>());
         }
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("pageIndex", page);
+        hashMap.put("page_index", page);
         hashMap.put("pageSize", size);
         hashMap.put("keyword", keyword);
         return RequestClient
@@ -180,8 +180,26 @@ public class DataManager {
      * @param sectionIndex 章节索引
      */
     public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionIndex, "current");
+    }
+
+    public Observable<BookSectionContent> getBookSectionContentPrev(String bookId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionIndex, "last");
+    }
+
+    public Observable<BookSectionContent> getBookSectionContentNext(String bookId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionIndex, "next");
+    }
+
+    /**
+     * 获取小说章节中的内容
+     *
+     * @param bookId       小说的id
+     * @param sectionIndex 章节索引
+     */
+    public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex, String direction) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("queryDirection", "current");
+        hashMap.put("query_direction", direction);
         return RequestClient
                 .getServerAPI()
                 .getBookSectionContent(bookId, sectionIndex, hashMap)

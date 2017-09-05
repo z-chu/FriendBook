@@ -22,6 +22,6 @@ public interface BookDetailContract {
     interface Presenter extends MvpPresenter<View> {
         void loadData();
 
-        void openRead(Context context, int sectionIndex);
+        void openRead(Context context, Integer sectionIndex);
     }
 }
