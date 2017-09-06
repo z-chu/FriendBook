@@ -28,16 +28,21 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initUmeng(this);
-        //初始化AppManager
-        AppManager.init(this);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
         //初始化全局异常捕获
         Thread.setDefaultUncaughtExceptionHandler(new AppException(this));
         //初始化内存泄漏检测器
         LeakCanary.install(this);
         //初始化日志打印器
         Logger.init("FriendBook");
+        //初始化AppManager
+        AppManager.init(this);
         DBRepository.initDatabase(this);
+        initUmeng(this);
 
     }
 

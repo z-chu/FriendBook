@@ -89,11 +89,11 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
                 .with(this)
                 .load(book.getCoverUrl())
                 .into(ivCover);
-        tvReadCount.setText(StringUtils.formatCount(book.getClickNum())+"人读过");
-        tvAuthor.setText(book.getBookTypeName()+" | "+book.getAuthor());
+        tvReadCount.setText(StringUtils.formatCount(book.getClickNum()) + "人读过");
+        tvAuthor.setText(book.getBookTypeName() + " | " + book.getAuthor());
         tvIsFinish.setText(book.isFinished() ?
                 getString(R.string.book_finished) : getString(R.string.book_unfinished));
-        tvWordCount.setText(StringUtils.formatCount(book.getBookWordNum())+"字");
+        tvWordCount.setText(StringUtils.formatCount(book.getBookWordNum()) + "字");
 
     }
 
@@ -145,9 +145,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         switch (view.getId()) {
             case R.id.fab:
             case R.id.fl_open_book:
-                if (recyclerView.getAdapter() != null) {
-                    getPresenter().openRead(this, null);
-                }
+                getPresenter().openRead(this);
                 break;
             case R.id.fl_add_bookcase:
                 DBManger.getInstance().saveBookTb(book);
