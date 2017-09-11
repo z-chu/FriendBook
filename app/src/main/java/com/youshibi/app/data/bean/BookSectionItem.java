@@ -20,6 +20,17 @@ public class BookSectionItem implements Serializable {
     @SerializedName("chapter_name")
     private String sectionName;
 
+    @SerializedName("chapter_id")
+    private String sectionId;
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
+    }
+
     public int getSectionIndex() {
         return sectionIndex;
     }

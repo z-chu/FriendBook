@@ -179,16 +179,16 @@ public class DataManager {
      * @param bookId       小说的id
      * @param sectionIndex 章节索引
      */
-    public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex) {
-        return getBookSectionContent(bookId, sectionIndex, "current");
+    public Observable<BookSectionContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionId, sectionIndex, "current");
     }
 
-    public Observable<BookSectionContent> getBookSectionContentPrev(String bookId, int sectionIndex) {
-        return getBookSectionContent(bookId, sectionIndex, "last");
+    public Observable<BookSectionContent> getBookSectionContentPrev(String bookId, String sectionId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionId, sectionIndex, "last");
     }
 
-    public Observable<BookSectionContent> getBookSectionContentNext(String bookId, int sectionIndex) {
-        return getBookSectionContent(bookId, sectionIndex, "next");
+    public Observable<BookSectionContent> getBookSectionContentNext(String bookId, String sectionId, int sectionIndex) {
+        return getBookSectionContent(bookId, sectionId, sectionIndex, "next");
     }
 
     /**
@@ -197,14 +197,14 @@ public class DataManager {
      * @param bookId       小说的id
      * @param sectionIndex 章节索引
      */
-    public Observable<BookSectionContent> getBookSectionContent(String bookId, int sectionIndex, String direction) {
+    public Observable<BookSectionContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex, String direction) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("query_direction", direction);
         return RequestClient
                 .getServerAPI()
                 .getBookSectionContent(bookId, sectionIndex, hashMap)
                 .map(new HttpResultFunc<BookSectionContent>())
-                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionIndex, BookSectionContent.class, CacheStrategy.firstCache()))
+                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionId, BookSectionContent.class, CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {
                     @Override
                     public BookSectionContent call(CacheResult<BookSectionContent> bookSectionContentCacheResult) {

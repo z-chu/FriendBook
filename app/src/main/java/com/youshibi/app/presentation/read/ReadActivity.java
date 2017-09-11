@@ -88,10 +88,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private BookTb mBookTb;
 
 
-    public static Intent newIntent(Context context, Book book, Integer sectionIndex) {
+    public static Intent newIntent(Context context, Book book, Integer sectionIndex,String sectionId) {
         Intent intent = new Intent(context, ReadActivity.class);
         BookTb bookTb = DataConvertUtil.book2BookTb(book, null);
         bookTb.setLatestReadSection(sectionIndex);
+        bookTb.setLatestReadSectionId(sectionId);
         intent
                 .putExtra(K_EXTRA_BOOK_TB, bookTb);
         return intent;

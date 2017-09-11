@@ -28,6 +28,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private String mBookId;
     private BookTb mBookTb;
     private Integer mSectionIndex;
+    private String mSectionId;
     private ReadAdapter mReadAdapter;
     private CommonAdapter<BookSectionItem> bookSectionAdapter;
     private List<BookSectionItem> mBookSectionItems;
@@ -38,6 +39,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         this.mBookTb = bookTb;
         this.mBookId = bookTb.getId();
         this.mSectionIndex = bookTb.getLatestReadSection();
+        this.mSectionId = bookTb.getLatestReadSectionId();
     }
 
     @Override
@@ -126,7 +128,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private void doLoadDataCurrent(final int sectionIndex) {
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookSectionContent(mBookId, sectionIndex)
+                .getBookSectionContent(mBookId, mSectionId, sectionIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<BookSectionContent>() {
@@ -161,7 +163,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private void doLoadDataPrev(final int sectionIndex) {
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookSectionContentPrev(mBookId, sectionIndex)
+                .getBookSectionContentPrev(mBookId, mSectionId, sectionIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<BookSectionContent>() {
@@ -181,7 +183,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                                 mReadAdapter = new ReadAdapter();
                                 mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                                 getView().setPageAdapter(mReadAdapter);
-                            }else{
+                            } else {
                                 mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                             }
 
@@ -194,7 +196,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private void doLoadDataNext(final int sectionIndex) {
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookSectionContentNext(mBookId, sectionIndex)
+                .getBookSectionContentNext(mBookId, mSectionId, sectionIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<BookSectionContent>() {
@@ -214,7 +216,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                                 mReadAdapter = new ReadAdapter();
                                 mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                                 getView().setPageAdapter(mReadAdapter);
-                            }else{
+                            } else {
                                 mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                             }
 

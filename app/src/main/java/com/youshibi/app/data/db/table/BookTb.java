@@ -3,10 +3,10 @@ package com.youshibi.app.data.db.table;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Chu on 2017/5/29.
@@ -36,24 +36,24 @@ public class BookTb implements Parcelable {
 
     private Integer latestReadSection;//最后一次阅读的章节
 
+    private String latestReadSectionId;//最后一次阅读的章节的id
+
     private int latestReadPage;//最后一次阅读章节的页码
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 1075074410)
     private transient BookTbDao myDao;
 
-    @Generated(hash = 889121155)
-    public BookTb(String id, String name, String coverUrl, String describe, String author,
-            boolean isFinished, int readNumber, long latestReadTimestamp,
-            Integer latestReadSection, int latestReadPage) {
+
+    @Generated(hash = 1471814048)
+    public BookTb(String id, String name, String coverUrl, String describe,
+            String author, boolean isFinished, int readNumber,
+            long latestReadTimestamp, Integer latestReadSection,
+            String latestReadSectionId, int latestReadPage) {
         this.id = id;
         this.name = name;
         this.coverUrl = coverUrl;
@@ -63,12 +63,14 @@ public class BookTb implements Parcelable {
         this.readNumber = readNumber;
         this.latestReadTimestamp = latestReadTimestamp;
         this.latestReadSection = latestReadSection;
+        this.latestReadSectionId = latestReadSectionId;
         this.latestReadPage = latestReadPage;
     }
 
     @Generated(hash = 1469509304)
     public BookTb() {
     }
+
 
     public String getId() {
         return this.id;
@@ -118,6 +120,46 @@ public class BookTb implements Parcelable {
         this.isFinished = isFinished;
     }
 
+    public int getReadNumber() {
+        return this.readNumber;
+    }
+
+    public void setReadNumber(int readNumber) {
+        this.readNumber = readNumber;
+    }
+
+    public long getLatestReadTimestamp() {
+        return this.latestReadTimestamp;
+    }
+
+    public void setLatestReadTimestamp(long latestReadTimestamp) {
+        this.latestReadTimestamp = latestReadTimestamp;
+    }
+
+    public Integer getLatestReadSection() {
+        return this.latestReadSection;
+    }
+
+    public void setLatestReadSection(Integer latestReadSection) {
+        this.latestReadSection = latestReadSection;
+    }
+
+    public String getLatestReadSectionId() {
+        return this.latestReadSectionId;
+    }
+
+    public void setLatestReadSectionId(String latestReadSectionId) {
+        this.latestReadSectionId = latestReadSectionId;
+    }
+
+    public int getLatestReadPage() {
+        return this.latestReadPage;
+    }
+
+    public void setLatestReadPage(int latestReadPage) {
+        this.latestReadPage = latestReadPage;
+    }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -154,38 +196,6 @@ public class BookTb implements Parcelable {
         myDao.update(this);
     }
 
-    public int getReadNumber() {
-        return this.readNumber;
-    }
-
-    public void setReadNumber(int readNumber) {
-        this.readNumber = readNumber;
-    }
-
-    public long getLatestReadTimestamp() {
-        return this.latestReadTimestamp;
-    }
-
-    public void setLatestReadTimestamp(long latestReadTimestamp) {
-        this.latestReadTimestamp = latestReadTimestamp;
-    }
-
-    public Integer getLatestReadSection() {
-        return this.latestReadSection;
-    }
-
-    public void setLatestReadSection(Integer latestReadSection) {
-        this.latestReadSection = latestReadSection;
-    }
-
-    public int getLatestReadPage() {
-        return this.latestReadPage;
-    }
-
-    public void setLatestReadPage(int latestReadPage) {
-        this.latestReadPage = latestReadPage;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -202,6 +212,7 @@ public class BookTb implements Parcelable {
         dest.writeInt(this.readNumber);
         dest.writeLong(this.latestReadTimestamp);
         dest.writeValue(this.latestReadSection);
+        dest.writeString(this.latestReadSectionId);
         dest.writeInt(this.latestReadPage);
     }
 
@@ -222,6 +233,7 @@ public class BookTb implements Parcelable {
         this.readNumber = in.readInt();
         this.latestReadTimestamp = in.readLong();
         this.latestReadSection = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.latestReadSectionId = in.readString();
         this.latestReadPage = in.readInt();
     }
 

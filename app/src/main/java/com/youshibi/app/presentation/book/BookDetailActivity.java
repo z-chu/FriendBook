@@ -146,7 +146,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
             case R.id.fab:
             case R.id.fl_open_book:
                 if (recyclerView.getAdapter() != null) {
-                    getPresenter().openRead(this, null);
+                    getPresenter().openRead(this, null,null);
                 }
                 break;
             case R.id.fl_add_bookcase:
