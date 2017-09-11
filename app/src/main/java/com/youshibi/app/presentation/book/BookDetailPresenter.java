@@ -75,8 +75,14 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
     }
 
     @Override
-    public void openRead(Context context, Integer sectionIndex, String sectionId) {
-        AppRouter.showReadActivity(context, book, sectionIndex, sectionId);
+
+    public void openRead(Context context) {
+        if (bookSectionAdapter != null && bookSectionAdapter.getData().size() > 0) {
+            BookSectionItem bookSectionItem = bookSectionAdapter.getData().get(0);
+            AppRouter.showReadActivity(context, book, bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
+        } else {
+            AppRouter.showReadActivity(context, book, null, null);
+        }
     }
 
     private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
@@ -87,7 +93,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openRead(v.getContext(), item.getSectionIndex(), item.getSectionId());
+                        AppRouter.showReadActivity(v.getContext(), book, item.getSectionIndex(), item.getSectionId());
                     }
                 });
             }

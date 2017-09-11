@@ -46,6 +46,15 @@ public class BrightnessUtils {
     }
 
     /**
+     * 设置亮度跟随系统
+     */
+    public static void setUseSystemBrightness(Activity activity){
+        WindowManager.LayoutParams lp =activity.getWindow().getAttributes();
+        lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    /**
      * 判断是否开启了自动亮度调节
      *
      * @return

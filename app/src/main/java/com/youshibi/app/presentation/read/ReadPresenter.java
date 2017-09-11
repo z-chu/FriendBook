@@ -99,8 +99,8 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
 
     private void doLoadData(int sectionIndex) {
         this.mSectionIndex = sectionIndex;
-        if ((mReadAdapter == null || !mReadAdapter.hasSection(mSectionIndex))) {
-            doLoadDataCurrent(mSectionIndex);
+        if ((mReadAdapter == null || !mReadAdapter.hasSection(sectionIndex))) {
+            doLoadDataCurrent(sectionIndex);
         } else {
             if (mReadAdapter != null) {
                 getView().openSection(sectionIndex);
@@ -146,13 +146,13 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                         if (isViewAttached()) {
                             if (mReadAdapter == null) {
                                 mReadAdapter = new ReadAdapter();
-                                mReadAdapter.addData(sectionIndex, bookSectionContent);
+                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                                 getView().setPageAdapter(mReadAdapter);
 
                             } else {
-                                mReadAdapter.addData(sectionIndex, bookSectionContent);
+                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
                             }
-                            getView().openSection(sectionIndex);
+                            getView().openSection(bookSectionContent.getSectionIndex());
 
                         }
                     }

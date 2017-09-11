@@ -5,7 +5,7 @@ ext {
     configuration = [
             package          : "com.youshibi.app",
             buildToolsVersion: "25.0.3",
-            compileVersion   : 26,
+            compileVersion   : 25,
             minSdk           : 15,
             targetSdk        : 26,
             version_code     : 4,

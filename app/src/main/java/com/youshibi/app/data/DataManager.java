@@ -50,7 +50,7 @@ public class DataManager {
                 .setDebug(BuildConfig.DEBUG)
                 .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
                 .memoryMax(0)
-                .diskMax(20 * 1024 * 1024)
+                .diskMax(0)
                 .build();
     }
 

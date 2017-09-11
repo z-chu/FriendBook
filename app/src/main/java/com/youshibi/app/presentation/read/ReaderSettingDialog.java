@@ -207,10 +207,8 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
 
     private void setAutoBrightness(boolean isEnabled, View view) {
         if (isEnabled) {
-            BrightnessUtils.startAutoBrightness(getOwnerActivity());
-            BrightnessUtils.setBrightness(getOwnerActivity(), BrightnessUtils.getScreenBrightness(getOwnerActivity()));
+            BrightnessUtils.setUseSystemBrightness(getOwnerActivity());
         } else {
-            BrightnessUtils.stopAutoBrightness(getOwnerActivity());
             BrightnessUtils.setBrightness(getOwnerActivity(), readSbLightnessProgress.getProgress());
         }
         ReaderSettingManager.getInstance().setAutoBrightness(isEnabled);

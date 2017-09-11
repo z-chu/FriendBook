@@ -83,6 +83,7 @@ public class PageView extends View {
 
     //内容加载器
     private PageLoader mPageLoader;
+    private PageLoaderAdapter mAdapter;
     private int mTextSize = 40;
     private int mTextColor = 0xFF212121;
     private int mPageBackground = 0xFFCEC29C;
@@ -152,6 +153,9 @@ public class PageView extends View {
             mPageLoader.setOnPageChangeListener(mPageChangeListener);
         }
         mPageLoader.setDisplaySize(w, h);
+        if(mPageLoader.getAdapter()==null&&mAdapter!=null){
+            mPageLoader.setAdapter(mAdapter);
+        }
         if (mPageLoader.getAdapter() != null && mStartSection != -1) {
             mPageLoader.openChapter(mStartSection);
         }
@@ -390,7 +394,10 @@ public class PageView extends View {
 
 
     public void setAdapter(PageLoaderAdapter adapter) {
-        mPageLoader.setAdapter(adapter);
+        this.mAdapter=adapter;
+        if(mPageLoader!=null){
+            mPageLoader.setAdapter(adapter);
+        }
     }
 
     public void openSection(int section) {
