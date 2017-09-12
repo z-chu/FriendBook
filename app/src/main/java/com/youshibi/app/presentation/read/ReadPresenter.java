@@ -1,5 +1,6 @@
 package com.youshibi.app.presentation.read;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.youshibi.app.R;
@@ -33,8 +34,6 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private CommonAdapter<BookSectionItem> bookSectionAdapter;
     private List<BookSectionItem> mBookSectionItems;
 
-    private int mSectionListIndex = -1;
-
     public ReadPresenter(BookTb bookTb) {
         this.mBookTb = bookTb;
         this.mBookId = bookTb.getId();
@@ -61,27 +60,12 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                             getView().setSectionListAdapter(createBookSectionAdapter(bookSectionItems));
                         }
                         mBookSectionItems = bookSectionItems;
-                        if (mSectionIndex == null) {
-                            mSectionIndex = bookSectionItems.get(0).getSectionIndex();
-                            doLoadData(mSectionIndex);
+                        if (mSectionIndex != null && mSectionId != null) {
+                            doLoadData(mSectionIndex, mSectionId);
                         } else {
-                            for (int i = 0; i < mBookSectionItems.size(); i++) {
-                                if (mBookSectionItems.get(i).getSectionIndex() == mSectionIndex) {
-                                    mSectionListIndex = i;
-                                    break;
-                                }
-                            }
-                            if (mReadAdapter == null ||
-                                    (mSectionListIndex + 1 < mBookSectionItems.size() && !mReadAdapter.hasSection(mBookSectionItems.get(mSectionListIndex + 1).getSectionIndex()))) {
-                                doLoadDataNext(mSectionIndex);
-                            }
-                            if (mReadAdapter == null ||
-                                    (mSectionListIndex - 1 >= 0 && !mReadAdapter.hasSection(mBookSectionItems.get(mSectionListIndex - 1).getSectionIndex()))) {
-                                doLoadDataPrev(mSectionIndex);
-                            }
+                            BookSectionItem bookSectionItem = bookSectionItems.get(0);
+                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
                         }
-
-
                     }
                 });
 
@@ -91,16 +75,67 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     public void loadData() {
         getView().showLoading();
         loadSectionList();
-        if (mSectionIndex != null) {
-            doLoadDataCurrent(mSectionIndex);
-        }
+
 
     }
 
-    private void doLoadData(int sectionIndex) {
+    /**
+     * 找到sectionIndex对应的章节在bookSectionItems中的下标
+     */
+    private int indexOfSectionList(@NonNull List<BookSectionItem> bookSectionItems, String sectionId) {
+        for (int i = 0; i < bookSectionItems.size(); i++) {
+            if (bookSectionItems.get(i).getSectionId().equals(sectionId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void loadSectionContent(final int sectionIndex, String sectionId, final boolean isOpen) {
+        Subscription subscribe = DataManager
+                .getInstance()
+                .getBookSectionContent(mBookId, sectionId, sectionIndex)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleSubscriber<BookSectionContent>() {
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (isViewAttached()) {
+                            getView().showError(handleException(e));
+                        }
+                    }
+
+                    @Override
+                    public void onNext(BookSectionContent bookSectionContent) {
+                        if (isViewAttached()) {
+                            int listIndex = indexOfSectionList(mBookSectionItems, bookSectionContent.getSectionId());
+                            if (mReadAdapter == null) {
+                                mReadAdapter = new ReadAdapter();
+                                mReadAdapter.addData(listIndex, bookSectionContent);
+                                getView().setPageAdapter(mReadAdapter);
+
+                            } else {
+                                mReadAdapter.addData(listIndex, bookSectionContent);
+                            }
+                            if (isOpen) {
+                                getView().openSection(listIndex);
+                            }
+
+                        }
+                    }
+                });
+        addSubscription2Detach(subscribe);
+    }
+
+
+    private void doLoadData(int sectionIndex, String sectionId) {
         this.mSectionIndex = sectionIndex;
+        this.mSectionId = sectionId;
         if ((mReadAdapter == null || !mReadAdapter.hasSection(sectionIndex))) {
-            doLoadDataCurrent(sectionIndex);
+            //doLoadDataCurrent(sectionIndex);
+            loadSectionContent(sectionIndex, sectionId, true);
         } else {
             if (mReadAdapter != null) {
                 getView().openSection(sectionIndex);
@@ -109,128 +144,38 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         if (mBookSectionItems != null) {
             for (int i = 0; i < mBookSectionItems.size(); i++) {
                 if (mBookSectionItems.get(i).getSectionIndex() == mSectionIndex) {
-                    mSectionListIndex = i;
                     break;
                 }
             }
-            if (mReadAdapter == null ||
-                    (mSectionListIndex + 1 < mBookSectionItems.size() && !mReadAdapter.hasSection(mBookSectionItems.get(mSectionListIndex + 1).getSectionIndex()))) {
-                doLoadDataNext(mSectionIndex);
+            int indexOfSectionList = indexOfSectionList(mBookSectionItems, sectionId);
+            if (indexOfSectionList + 1 < mBookSectionItems.size()) {
+                if (mReadAdapter == null
+                        || !mReadAdapter.hasSection(mBookSectionItems.get(indexOfSectionList + 1).getSectionIndex())) {
+                    BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
+                    loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
+                }
             }
-            if (mReadAdapter == null ||
-                    (mSectionListIndex - 1 >= 0 && !mReadAdapter.hasSection(mBookSectionItems.get(mSectionListIndex - 1).getSectionIndex()))) {
-                doLoadDataPrev(mSectionIndex);
+            if (indexOfSectionList - 1 >= 0) {
+                if (mReadAdapter == null
+                        || !mReadAdapter.hasSection(mBookSectionItems.get(indexOfSectionList - 1).getSectionIndex())) {
+                    BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
+                    loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
+                }
             }
         }
-
     }
 
-    private void doLoadDataCurrent(final int sectionIndex) {
-        Subscription subscribe = DataManager
-                .getInstance()
-                .getBookSectionContent(mBookId, mSectionId, sectionIndex)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<BookSectionContent>() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (isViewAttached()) {
-                            getView().showError(handleException(e));
-                        }
-                    }
-
-                    @Override
-                    public void onNext(BookSectionContent bookSectionContent) {
-                        if (isViewAttached()) {
-                            if (mReadAdapter == null) {
-                                mReadAdapter = new ReadAdapter();
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                                getView().setPageAdapter(mReadAdapter);
-
-                            } else {
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                            }
-                            getView().openSection(bookSectionContent.getSectionIndex());
-
-                        }
-                    }
-                });
-        addSubscription2Detach(subscribe);
-    }
-
-    private void doLoadDataPrev(final int sectionIndex) {
-        Subscription subscribe = DataManager
-                .getInstance()
-                .getBookSectionContentPrev(mBookId, mSectionId, sectionIndex)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<BookSectionContent>() {
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (isViewAttached()) {
-                            getView().showError(handleException(e));
-                        }
-                    }
-
-                    @Override
-                    public void onNext(BookSectionContent bookSectionContent) {
-                        if (isViewAttached()) {
-                            if (mReadAdapter == null) {
-                                mReadAdapter = new ReadAdapter();
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                                getView().setPageAdapter(mReadAdapter);
-                            } else {
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                            }
-
-                        }
-                    }
-                });
-        addSubscription2Detach(subscribe);
-    }
-
-    private void doLoadDataNext(final int sectionIndex) {
-        Subscription subscribe = DataManager
-                .getInstance()
-                .getBookSectionContentNext(mBookId, mSectionId, sectionIndex)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<BookSectionContent>() {
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (isViewAttached()) {
-                            getView().showError(handleException(e));
-                        }
-                    }
-
-                    @Override
-                    public void onNext(BookSectionContent bookSectionContent) {
-                        if (isViewAttached()) {
-                            if (mReadAdapter == null) {
-                                mReadAdapter = new ReadAdapter();
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                                getView().setPageAdapter(mReadAdapter);
-                            } else {
-                                mReadAdapter.addData(bookSectionContent.getSectionIndex(), bookSectionContent);
-                            }
-
-
-                        }
-                    }
-                });
-        addSubscription2Detach(subscribe);
-    }
-
+    private boolean isFirstChapterChange = true;
 
     @Override
     public void onChapterChange(int pos) {
-        doLoadData(pos);
+        if (!isFirstChapterChange) {
+            BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
+            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
+        } else {
+            isFirstChapterChange = false;
+        }
 
     }
 
@@ -252,7 +197,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        doLoadData(item.getSectionIndex());
+                        doLoadData(item.getSectionIndex(), item.getSectionId());
                     }
                 });
             }

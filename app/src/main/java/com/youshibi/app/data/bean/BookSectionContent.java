@@ -29,6 +29,9 @@ public class BookSectionContent implements Serializable{
     @SerializedName("create_date_time")
     private String createDateTime;
 
+    @SerializedName("chapter_id")
+    private String sectionId;
+
     public int getSectionIndex() {
         return sectionIndex;
     }
@@ -59,5 +62,13 @@ public class BookSectionContent implements Serializable{
 
     public void setCreateDateTime(String createDateTime) {
         this.createDateTime = createDateTime;
+    }
+
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
     }
 }
