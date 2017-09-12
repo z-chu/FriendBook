@@ -19,10 +19,11 @@
         app:cardCornerRadius="0dp"
         app:cardElevation="4dp">
 
-        <ImageView
+        <com.youshibi.app.ui.widget.MaskableImageView
             android:id="@+id/iv_cover"
             android:layout_width="90dp"
             android:layout_height="120dp"
+            android:clickable="true"
             android:scaleType="centerCrop"
             tools:src="@drawable/ic_book_cover_default"/>
     </android.support.v7.widget.CardView>
@@ -45,11 +46,11 @@
         android:id="@+id/iv_remove"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginRight="-10dp"
         android:layout_alignRight="@id/card_cover"
+        android:layout_marginRight="-10dp"
         android:elevation="8dp"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:srcCompat="@drawable/ic_vector_book_normal"/>
+        app:srcCompat="@drawable/ic_vector_book_normal"
+        tools:visibility="visible"/>
 
 </RelativeLayout>

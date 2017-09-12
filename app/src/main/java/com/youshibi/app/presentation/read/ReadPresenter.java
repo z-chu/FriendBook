@@ -61,10 +61,10 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                         }
                         mBookSectionItems = bookSectionItems;
                         if (mSectionIndex != null && mSectionId != null) {
-                            doLoadData(mSectionIndex, mSectionId);
+                            doLoadData(mSectionIndex, mSectionId,true);
                         } else {
                             BookSectionItem bookSectionItem = bookSectionItems.get(0);
-                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
+                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(),true);
                         }
                     }
                 });
@@ -130,34 +130,30 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     }
 
 
-    private void doLoadData(int sectionIndex, String sectionId) {
+    private void doLoadData(int sectionIndex, String sectionId,boolean isOpen) {
         this.mSectionIndex = sectionIndex;
         this.mSectionId = sectionId;
-        if ((mReadAdapter == null || !mReadAdapter.hasSection(sectionIndex))) {
-            //doLoadDataCurrent(sectionIndex);
-            loadSectionContent(sectionIndex, sectionId, true);
-        } else {
-            if (mReadAdapter != null) {
-                getView().openSection(sectionIndex);
+        int indexOfSectionList = indexOfSectionList(mBookSectionItems, sectionId);
+        if(isOpen) {
+            if ((mReadAdapter == null || !mReadAdapter.hasSection(indexOfSectionList))) {
+                loadSectionContent(sectionIndex, sectionId, isOpen);
+            } else {
+                if (mReadAdapter != null && isViewAttached()) {
+                    getView().openSection(indexOfSectionList);
+                }
             }
         }
         if (mBookSectionItems != null) {
-            for (int i = 0; i < mBookSectionItems.size(); i++) {
-                if (mBookSectionItems.get(i).getSectionIndex() == mSectionIndex) {
-                    break;
-                }
-            }
-            int indexOfSectionList = indexOfSectionList(mBookSectionItems, sectionId);
             if (indexOfSectionList + 1 < mBookSectionItems.size()) {
                 if (mReadAdapter == null
-                        || !mReadAdapter.hasSection(mBookSectionItems.get(indexOfSectionList + 1).getSectionIndex())) {
+                        || !mReadAdapter.hasSection(indexOfSectionList+1)){
                     BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
                     loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
                 }
             }
             if (indexOfSectionList - 1 >= 0) {
                 if (mReadAdapter == null
-                        || !mReadAdapter.hasSection(mBookSectionItems.get(indexOfSectionList - 1).getSectionIndex())) {
+                        || !mReadAdapter.hasSection(indexOfSectionList-1)) {
                     BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
                     loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
                 }
@@ -172,7 +168,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     public void onChapterChange(int pos) {
         if (!isFirstChapterChange) {
             BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
-            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
+            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(),false);
         } else {
             isFirstChapterChange = false;
         }
@@ -197,7 +193,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        doLoadData(item.getSectionIndex(), item.getSectionId());
+                        doLoadData(item.getSectionIndex(), item.getSectionId(),true);
                     }
                 });
             }
