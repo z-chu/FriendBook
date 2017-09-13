@@ -22,8 +22,6 @@ import com.youshibi.app.util.DensityUtil;
 
 public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
 
-    private Toolbar toolbar;
-
 
     public static BookcaseFragment newInstance() {
         return new BookcaseFragment();
@@ -37,7 +35,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.inflateMenu(R.menu.bookcase);
         toolbar.getMenu().findItem(R.id.action_search).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -79,9 +77,9 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(hidden){
-            MobclickAgent.onPageEnd(getClass().getName());
+            MobclickAgent.onPageEnd(getClass().getPackage().getName()+".BookcaseFragment");
         }else{
-            MobclickAgent.onPageStart(getClass().getName());
+            MobclickAgent.onPageStart(getClass().getPackage().getName()+".BookcaseFragment");
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.R;
 import com.youshibi.app.ui.widget.ShapeView;
 import com.youshibi.app.util.BrightnessUtils;
@@ -308,5 +309,18 @@ public class ReaderSettingDialog extends BottomSheetDialog implements View.OnCli
     public void onStopTrackingTouch(SeekBar seekBar) {
         //设置进度
         ReaderSettingManager.getInstance().setBrightness(seekBar.getProgress());
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        MobclickAgent.onPageEnd(getClass().getPackage().getName()+".ReaderSettingDialog");
+
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        MobclickAgent.onPageStart(getClass().getPackage().getName()+".ReaderSettingDialog");
     }
 }

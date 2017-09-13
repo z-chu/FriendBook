@@ -25,9 +25,9 @@ public class MineFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(hidden){
-            MobclickAgent.onPageEnd(getClass().getName());
+            MobclickAgent.onPageEnd(getClass().getPackage().getName()+".MineFragment");
         }else{
-            MobclickAgent.onPageStart(getClass().getName());
+            MobclickAgent.onPageStart(getClass().getPackage().getName()+".MineFragment");
         }
     }
 }

@@ -3,7 +3,6 @@ package com.youshibi.app.presentation.explore;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -14,12 +13,9 @@ import android.view.View;
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
-import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.mvp.MvpLoaderFragment;
 import com.youshibi.app.ui.help.BaseFragmentAdapter;
 import com.youshibi.app.util.CountEventHelper;
-
-import java.util.ArrayList;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
@@ -30,8 +26,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter> implements ExploreContract.View, View.OnClickListener {
 
     private ViewPager viewPager;
-    private AppBarLayout appbar;
-    //   private Toolbar toolbar;
     private TabLayout tab;
     private View ivBookTypeMore;
     private MaterialProgressBar progress;
@@ -40,12 +34,6 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
 
     private boolean isShow = false;
     private boolean isBindPresenter = false;
-
-
-    private ArrayList<BookType> alwaySelectedBookTypes = new ArrayList<>();
-    private ArrayList<BookType> selectedBookTypes = new ArrayList<>();
-    private ArrayList<BookType> unselectedBookTypes = new ArrayList<>();
-
 
     public static ExploreFragment newInstance() {
         return new ExploreFragment();
@@ -62,7 +50,6 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewPager = (ViewPager) view.findViewById(R.id.vp_explore);
-        appbar = (AppBarLayout) view.findViewById(R.id.appbar_explore);
         tab = (TabLayout) view.findViewById(R.id.tab_explore);
         progress = (MaterialProgressBar) view.findViewById(R.id.progress);
         ivBookTypeRetry = (AppCompatImageView) view.findViewById(R.id.iv_book_type_retry);
@@ -110,9 +97,9 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            MobclickAgent.onPageEnd(getClass().getName());
+            MobclickAgent.onPageEnd(getClass().getPackage().getName()+".ExploreFragment");
         } else {
-            MobclickAgent.onPageStart(getClass().getName());
+            MobclickAgent.onPageStart(getClass().getPackage().getName()+".ExploreFragment");
         }
     }
 
