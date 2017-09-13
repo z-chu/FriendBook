@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
@@ -22,6 +21,7 @@ import com.youshibi.app.ui.help.RecycleViewDivider;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.ui.widget.LoadErrorView;
 import com.youshibi.app.ui.widget.ShapeTextView;
+import com.youshibi.app.util.GlideApp;
 import com.youshibi.app.util.StringUtils;
 import com.youshibi.app.util.ToastUtil;
 
@@ -30,13 +30,11 @@ import com.youshibi.app.util.ToastUtil;
  */
 
 public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Presenter> implements BookDetailContract.View, View.OnClickListener {
-    private static final String K_EXTRA_BOOK_ID = "book_id";
     private static final String K_EXTRA_BOOK = "book";
 
     private RecyclerView recyclerView;
     private LoadErrorView loadErrorView;
 
-    private String bookId;
     private Book book;
 
     private ImageView ivCover;
@@ -49,7 +47,6 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     public static Intent newIntent(Context context, Book book) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra(K_EXTRA_BOOK, (Parcelable) book);
-        intent.putExtra(K_EXTRA_BOOK_ID, book.getId());
         return intent;
     }
 
@@ -85,9 +82,10 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     }
 
     private void initDisplay() {
-        Glide
+        GlideApp
                 .with(this)
                 .load(book.getCoverUrl())
+                .placeholder(R.drawable.ic_book_cover_default)
                 .into(ivCover);
         tvReadCount.setText(StringUtils.formatCount(book.getClickNum()) + "人读过");
         tvAuthor.setText(book.getBookTypeName() + " | " + book.getAuthor());
@@ -104,7 +102,6 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     }
 
     private void initExtra() {
-        bookId = getIntent().getStringExtra(K_EXTRA_BOOK_ID);
         book = getIntent().getParcelableExtra(K_EXTRA_BOOK);
     }
 

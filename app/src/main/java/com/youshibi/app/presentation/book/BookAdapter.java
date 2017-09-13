@@ -2,6 +2,7 @@ package com.youshibi.app.presentation.book;
 
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.youshibi.app.R;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.ui.help.CommonAdapter;
@@ -28,6 +29,7 @@ public class BookAdapter extends CommonAdapter<Book> {
         GlideApp
                 .with(mContext)
                 .load(bookItem.getCoverUrl())
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .placeholder(R.drawable.ic_book_cover_default)
                 .into(ivCover);
         holder
