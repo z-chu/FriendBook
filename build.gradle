@@ -4,8 +4,8 @@ ext {
     //项目版本
     configuration = [
             package          : "com.youshibi.app",
-            buildToolsVersion: "25.0.3",
-            compileVersion   : 25,
+            buildToolsVersion: "26.0.1",
+            compileVersion   : 26,
             minSdk           : 15,
             targetSdk        : 26,
             version_code     : 4,
@@ -15,7 +15,7 @@ ext {
 
     //对一些库的版本进行统一管理
     libraries = [
-            supportVersion: "25.3.1",
+            supportVersion: "26.0.2",
             retrofit      : "2.3.0",
             leakcanary    : "1.5",
             blockcanary   : "1.4.0"
@@ -40,6 +40,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
+        maven { url "https://maven.google.com" }
     }
 
     tasks.withType(JavaCompile) {

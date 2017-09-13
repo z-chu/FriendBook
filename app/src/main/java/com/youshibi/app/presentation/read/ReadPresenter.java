@@ -61,10 +61,10 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                         }
                         mBookSectionItems = bookSectionItems;
                         if (mSectionIndex != null && mSectionId != null) {
-                            doLoadData(mSectionIndex, mSectionId,true);
+                            doLoadData(mSectionIndex, mSectionId, true);
                         } else {
                             BookSectionItem bookSectionItem = bookSectionItems.get(0);
-                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(),true);
+                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
                         }
                     }
                 });
@@ -130,11 +130,11 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     }
 
 
-    private void doLoadData(int sectionIndex, String sectionId,boolean isOpen) {
+    private void doLoadData(int sectionIndex, String sectionId, boolean isOpen) {
         this.mSectionIndex = sectionIndex;
         this.mSectionId = sectionId;
         int indexOfSectionList = indexOfSectionList(mBookSectionItems, sectionId);
-        if(isOpen) {
+        if (isOpen) {
             if ((mReadAdapter == null || !mReadAdapter.hasSection(indexOfSectionList))) {
                 loadSectionContent(sectionIndex, sectionId, isOpen);
             } else {
@@ -146,14 +146,14 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         if (mBookSectionItems != null) {
             if (indexOfSectionList + 1 < mBookSectionItems.size()) {
                 if (mReadAdapter == null
-                        || !mReadAdapter.hasSection(indexOfSectionList+1)){
+                        || !mReadAdapter.hasSection(indexOfSectionList + 1)) {
                     BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
                     loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
                 }
             }
             if (indexOfSectionList - 1 >= 0) {
                 if (mReadAdapter == null
-                        || !mReadAdapter.hasSection(indexOfSectionList-1)) {
+                        || !mReadAdapter.hasSection(indexOfSectionList - 1)) {
                     BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
                     loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
                 }
@@ -168,7 +168,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     public void onChapterChange(int pos) {
         if (!isFirstChapterChange) {
             BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
-            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(),false);
+            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
         } else {
             isFirstChapterChange = false;
         }
@@ -193,7 +193,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        doLoadData(item.getSectionIndex(), item.getSectionId(),true);
+                        doLoadData(item.getSectionIndex(), item.getSectionId(), true);
                     }
                 });
             }
@@ -207,6 +207,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         mBookTb.setLatestReadTimestamp(System.currentTimeMillis()); //更新最后一次的阅读时间
         mBookTb.setReadNumber(mBookTb.getReadNumber() + 1); //更新阅读次数
         mBookTb.setLatestReadSection(mSectionIndex);
+        mBookTb.setLatestReadSectionId(mSectionId);
         DBManger.getInstance().updateBookTb(mBookTb);
     }
 }

@@ -12,13 +12,6 @@ import com.zchu.reader.PageView;
  */
 
 public class ReaderSettingManager {
-    /*************实在想不出什么好记的命名方式。。******************/
-    private static final int READ_BG_DEFAULT = 0;
-    public static final int READ_BG_1 = 1;
-    public static final int READ_BG_2 = 2;
-    public static final int READ_BG_3 = 3;
-    public static final int READ_BG_4 = 4;
-    public static final int NIGHT_MODE = 5;
 
     private static final String SHARED_READ_BG = "shared_read_bg";
     private static final String SHARED_READ_BRIGHTNESS = "shared_read_brightness";
@@ -144,9 +137,7 @@ public class ReaderSettingManager {
         return mPreferences.getInt(SHARED_READ_PAGE_MODE, PageView.PAGE_MODE_SIMULATION);
     }
 
-    public int getReadBgTheme() {
-        return mPreferences.getInt(SHARED_READ_BG, READ_BG_DEFAULT);
-    }
+
 
     public boolean isNightMode() {
         return mPreferences.getBoolean(SHARED_READ_NIGHT_MODE, false);
