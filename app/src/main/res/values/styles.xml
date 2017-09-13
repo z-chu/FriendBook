@@ -21,10 +21,6 @@
         <!--  -->
     </style>
 
-    <style name="BottomBar_TitleAppearance">
-        <item name="android:textSize">10sp</item>
-    </style>
-
 
     <style name="ToolbarMenu">
         <item name="android:background">?attr/actionBarItemBackground</item>
@@ -191,27 +187,38 @@
         <item name="android:paddingBottom">18.0dp</item>
     </style>
 
+    <style name="BottomNavigation"/>
 
-    <style name="NB.Theme.TextAppearance.Read.BottomMenu.Button" parent="NB.Theme.TextAppearance.Read.BottomMenu">
-        <item name="android:gravity">center_horizontal|bottom</item>
-        <item name="android:layout_width">68dp</item>
+    <style name="BottomNavigation.GroupView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="BottomNavigation.ItemView">
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
     </style>
 
+    <style name="BottomNavigation.ItemView.Icon" parent="">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">top|center_horizontal</item>
+    </style>
 
-    <style name="NB.Theme.TextAppearance.File"/>
-
-    <style name="NB.Theme.TextAppearance.File.Tag">
-        <item name="android:layout_width">38dp</item>
-        <item name="android:layout_height">18dp</item>
+    <style name="BottomNavigation.ItemView.Title" parent="">
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|center_horizontal</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
     </style>
 
-    <style name="AppTheme.Slide.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.Slide.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>
