@@ -16,8 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.github.ikidou.fragmentBackHandler.FragmentBackHandler;
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
@@ -38,7 +37,7 @@ import static android.view.View.VISIBLE;
  * Created by Chu on 2016/12/3.
  */
 
-public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implements View.OnClickListener, BookcaseContract.View {
+public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implements View.OnClickListener, BookcaseContract.View, FragmentBackHandler {
 
 
     private View bottomEditBar;
@@ -51,9 +50,8 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     private Toolbar toolbarBookcaseEdit;
     private Spinner spinnerSort;
     private BookcaseSortSpinnerAdapter spinnerAdapter;
+    private BookcaseAdapter bookcaseAdapter;
 
-    private Animation mTopInAnim;
-    private Animation mTopOutAnim;
 
     public static BookcaseFragment newInstance() {
         return new BookcaseFragment();
@@ -131,13 +129,12 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
      * 默认是隐藏的
      */
     private void toggleEditMenu() {
-        initEditMenuAnim();
         if (toolbarBookcaseEdit.getVisibility() == VISIBLE) {
-            toolbarBookcaseEdit.startAnimation(mTopOutAnim);
             toolbarBookcaseEdit.setVisibility(GONE);
+            contentView.setEnabled(true);
         } else {
             toolbarBookcaseEdit.setVisibility(VISIBLE);
-            toolbarBookcaseEdit.startAnimation(mTopInAnim);
+            contentView.setEnabled(false);
         }
     }
 
@@ -145,6 +142,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     public void setAdapter(BaseQuickAdapter adapter) {
         adapter.setEmptyView(R.layout.view_empty_bookcase, recyclerView);
         recyclerView.setAdapter(adapter);
+        this.bookcaseAdapter = (BookcaseAdapter) adapter;
     }
 
     @Override
@@ -163,16 +161,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
         return new BookcasePresenter();
     }
 
-    //初始化菜单动画
-    private void initEditMenuAnim() {
-        if (mTopInAnim != null) {
-            return;
-        }
-        mTopInAnim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_top_in);
-        mTopOutAnim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_top_out);
-        //退出的速度要快
-        mTopOutAnim.setDuration(200);
-    }
+
 
     public View getBottomEditBar(ViewGroup viewGroup) {
         if (bottomEditBar == null) {
@@ -212,4 +201,16 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     public void showEditMode() {
         toggleEditMenu();
     }
+
+    @Override
+    public boolean onBackPressed() {
+        if (toolbarBookcaseEdit.getVisibility() == VISIBLE) {
+            toggleEditMenu();
+            bookcaseAdapter.cancelEdit();
+            //外理返回键
+            return true;
+        }
+        return false;
+    }
+
 }
