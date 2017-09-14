@@ -43,7 +43,7 @@
         tools:text="资生堂 安热沙 asd阿达达阿达达"/>
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_remove"
+        android:id="@+id/iv_selected"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignRight="@id/card_cover"

@@ -18,9 +18,8 @@
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
-        <!--  -->
-    </style>
 
+    </style>
 
     <style name="ToolbarMenu">
         <item name="android:background">?attr/actionBarItemBackground</item>
@@ -209,6 +208,8 @@
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="android:layout_gravity">top|center_horizontal</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentTop">true</item>
     </style>
 
     <style name="BottomNavigation.ItemView.Title" parent="">
@@ -216,9 +217,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom|center_horizontal</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
 
 </resources>

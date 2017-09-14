@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/elevation_app_bar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <FrameLayout
             android:layout_width="match_parent"

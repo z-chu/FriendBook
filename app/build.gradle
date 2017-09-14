@@ -109,7 +109,7 @@ dependencies {
 
     //ui
     // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.17'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
