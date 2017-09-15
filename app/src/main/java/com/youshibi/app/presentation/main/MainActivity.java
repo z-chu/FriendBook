@@ -3,11 +3,11 @@ package com.youshibi.app.presentation.main;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.github.ikidou.fragmentBackHandler.BackHandlerHelper;
 import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpActivity;
 import com.youshibi.app.presentation.bookcase.BookcaseFragment;
@@ -47,9 +47,9 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         return false;
     }
 
-    private long exitTime = 0;
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+/*    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 ToastUtil.showToast("再按一次退出");
@@ -60,7 +60,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     @Override
     protected boolean isCountingPage() {
@@ -84,8 +84,25 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
         return getPresenter().dispatchTabSelectedTabId(item.getItemId());
     }
 
+
     @Override
     public ViewGroup getBottomGroup() {
         return bottomGroup;
     }
+
+    private long exitTime = 0;
+    @Override
+    public void onBackPressed() {
+        if (!BackHandlerHelper.handleBackPress(this)) {
+
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                ToastUtil.showToast("再按一次退出");
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
+
+        }
+    }
+
 }

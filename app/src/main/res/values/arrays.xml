@@ -3,7 +3,7 @@
     <string-array name="bookcase_spinner">
         <item>最近阅读在前</item>
         <item>按阅读次数</item>
-        <item>按创建时间</item>
         <item>按名称排序</item>
+        <item>按创建时间</item>
     </string-array>
 </resources>

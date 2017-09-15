@@ -115,6 +115,7 @@ dependencies {
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     compile 'com.r0adkll:slidableactivity:2.0.5'//测化退出
     compile 'com.gyf.barlibrary:barlibrary:2.2.7'
+    compile 'com.github.ikidou:FragmentBackHandler:2.1'
 
     //ImageLoader
     compile 'com.github.bumptech.glide:glide:4.1.1'
