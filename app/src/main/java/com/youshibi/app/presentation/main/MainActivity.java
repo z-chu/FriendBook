@@ -5,24 +5,29 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.youshibi.app.R;
 import com.youshibi.app.mvp.MvpActivity;
+import com.youshibi.app.presentation.bookcase.BookcaseFragment;
 import com.youshibi.app.util.ToastUtil;
 
 /**
  * Created by Chu on 2016/11/30.
  */
 
-public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View, BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View,
+        BottomNavigationView.OnNavigationItemSelectedListener, BookcaseFragment.OnBookCaseEditListener {
 
 
+    private FrameLayout bottomGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        bottomGroup = findViewById(R.id.bottom_group);
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         getPresenter().start();
@@ -77,5 +82,10 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return getPresenter().dispatchTabSelectedTabId(item.getItemId());
+    }
+
+    @Override
+    public ViewGroup getBottomGroup() {
+        return bottomGroup;
     }
 }

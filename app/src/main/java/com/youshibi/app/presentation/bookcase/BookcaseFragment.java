@@ -1,5 +1,6 @@
 package com.youshibi.app.presentation.bookcase;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -55,6 +56,9 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     private Animation mTopInAnim;
     private Animation mTopOutAnim;
 
+    private OnBookCaseEditListener mEditListener;
+
+
     public static BookcaseFragment newInstance() {
         return new BookcaseFragment();
     }
@@ -62,6 +66,14 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     @Override
     public int getLayoutId() {
         return R.layout.fragment_bookcase;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnBookCaseEditListener) {
+            mEditListener = (OnBookCaseEditListener) context;
+        }
     }
 
     @Override
@@ -135,9 +147,15 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
         if (toolbarBookcaseEdit.getVisibility() == VISIBLE) {
             toolbarBookcaseEdit.startAnimation(mTopOutAnim);
             toolbarBookcaseEdit.setVisibility(GONE);
+            if (mEditListener != null) {
+                getBottomEditBar(mEditListener.getBottomGroup()).setVisibility(View.GONE);
+            }
         } else {
             toolbarBookcaseEdit.setVisibility(VISIBLE);
             toolbarBookcaseEdit.startAnimation(mTopInAnim);
+            if (mEditListener != null) {
+                getBottomEditBar(mEditListener.getBottomGroup()).setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -185,6 +203,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
             bottomItemDelete = (FrameLayout) bottomEditBar.findViewById(R.id.bottom_item_delete);
             bottomItemBookDetails = (FrameLayout) bottomEditBar.findViewById(R.id.bottom_item_book_details);
             bindOnClickLister(this, bottomItemBookShare, bottomItemSelectAll, bottomItemDelete, bottomItemBookDetails);
+            viewGroup.addView(bottomEditBar);
         }
         return bottomEditBar;
     }
@@ -211,5 +230,9 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     @Override
     public void showEditMode() {
         toggleEditMenu();
+    }
+
+    public interface OnBookCaseEditListener {
+        ViewGroup getBottomGroup();
     }
 }
