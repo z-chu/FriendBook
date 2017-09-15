@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.github.ikidou.fragmentBackHandler.BackHandlerHelper;
 import com.youshibi.app.R;
@@ -20,15 +19,13 @@ import com.youshibi.app.util.ToastUtil;
 public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View,
         BottomNavigationView.OnNavigationItemSelectedListener, BookcaseFragment.OnBookCaseEditListener {
 
-
-    private FrameLayout bottomGroup;
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomGroup = findViewById(R.id.bottom_group);
-        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigation= (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         getPresenter().start();
         getPresenter().initContentContainer(getSupportFragmentManager(), R.id.content_view);
@@ -46,21 +43,6 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
     protected boolean isEnableSlideFinish() {
         return false;
     }
-
-
-
-/*    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                ToastUtil.showToast("再按一次退出");
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
 
     @Override
     protected boolean isCountingPage() {
@@ -87,10 +69,11 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
 
     @Override
     public ViewGroup getBottomGroup() {
-        return bottomGroup;
+        return bottomNavigation;
     }
 
     private long exitTime = 0;
+
     @Override
     public void onBackPressed() {
         if (!BackHandlerHelper.handleBackPress(this)) {

@@ -11,7 +11,6 @@ import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
-import com.youshibi.app.ui.help.CommonAdapter;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, BookTb> implements BookcaseContract.Presenter {
 
-    private CommonAdapter<BookTb> mAdapter;
+    private BaseQuickAdapter mAdapter;
 
     @Override
     public void start() {
@@ -34,9 +33,13 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
             getView().addOnItemTouchListener(new OnItemClickListener() {
                 @Override
                 public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    BookTb bookTb = (BookTb) adapter.getItem(position);
-                    AppRouter.showReadActivity(view.getContext(), bookTb);
-                    // AppRouter.showBookDetailActivity(view.getContext(), DataConvertUtil.bookTb2Book((BookTb) adapter.getItem(position)));
+                    BookcaseAdapter bookcaseAdapter = (BookcaseAdapter) adapter;
+                    if (bookcaseAdapter.isEditing()) {
+                        bookcaseAdapter.selectedItem(position);
+                    } else {
+                        BookTb bookTb = (BookTb) adapter.getItem(position);
+                        AppRouter.showReadActivity(view.getContext(), bookTb);
+                    }
                 }
             });
         }
@@ -69,17 +72,17 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
 
 
     @Override
-    protected CommonAdapter<BookTb> createAdapter(List<BookTb> data) {
+    protected BaseQuickAdapter createAdapter(List<BookTb> data) {
         mAdapter = new BookcaseAdapter(data);
         mAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
             @Override
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
                 BookcaseAdapter bookcaseAdapter = (BookcaseAdapter) adapter;
-                if(bookcaseAdapter.startEdit()){
+                getView().startDrag(position);
+                if (bookcaseAdapter.startEdit()) {
                     getView().showEditMode();
-                    return true;
                 }
-                return false;
+                return true;
             }
         });
         return mAdapter;
@@ -93,5 +96,18 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
     @Override
     protected long getCount() {
         return 0;
+    }
+
+    @Override
+    public void deleteItems(List<BookTb> bookTbs) {
+        if (bookTbs.size() == 1) {
+            BookTb bookTb = bookTbs.get(0);
+            DBManger.getInstance().deleteBookTb(bookTb);
+            mAdapter.remove(bookTbs.indexOf(bookTb));
+        } else {
+            DBManger.getInstance().deleteBookTbs(bookTbs);
+            mAdapter.getData().removeAll(bookTbs);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

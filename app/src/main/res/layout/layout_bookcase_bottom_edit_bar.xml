@@ -24,7 +24,7 @@
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_bottom_item_select_all"
+
             style="@style/BottomNavigation.ItemView.Icon"
             app:srcCompat="@drawable/ic_vector_bookcase_select_all" />
 
@@ -33,27 +33,15 @@
             android:text="@string/select_all"
             android:textColor="@color/textPrimary" />
 
-        <com.youshibi.app.ui.widget.ShapeTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_bottom_item_select_all"
-            android:gravity="center"
-            android:minWidth="15dp"
-            android:text="3"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small"
-            app:super_cornerRadius="50dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="-4dp"
-            app:super_solidColor="@color/colorAccent" />
 
     </RelativeLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/bottom_item_delete"
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_bottom_item_delete"
             style="@style/BottomNavigation.ItemView.Icon"
             app:srcCompat="@drawable/ic_vector_bookcase_delete" />
 
@@ -62,7 +50,22 @@
             android:text="@string/delete"
             android:textColor="@color/textPrimary" />
 
-    </FrameLayout>
+        <com.youshibi.app.ui.widget.ShapeTextView
+            android:id="@+id/tv_selected_count"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginLeft="-8dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/iv_bottom_item_delete"
+            android:gravity="center"
+            android:minWidth="16dp"
+            android:text="3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_micro"
+            app:super_cornerRadius="50dp"
+            app:super_solidColor="@color/colorAccent" />
+
+    </RelativeLayout>
 
 
     <FrameLayout

@@ -50,7 +50,7 @@
         android:layout_marginRight="-10dp"
         android:elevation="8dp"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_vector_book_normal"
+        app:srcCompat="@drawable/ic_bookcase_checkbox"
         tools:visibility="visible"/>
 
 </RelativeLayout>

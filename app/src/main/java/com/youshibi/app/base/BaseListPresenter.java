@@ -1,6 +1,6 @@
 package com.youshibi.app.base;
 
-import com.youshibi.app.ui.help.CommonAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zchu.log.Logger;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import rx.Subscription;
 
 public abstract class BaseListPresenter<V extends BaseListContract.View, M> extends BaseRxPresenter<V> implements BaseListContract.Presenter<V> {
     private int page;
-    private CommonAdapter<M> adapter;
+    private BaseQuickAdapter adapter;
 
     @Override
     public void loadData(final boolean isRefresh) {
@@ -121,7 +121,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
 
     protected abstract Observable<List<M>> doLoadMoreData(int page,int size);
 
-    protected abstract CommonAdapter<M> createAdapter(List<M> data);
+    protected abstract BaseQuickAdapter createAdapter(List<M> data);
 
     protected abstract int getPageSize() ;
 
@@ -130,7 +130,7 @@ public abstract class BaseListPresenter<V extends BaseListContract.View, M> exte
      */
     protected abstract long getCount();
 
-    protected CommonAdapter<M> getAdapter() {
+    protected BaseQuickAdapter getAdapter() {
         return adapter;
     }
 

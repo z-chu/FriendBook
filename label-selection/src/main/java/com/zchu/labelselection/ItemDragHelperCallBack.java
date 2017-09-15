@@ -41,8 +41,9 @@ public class ItemDragHelperCallBack extends ItemTouchHelper.Callback {
         if (viewHolder.getItemViewType() != target.getItemViewType()) {
             return false;
         }
-        if (onChannelDragListener != null)
+        if (onChannelDragListener != null) {
             onChannelDragListener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        }
         return true;
     }
 

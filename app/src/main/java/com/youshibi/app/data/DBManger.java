@@ -65,6 +65,14 @@ public final class DBManger {
         return bookTb.getId();
     }
 
+    public void deleteBookTb(BookTb bookTb) {
+        mDaoSession.getBookTbDao().delete(bookTb);
+    }
+
+    public void deleteBookTbs(Iterable<BookTb> entities) {
+        mDaoSession.getBookTbDao().deleteInTx(entities);
+    }
+
     public boolean updateBookTb(BookTb bookTb) {
         if (loadBookTbById(bookTb.getId()) != null) {
             mDaoSession.getBookTbDao().update(bookTb);

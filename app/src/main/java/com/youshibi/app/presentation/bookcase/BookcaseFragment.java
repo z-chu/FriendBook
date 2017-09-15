@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,20 +18,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.github.ikidou.fragmentBackHandler.FragmentBackHandler;
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseListFragment;
+import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.util.DensityUtil;
+import com.zchu.labelselection.OnItemDragListener;
 
-import retrofit2.http.HEAD;
+import java.util.ArrayList;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -40,15 +44,15 @@ import static android.view.View.VISIBLE;
  * Created by Chu on 2016/12/3.
  */
 
-public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implements View.OnClickListener, BookcaseContract.View, FragmentBackHandler {
+public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implements View.OnClickListener, BookcaseContract.View, FragmentBackHandler, OnItemDragListener, BookcaseAdapter.OnItemSelectedListener {
 
 
     private View bottomEditBar;
-    private FrameLayout bottomItemBookShare;
-    private RelativeLayout bottomItemSelectAll;
-    private AppCompatImageView ivBottomItemSelectAll;
-    private FrameLayout bottomItemDelete;
-    private FrameLayout bottomItemBookDetails;
+    private View bottomItemBookShare;
+    private View bottomItemSelectAll;
+    private View bottomItemDelete;
+    private View bottomItemBookDetails;
+    private TextView tvSelectedCount;
 
     private Toolbar toolbarBookcaseEdit;
     private Spinner spinnerSort;
@@ -57,6 +61,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
 
 
     private OnBookCaseEditListener mEditListener;
+    private ItemTouchHelper itemTouchHelper;
 
 
     public static BookcaseFragment newInstance() {
@@ -161,7 +166,10 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     @Override
     public void setAdapter(BaseQuickAdapter adapter) {
         adapter.setEmptyView(R.layout.view_empty_bookcase, recyclerView);
-        recyclerView.setAdapter(adapter);
+        adapter.bindToRecyclerView(recyclerView);
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback((BaseItemDraggableAdapter) adapter);
+        itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         this.bookcaseAdapter = (BookcaseAdapter) adapter;
     }
 
@@ -182,19 +190,19 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     }
 
 
-
     public View getBottomEditBar(ViewGroup viewGroup) {
         if (bottomEditBar == null) {
             bottomEditBar = LayoutInflater
                     .from(viewGroup.getContext())
                     .inflate(R.layout.layout_bookcase_bottom_edit_bar, viewGroup, false);
-            bottomItemBookShare = (FrameLayout) bottomEditBar.findViewById(R.id.bottom_item_book_share);
-            bottomItemSelectAll = (RelativeLayout) bottomEditBar.findViewById(R.id.bottom_item_select_all);
-            ivBottomItemSelectAll = (AppCompatImageView) bottomEditBar.findViewById(R.id.iv_bottom_item_select_all);
-            bottomItemDelete = (FrameLayout) bottomEditBar.findViewById(R.id.bottom_item_delete);
-            bottomItemBookDetails = (FrameLayout) bottomEditBar.findViewById(R.id.bottom_item_book_details);
+            bottomItemBookShare = bottomEditBar.findViewById(R.id.bottom_item_book_share);
+            bottomItemSelectAll = bottomEditBar.findViewById(R.id.bottom_item_select_all);
+            bottomItemDelete = bottomEditBar.findViewById(R.id.bottom_item_delete);
+            bottomItemBookDetails = bottomEditBar.findViewById(R.id.bottom_item_book_details);
+            tvSelectedCount = bottomEditBar.findViewById(R.id.tv_selected_count);
             bindOnClickLister(this, bottomItemBookShare, bottomItemSelectAll, bottomItemDelete, bottomItemBookDetails);
             viewGroup.addView(bottomEditBar);
+            bookcaseAdapter.setOnItemSelectedListener(this);
         }
         return bottomEditBar;
     }
@@ -210,17 +218,62 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
 
                 break;
             case R.id.bottom_item_delete:
-
+                if (bookcaseAdapter.getSelectedBookTbs().size() > 0) {
+                    showDeleteConfirmDialog();
+                }
                 break;
             case R.id.bottom_item_book_details:
 
                 break;
         }
     }
+    private void showDeleteConfirmDialog(){
+        new MaterialDialog
+                .Builder(getActivity())
+                .title("确认删除")
+                .content("真的要将这"+bookcaseAdapter.getSelectedBookTbs().size()+"本书从书架中删除吗？")
+                .positiveText("删除")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        getPresenter().deleteItems(bookcaseAdapter.getSelectedBookTbs());
+                        toggleEditMenu();
+                        bookcaseAdapter.cancelEdit();
+                    }
+                })
+                .negativeText("取消")
+                .show();
+    }
 
     @Override
     public void showEditMode() {
         toggleEditMenu();
+    }
+
+    @Override
+    public void startDrag(int position) {
+        itemTouchHelper.startDrag(recyclerView.findViewHolderForLayoutPosition(position));
+    }
+
+    @Override
+    public void onItemMove(int starPos, int endPos) {
+
+    }
+
+    @Override
+    public void onStarDrag(RecyclerView.ViewHolder viewHolder) {
+
+    }
+
+    @Override
+    public void onSelectedItemsChange(ArrayList<BookTb> items) {
+        if (items.size() > 0) {
+            tvSelectedCount.setVisibility(View.VISIBLE);
+            tvSelectedCount.setText(String.valueOf(items.size()));
+        } else {
+            tvSelectedCount.setVisibility(View.GONE);
+        }
+
     }
 
 

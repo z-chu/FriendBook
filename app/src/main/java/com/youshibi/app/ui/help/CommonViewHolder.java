@@ -1,15 +1,9 @@
 package com.youshibi.app.ui.help;
 
-import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseViewHolder;
-
-import java.io.File;
 
 /**
  * Created by zchu on 16-12-1.
@@ -21,37 +15,11 @@ public class CommonViewHolder extends BaseViewHolder{
         super(view);
     }
 
-    public CommonViewHolder loadImage(@IdRes int viewId, String string){
-        Glide
-                .with(convertView.getContext())
-                .load(string)
-                .into((ImageView) getView(viewId));
-        return  this;
+    public CommonViewHolder setSelected(@IdRes int viewId, boolean selected) {
+        getView(viewId).setSelected(selected);
+        return this;
     }
 
-    public CommonViewHolder loadImage(@IdRes int viewId, Uri uri){
-        Glide
-                .with(convertView.getContext())
-                .load(uri)
-                .into((ImageView) getView(viewId));
-        return  this;
-    }
-
-    public CommonViewHolder loadImage(@IdRes int viewId, File file){
-        Glide
-                .with(convertView.getContext())
-                .load(file)
-                .into((ImageView) getView(viewId));
-        return  this;
-    }
-
-    public CommonViewHolder loadImage(@IdRes int viewId, byte[] model){
-        Glide
-                .with(convertView.getContext())
-                .load(model)
-                .into((ImageView) getView(viewId));
-        return  this;
-    }
 
 
 }
