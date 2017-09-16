@@ -115,7 +115,7 @@ public final class DBManger {
         return mDaoSession
                 .getBookTbDao()
                 .queryBuilder()
-                .orderAsc(BookTbDao.Properties.LatestReadTimestamp, BookTbDao.Properties.Sort)
+                .orderDesc(BookTbDao.Properties.LatestReadTimestamp, BookTbDao.Properties.Sort)
                 .rx()
                 .list();
     }
@@ -124,7 +124,7 @@ public final class DBManger {
         return mDaoSession
                 .getBookTbDao()
                 .queryBuilder()
-                .orderAsc(BookTbDao.Properties.ReadNumber, BookTbDao.Properties.Sort)
+                .orderDesc(BookTbDao.Properties.ReadNumber, BookTbDao.Properties.Sort)
                 .rx()
                 .list();
     }
