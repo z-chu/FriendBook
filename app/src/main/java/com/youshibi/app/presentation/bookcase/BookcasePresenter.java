@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
@@ -87,6 +88,11 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    protected void onLoadDataError(Throwable e, boolean isRefresh) {
+        MobclickAgent.reportError(getView().provideContext(), e);
+        super.onLoadDataError(e, isRefresh);
+    }
 
     @Override
     protected Observable<List<BookTb>> doLoadMoreData(int page, int size) {

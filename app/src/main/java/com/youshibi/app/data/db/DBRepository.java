@@ -2,7 +2,6 @@ package com.youshibi.app.data.db;
 
 import android.content.Context;
 
-import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.db.table.DaoMaster;
 import com.youshibi.app.data.db.table.DaoSession;
 
@@ -29,11 +28,12 @@ public class DBRepository {
             throw new IllegalArgumentException("You cannot start a load on a null Context");
         }
         DatabaseOpenHelper mHelper;
-        if (BuildConfig.DEBUG) {
+        mHelper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME);
+       /* if (BuildConfig.DEBUG) {
             mHelper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME);
         } else {
             mHelper = new MySQLiteOpenHelper(context.getApplicationContext(), DB_NAME);
-        }
+        }*/
         Database db = mHelper.getWritableDb();
         DaoMaster mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
