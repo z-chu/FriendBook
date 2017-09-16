@@ -22,5 +22,11 @@ public interface BookcaseContract {
 
         void deleteItems(List<BookTb> bookTbs);
 
+        void dispatchSortSpinnerItemSelected(int position);
+
+        int getDefaultSelectedSortSpinnerItem();
+
+        void finishEdit();
+
     }
 }

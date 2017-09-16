@@ -8,6 +8,7 @@ import com.youshibi.app.AppRouter;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.db.table.BookTb;
+import com.youshibi.app.data.prefs.PreferencesHelper;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
@@ -25,6 +26,13 @@ import rx.android.schedulers.AndroidSchedulers;
 public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, BookTb> implements BookcaseContract.Presenter {
 
     private BaseQuickAdapter mAdapter;
+
+    @BookcaseSort
+    private int bookcaseSort;
+
+    public BookcasePresenter() {
+        bookcaseSort = PreferencesHelper.getInstance().getBookcaseSort();
+    }
 
     @Override
     public void start() {
@@ -58,9 +66,24 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
 
     @Override
     protected Observable<List<BookTb>> doLoadData(boolean isRefresh, int page, int size) {
-        return DBManger
-                .getInstance()
-                .loadBookTb()
+        Observable<List<BookTb>> listObservable;
+
+        switch (bookcaseSort) {
+            case BookcaseSort.LATEST_READ_TIME:
+            default:
+                listObservable = DBManger.getInstance().loadBookTbOrderLatestRead();
+                break;
+            case BookcaseSort.MOST_READ_NUMBER:
+                listObservable = DBManger.getInstance().loadBookTbOrderMostRead();
+                break;
+            case BookcaseSort.NAME:
+                listObservable = DBManger.getInstance().loadBookTbOrderName();
+                break;
+            case BookcaseSort.CREATE_TIME:
+                listObservable = DBManger.getInstance().loadBookTb();
+                break;
+        }
+        return listObservable
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -81,6 +104,7 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
                 getView().startDrag(position);
                 if (bookcaseAdapter.startEdit()) {
                     getView().showEditMode();
+                    bookcaseAdapter.selectedItem(position);
                 }
                 return true;
             }
@@ -110,4 +134,56 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
             mAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void dispatchSortSpinnerItemSelected(int position) {
+        switch (position) {
+            case 0:
+            default:
+                setBookcaseSort(BookcaseSort.LATEST_READ_TIME);
+                break;
+            case 1:
+                setBookcaseSort(BookcaseSort.MOST_READ_NUMBER);
+                break;
+            case 2:
+                setBookcaseSort(BookcaseSort.NAME);
+                break;
+            case 3:
+                setBookcaseSort(BookcaseSort.CREATE_TIME);
+                break;
+        }
+    }
+
+    @Override
+    public int getDefaultSelectedSortSpinnerItem() {
+        switch (bookcaseSort) {
+            case BookcaseSort.LATEST_READ_TIME:
+            default:
+                return 0;
+            case BookcaseSort.MOST_READ_NUMBER:
+                return 1;
+            case BookcaseSort.NAME:
+                return 2;
+            case BookcaseSort.CREATE_TIME:
+                return 3;
+        }
+
+    }
+
+    @Override
+    public void finishEdit() {
+        DBManger.getInstance().updateBookTbSort(mAdapter.getData());
+    }
+
+
+    private void setBookcaseSort(@BookcaseSort int bookcaseSort) {
+        if (this.bookcaseSort != bookcaseSort) {
+            this.bookcaseSort = bookcaseSort;
+            PreferencesHelper.getInstance().setBookcaseSort(bookcaseSort);
+            DBManger.getInstance().clearBookTbSort();
+            loadData(true);
+        }
+    }
+
+
 }

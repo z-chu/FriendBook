@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BottomNavigation.GroupView"
-    android:background="@color/white">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/BottomNavigation.GroupView"
+              android:background="@color/white">
 
     <FrameLayout
         android:id="@+id/bottom_item_book_share"
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_bottom_item_book_share"
             style="@style/BottomNavigation.ItemView.Icon"
-            app:srcCompat="@drawable/ic_vector_bookcase_share" />
+            app:srcCompat="@drawable/ic_bookcase_share"/>
 
         <TextView
+            android:id="@+id/tv_bottom_item_book_share"
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/share"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/text_bookcase_edit_bar_title"/>
 
     </FrameLayout>
 
@@ -24,14 +26,15 @@
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
-
+            android:id="@+id/iv_bottom_item_select_all"
             style="@style/BottomNavigation.ItemView.Icon"
-            app:srcCompat="@drawable/ic_vector_bookcase_select_all" />
+            app:srcCompat="@drawable/ic_bookcase_select_all"/>
 
         <TextView
+            android:id="@+id/tv_bottom_item_select_all"
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/select_all"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/text_bookcase_edit_bar_title"/>
 
 
     </RelativeLayout>
@@ -43,12 +46,13 @@
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_bottom_item_delete"
             style="@style/BottomNavigation.ItemView.Icon"
-            app:srcCompat="@drawable/ic_vector_bookcase_delete" />
+            app:srcCompat="@drawable/ic_bookcase_delete"/>
 
         <TextView
+            android:id="@+id/tv_bottom_item_delete"
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/delete"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/text_bookcase_edit_bar_title"/>
 
         <com.youshibi.app.ui.widget.ShapeTextView
             android:id="@+id/tv_selected_count"
@@ -63,7 +67,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_micro"
             app:super_cornerRadius="50dp"
-            app:super_solidColor="@color/colorAccent" />
+            app:super_solidColor="@color/colorAccent"/>
 
     </RelativeLayout>
 
@@ -73,13 +77,15 @@
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_bottom_item_book_details"
             style="@style/BottomNavigation.ItemView.Icon"
-            app:srcCompat="@drawable/ic_vector_bookcase_details" />
+            app:srcCompat="@drawable/ic_bookcase_details"/>
 
         <TextView
+            android:id="@+id/tv_bottom_item_book_details"
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/details"
-            android:textColor="@color/textPrimary" />
+            android:textColor="@color/text_bookcase_edit_bar_title"/>
 
     </FrameLayout>
 

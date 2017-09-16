@@ -7,9 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.youshibi.app.AppContext;
 import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.presentation.bookcase.BookcaseSort;
 import com.zchu.log.Logger;
 
 import java.util.List;
+
+import static com.youshibi.app.presentation.bookcase.BookcaseSort.LATEST_READ_TIME;
 
 /**
  * Created by Chu on 2017/8/26.
@@ -18,13 +21,14 @@ import java.util.List;
 public class PreferencesHelper {
     private static final String K_SELECTED_ARTICLE_LABELS = "selected_book_labels";
     private static final String K_FIRST_START_APP = "first_start_app";
+    private static final String K_BOOKCASE_SORT = "bookcase_sort";
 
 
     private static PreferencesHelper sPreferencesHelper;
     private SharedPreferences mPreferences;
     private Gson mGson;
 
-    public PreferencesHelper(Context context) {
+    private PreferencesHelper(Context context) {
         mPreferences = context.getSharedPreferences("app-prefs", Context.MODE_PRIVATE);
         mGson = new Gson();
 
@@ -76,4 +80,17 @@ public class PreferencesHelper {
                 .apply();
     }
 
+    public void setBookcaseSort(@BookcaseSort int bookcaseSort) {
+        mPreferences
+                .edit()
+                .putInt(K_BOOKCASE_SORT, bookcaseSort)
+                .apply();
+    }
+
+    @BookcaseSort
+    public int getBookcaseSort() {
+        @BookcaseSort
+        int bookcaseSort = mPreferences.getInt(K_BOOKCASE_SORT, LATEST_READ_TIME);
+        return bookcaseSort;
+    }
 }

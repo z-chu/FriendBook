@@ -7,6 +7,7 @@ import com.youshibi.app.R;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.ui.help.CommonItemDraggableAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
+import com.youshibi.app.ui.widget.MaskableImageView;
 import com.youshibi.app.util.GlideApp;
 
 import java.util.ArrayList;
@@ -37,8 +38,9 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
                 .into((ImageView) helper.getView(R.id.iv_cover));
         helper.setText(R.id.tv_title, item.getName());
         helper.addOnLongClickListener(R.id.iv_cover);
-        helper.setGone(R.id.iv_selected, isEditing);
         helper.setSelected(R.id.iv_cover, selectedBookTbs.contains(item));
+        helper.setGone(R.id.iv_selected, isEditing);
+        ((MaskableImageView) helper.getView(R.id.iv_cover)).setEnabledMaskable(!isEditing);
     }
 
     public boolean cancelEdit() {
@@ -62,15 +64,18 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
      */
     private void changeEditState(boolean state) {
         isEditing = state;
-        if(state){
-            selectedBookTbs.clear();
-        }
+        selectedBookTbs.clear();
         RecyclerView recyclerView = getRecyclerView();
         int visibleChildCount = recyclerView.getChildCount();
         for (int i = 0; i < visibleChildCount; i++) {
             CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
                     .getChildViewHolder(recyclerView.getChildAt(i));
+            childViewHolder.setSelected(R.id.iv_selected, false);
             childViewHolder.setGone(R.id.iv_selected, isEditing);
+            ((MaskableImageView) childViewHolder.getView(R.id.iv_cover)).setEnabledMaskable(!isEditing);
+        }
+        if(mListener!=null){
+            mListener.onSelectedItemsChange(selectedBookTbs);
         }
     }
 
@@ -84,6 +89,34 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
         } else {
             selectedBookTbs.add(bookTb);
             viewHolder.setSelected(R.id.iv_selected, true);
+        }
+        if (mListener != null) {
+            mListener.onSelectedItemsChange(selectedBookTbs);
+        }
+    }
+
+    public void selectedAllItem() {
+        selectedBookTbs = new ArrayList<>(mData);
+        RecyclerView recyclerView = getRecyclerView();
+        int visibleChildCount = recyclerView.getChildCount();
+        for (int i = 0; i < visibleChildCount; i++) {
+            CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
+                    .getChildViewHolder(recyclerView.getChildAt(i));
+            childViewHolder.setSelected(R.id.iv_selected, true);
+        }
+        if (mListener != null) {
+            mListener.onSelectedItemsChange(selectedBookTbs);
+        }
+    }
+
+    public void clearSelectedAllItem() {
+        selectedBookTbs.clear();
+        RecyclerView recyclerView = getRecyclerView();
+        int visibleChildCount = recyclerView.getChildCount();
+        for (int i = 0; i < visibleChildCount; i++) {
+            CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
+                    .getChildViewHolder(recyclerView.getChildAt(i));
+            childViewHolder.setSelected(R.id.iv_selected, false);
         }
         if (mListener != null) {
             mListener.onSelectedItemsChange(selectedBookTbs);

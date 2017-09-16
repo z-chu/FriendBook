@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +53,15 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     private View bottomItemSelectAll;
     private View bottomItemDelete;
     private View bottomItemBookDetails;
+    private AppCompatImageView ivBottomItemSelectAll;
+    private TextView tvBottomItemSelectAll;
     private TextView tvSelectedCount;
+    private AppCompatImageView ivBottomItemBookShare;
+    private TextView tvBottomItemBookShare;
+    private AppCompatImageView ivBottomItemDelete;
+    private TextView tvBottomItemDelete;
+    private AppCompatImageView ivBottomItemBookDetails;
+    private TextView tvBottomItemBookDetails;
 
     private Toolbar toolbarBookcaseEdit;
     private Spinner spinnerSort;
@@ -114,6 +123,8 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
                 paint.setFakeBoldText(true);
                 tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);   //设置居中
                 spinnerAdapter.setSelectedPosition(pos);
+                getPresenter().dispatchSortSpinnerItemSelected(pos);
+
             }
 
             @Override
@@ -122,7 +133,16 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
             }
         });
         toolbarBookcaseEdit.inflateMenu(R.menu.bookcase_edit);
+        toolbarBookcaseEdit.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                toggleEditMenu();
+                bookcaseAdapter.cancelEdit();
+                return true;
+            }
+        });
         spinnerSort.setAdapter(spinnerAdapter);
+        spinnerSort.setSelection(getPresenter().getDefaultSelectedSortSpinnerItem(),true);
     }
 
     @Override
@@ -154,6 +174,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
             if (mEditListener != null) {
                 getBottomEditBar(mEditListener.getBottomGroup()).setVisibility(View.GONE);
             }
+            getPresenter().finishEdit();
         } else {
             toolbarBookcaseEdit.setVisibility(VISIBLE);
             contentView.setEnabled(false);
@@ -197,9 +218,17 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
                     .inflate(R.layout.layout_bookcase_bottom_edit_bar, viewGroup, false);
             bottomItemBookShare = bottomEditBar.findViewById(R.id.bottom_item_book_share);
             bottomItemSelectAll = bottomEditBar.findViewById(R.id.bottom_item_select_all);
+            ivBottomItemSelectAll = bottomEditBar.findViewById(R.id.iv_bottom_item_select_all);
+            tvBottomItemSelectAll = bottomEditBar.findViewById(R.id.tv_bottom_item_select_all);
             bottomItemDelete = bottomEditBar.findViewById(R.id.bottom_item_delete);
             bottomItemBookDetails = bottomEditBar.findViewById(R.id.bottom_item_book_details);
             tvSelectedCount = bottomEditBar.findViewById(R.id.tv_selected_count);
+            ivBottomItemBookShare = bottomEditBar. findViewById(R.id.iv_bottom_item_book_share);
+            tvBottomItemBookShare = bottomEditBar. findViewById(R.id.tv_bottom_item_book_share);
+            ivBottomItemDelete =  bottomEditBar.findViewById(R.id.iv_bottom_item_delete);
+            tvBottomItemDelete = bottomEditBar.findViewById(R.id.tv_bottom_item_delete);
+            ivBottomItemBookDetails = bottomEditBar.findViewById(R.id.iv_bottom_item_book_details);
+            tvBottomItemBookDetails = bottomEditBar.findViewById(R.id.tv_bottom_item_book_details);
             bindOnClickLister(this, bottomItemBookShare, bottomItemSelectAll, bottomItemDelete, bottomItemBookDetails);
             viewGroup.addView(bottomEditBar);
             bookcaseAdapter.setOnItemSelectedListener(this);
@@ -215,7 +244,11 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
 
                 break;
             case R.id.bottom_item_select_all:
-
+                if (ivBottomItemSelectAll.isSelected()) {
+                    bookcaseAdapter.clearSelectedAllItem();
+                } else {
+                    bookcaseAdapter.selectedAllItem();
+                }
                 break;
             case R.id.bottom_item_delete:
                 if (bookcaseAdapter.getSelectedBookTbs().size() > 0) {
@@ -227,11 +260,12 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
                 break;
         }
     }
-    private void showDeleteConfirmDialog(){
+
+    private void showDeleteConfirmDialog() {
         new MaterialDialog
                 .Builder(getActivity())
                 .title("确认删除")
-                .content("真的要将这"+bookcaseAdapter.getSelectedBookTbs().size()+"本书从书架中删除吗？")
+                .content("真的要将这" + bookcaseAdapter.getSelectedBookTbs().size() + "本书从书架中删除吗？")
                 .positiveText("删除")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -270,8 +304,36 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
         if (items.size() > 0) {
             tvSelectedCount.setVisibility(View.VISIBLE);
             tvSelectedCount.setText(String.valueOf(items.size()));
+            bottomItemBookShare.setEnabled(true);
+            ivBottomItemBookShare.setEnabled(true);
+            tvBottomItemBookShare.setEnabled(true);
+            ivBottomItemBookDetails.setEnabled(true);
+            tvBottomItemBookDetails.setEnabled(true);
+            bottomItemBookDetails.setEnabled(true);
+            bottomItemDelete.setEnabled(true);
+            ivBottomItemDelete.setEnabled(true);
+            tvBottomItemDelete.setEnabled(true);
+
         } else {
             tvSelectedCount.setVisibility(View.GONE);
+            bottomItemBookShare.setEnabled(false);
+            ivBottomItemBookShare.setEnabled(false);
+            tvBottomItemBookShare.setEnabled(false);
+            ivBottomItemBookDetails.setEnabled(false);
+            tvBottomItemBookDetails.setEnabled(false);
+            bottomItemBookDetails.setEnabled(false);
+            bottomItemDelete.setEnabled(false);
+            ivBottomItemDelete.setEnabled(false);
+            tvBottomItemDelete.setEnabled(false);
+        }
+        if (items.size() == bookcaseAdapter.getData().size()) {
+            ivBottomItemSelectAll.setSelected(true);
+            tvBottomItemSelectAll.setSelected(true);
+            tvBottomItemSelectAll.setText(getString(R.string.deselect_all));
+        } else {
+            ivBottomItemSelectAll.setSelected(false);
+            tvBottomItemSelectAll.setSelected(false);
+            tvBottomItemSelectAll.setText(getString(R.string.select_all));
         }
 
     }
@@ -291,6 +353,11 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
         }
         return false;
     }
+
+
+
+
+
 
 
 }

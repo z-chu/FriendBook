@@ -4,6 +4,7 @@ import com.youshibi.app.AppContext;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.DBRepository;
 import com.youshibi.app.data.db.table.BookTb;
+import com.youshibi.app.data.db.table.BookTbDao;
 import com.youshibi.app.data.db.table.DaoSession;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
 import com.youshibi.app.rx.RxBus;
@@ -41,6 +42,7 @@ public final class DBManger {
         BookTb bookTb = loadBookTbById(book.getId());
         if (bookTb == null) {
             bookTb = DataConvertUtil.book2BookTb(book, null);
+            bookTb.setSort((int) mDaoSession.getBookTbDao().count());
             mDaoSession.getBookTbDao().insert(bookTb);
             RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
         } else {
@@ -57,6 +59,7 @@ public final class DBManger {
      */
     public String saveBookTb(BookTb bookTb) {
         if (loadBookTbById(bookTb.getId()) == null) {
+            bookTb.setSort((int) mDaoSession.getBookTbDao().count());
             mDaoSession.getBookTbDao().insert(bookTb);
             RxBus.getDefault().post(new AddBook2BookcaseEvent(bookTb));
         } else {
@@ -102,8 +105,56 @@ public final class DBManger {
     public Observable<List<BookTb>> loadBookTb() {
         return mDaoSession
                 .getBookTbDao()
+                .queryBuilder()
+                .orderAsc(BookTbDao.Properties.Sort)
                 .rx()
-                .loadAll();
+                .list();
     }
+
+    public Observable<List<BookTb>> loadBookTbOrderLatestRead() {
+        return mDaoSession
+                .getBookTbDao()
+                .queryBuilder()
+                .orderAsc(BookTbDao.Properties.LatestReadTimestamp, BookTbDao.Properties.Sort)
+                .rx()
+                .list();
+    }
+
+    public Observable<List<BookTb>> loadBookTbOrderMostRead() {
+        return mDaoSession
+                .getBookTbDao()
+                .queryBuilder()
+                .orderAsc(BookTbDao.Properties.ReadNumber, BookTbDao.Properties.Sort)
+                .rx()
+                .list();
+    }
+
+    public Observable<List<BookTb>> loadBookTbOrderName() {
+        return mDaoSession
+                .getBookTbDao()
+                .queryBuilder()
+                .orderAsc(BookTbDao.Properties.Name, BookTbDao.Properties.Sort)
+                .rx()
+                .list();
+    }
+
+    public void clearBookTbSort() {
+        List<BookTb> bookTbs = mDaoSession
+                .getBookTbDao()
+                .loadAll();
+        for (BookTb bookTb : bookTbs) {
+            bookTb.setSort(0);
+        }
+        mDaoSession.getBookTbDao().updateInTx(bookTbs);
+    }
+
+    public void updateBookTbSort(List<BookTb> bookTbs){
+        for (int i = 0; i < bookTbs.size(); i++) {
+            BookTb bookTb = bookTbs.get(i);
+            bookTb.setSort(i);
+        }
+        mDaoSession.getBookTbDao().updateInTx(bookTbs);
+    }
+
 
 }

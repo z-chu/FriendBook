@@ -42,6 +42,8 @@ public class BookTb implements Parcelable {
 
     private boolean hasUpdate;//是否有新的更新
 
+    private int sort; //保存自定义排序的顺序
+
     /**
      * Used to resolve relations
      */
@@ -55,11 +57,11 @@ public class BookTb implements Parcelable {
     private transient BookTbDao myDao;
 
 
-    @Generated(hash = 1391652447)
+    @Generated(hash = 1320020821)
     public BookTb(String id, String name, String coverUrl, String describe, String author,
             boolean isFinished, int readNumber, long latestReadTimestamp,
             Integer latestReadSection, String latestReadSectionId, int latestReadPage,
-            boolean hasUpdate) {
+            boolean hasUpdate, int sort) {
         this.id = id;
         this.name = name;
         this.coverUrl = coverUrl;
@@ -72,6 +74,7 @@ public class BookTb implements Parcelable {
         this.latestReadSectionId = latestReadSectionId;
         this.latestReadPage = latestReadPage;
         this.hasUpdate = hasUpdate;
+        this.sort = sort;
     }
 
     @Generated(hash = 1469509304)
@@ -203,6 +206,22 @@ public class BookTb implements Parcelable {
         myDao.update(this);
     }
 
+    public boolean getHasUpdate() {
+        return this.hasUpdate;
+    }
+
+    public void setHasUpdate(boolean hasUpdate) {
+        this.hasUpdate = hasUpdate;
+    }
+
+    public int getSort() {
+        return this.sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -222,14 +241,7 @@ public class BookTb implements Parcelable {
         dest.writeString(this.latestReadSectionId);
         dest.writeInt(this.latestReadPage);
         dest.writeByte(this.hasUpdate ? (byte) 1 : (byte) 0);
-    }
-
-    public boolean getHasUpdate() {
-        return this.hasUpdate;
-    }
-
-    public void setHasUpdate(boolean hasUpdate) {
-        this.hasUpdate = hasUpdate;
+        dest.writeInt(this.sort);
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -252,6 +264,7 @@ public class BookTb implements Parcelable {
         this.latestReadSectionId = in.readString();
         this.latestReadPage = in.readInt();
         this.hasUpdate = in.readByte() != 0;
+        this.sort = in.readInt();
     }
 
     public static final Creator<BookTb> CREATOR = new Creator<BookTb>() {

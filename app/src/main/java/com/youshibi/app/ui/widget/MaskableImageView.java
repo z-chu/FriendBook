@@ -12,6 +12,8 @@ import android.util.AttributeSet;
  */
 
 public class MaskableImageView extends android.support.v7.widget.AppCompatImageView {
+    private boolean isEnabledMaskable = true;
+
     public MaskableImageView(Context context) {
         super(context);
     }
@@ -23,10 +25,16 @@ public class MaskableImageView extends android.support.v7.widget.AppCompatImageV
     public MaskableImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
     @Override
     public void setPressed(boolean pressed) {
         super.setPressed(pressed);
+        if (isEnabledMaskable) {
+            handlerPressed(pressed);
+        }
+    }
 
+    private void handlerPressed(boolean pressed) {
         if (pressed) {
             Drawable drawable = getDrawable();
             if (drawable != null) {
@@ -44,4 +52,18 @@ public class MaskableImageView extends android.support.v7.widget.AppCompatImageV
         }
     }
 
+    public void setEnabledMaskable(boolean enabledMaskable) {
+        isEnabledMaskable = enabledMaskable;
+        Drawable drawableUp = getDrawable();
+        if (drawableUp != null) {
+//                drawableUp.mutate().clearColorFilter();
+            drawableUp.clearColorFilter();
+            ViewCompat.postInvalidateOnAnimation(this);
+        }
+
+    }
+
+    public boolean isEnabledMaskable() {
+        return isEnabledMaskable;
+    }
 }
