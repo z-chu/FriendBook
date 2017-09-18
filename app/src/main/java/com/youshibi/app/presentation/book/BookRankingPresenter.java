@@ -10,7 +10,6 @@ import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.DataList;
-import com.youshibi.app.ui.help.CommonAdapter;
 
 import java.util.List;
 
@@ -20,14 +19,17 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Chu on 2016/12/3.
+ * author : zchu
+ * date   : 2017/9/18
+ * desc   :
  */
 
-public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book> {
+public class BookRankingPresenter extends BaseListPresenter<BaseListContract.View, Book> {
+
     private long channelId;
     private int count;
 
-    public BookPresenter(long channelId) {
+    public BookRankingPresenter(long channelId) {
         this.channelId = channelId;
     }
 
@@ -45,14 +47,14 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     }
 
     @Override
-    protected Observable<List<Book>> doLoadData(boolean isRefresh,int page,int size) {
+    protected Observable<List<Book>> doLoadData(boolean isRefresh, int page, int size) {
         return DataManager
                 .getInstance()
-                .getChannelBooks(channelId,page, size )
+                .getChannelBookRanking(channelId, page, size)
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
-                        count=bookDataList.Count;
+                        count = bookDataList.Count;
                         return bookDataList.DataList;
                     }
                 })
@@ -61,12 +63,14 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     }
 
     @Override
-    protected Observable<List<Book>> doLoadMoreData(int page,int size) {
-        return DataManager.getInstance()
-                .getChannelBooks(channelId,page, size)
+    protected Observable<List<Book>> doLoadMoreData(int page, int size) {
+        return DataManager
+                .getInstance()
+                .getChannelBookRanking(channelId, page, size)
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
+                        count = bookDataList.Count;
                         return bookDataList.DataList;
                     }
                 })
@@ -74,10 +78,9 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-
     @Override
-    protected CommonAdapter<Book> createAdapter(List<Book> bookItems) {
-        return new BookAdapter(bookItems);
+    protected BaseQuickAdapter createAdapter(List<Book> data) {
+        return new BookAdapter(data);
     }
 
     @Override
@@ -89,6 +92,4 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
     protected long getCount() {
         return count;
     }
-
-
 }

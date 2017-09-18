@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.youshibi.app.AppContext;
-import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.presentation.bookcase.BookcaseSort;
 import com.zchu.log.Logger;
 
@@ -42,25 +42,33 @@ public class PreferencesHelper {
     }
 
 
-    public void setSelectedBookLabels(List<BookType> labels) {
+    public void setSelectedChannels(List<Channel> labels) {
         if (labels != null && labels.size() > 0) {
-            mPreferences
-                    .edit()
-                    .putString(K_SELECTED_ARTICLE_LABELS, mGson.toJson(labels))
-                    .apply();
-        } else {
-            mPreferences
-                    .edit()
-                    .remove(K_SELECTED_ARTICLE_LABELS)
-                    .apply();
+            for (int i = 0; i < labels.size(); i++) {
+                if (labels.get(i) == null) {
+                    labels.remove(i);
+                }
+            }
+            if (labels.size() > 0) {
+                mPreferences
+                        .edit()
+                        .putString(K_SELECTED_ARTICLE_LABELS, mGson.toJson(labels))
+                        .apply();
+                return;
+            }
         }
+        mPreferences
+                .edit()
+                .remove(K_SELECTED_ARTICLE_LABELS)
+                .apply();
+
     }
 
-    public List<BookType> getSelectedBookLabels() {
+    public List<Channel> getSelectedChannels() {
         String string = mPreferences.getString(K_SELECTED_ARTICLE_LABELS, null);
         if (string != null) {
             try {
-                return mGson.fromJson(string, new TypeToken<List<BookType>>() {
+                return mGson.fromJson(string, new TypeToken<List<Channel>>() {
                 }.getType());
             } catch (Exception e) {
                 Logger.e(e);

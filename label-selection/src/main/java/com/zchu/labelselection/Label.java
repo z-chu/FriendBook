@@ -1,8 +1,5 @@
 package com.zchu.labelselection;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**
@@ -11,23 +8,20 @@ import java.io.Serializable;
  * desc   :
  */
 
-public class Label implements Serializable, Parcelable {
+public class Label<T extends Serializable> implements Serializable {
 
-    public Label(long id, String name) {
-        this.id = id;
+    public Label(String name) {
         this.name = name;
     }
 
-    private long id;
+    public Label(String name, T data) {
+        this.name = name;
+        this.data = data;
+    }
+
     private String name;
+    private T data;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -37,35 +31,11 @@ public class Label implements Serializable, Parcelable {
         this.name = name;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public T getData() {
+        return data;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.name);
+    public void setData(T data) {
+        this.data = data;
     }
-
-    public Label() {
-    }
-
-    protected Label(Parcel in) {
-        this.id = in.readLong();
-        this.name = in.readString();
-    }
-
-    public static final Creator<Label> CREATOR = new Creator<Label>() {
-        @Override
-        public Label createFromParcel(Parcel source) {
-            return new Label(source);
-        }
-
-        @Override
-        public Label[] newArray(int size) {
-            return new Label[size];
-        }
-    };
 }

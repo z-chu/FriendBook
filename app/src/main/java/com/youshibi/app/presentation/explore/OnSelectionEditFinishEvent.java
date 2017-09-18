@@ -1,6 +1,6 @@
 package com.youshibi.app.presentation.explore;
 
-import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 
 import java.util.ArrayList;
 
@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 
 public class OnSelectionEditFinishEvent {
-    public OnSelectionEditFinishEvent(ArrayList<BookType> selectedLabels, ArrayList<BookType> unselectedLabel, ArrayList<BookType> alwaysSelectedLabels) {
+    public OnSelectionEditFinishEvent(ArrayList<Channel> selectedLabels, ArrayList<Channel> unselectedLabel, ArrayList<Channel> alwaysSelectedLabels) {
         this.selectedLabels = selectedLabels;
         this.unselectedLabel = unselectedLabel;
         this.alwaysSelectedLabels = alwaysSelectedLabels;
     }
 
-    public ArrayList<BookType> selectedLabels, unselectedLabel, alwaysSelectedLabels;
+    public ArrayList<Channel> selectedLabels, unselectedLabel, alwaysSelectedLabels;
 }

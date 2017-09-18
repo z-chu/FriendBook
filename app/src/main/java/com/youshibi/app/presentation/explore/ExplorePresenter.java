@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.prefs.PreferencesHelper;
 import com.youshibi.app.presentation.book.BookFragment;
 import com.youshibi.app.rx.RxBus;
@@ -28,10 +29,10 @@ import rx.schedulers.Schedulers;
 
 public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> implements ExploreContract.Presenter {
 
-    private List<BookType> mBookTypes;
-    private ArrayList<BookType> mAlwaysSelectedBookLabels;
-    private ArrayList<BookType> mCommonSelectedBookLabels;
-    private ArrayList<BookType> mUnselectedBookLabels;
+    private List<Channel> mChannels;
+    private ArrayList<Channel> mAlwaysSelectedChannels;
+    private ArrayList<Channel> mCommonSelectedChannels;
+    private ArrayList<Channel> mUnselectedChannels;
 
 
     @Override
@@ -39,62 +40,42 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
         getView().showLoading();
         Subscription subscribe = DataManager
                 .getInstance()
-                .getBookType()
+                .getChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<CacheResult<List<BookType>>>() {
+                .subscribe(new SimpleSubscriber<CacheResult<List<Channel>>>() {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         if (isViewAttached()) {
                             getView().showError(handleException(e));
                         }
+                        if (e instanceof NullPointerException) {
+                            DataManager.getInstance().removeChannelsCache();
+                            PreferencesHelper.getInstance().setSelectedChannels(null);
+                            mChannels=null;
+                            mAlwaysSelectedChannels=null;
+                            mCommonSelectedChannels=null;
+                            mUnselectedChannels=null;
+                        }
                     }
 
                     @Override
-                    public void onNext(CacheResult<List<BookType>> cacheResult) {
-                        List<BookType> data = cacheResult.getData();
+                    public void onNext(CacheResult<List<Channel>> cacheResult) {
+                        List<Channel> data = cacheResult.getData();
                         if (data != null && data.size() > 0) {
-                            processData(data, PreferencesHelper.getInstance().getSelectedBookLabels());
+                            processData(data, PreferencesHelper.getInstance().getSelectedChannels());
                         }
                     }
                 });
         addSubscription2Destroy(subscribe);
     }
 
-   /* private void processCacheData(@NonNull List<BookType> bookTypes, @Nullable List<BookType> selectedBookLabels) {
-        mBookTypes = bookTypes;
-        if (selectedBookLabels == null) {
-            selectedBookLabels = new ArrayList<>();
-            for (BookType bookType : bookTypes) {
-                if (!bookType.isUnselected()) {
-                    selectedBookLabels.add(bookType);
-                }
-            }
-        }
-        Fragment[] fragments = null;
-        String[] pageTitles = null;
-        if (selectedBookLabels.size() > 0) {
-            fragments = new Fragment[bookTypes.size()];
-            pageTitles = new String[bookTypes.size()];
-            for (int i = 0; i < selectedBookLabels.size(); i++) {
-                BookType bookType = bookTypes.get(i);
-                fragments[i] = BookFragment.newInstance(bookType.getId());
-                pageTitles[i] = bookType.getTypeName();
-            }
-        }
-        if (isViewAttached()) {
-            if (fragments != null) {
-                getView().setTabContent(fragments, pageTitles);
-            }
-            getView().showContent();
-        }
-    }*/
 
-    private void processData(@NonNull List<BookType> bookTypes, @Nullable List<BookType> selectedBookLabels) {
-        if (mBookTypes == null) {
-            mBookTypes = bookTypes;
-            boolean isFirst =( selectedBookLabels == null || selectedBookLabels.size() == 0);
+    private void processData(@NonNull List<Channel> channels, @Nullable List<Channel> selectedBookLabels) {
+        if (mChannels == null) {
+            mChannels = channels;
+            boolean isFirst = (selectedBookLabels == null || selectedBookLabels.size() == 0);
             if (isFirst && selectedBookLabels == null) {
                 selectedBookLabels = new ArrayList<>();
             }
@@ -104,45 +85,45 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                         selectedBookLabels.remove(i);
                     }
                 }
-                mCommonSelectedBookLabels = new ArrayList<>(selectedBookLabels);
-            }else{
-                mCommonSelectedBookLabels=new ArrayList<>();
+                mCommonSelectedChannels = new ArrayList<>(selectedBookLabels);
+            } else {
+                mCommonSelectedChannels = new ArrayList<>();
             }
-            mAlwaysSelectedBookLabels = new ArrayList<>();
-            mUnselectedBookLabels = new ArrayList<>();
-            for (BookType bookType : bookTypes) {
+            mAlwaysSelectedChannels = new ArrayList<>();
+            mUnselectedChannels = new ArrayList<>();
+            for (Channel channel : channels) {
              /*   if (isFirst) {
                     if (!bookType.isUnselected()) {
                         selectedBookLabels.add(bookType);
                     }
                 }*/
-                if (bookType.getSelectedStatus() == BookType.STATUS_ALWAYS_SELECTED) {
-                    mAlwaysSelectedBookLabels.add(bookType);
-                }else{
+                if (channel.getSelectedStatus() == BookType.STATUS_ALWAYS_SELECTED) {
+                    mAlwaysSelectedChannels.add(channel);
+                } else {
 
-                    if(isFirst&&bookType.getSelectedStatus() == BookType.STATUS_DEFAULT_SELECTED){
-                        mCommonSelectedBookLabels.add(bookType);
-                        selectedBookLabels.add(bookType);
+                    if (isFirst && channel.getSelectedStatus() == BookType.STATUS_DEFAULT_SELECTED) {
+                        mCommonSelectedChannels.add(channel);
+                        selectedBookLabels.add(channel);
                         continue;
                     }
-                    if(!selectedBookLabels.contains(bookType)){
-                        mUnselectedBookLabels.add(bookType);
+                    if (!selectedBookLabels.contains(channel)) {
+                        mUnselectedChannels.add(channel);
 
                     }
                 }
             }
-           // if (!isFirst) {
-                selectedBookLabels.addAll(0, mAlwaysSelectedBookLabels);
-           // }
+            // if (!isFirst) {
+            selectedBookLabels.addAll(0, mAlwaysSelectedChannels);
+            // }
             Fragment[] fragments = null;
             String[] pageTitles = null;
             if (selectedBookLabels.size() > 0) {
                 fragments = new Fragment[selectedBookLabels.size()];
                 pageTitles = new String[selectedBookLabels.size()];
                 for (int i = 0; i < selectedBookLabels.size(); i++) {
-                    BookType bookType = bookTypes.get(i);
-                    fragments[i] = BookFragment.newInstance(bookType.getId());
-                    pageTitles[i] = bookType.getTypeName();
+                    Channel channel = channels.get(i);
+                    fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                    pageTitles[i] = channel.getChannelName();
                 }
             }
             if (isViewAttached()) {
@@ -153,7 +134,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                 subscribeEvent();
             }
         } else {
-            mBookTypes = bookTypes;
+            mChannels = channels;
         }
 
 
@@ -168,20 +149,20 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                     @Override
                     public void onNext(OnSelectionEditFinishEvent onSelectionEditFinishEvent) {
 
-                        mCommonSelectedBookLabels = onSelectionEditFinishEvent.selectedLabels;
-                        mUnselectedBookLabels = onSelectionEditFinishEvent.unselectedLabel;
-                        ArrayList<BookType> selectedBookLabels = new ArrayList<>(mCommonSelectedBookLabels);
-                        selectedBookLabels.addAll(0, mAlwaysSelectedBookLabels);
-                        PreferencesHelper.getInstance().setSelectedBookLabels(selectedBookLabels);
-                        Fragment[] fragments = null;
-                        String[] pageTitles = null;
-                        if (selectedBookLabels.size() > 0) {
-                            fragments = new Fragment[selectedBookLabels.size()];
-                            pageTitles = new String[selectedBookLabels.size()];
-                            for (int i = 0; i < selectedBookLabels.size(); i++) {
-                                BookType bookType = selectedBookLabels.get(i);
-                                fragments[i] = BookFragment.newInstance(bookType.getId());
-                                pageTitles[i] = bookType.getTypeName();
+                        mCommonSelectedChannels = onSelectionEditFinishEvent.selectedLabels;
+                        mUnselectedChannels = onSelectionEditFinishEvent.unselectedLabel;
+                        ArrayList<Channel> selectedChannels = new ArrayList<>(mCommonSelectedChannels);
+                        selectedChannels.addAll(0, mAlwaysSelectedChannels);
+                        PreferencesHelper.getInstance().setSelectedChannels(selectedChannels);
+                        Fragment[] fragments;
+                        String[] pageTitles;
+                        if (selectedChannels.size() > 0) {
+                            fragments = new Fragment[selectedChannels.size()];
+                            pageTitles = new String[selectedChannels.size()];
+                            for (int i = 0; i < selectedChannels.size(); i++) {
+                                Channel channel = selectedChannels.get(i);
+                                fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                                pageTitles[i] = channel.getChannelName();
                             }
                         } else {
                             fragments = new Fragment[0];
@@ -199,7 +180,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
     @Override
     public void openBookTypeSelection(Context context) {
         Intent intent = BookTypeSelectionActivity
-                .newIntent(context, mCommonSelectedBookLabels, mUnselectedBookLabels, mAlwaysSelectedBookLabels);
+                .newIntent(context, mCommonSelectedChannels, mUnselectedChannels, mAlwaysSelectedChannels);
         context.startActivity(intent);
     }
 }

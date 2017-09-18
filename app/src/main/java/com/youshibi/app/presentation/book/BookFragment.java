@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.youshibi.app.R;
+import com.youshibi.app.base.BaseListContract;
 import com.youshibi.app.base.BaseListFragment;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.widget.LoadErrorView;
@@ -17,16 +18,18 @@ import com.youshibi.app.ui.widget.LoadErrorView;
  * Created by Chu on 2016/12/3.
  */
 
-public class BookFragment extends BaseListFragment<BookPresenter> {
+public class BookFragment extends BaseListFragment<BaseListContract.Presenter> {
 
-    private static final String BUNDLE_BOOK_TYPE = "book_type";
+    private static final String BUNDLE_CHANNEL_TYPE = "channel_type";
+    private static final String BUNDLE_CHANNEL_ID = "channel_id";
 
-    public static BookFragment newInstance() {
 
-        // Bundle args = new Bundle();
-
+    public static BookFragment newInstance(@ChannelType String channelType, long channelId) {
+        Bundle args = new Bundle();
+        args.putString(BUNDLE_CHANNEL_TYPE, channelType);
+        args.putLong(BUNDLE_CHANNEL_ID, channelId);
         BookFragment fragment = new BookFragment();
-        //  fragment.setArguments(args);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -37,19 +40,12 @@ public class BookFragment extends BaseListFragment<BookPresenter> {
             @Override
             public void onViewCreated(@NonNull View view) {
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
-                layoutParams.topMargin=-getResources().getDimensionPixelSize(R.dimen.bottom_navigation_height);
+                layoutParams.topMargin = -getResources().getDimensionPixelSize(R.dimen.bottom_navigation_height);
                 view.requestLayout();
             }
         });
     }
 
-    public static BookFragment newInstance(long bookType) {
-        Bundle args = new Bundle();
-        args.putLong(BUNDLE_BOOK_TYPE, bookType);
-        BookFragment fragment = new BookFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void setRecyclerView(RecyclerView recyclerView) {
@@ -62,13 +58,19 @@ public class BookFragment extends BaseListFragment<BookPresenter> {
 
     @NonNull
     @Override
-    public BookPresenter createPresenter() {
+    public BaseListContract.Presenter createPresenter() {
         Bundle arguments = getArguments();
-        long bookType = 0;
-        if (arguments != null) {
-            bookType = arguments.getLong(BUNDLE_BOOK_TYPE);
+        long channelId = arguments.getLong(BUNDLE_CHANNEL_ID);
+        String channelType = arguments.getString(BUNDLE_CHANNEL_TYPE, ChannelType.BOOKS);
+        switch (channelType) {
+            case ChannelType.BOOK_RANKING:
+                return new BookRankingPresenter(channelId);
+            case ChannelType.BOOKS:
+            default:
+                return new BookPresenter(channelId);
+
         }
-        return new BookPresenter(bookType);
+
     }
 
 

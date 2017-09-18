@@ -34,8 +34,8 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
     public static LabelSelectionFragment newInstance(ArrayList<Label> selectedLabels, ArrayList<Label> unselectedLabels) {
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList(BUNDLE_SELECTED_LABELS, selectedLabels);
-        args.putParcelableArrayList(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
+        args.putSerializable(BUNDLE_SELECTED_LABELS, selectedLabels);
+        args.putSerializable(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
         LabelSelectionFragment fragment = new LabelSelectionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -44,9 +44,9 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
     public static LabelSelectionFragment newInstance(ArrayList<Label> selectedLabels, ArrayList<Label> unselectedLabels, ArrayList<Label> alwaySelectedLabels) {
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList(BUNDLE_SELECTED_LABELS, selectedLabels);
-        args.putParcelableArrayList(BUNDLE_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
-        args.putParcelableArrayList(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
+        args.putSerializable(BUNDLE_SELECTED_LABELS, selectedLabels);
+        args.putSerializable(BUNDLE_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
+        args.putSerializable(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
         LabelSelectionFragment fragment = new LabelSelectionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -84,20 +84,20 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
         if (arguments != null) {
             final ArrayList<LabelSelectionItem> labelSelectionItems = new ArrayList<>();
             labelSelectionItems.add(new LabelSelectionItem(LabelSelectionItem.TYPE_LABEL_SELECTED_TITLE, "切换栏目"));
-            ArrayList<Label> alwaySelectedLabels = arguments.getParcelableArrayList(BUNDLE_ALWAY_SELECTED_LABELS);
+            ArrayList<Label> alwaySelectedLabels = (ArrayList<Label>) arguments.getSerializable(BUNDLE_ALWAY_SELECTED_LABELS);
             if (alwaySelectedLabels != null && alwaySelectedLabels.size() > 0) {
                 for (Label alwaySelectedLabel : alwaySelectedLabels) {
                     labelSelectionItems.add(new LabelSelectionItem(LabelSelectionItem.TYPE_LABEL_ALWAY_SELECTED, alwaySelectedLabel));
                 }
             }
-            ArrayList<Label> selectedLabels = arguments.getParcelableArrayList(BUNDLE_SELECTED_LABELS);
+            ArrayList<Label> selectedLabels = (ArrayList<Label>) arguments.getSerializable(BUNDLE_SELECTED_LABELS);
             if (selectedLabels != null && selectedLabels.size() > 0) {
                 for (Label selectedLabel : selectedLabels) {
                     labelSelectionItems.add(new LabelSelectionItem(LabelSelectionItem.TYPE_LABEL_SELECTED, selectedLabel));
                 }
             }
             labelSelectionItems.add(new LabelSelectionItem(LabelSelectionItem.TYPE_LABEL_UNSELECTED_TITLE, "点击添加更多标签"));
-            ArrayList<Label> unselectedLabels = arguments.getParcelableArrayList(BUNDLE_UNSELECTED_LABELS);
+            ArrayList<Label> unselectedLabels = (ArrayList<Label>) arguments.getSerializable(BUNDLE_UNSELECTED_LABELS);
             if (unselectedLabels != null && unselectedLabels.size() > 0) {
 
                 for (Label unselectedLabel : unselectedLabels) {

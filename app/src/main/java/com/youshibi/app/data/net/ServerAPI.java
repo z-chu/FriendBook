@@ -1,12 +1,13 @@
 package com.youshibi.app.data.net;
 
+import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.bean.HttpResult;
-import com.youshibi.app.data.bean.AppRelease;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,25 @@ public interface ServerAPI {
                                                                      @Path("position") int position,
                                                                      @QueryMap HashMap<String, Object> map);
 
+    /**
+     * 获取所有频道
+     */
+    @GET("/v1/channels")
+    Observable<HttpResult<List<Channel>>> getChannels();
+
+    /**
+     * 获取频道内容-榜单
+     */
+    @GET("/v1/channels/books/{channelId}")
+    Observable<HttpResult<DataList<Book>>> getChannelBooks(@Path("channelId") long channelId,
+                                                          @QueryMap HashMap<String, Object> map);
+
+    /**
+     * 获取频道内容-书籍列表
+     */
+    @GET("/v1/channels/book-ranking/{channelId}")
+    Observable<HttpResult<DataList<Book>>> getChannelBookRanking(@Path("channelId") long channelId,
+                                                                @QueryMap HashMap<String, Object> map);
 
     /**
      * 获取最新的app版本信息

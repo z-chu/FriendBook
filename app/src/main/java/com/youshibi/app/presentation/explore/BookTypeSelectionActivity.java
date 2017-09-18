@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseActivity;
-import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.zchu.labelselection.Label;
@@ -31,13 +31,13 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
 
     private LabelSelectionFragment labelSelectionFragment;
     private ArrayList<Label> selectedLabels, unselectedLabels;
-    private ArrayList<BookType> alwaysSelectedBookTypes;
+    private ArrayList<Channel> alwaysSelectedBookTypes;
 
-    public static Intent newIntent(Context context, ArrayList<BookType> selectedLabels, ArrayList<BookType> unselectedLabels, ArrayList<BookType> alwaySelectedLabels) {
+    public static Intent newIntent(Context context, ArrayList<Channel> selectedLabels, ArrayList<Channel> unselectedLabels, ArrayList<Channel> alwaySelectedLabels) {
         Intent intent = new Intent(context, BookTypeSelectionActivity.class);
-        intent.putParcelableArrayListExtra(EXTRA_SELECTED_LABELS, selectedLabels);
-        intent.putParcelableArrayListExtra(EXTRA_UNSELECTED_LABELS, unselectedLabels);
-        intent.putParcelableArrayListExtra(EXTRA_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
+        intent.putExtra(EXTRA_SELECTED_LABELS, selectedLabels);
+        intent.putExtra(EXTRA_UNSELECTED_LABELS, unselectedLabels);
+        intent.putExtra(EXTRA_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
         return intent;
     }
 
@@ -47,33 +47,33 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
         setContentView(R.layout.activity_book_type_selection);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true, "全部频道");
         //创建置顶且默认选择标签
-        alwaysSelectedBookTypes = getIntent().getParcelableArrayListExtra(EXTRA_ALWAY_SELECTED_LABELS);
+        alwaysSelectedBookTypes = (ArrayList<Channel>) getIntent().getSerializableExtra(EXTRA_ALWAY_SELECTED_LABELS);
         ArrayList<Label> alwaySelectedLabels = null;
         if (alwaysSelectedBookTypes != null && alwaysSelectedBookTypes.size() > 0) {
             alwaySelectedLabels = new ArrayList<>();
-            for (BookType alwaySelectedBookType : alwaysSelectedBookTypes) {
-                alwaySelectedLabels.add(new Label(alwaySelectedBookType.getId(), alwaySelectedBookType.getTypeName()));
+            for (Channel alwaySelectedBookType : alwaysSelectedBookTypes) {
+                alwaySelectedLabels.add(new Label<>(alwaySelectedBookType.getChannelName(), alwaySelectedBookType));
             }
         }
 
 
         //创建默认选择标签
-        ArrayList<BookType> selectedBookTypes = getIntent().getParcelableArrayListExtra(EXTRA_SELECTED_LABELS);
+        ArrayList<Channel> selectedBookTypes = (ArrayList<Channel>) getIntent().getSerializableExtra(EXTRA_SELECTED_LABELS);
         ArrayList<Label> selectedLabels = null;
         if (selectedBookTypes != null && selectedBookTypes.size() > 0) {
             selectedLabels = new ArrayList<>();
-            for (BookType selectedBookType : selectedBookTypes) {
-                selectedLabels.add(new Label(selectedBookType.getId(), selectedBookType.getTypeName()));
+            for (Channel selectedBookType : selectedBookTypes) {
+                selectedLabels.add(new Label<>(selectedBookType.getChannelName(), selectedBookType));
             }
         }
 
         //其他标签
-        ArrayList<BookType> unselectedBookTypes = getIntent().getParcelableArrayListExtra(EXTRA_UNSELECTED_LABELS);
+        ArrayList<Channel> unselectedBookTypes = (ArrayList<Channel>) getIntent().getSerializableExtra(EXTRA_UNSELECTED_LABELS);
         ArrayList<Label> unselectedLabels = null;
         if (unselectedBookTypes != null && unselectedBookTypes.size() > 0) {
             unselectedLabels = new ArrayList<>();
-            for (BookType unselectedBookType : unselectedBookTypes) {
-                unselectedLabels.add(new Label(unselectedBookType.getId(), unselectedBookType.getTypeName()));
+            for (Channel unselectedBookType : unselectedBookTypes) {
+                unselectedLabels.add(new Label<>(unselectedBookType.getChannelName(), unselectedBookType));
             }
         }
         //创建LabelSelectionFragment绑定到你的Activity即可
@@ -113,18 +113,18 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
 
     @Override
     public void finish() {
-        ArrayList<BookType> selectedBookTypes=null;
+        ArrayList<Channel> selectedBookTypes=null;
         if (selectedLabels != null) {
             selectedBookTypes = new ArrayList<>();
             for (Label selectedLabel : selectedLabels) {
-                selectedBookTypes.add(new BookType(selectedLabel.getId(),selectedLabel.getName(),BookType.STATUS_DEFAULT_SELECTED));
+                selectedBookTypes.add((Channel) selectedLabel.getData());
             }
         }
-        ArrayList<BookType> unselectedBookTypes=null;
+        ArrayList<Channel> unselectedBookTypes=null;
         if (unselectedLabels != null) {
             unselectedBookTypes = new ArrayList<>();
             for (Label selectedLabel : unselectedLabels) {
-                unselectedBookTypes.add(new BookType(selectedLabel.getId(),selectedLabel.getName(),BookType.STATUS_COMMON));
+                unselectedBookTypes.add((Channel) selectedLabel.getData());
             }
         }
         if(selectedBookTypes!=null||unselectedBookTypes!=null){

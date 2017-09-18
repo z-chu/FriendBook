@@ -8,6 +8,7 @@ import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
+import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.net.RequestClient;
@@ -213,6 +214,61 @@ public class DataManager {
                 });
     }
 
+    public Observable<CacheResult<List<Channel>>> getChannels() {
+        return RequestClient
+                .getServerAPI()
+                .getChannels()
+                .map(new HttpResultFunc<List<Channel>>())
+                .compose(rxCache.<List<Channel>>transformer(
+                        "getChannels",
+                        new TypeToken<List<Channel>>() {
+                        }.getType(),
+                        new BaseStrategy() {
+                            @Override
+                            public <T> Observable<CacheResult<T>> execute(RxCache rxCache, String key, Observable<T> source, Type type) {
+                                Observable<CacheResult<T>> cache = loadCache(rxCache, key, type);
+                                Observable<CacheResult<T>> remote = loadRemote(rxCache, key, source, CacheTarget.MemoryAndDisk)
+                                        .onErrorReturn(new Func1<Throwable, CacheResult<T>>() {
+                                            @Override
+                                            public CacheResult<T> call(Throwable throwable) {
+                                                return null;
+                                            }
+                                        });
+                                return Observable.concat(cache, remote)
+                                        .filter(new Func1<CacheResult<T>, Boolean>() {
+                                            @Override
+                                            public Boolean call(CacheResult<T> result) {
+                                                return result != null && result.getData() != null;
+                                            }
+                                        });
+                            }
+                        })
+                );
+    }
+
+    public void removeChannelsCache(){
+        rxCache.remove( "getChannels");
+    }
+
+    public Observable<DataList<Book>> getChannelBooks(long channelId, int page, int size) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("page_index", page);
+        hashMap.put("pageSize", size);
+        return RequestClient
+                .getServerAPI()
+                .getChannelBooks(channelId, hashMap)
+                .map(new HttpResultFunc<DataList<Book>>());
+    }
+
+    public Observable<DataList<Book>> getChannelBookRanking(long channelId,int page, int size) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("page_index", page);
+        hashMap.put("pageSize", size);
+        return RequestClient
+                .getServerAPI()
+                .getChannelBookRanking(channelId, hashMap)
+                .map(new HttpResultFunc<DataList<Book>>());
+    }
 
     public Observable<AppRelease> getLatestReleases() {
         return RequestClient
