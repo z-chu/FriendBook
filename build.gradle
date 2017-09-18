@@ -28,7 +28,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -48,11 +48,11 @@ allprojects {
     }
 
     //开启link警告检查
-     gradle.projectsEvaluated {
+     /*gradle.projectsEvaluated {
          tasks.withType(JavaCompile) {
              options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
          }
-     }
+     }*/
 }
 
 task clean(type: Delete) {

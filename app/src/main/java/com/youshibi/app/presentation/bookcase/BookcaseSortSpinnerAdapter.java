@@ -6,6 +6,7 @@ import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class BookcaseSortSpinnerAdapter extends BaseAdapter {
         TextView textView;
         if (convertView == null) {
             textView = new TextView(mContext);
-            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40)));
+            textView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(mContext, 40)));
             textView.setPadding(DensityUtil.dp2px(mContext, 8), 0, DensityUtil.dp2px(mContext, 40), 0);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
             textView.setTextSize(14);
