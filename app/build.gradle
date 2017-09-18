@@ -91,7 +91,9 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.2'
     compile 'com.jakewharton.rxrelay:rxrelay:1.2.0'
-    compile 'com.zchu:rxcache:1.2.6'
+    compile ('com.zchu:rxcache:1.2.6'){
+        exclude group: 'com.android.support'
+    }
 
     //leakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:' + libs.leakcanary
@@ -110,11 +112,17 @@ dependencies {
     //ui
     // compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
-    compile 'com.afollestad.material-dialogs:core:0.9.4.3'
+    compile ('com.afollestad.material-dialogs:core:0.9.4.3'){
+        exclude group: 'com.android.support'
+    }
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
-    compile 'com.r0adkll:slidableactivity:2.0.5'//测化退出
-    compile 'com.gyf.barlibrary:barlibrary:2.2.7'
+    compile ('com.r0adkll:slidableactivity:2.0.5'){
+        exclude group: 'com.android.support'
+    }
+    compile ('com.gyf.barlibrary:barlibrary:2.2.7'){
+        exclude group: 'com.android.support'
+    }
     compile 'com.github.ikidou:FragmentBackHandler:2.1'
 
     //ImageLoader

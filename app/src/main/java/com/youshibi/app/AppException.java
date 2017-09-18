@@ -115,7 +115,7 @@ public class AppException implements Thread.UncaughtExceptionHandler {
             message = "网络连接超时,请稍后再试";
         } else if (throwable instanceof ConnectException) {
             message = "网络连接失败,请稍后再试";
-        } else if (throwable instanceof HttpException) {
+        } else if (throwable instanceof HttpException||throwable instanceof retrofit2.HttpException) {
             message = "网络出错,请稍后再试";
         } else if (throwable instanceof UnknownHostException || throwable instanceof NetNotConnectedException) {
             message = "当前无网络，请检查网络设置";

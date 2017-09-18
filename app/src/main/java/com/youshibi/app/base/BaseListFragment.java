@@ -16,7 +16,6 @@ import com.youshibi.app.ui.anim.InContentAnim;
 import com.youshibi.app.ui.help.OnLoadMoreScrollListener;
 import com.youshibi.app.ui.widget.LoadErrorView;
 import com.youshibi.app.ui.widget.LoadMoreView;
-import com.youshibi.app.util.DensityUtil;
 import com.youshibi.app.util.ToastUtil;
 
 
@@ -40,9 +39,9 @@ public abstract class BaseListFragment<P extends BaseListContract.Presenter> ext
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        contentView = (SwipeRefreshLayout) view.findViewById(R.id.content_view);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        loadErrorView = (LoadErrorView) view.findViewById(R.id.load_error_view);
+        contentView = view.findViewById(R.id.content_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        loadErrorView =  view.findViewById(R.id.load_error_view);
         contentView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         loadErrorView.setOnRetryListener(this);
         contentView.setOnRefreshListener(this);
