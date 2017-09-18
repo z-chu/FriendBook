@@ -134,7 +134,7 @@ public class ReaderSettingManager {
     }
 
     public int getPageMode() {
-        return mPreferences.getInt(SHARED_READ_PAGE_MODE, PageView.PAGE_MODE_SIMULATION);
+        return mPreferences.getInt(SHARED_READ_PAGE_MODE, PageView.PAGE_MODE_COVER);
     }
 
 

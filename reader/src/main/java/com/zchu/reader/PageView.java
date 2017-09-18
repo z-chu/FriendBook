@@ -44,7 +44,7 @@ public class PageView extends View {
     private int moveY = 0;
     //初始化参数
     private int mBgColor = 0xFFCEC29C;
-    private int mPageMode = PAGE_MODE_SIMULATION;
+    private int mPageMode = PAGE_MODE_COVER;
 
     //是否允许点击
     private boolean canTouch = true;
