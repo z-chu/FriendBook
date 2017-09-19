@@ -34,7 +34,7 @@
         android:text="登录更安全,可以同步书籍,多设备切换" />
 
     <com.youshibi.app.ui.widget.ShapeTextView
-        android:id="@+id/reload_view"
+        android:id="@+id/tv_action_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_login_hint"

@@ -18,6 +18,8 @@ import com.youshibi.app.presentation.read.ReadActivity;
 import com.youshibi.app.presentation.search.SearchActivity;
 import com.youshibi.app.presentation.search.SearchResultActivity;
 import com.youshibi.app.util.CountEventHelper;
+import com.youshibi.app.util.ToastUtil;
+import com.zchu.log.Logger;
 
 
 /**
@@ -26,6 +28,17 @@ import com.youshibi.app.util.CountEventHelper;
  */
 public class AppRouter {
 
+    public static void showAppMarket(Context context) {
+        try {
+            String mAddress = "market://details?id=" + context.getPackageName();
+            Intent marketIntent = new Intent("android.intent.action.VIEW");
+            marketIntent.setData(Uri.parse(mAddress));
+            context.startActivity(marketIntent);
+        } catch (Exception e) {
+            Logger.e(e);
+            ToastUtil.showToast("亲，您未安装任何应用商店，无法评论。");
+        }
+    }
 
     /**
      * 跳转到当前应用设置界面
@@ -83,8 +96,8 @@ public class AppRouter {
         CountEventHelper.countBookDetail(context, book);
     }
 
-    public static void showReadActivity(Context context, Book book, Integer sectionIndex,String sectionId) {
-        context.startActivity(ReadActivity.newIntent(context, book, sectionIndex,sectionId));
+    public static void showReadActivity(Context context, Book book, Integer sectionIndex, String sectionId) {
+        context.startActivity(ReadActivity.newIntent(context, book, sectionIndex, sectionId));
         CountEventHelper.countBookRead(context, book.getId(), book.getName());
     }
 

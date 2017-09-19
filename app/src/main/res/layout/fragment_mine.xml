@@ -12,6 +12,7 @@
         <include layout="@layout/layout_mine_user"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_setting"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:background="@drawable/bg_list_item"
@@ -20,6 +21,7 @@
             app:mine_title="设置"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_night_mode"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:background="@drawable/bg_list_item"
@@ -28,6 +30,7 @@
             app:mine_title="夜间模式"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_share"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:background="@drawable/bg_list_item"
@@ -36,6 +39,7 @@
             app:mine_title="分享友书"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_good_reputation"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:background="@drawable/bg_list_item"
@@ -44,6 +48,7 @@
             app:mine_title="给友书好评"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_feedback"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:clickable="true"
@@ -52,6 +57,7 @@
             app:mine_title="意见反馈"/>
 
         <com.youshibi.app.ui.widget.MineRowView
+            android:id="@+id/mine_app_about"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:clickable="true"
