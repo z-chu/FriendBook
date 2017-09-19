@@ -102,7 +102,7 @@ public class DataManager {
         }
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("page_index", page);
-        hashMap.put("pageSize", size);
+        hashMap.put("page_size", size);
         hashMap.put("keyword", keyword);
         return RequestClient
                 .getServerAPI()
@@ -175,6 +175,36 @@ public class DataManager {
     }
 
     /**
+     * 获取小说章节列表
+     *
+     * @param bookId       小说的id
+     * @param isOrderByAsc 是否升序排序
+     */
+    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
+                                                                boolean isOrderByAsc,int page,int size) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if (isOrderByAsc) {
+            hashMap.put("order", "asc");
+        } else {
+            hashMap.put("order", "desc");
+        }
+        hashMap.put("page_index", page);
+        hashMap.put("page_size", size);
+        return RequestClient
+                .getServerAPI()
+                .getBookSectionList(bookId, hashMap)
+                .map(new HttpResultFunc<List<BookSectionItem>>())
+                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
+                }.getType(), CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
+                    @Override
+                    public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
+                        return listCacheResult.getData();
+                    }
+                });
+    }
+
+    /**
      * 获取小说章节中的内容
      *
      * @param bookId       小说的id
@@ -182,14 +212,6 @@ public class DataManager {
      */
     public Observable<BookSectionContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex) {
         return getBookSectionContent(bookId, sectionId, sectionIndex, "current");
-    }
-
-    public Observable<BookSectionContent> getBookSectionContentPrev(String bookId, String sectionId, int sectionIndex) {
-        return getBookSectionContent(bookId, sectionId, sectionIndex, "last");
-    }
-
-    public Observable<BookSectionContent> getBookSectionContentNext(String bookId, String sectionId, int sectionIndex) {
-        return getBookSectionContent(bookId, sectionId, sectionIndex, "next");
     }
 
     /**
@@ -253,7 +275,7 @@ public class DataManager {
     public Observable<DataList<Book>> getChannelBooks(long channelId, int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("page_index", page);
-        hashMap.put("pageSize", size);
+        hashMap.put("page_size", size);
         return RequestClient
                 .getServerAPI()
                 .getChannelBooks(channelId, hashMap)
@@ -263,7 +285,7 @@ public class DataManager {
     public Observable<DataList<Book>> getChannelBookRanking(long channelId,int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("page_index", page);
-        hashMap.put("pageSize", size);
+        hashMap.put("page_size", size);
         return RequestClient
                 .getServerAPI()
                 .getChannelBookRanking(channelId, hashMap)
