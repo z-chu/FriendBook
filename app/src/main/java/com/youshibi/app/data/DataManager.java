@@ -50,7 +50,6 @@ public class DataManager {
                 .diskDir(new File(AppContext.context().getFilesDir().getPath() + File.separator + "data-cache"))
                 .setDebug(BuildConfig.DEBUG)
                 .diskConverter(new GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
-                .memoryMax(0)
                 .diskMax(50 * 1024 * 1024)
                 .build();
     }
@@ -181,7 +180,7 @@ public class DataManager {
      * @param isOrderByAsc 是否升序排序
      */
     public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
-                                                                boolean isOrderByAsc,int page,int size) {
+                                                                boolean isOrderByAsc, int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         if (isOrderByAsc) {
             hashMap.put("order", "asc");
@@ -194,8 +193,9 @@ public class DataManager {
                 .getServerAPI()
                 .getBookSectionList(bookId, hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
-                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
-                }.getType(), CacheStrategy.firstCache()))
+                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc + page + size,
+                        new TypeToken<List<BookSectionItem>>() {
+                        }.getType(), CacheStrategy.firstCache()))
                 .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
                     @Override
                     public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
@@ -268,8 +268,8 @@ public class DataManager {
                 );
     }
 
-    public void removeChannelsCache(){
-        rxCache.remove( "getChannels");
+    public void removeChannelsCache() {
+        rxCache.remove("getChannels");
     }
 
     public Observable<DataList<Book>> getChannelBooks(long channelId, int page, int size) {
@@ -282,7 +282,7 @@ public class DataManager {
                 .map(new HttpResultFunc<DataList<Book>>());
     }
 
-    public Observable<DataList<Book>> getChannelBookRanking(long channelId,int page, int size) {
+    public Observable<DataList<Book>> getChannelBookRanking(long channelId, int page, int size) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("page_index", page);
         hashMap.put("page_size", size);

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
@@ -42,6 +43,8 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
     private ShapeTextView tvIsFinish;
     private TextView tvAuthor;
     private TextView tvWordCount;
+    private TextView tvCatalogTitle;
+    private TextView tvDescribe;
 
 
     public static Intent newIntent(Context context, Book book) {
@@ -64,11 +67,13 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         tvIsFinish = (ShapeTextView) findViewById(R.id.tv_is_finish);
         tvAuthor = (TextView) findViewById(R.id.tv_author);
         tvWordCount = (TextView) findViewById(R.id.tv_word_count);
+        tvCatalogTitle = (TextView) findViewById(R.id.tv_catalog_title);
+        tvDescribe = (TextView) findViewById(R.id.tv_describe);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         recyclerView.addItemDecoration(new RecycleViewDivider(this));
-        bindOnClickLister(this, R.id.fl_add_bookcase, R.id.fl_open_book, R.id.fab);
+        bindOnClickLister(this, R.id.fl_add_bookcase, R.id.fl_open_book, R.id.fab, R.id.ll_book_detail_catalog);
         loadErrorView.setOnRetryListener(new LoadErrorView.OnRetryListener() {
             @Override
             public void onRetry(View view) {
@@ -92,6 +97,8 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         tvIsFinish.setText(book.isFinished() ?
                 getString(R.string.book_finished) : getString(R.string.book_unfinished));
         tvWordCount.setText(StringUtils.formatCount(book.getBookWordNum()) + "字");
+        tvDescribe.setText(book.getDescribe());
+
 
     }
 
@@ -150,6 +157,9 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
                 break;
             case R.id.fl_download_book:
                 ToastUtil.showToast("该功能还未实现");
+                break;
+            case R.id.ll_book_detail_catalog:
+                AppRouter.showBookCatalogActivity(this, book.getId(), 888);
                 break;
         }
     }

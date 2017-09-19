@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
-    <include layout="@layout/view_state_bar"/>
+    <include layout="@layout/view_state_bar" />
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,17 +34,18 @@
                 app:expandedTitleTextAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <include layout="@layout/layout_book_detail_header"/>
+                <include layout="@layout/layout_book_detail_header" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
+
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -52,22 +53,48 @@
             android:foreground="@drawable/header_shadow"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@id/recycler_view"
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:fastScrollEnabled="true"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                android:scrollbars="vertical"/>
+                <include layout="@layout/layout_book_detail_catalog" />
 
-            <com.youshibi.app.ui.widget.LoadErrorView
-                android:id="@id/load_error_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:errorLayout="@layout/view_error"
-                app:loadingLayout="@layout/view_loading"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorDivider" />
+
+                <TextView
+                    android:id="@+id/tv_describe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_ground_horizontal"
+                    android:layout_marginRight="@dimen/space_ground_horizontal"
+                    android:layout_marginTop="10.0dp"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    tools:text="网易旗下利用大数据技术提供移动互联网应用的子公司,过去8年,先后推出有道词典、有道翻译官、有道云笔记、惠惠网、有道推广、有道精品课、有道口语大师等系列产品,总.cas sac as  s" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical" />
+
+                <com.youshibi.app.ui.widget.LoadErrorView
+                    android:id="@id/load_error_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:errorLayout="@layout/view_error"
+                    app:loadingLayout="@layout/view_loading" />
+            </LinearLayout>
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
@@ -77,9 +104,9 @@
             android:layout_margin="@dimen/fab_margin"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_vector_read_book"/>
+            app:srcCompat="@drawable/ic_vector_read_book" />
 
-        <include layout="@layout/compat_layout_book_detail_bottom"/>
+        <include layout="@layout/compat_layout_book_detail_bottom" />
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

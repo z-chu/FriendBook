@@ -3,6 +3,7 @@ package com.youshibi.app.presentation.main;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
@@ -18,6 +19,10 @@ import com.youshibi.app.util.ToastUtil;
 
 public class MainActivity extends MvpActivity<MainContract.Presenter> implements MainContract.View,
         BottomNavigationView.OnNavigationItemSelectedListener, BookcaseFragment.OnBookCaseEditListener {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private BottomNavigationView bottomNavigation;
 

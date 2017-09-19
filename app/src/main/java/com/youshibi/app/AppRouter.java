@@ -12,6 +12,7 @@ import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.presentation.CrashActivity;
+import com.youshibi.app.presentation.book.BookCatalogActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
 import com.youshibi.app.presentation.main.MainActivity;
 import com.youshibi.app.presentation.read.ReadActivity;
@@ -120,5 +121,8 @@ public class AppRouter {
         CountEventHelper.countBookSearch(context, keyword);
     }
 
+    public static void showBookCatalogActivity(Context context, String bookId, int sectionCount) {
+        context.startActivity(BookCatalogActivity.newIntent(context, bookId, sectionCount));
+    }
 
 }
