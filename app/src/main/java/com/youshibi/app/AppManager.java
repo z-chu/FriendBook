@@ -97,6 +97,15 @@ public class AppManager {
         return activity;
     }
 
+    public Activity beforeActivity(Activity activity) {
+        Activity beforeActivity = null;
+        int indexOf = mActivityStack.indexOf(activity);
+        if (indexOf >= 1) {
+            beforeActivity = mActivityStack.get(indexOf - 1);
+        }
+        return beforeActivity;
+    }
+
 
     /**
      * 结束当前Activity（堆栈中最后一个压入的）

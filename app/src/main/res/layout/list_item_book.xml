@@ -9,8 +9,8 @@
     android:clickable="true"
     android:orientation="vertical"
     android:paddingBottom="16.0dp"
-    android:paddingLeft="@dimen/space_ground_horizontal"
-    android:paddingRight="@dimen/space_ground_horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="16.0dp">
 
     <android.support.v7.widget.CardView

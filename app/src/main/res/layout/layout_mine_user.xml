@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="148dp"
     android:background="@color/colorPrimary"
-    android:paddingLeft="@dimen/space_ground_horizontal"
-    android:paddingRight="@dimen/space_ground_horizontal">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/tv_login_flag"

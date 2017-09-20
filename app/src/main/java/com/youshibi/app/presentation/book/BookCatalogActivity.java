@@ -3,6 +3,7 @@ package com.youshibi.app.presentation.book;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,12 +19,14 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.R;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.mvp.MvpLoaderActivity;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.DensityUtil;
+import com.youshibi.app.util.ToastUtil;
 
 import java.util.List;
 
@@ -34,7 +37,7 @@ import java.util.List;
  */
 
 public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.Presenter> implements BookCatalogContract.View {
-    private static final String K_EXTRA_BOOK_ID = "book_id";
+    private static final String K_EXTRA_BOOK = "book";
     private static final String K_EXTRA_SECTION_COUNT = "section_count";
     private TextView tvSectionCount;
     private TextView tvSectionSelection;
@@ -45,9 +48,9 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
     private int sectionDataIndex;
 
 
-    public static Intent newIntent(Context context, String bookId, int sectionCount) {
+    public static Intent newIntent(Context context, Book book, int sectionCount) {
         Intent intent = new Intent(context, BookCatalogActivity.class);
-        intent.putExtra(K_EXTRA_BOOK_ID, bookId);
+        intent.putExtra(K_EXTRA_BOOK, (Parcelable) book);
         intent.putExtra(K_EXTRA_SECTION_COUNT, sectionCount);
         return intent;
     }
@@ -58,8 +61,8 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
         setContentView(R.layout.activity_book_catalog);
         ToolbarHelper.initToolbar(this, R.id.toolbar, true, "目录");
         initView();
-        if(savedInstanceState!=null){
-            sectionDataIndex=savedInstanceState.getInt("sectionDataIndex");
+        if (savedInstanceState != null) {
+            sectionDataIndex = savedInstanceState.getInt("sectionDataIndex");
         }
         tvSectionCount.setText("共" + getIntent().getIntExtra(K_EXTRA_SECTION_COUNT, 50) + "章");
         llSectionSelection.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +78,7 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("sectionDataIndex",sectionDataIndex);
+        outState.putInt("sectionDataIndex", sectionDataIndex);
     }
 
     private void showSectionSelectionDialog() {
@@ -90,6 +93,8 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
             dialog = new MaterialDialog.Builder(this)
                     .customView(recyclerView, true)
                     .build();
+        } else {
+            sectionAdapter.notifyDataSetChanged();
         }
         dialog.show();
 
@@ -103,7 +108,7 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
     @NonNull
     @Override
     public BookCatalogContract.Presenter createPresenter() {
-        return new BookCatalogPresenter(getIntent().getStringExtra(K_EXTRA_BOOK_ID),
+        return new BookCatalogPresenter((Book) getIntent().getParcelableExtra(K_EXTRA_BOOK),
                 getIntent().getIntExtra(K_EXTRA_SECTION_COUNT, 50));
     }
 
@@ -120,7 +125,7 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
 
     @Override
     public void showError(String errorMsg) {
-
+        ToastUtil.showToast(errorMsg);
     }
 
     @Override
@@ -146,7 +151,13 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
 
             @Override
             protected void convert(CommonViewHolder helper, String item) {
-                ((TextView) helper.itemView).setText(item);
+                TextView textView = ((TextView) helper.itemView);
+                textView.setText(item);
+                if (sectionDataIndex == helper.getLayoutPosition()) {
+                    textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                } else {
+                    textView.setTextColor(ContextCompat.getColor(mContext, R.color.textSecondary));
+                }
             }
 
             protected CommonViewHolder onCreateDefViewHolder(ViewGroup parent, int viewType) {
@@ -162,9 +173,9 @@ public class BookCatalogActivity extends MvpLoaderActivity<BookCatalogContract.P
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 getPresenter().loadData(position + 1);
-                sectionDataIndex=position;
+                sectionDataIndex = position;
                 tvSectionSelection.setText((String) sectionAdapter.getData().get(position));
-                ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPositionWithOffset(0,0);
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(0, 0);
                 if (dialog != null) {
                     dialog.dismiss();
                 }

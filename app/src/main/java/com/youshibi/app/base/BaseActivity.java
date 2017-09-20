@@ -96,7 +96,7 @@ public class BaseActivity extends BaseSuperActivity {
 
     public Drawable getWindowBackground() {
         if (windowBackground == null) {
-            Activity beforeActivity = AppManager.getInstance().beforeActivity();
+            Activity beforeActivity = AppManager.getInstance().beforeActivity(this);
             if (beforeActivity != null) {
                 Object tag = beforeActivity.getWindow().getDecorView().getTag();
 

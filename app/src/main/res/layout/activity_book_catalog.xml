@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/view_state_bar" />
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/elevation_app_bar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <include layout="@layout/view_state_bar" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -26,8 +28,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:paddingLeft="@dimen/space_ground_horizontal"
-            android:paddingRight="@dimen/space_ground_horizontal">
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
                 android:id="@+id/tv_section_count"

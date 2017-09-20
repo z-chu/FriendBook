@@ -7,33 +7,39 @@
     android:layout_height="56dp"
     android:background="@drawable/bg_list_item"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/space_ground_horizontal"
-    android:paddingRight="@dimen/space_ground_horizontal">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/tv_catalog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        tools:text="最新章节：第134章 我爱搞事情"
         android:textColor="@color/textPrimary"
-        android:textSize="@dimen/text_size_medium"
-        android:text="最新章节：第134章 我爱搞事情" />
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@+id/tv_update_time"
+        android:textSize="@dimen/text_size_medium" />
 
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_catalog_arrow"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/ic_vector_small_arrow_right" />
 
     <TextView
+        android:id="@+id/tv_update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/iv_catalog_arrow"
-        android:text="5小时前更新"
+        tools:text="5小时前更新"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_size_small" />
 

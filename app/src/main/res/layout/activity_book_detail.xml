@@ -9,8 +9,7 @@
 
     <include layout="@layout/view_state_bar" />
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorGrounding"
@@ -20,6 +19,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="@dimen/elevation_app_bar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -46,20 +46,18 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-
-        <FrameLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="@drawable/header_shadow"
+            android:foreground="@drawable/bottom_shadow"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:background="@color/colorGrounding"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/bottom_navigation_height">
 
                 <include layout="@layout/layout_book_detail_catalog" />
 
@@ -68,45 +66,31 @@
                     android:layout_height="1px"
                     android:background="@color/colorDivider" />
 
+
                 <TextView
                     android:id="@+id/tv_describe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_ground_horizontal"
-                    android:layout_marginRight="@dimen/space_ground_horizontal"
-                    android:layout_marginTop="10.0dp"
+                    android:background="@color/white"
                     android:ellipsize="end"
                     android:lineSpacingExtra="4dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="10.0dp"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/text_size_medium"
                     tools:text="网易旗下利用大数据技术提供移动互联网应用的子公司,过去8年,先后推出有道词典、有道翻译官、有道云笔记、惠惠网、有道推广、有道精品课、有道口语大师等系列产品,总.cas sac as  s" />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:scrollbars="vertical" />
 
-                <com.youshibi.app.ui.widget.LoadErrorView
-                    android:id="@id/load_error_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:errorLayout="@layout/view_error"
-                    app:loadingLayout="@layout/view_loading" />
+                <include layout="@layout/layout_book_detail_recommend" />
+
+                <include layout="@layout/layout_book_detail_copyright" />
+
             </LinearLayout>
-        </FrameLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@id/app_bar"
-            app:layout_anchorGravity="bottom|end"
-            app:srcCompat="@drawable/ic_vector_read_book" />
+        </android.support.v4.widget.NestedScrollView>
 
         <include layout="@layout/compat_layout_book_detail_bottom" />
+
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

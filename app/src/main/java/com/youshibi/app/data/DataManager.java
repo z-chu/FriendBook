@@ -5,12 +5,14 @@ import com.google.gson.reflect.TypeToken;
 import com.youshibi.app.AppContext;
 import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookDetail;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.data.bean.AppRelease;
+import com.youshibi.app.data.bean.LatestChapter;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
 import com.zchu.rxcache.CacheTarget;
@@ -299,4 +301,24 @@ public class DataManager {
                 .map(new HttpResultFunc<AppRelease>());
     }
 
+
+    /**
+     * 获取书籍详情
+     */
+    public Observable<BookDetail> getBookDetail(String bookId) {
+        return RequestClient
+                .getServerAPI()
+                .getBookDetail(bookId)
+                .map(new HttpResultFunc<BookDetail>());
+    }
+
+    /**
+     * 获取最新章节
+     */
+    public Observable<LatestChapter> getLatestChapter(List<String> bookIds) {
+        return RequestClient
+                        .getServerAPI()
+                        .getLatestChapter(bookIds)
+                        .map(new HttpResultFunc<LatestChapter>());
+    }
 }

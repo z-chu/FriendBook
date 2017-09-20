@@ -8,12 +8,15 @@ import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookDetail;
 import com.youshibi.app.data.bean.BookSectionItem;
+import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
 
 import java.util.List;
+import java.util.Random;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,6 +47,49 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
             getView().showLoading();
         }
 
+        DataManager
+                .getInstance()
+                .getBookDetail(book.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleSubscriber<BookDetail>() {
+                    @Override
+                    public void onNext(BookDetail bookDetail) {
+                        if (isViewAttached()) {
+                            getView().setData(bookDetail);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (isViewAttached()) {
+                            getView().showError(e.getMessage());
+                        }
+                    }
+                });
+
+        loadRecommendBooks();
+    }
+
+    private void loadRecommendBooks() {
+        Subscription subscribe = DataManager
+                .getInstance()
+                .getBookList(book.getBookTypeId(), new Random().nextInt(10)+1, 6)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SimpleSubscriber<DataList<Book>>() {
+                    @Override
+                    public void onNext(DataList<Book> bookDataList) {
+                        if (isViewAttached()) {
+                            getView().setRecommendBooks(bookDataList.DataList);
+                        }
+                    }
+                });
+        addSubscription2Destroy(subscribe);
+    }
+
+    private void loadSectionList() {
         Subscription subscribe = DataManager
                 .getInstance()
                 .getBookSectionList(book.getId(), true)
@@ -71,11 +117,9 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                     }
                 });
         addSubscription2Detach(subscribe);
-
     }
 
     @Override
-
     public void openRead(Context context) {
         if (bookSectionAdapter != null && bookSectionAdapter.getData().size() > 0) {
             BookSectionItem bookSectionItem = bookSectionAdapter.getData().get(0);

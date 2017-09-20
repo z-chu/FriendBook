@@ -61,7 +61,7 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("recommend_num")
     private long recommendNum;
 
-    @SerializedName("create_date_time")
+    @SerializedName("create_time")
     private String createDateTime;
 
 

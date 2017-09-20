@@ -121,8 +121,8 @@ public class AppRouter {
         CountEventHelper.countBookSearch(context, keyword);
     }
 
-    public static void showBookCatalogActivity(Context context, String bookId, int sectionCount) {
-        context.startActivity(BookCatalogActivity.newIntent(context, bookId, sectionCount));
+    public static void showBookCatalogActivity(Context context, Book book, int sectionCount) {
+        context.startActivity(BookCatalogActivity.newIntent(context, book, sectionCount));
     }
 
 }

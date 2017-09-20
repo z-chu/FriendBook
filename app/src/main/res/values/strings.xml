@@ -45,5 +45,13 @@
     <string name="share">分享</string>
     <string name="details">详情</string>
     <string name="finish">完成</string>
+    <string name="book_copyright_info">
+        免责声明：本小说为转载作品,所有章节均由网友上传,转载至本站只是为了宣传本书让更多读者欣赏。
+        如有侵犯版权,请来信告知,我们将立即予以处理。
+        若小说含有不良信息请书友积极告知客服 yjfk@laiyoushu.com
+    </string>
+    <string name="book_create_date_copyright">上架时间：</string>
+    <string name="word_count_copyright">字数：</string>
+    <string name="more_book_info">小说更多信息</string>
 
 </resources>

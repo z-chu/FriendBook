@@ -2,9 +2,11 @@ package com.youshibi.app.presentation.book;
 
 import android.view.View;
 
+import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
@@ -26,14 +28,14 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
 
     private static final int PAGE_SIZE = 50;
 
-    private String mBookId;
+    private Book mBook;
     private int mSectionCount;
 
     private CommonAdapter<BookSectionItem> bookSectionAdapter;
     private List<String> sectionData;
 
-    public BookCatalogPresenter(String bookId, int sectionCount) {
-        this.mBookId = bookId;
+    public BookCatalogPresenter(Book book, int sectionCount) {
+        this.mBook = book;
         this.mSectionCount = sectionCount;
     }
 
@@ -55,7 +57,7 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
     public void loadData(int page) {
         DataManager
                 .getInstance()
-                .getBookSectionList(mBookId, true, page, PAGE_SIZE)
+                .getBookSectionList(mBook.getId(), true, page, PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
@@ -80,7 +82,7 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
                     helper.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // AppRouter.showReadActivity(v.getContext(), book, item.getSectionIndex(), item.getSectionId());
+                             AppRouter.showReadActivity(v.getContext(), mBook, item.getSectionIndex(), item.getSectionId());
                         }
                     });
                 }

@@ -1,5 +1,7 @@
 package com.youshibi.app.util;
 
+import android.app.AlarmManager;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -93,6 +95,49 @@ public class DateUtil {
         cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return timeToTimestamp(format.format(cal.getTime()) + " 23:59:59");
+    }
+
+    /**
+     * 时间友好显示
+     * 刚刚-%s分钟前-%s小时前-昨天-前天-%s天前
+     */
+    public static String formatSomeAgo(long timeInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeInMillis);
+        Calendar mCurrentDate = Calendar.getInstance();
+        long crim = mCurrentDate.getTimeInMillis(); // current
+        long trim = calendar.getTimeInMillis(); // target
+        long diff = crim - trim;
+
+        int year = mCurrentDate.get(Calendar.YEAR);
+        int month = mCurrentDate.get(Calendar.MONTH);
+        int day = mCurrentDate.get(Calendar.DATE);
+
+        if (diff < 60 * 1000) {
+            return "刚刚";
+        }
+        if (diff >= 60 * 1000 && diff < AlarmManager.INTERVAL_HOUR) {
+            return String.format("%s分钟前", diff / 60 / 1000);
+        }
+        mCurrentDate.set(year, month, day, 0, 0, 0);
+        if (trim >= mCurrentDate.getTimeInMillis()) {
+            return String.format("%s小时前", diff / AlarmManager.INTERVAL_HOUR);
+        }
+        mCurrentDate.set(year, month, day - 1, 0, 0, 0);
+        if (trim >= mCurrentDate.getTimeInMillis()) {
+            return "昨天";
+        }
+        mCurrentDate.set(year, month, day - 2, 0, 0, 0);
+        if (trim >= mCurrentDate.getTimeInMillis()) {
+            return "前天";
+        }
+        if (diff < AlarmManager.INTERVAL_DAY * 30) {
+            return String.format("%s天前", diff / AlarmManager.INTERVAL_DAY);
+        }
+        if (diff < AlarmManager.INTERVAL_DAY * 30 * 12) {
+            return String.format("%s月前", diff / (AlarmManager.INTERVAL_DAY * 30));
+        }
+        return String.format("%s年前", mCurrentDate.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
     }
 
 }

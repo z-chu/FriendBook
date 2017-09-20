@@ -10,8 +10,8 @@
         android:layout_height="48.0dp"
         android:background="@drawable/bg_list_item"
         android:gravity="center_vertical"
-        android:paddingLeft="16.0dp"
-        android:paddingRight="10.0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/text_size_medium" />
 
