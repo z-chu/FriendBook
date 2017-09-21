@@ -91,18 +91,16 @@ public class PageView extends View {
     private int mStartSection = -1;
 
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver(){
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
                 int level = intent.getIntExtra("level", 0);
-                if(mPageLoader!=null) {
+                if (mPageLoader != null) {
                     mPageLoader.updateBattery(level);
                 }
-            }
-            //监听分钟的变化
-            else if (intent.getAction().equals(Intent.ACTION_TIME_TICK)){
-                if(mPageLoader!=null) {
+            } else if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+                if (mPageLoader != null) {
                     mPageLoader.updateTime();
                 }
             }
@@ -153,7 +151,7 @@ public class PageView extends View {
             mPageLoader.setOnPageChangeListener(mPageChangeListener);
         }
         mPageLoader.setDisplaySize(w, h);
-        if(mPageLoader.getAdapter()==null&&mAdapter!=null){
+        if (mPageLoader.getAdapter() == null && mAdapter != null) {
             mPageLoader.setAdapter(mAdapter);
         }
         if (mPageLoader.getAdapter() != null && mStartSection != -1) {
@@ -381,7 +379,6 @@ public class PageView extends View {
         drawCurPage(false);
     }
 
-    //refreshPage和drawCurPage容易造成歧义,后面需要修改
 
     /**
      * 绘制当前页。
@@ -394,8 +391,8 @@ public class PageView extends View {
 
 
     public void setAdapter(PageLoaderAdapter adapter) {
-        this.mAdapter=adapter;
-        if(mPageLoader!=null){
+        this.mAdapter = adapter;
+        if (mPageLoader != null) {
             mPageLoader.setAdapter(adapter);
         }
     }
@@ -423,7 +420,7 @@ public class PageView extends View {
 
     public void setTextSize(int sizePx) {
         this.mTextSize = sizePx;
-        if(mPageLoader!=null) {
+        if (mPageLoader != null) {
             mPageLoader.setTextSize(sizePx);
         }
     }
@@ -434,7 +431,7 @@ public class PageView extends View {
 
     public void setTextColor(int color) {
         this.mTextColor = color;
-        if(mPageLoader!=null) {
+        if (mPageLoader != null) {
             mPageLoader.setTextColor(color);
         }
     }
@@ -445,7 +442,7 @@ public class PageView extends View {
 
     public void setPageBackground(int color) {
         this.mPageBackground = color;
-        if(mPageLoader!=null) {
+        if (mPageLoader != null) {
             mPageLoader.setPageBackground(color);
         }
     }
@@ -459,7 +456,7 @@ public class PageView extends View {
     }
 
     public void setPageAnimMode(int mode) {
-        if(mPageLoader!=null) {
+        if (mPageLoader != null) {
             mPageLoader.setPageMode(mode);
         }
     }

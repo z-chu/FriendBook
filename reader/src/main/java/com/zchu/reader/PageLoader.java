@@ -32,15 +32,6 @@ class PageLoader {
     public static final int STATUS_PARSE = 5;    //正在解析 (一般用于本地数据加载)
     public static final int STATUS_PARSE_ERROR = 6; //本地文件解析错误(暂未被使用)
 
-    /*************实在想不出什么好记的命名方式。。******************/
-    public static final int READ_BG_DEFAULT = 0;
-    public static final int READ_BG_1 = 1;
-    public static final int READ_BG_2 = 2;
-    public static final int READ_BG_3 = 3;
-    public static final int READ_BG_4 = 4;
-    public static final int NIGHT_MODE = 5;
-
-
     static final int DEFAULT_MARGIN_HEIGHT = 30;
     static final int DEFAULT_MARGIN_WIDTH = 14;
 
@@ -77,10 +68,6 @@ class PageLoader {
     //间距
     private int mMarginWidth;
     private int mMarginHeight;
-    //字体的颜色
-    //private int mTextColor;
-    //字体的大小
-  //  private int mTextSize = 40;
     //行间距
     private int mIntervalSize;
     //段落距离(基于行间距的额外距离)
@@ -89,12 +76,6 @@ class PageLoader {
     private int mBatteryLevel;
     //页面的翻页效果模式
     private int mPageMode = PageView.PAGE_MODE_SIMULATION;
-    //加载器的颜色主题
-    private int mBgTheme = READ_BG_DEFAULT;
-    //当前页面的背景
-    //private int mPageBg;
-    //当前是否是夜间模式
-    private boolean isNightMode = false;
 
     protected Context mContext;
 
@@ -424,14 +405,7 @@ class PageLoader {
         mPageView.drawCurPage(false);
     }
 
-    //清除记录，并设定是否缓存数据
-    public void closeBook() {
-        isBookOpen = false;
-        mPageView = null;
-        /*if (mPreLoadDisp != null) {
-            mPreLoadDisp.dispose();
-        }*/
-    }
+
 
 
     void onDraw(Bitmap bitmap, boolean isUpdate) {
@@ -770,35 +744,6 @@ class PageLoader {
         //判断下一章的文件是否存在
         int nextChapter = mCurChapterPos + 1;
 
-        //如果之前正在加载则取消
-    /*    if (mPreLoadDisp != null) {
-            mPreLoadDisp.dispose();
-        }*/
-
-        //调用异步进行预加载加载
-
-        /*Single.create(new SingleOnSubscribe<List<TxtPage>>() {
-            @Override
-            public void subscribe(SingleEmitter<List<TxtPage>> e) throws Exception {
-                e.onSuccess(loadPageList(nextChapter));
-            }
-        }).compose(RxUtils::toSimpleSingle)
-                .subscribe(new SingleObserver<List<TxtPage>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mPreLoadDisp = d;
-                    }
-
-                    @Override
-                    public void onSuccess(List<TxtPage> pages) {
-                        mNextPageList = pages;
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //无视错误
-                    }
-                });*/
     }
 
     //取消翻页 (这个cancel有点歧义，指的是不需要看的页面)
@@ -825,9 +770,6 @@ class PageLoader {
         }
         return mCurPageList.get(pos);
     }
-
-
-    /**************************************private method********************************************/
 
     /**
      * @return:获取上一个页面

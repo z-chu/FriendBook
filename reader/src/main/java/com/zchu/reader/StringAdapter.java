@@ -58,17 +58,13 @@ public abstract class StringAdapter implements PageLoaderAdapter {
     public abstract String getSectionName(int section);
 
     public static SparseArray<ArrayList<String>> loadPages(String source, Paint textPaint, int visibleHeight, int visibleWidth, int intervalSize, int paragraphSize) {
-        //读取数据段
-        // List<TxtPage> pages = new ArrayList<>();
         SparseArray<ArrayList<String>> pageArray = new SparseArray<>();
-        //使用流的方式加载
         List<String> lines = new ArrayList<>();
         if (source != null && source.length() > 0) {
             String[] split = source.split("\n");
             //剩余高度
             int rHeight = visibleHeight + intervalSize + paragraphSize;
             for (String paragraph : split) {
-                // paragraph = source.replaceAll("\\s", "");
                 //如果只有换行符，那么就不执行
                 if (StringUtils.isBlank(paragraph)) continue;
                 //重置段落

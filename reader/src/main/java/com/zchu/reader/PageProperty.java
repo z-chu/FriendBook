@@ -16,6 +16,8 @@ public final class PageProperty {
         this.paragraphSize = paragraphSize;
     }
 
+    private int hash;
+
     /**
      * 画笔
      */
@@ -75,12 +77,16 @@ public final class PageProperty {
 
     @Override
     public int hashCode() {
-      /*  int h = hash;
-        if (h == 0) {
-
-
-            hash = h;
-        }*/
-        return (int) (textPaint.getTextSize() + visibleHeight + visibleWidth + intervalSize + paragraphSize);
+        if (hash == 0) {
+            int result = 20;
+            result = (int) (result * 31 + textPaint.getTextSize());
+            result = result * 31 + visibleHeight;
+            result = result * 31 + visibleWidth;
+            result = result * 31 + intervalSize;
+            result = result * 31 + visibleHeight;
+            result = result * 31 + paragraphSize;
+            hash = result;
+        }
+        return hash;
     }
 }
