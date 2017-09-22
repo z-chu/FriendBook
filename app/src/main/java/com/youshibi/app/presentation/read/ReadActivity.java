@@ -88,7 +88,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private BookTb mBookTb;
 
 
-    public static Intent newIntent(Context context, Book book, Integer sectionIndex,String sectionId) {
+    public static Intent newIntent(Context context, Book book, Integer sectionIndex, String sectionId) {
         Intent intent = new Intent(context, ReadActivity.class);
         BookTb bookTb = DataConvertUtil.book2BookTb(book, null);
         bookTb.setLatestReadSection(sectionIndex);
@@ -189,6 +189,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     protected void onPause() {
         super.onPause();
         mWakeLock.release();
+        getPresenter().saveReadLocation();
     }
 
     private void findView() {

@@ -42,29 +42,19 @@ public class BaseRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
         if (mSubscriptions2Destroy != null && mSubscriptions2Destroy.hasSubscriptions()) {
             mSubscriptions2Destroy.unsubscribe();
         }
-        mSubscriptions2Detach = null;
-        mSubscriptions2Destroy = null;
 
     }
 
     protected void addSubscription2Detach(Subscription subscription) {
-        if (mSubscriptions2Detach != null) {
-            mSubscriptions2Detach.add(subscription);
-        }
+        mSubscriptions2Detach.add(subscription);
     }
 
     protected void addSubscription2Destroy(Subscription subscription) {
-        if (mSubscriptions2Detach != null) {
-            mSubscriptions2Destroy.add(subscription);
-        }
+        mSubscriptions2Destroy.add(subscription);
     }
 
     protected void remove(Subscription subscription) {
-        if (mSubscriptions2Detach != null) {
-            mSubscriptions2Detach.remove(subscription);
-        }
-        if (mSubscriptions2Destroy != null) {
-            mSubscriptions2Destroy.remove(subscription);
-        }
+        mSubscriptions2Detach.remove(subscription);
+        mSubscriptions2Destroy.remove(subscription);
     }
 }

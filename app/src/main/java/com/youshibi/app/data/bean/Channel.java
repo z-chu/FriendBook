@@ -5,6 +5,7 @@ import com.youshibi.app.presentation.book.ChannelType;
 
 import java.io.Serializable;
 
+
 /**
  * author : zchu
  * date   : 2017/9/18
@@ -87,6 +88,31 @@ public class Channel implements Serializable {
 
     public void setSelectedStatus(int selectedStatus) {
         this.selectedStatus = selectedStatus;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof Channel) {
+            Channel channel = (Channel) obj;
+            if (channel.getChannelId() == channelId) {
+                return (channelType == null && channelType.equals(channel.getChannelType()))
+                        || channel.getChannelType().equals(channelType);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 12;
+        result = result * 31 + (int) (channelId ^ (channelId >>> 32));
+        if (channelType != null) {
+            result = result * 31 + channelType.hashCode();
+        }
+        return result;
     }
 
 }

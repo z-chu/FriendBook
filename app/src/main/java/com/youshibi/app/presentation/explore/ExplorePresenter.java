@@ -17,6 +17,7 @@ import com.youshibi.app.rx.SimpleSubscriber;
 import com.zchu.rxcache.data.CacheResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import rx.Subscription;
@@ -33,6 +34,8 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
     private ArrayList<Channel> mAlwaysSelectedChannels;
     private ArrayList<Channel> mCommonSelectedChannels;
     private ArrayList<Channel> mUnselectedChannels;
+
+    private HashMap<Channel, Fragment> fragmentHashMap = new HashMap<>();
 
 
     @Override
@@ -53,10 +56,10 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                         if (e instanceof NullPointerException) {
                             DataManager.getInstance().removeChannelsCache();
                             PreferencesHelper.getInstance().setSelectedChannels(null);
-                            mChannels=null;
-                            mAlwaysSelectedChannels=null;
-                            mCommonSelectedChannels=null;
-                            mUnselectedChannels=null;
+                            mChannels = null;
+                            mAlwaysSelectedChannels = null;
+                            mCommonSelectedChannels = null;
+                            mUnselectedChannels = null;
                         }
                     }
 
@@ -121,8 +124,14 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                 fragments = new Fragment[selectedBookLabels.size()];
                 pageTitles = new String[selectedBookLabels.size()];
                 for (int i = 0; i < selectedBookLabels.size(); i++) {
-                    Channel channel = channels.get(i);
-                    fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                    Channel channel = selectedBookLabels.get(i);
+                    Fragment fragment = fragmentHashMap.get(channel);
+                    if (fragment == null) {
+                        fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                        fragmentHashMap.put(channel,fragments[i]);
+                    } else {
+                        fragments[i] = fragment;
+                    }
                     pageTitles[i] = channel.getChannelName();
                 }
             }
@@ -161,7 +170,13 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                             pageTitles = new String[selectedChannels.size()];
                             for (int i = 0; i < selectedChannels.size(); i++) {
                                 Channel channel = selectedChannels.get(i);
-                                fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                                Fragment fragment = fragmentHashMap.get(channel);
+                                if (fragment == null) {
+                                    fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
+                                    fragmentHashMap.put(channel,fragments[i]);
+                                } else {
+                                    fragments[i] = fragment;
+                                }
                                 pageTitles[i] = channel.getChannelName();
                             }
                         } else {

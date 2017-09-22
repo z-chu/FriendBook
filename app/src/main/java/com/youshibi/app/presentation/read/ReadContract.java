@@ -26,5 +26,10 @@ public interface ReadContract {
 
         void loadData();
 
+        /**
+         * 保存阅读位置
+         */
+        void saveReadLocation();
+
     }
 }
