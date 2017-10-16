@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextPaint;
@@ -149,7 +150,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     public void setRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-
+        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         int i = getResources().getDisplayMetrics().widthPixels;
         int y = DensityUtil.dp2px(getContext(), 90);
         int p = DensityUtil.dp2px(getContext(), 15);
@@ -177,6 +178,7 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
             getPresenter().finishEdit();
         } else {
             toolbarBookcaseEdit.setVisibility(VISIBLE);
+            contentView.setRefreshing(false);
             contentView.setEnabled(false);
             if (mEditListener != null) {
                 getBottomEditBar(mEditListener.getBottomGroup()).setVisibility(View.VISIBLE);
@@ -188,10 +190,12 @@ public class BookcaseFragment extends BaseListFragment<BookcasePresenter> implem
     public void setAdapter(BaseQuickAdapter adapter) {
         adapter.setEmptyView(R.layout.view_empty_bookcase, recyclerView);
         adapter.bindToRecyclerView(recyclerView);
+
+        this.bookcaseAdapter = (BookcaseAdapter) adapter;
         ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback((BaseItemDraggableAdapter) adapter);
         itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        this.bookcaseAdapter = (BookcaseAdapter) adapter;
+        bookcaseAdapter.enableDragItem(itemTouchHelper);
     }
 
     @Override

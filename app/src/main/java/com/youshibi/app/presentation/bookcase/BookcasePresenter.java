@@ -105,9 +105,15 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
         mAdapter = new BookcaseAdapter(data);
         mAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
             @Override
-            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, final int position) {
                 BookcaseAdapter bookcaseAdapter = (BookcaseAdapter) adapter;
-                getView().startDrag(position);
+
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getView().startDrag(position);
+                    }
+                },200);
                 if (bookcaseAdapter.startEdit()) {
                     getView().showEditMode();
                     bookcaseAdapter.selectedItem(position);

@@ -1,6 +1,5 @@
 package com.youshibi.app.presentation.bookcase;
 
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.youshibi.app.R;
@@ -20,7 +19,6 @@ import java.util.List;
  */
 
 public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
-
     private boolean isEditing = false;
     private ArrayList<BookTb> selectedBookTbs = new ArrayList<>();
     private OnItemSelectedListener mListener;
@@ -30,7 +28,7 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
     }
 
     @Override
-    protected void convert(CommonViewHolder helper, BookTb item) {
+    protected void convert(final CommonViewHolder helper, BookTb item) {
         GlideApp
                 .with(mContext)
                 .load(item.getCoverUrl())
@@ -38,7 +36,7 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
                 .into((ImageView) helper.getView(R.id.iv_cover));
         helper.setText(R.id.tv_title, item.getName());
         helper.addOnLongClickListener(R.id.iv_cover);
-        helper.setSelected(R.id.iv_cover, selectedBookTbs.contains(item));
+        helper.setSelected(R.id.iv_selected, selectedBookTbs.contains(item));
         helper.setGone(R.id.iv_selected, isEditing);
         ((MaskableImageView) helper.getView(R.id.iv_cover)).setEnabledMaskable(!isEditing);
     }
@@ -65,31 +63,21 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
     private void changeEditState(boolean state) {
         isEditing = state;
         selectedBookTbs.clear();
-        RecyclerView recyclerView = getRecyclerView();
-        int visibleChildCount = recyclerView.getChildCount();
-        for (int i = 0; i < visibleChildCount; i++) {
-            CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
-                    .getChildViewHolder(recyclerView.getChildAt(i));
-            childViewHolder.setSelected(R.id.iv_selected, false);
-            childViewHolder.setGone(R.id.iv_selected, isEditing);
-            ((MaskableImageView) childViewHolder.getView(R.id.iv_cover)).setEnabledMaskable(!isEditing);
-        }
+        notifyDataSetChanged();
         if(mListener!=null){
             mListener.onSelectedItemsChange(selectedBookTbs);
         }
     }
 
     public void selectedItem(int position) {
-        RecyclerView recyclerView = getRecyclerView();
-        CommonViewHolder viewHolder = (CommonViewHolder) recyclerView.findViewHolderForLayoutPosition(position);
+
         BookTb bookTb = mData.get(position);
         if (selectedBookTbs.contains(bookTb)) {
             selectedBookTbs.remove(bookTb);
-            viewHolder.setSelected(R.id.iv_selected, false);
         } else {
             selectedBookTbs.add(bookTb);
-            viewHolder.setSelected(R.id.iv_selected, true);
         }
+        notifyItemChanged(position);
         if (mListener != null) {
             mListener.onSelectedItemsChange(selectedBookTbs);
         }
@@ -97,13 +85,7 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
 
     public void selectedAllItem() {
         selectedBookTbs = new ArrayList<>(mData);
-        RecyclerView recyclerView = getRecyclerView();
-        int visibleChildCount = recyclerView.getChildCount();
-        for (int i = 0; i < visibleChildCount; i++) {
-            CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
-                    .getChildViewHolder(recyclerView.getChildAt(i));
-            childViewHolder.setSelected(R.id.iv_selected, true);
-        }
+        notifyDataSetChanged();
         if (mListener != null) {
             mListener.onSelectedItemsChange(selectedBookTbs);
         }
@@ -111,13 +93,7 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
 
     public void clearSelectedAllItem() {
         selectedBookTbs.clear();
-        RecyclerView recyclerView = getRecyclerView();
-        int visibleChildCount = recyclerView.getChildCount();
-        for (int i = 0; i < visibleChildCount; i++) {
-            CommonViewHolder childViewHolder = (CommonViewHolder) getRecyclerView()
-                    .getChildViewHolder(recyclerView.getChildAt(i));
-            childViewHolder.setSelected(R.id.iv_selected, false);
-        }
+        notifyDataSetChanged();
         if (mListener != null) {
             mListener.onSelectedItemsChange(selectedBookTbs);
         }
