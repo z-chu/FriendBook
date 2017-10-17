@@ -18,7 +18,7 @@ public interface ReadContract {
 
         void setSectionListAdapter(BaseQuickAdapter adapter);
 
-        void openSection(int section);
+        void openSection(int section, int page);
 
     }
 

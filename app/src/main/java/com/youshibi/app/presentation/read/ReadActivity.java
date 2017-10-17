@@ -251,8 +251,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
     @Override
-    public void openSection(int section) {
-        readView.openSection(section);
+    public void openSection(int section, int page) {
+        readView.openSection(section, page);
         readDrawer.closeDrawers();
     }
 

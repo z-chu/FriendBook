@@ -99,7 +99,6 @@ class PageLoader {
     protected boolean isBookOpen = false;
 
 
-
     public PageLoader(PageView pageView) {
         mPageView = pageView;
         mContext = pageView.getContext();
@@ -157,7 +156,7 @@ class PageLoader {
     private void initPageView() {
         //配置参数
         mPageView.setPageMode(mPageMode);
-      //  mPageView.setBgColor(mPageBg);
+        //  mPageView.setBgColor(mPageBg);
     }
 
     /****************************** public method***************************/
@@ -364,9 +363,15 @@ class PageLoader {
     }
 
     public void openChapter(int section) {
-        // mCurPageList = loadPageList(mCurChapterPos);
+        openChapter(section,0);
+    }
+
+    public void openChapter(int section, int page) {
         mCurChapterPos = section;
         int pageCount = mAdapter.getPageCount(mCurChapterPos, new PageProperty(mTextPaint, mVisibleWidth, mVisibleHeight, mIntervalSize, mParagraphSize));
+        if (page >= pageCount) {
+            page = pageCount - 1;
+        }
         if (pageCount > 0) {
             List<TxtPage> txtPages = new ArrayList<>();
             for (int i = 0; i < pageCount; i++) {
@@ -381,18 +386,12 @@ class PageLoader {
         //获取制定页面
         if (!isBookOpen) {
             isBookOpen = true;
-            //TODO 可能会出现当前页的大小大于记录页的情况。
-           /* int position = mBookRecord.getPagePos();
-            if (position >= mCurPageList.size()) {
-                position = mCurPageList.size() - 1;
-            }
-            mCurPage = getCurPage(position);*/
-            mCurPage = getCurPage(0);
+            mCurPage = getCurPage(page);
             if (mPageChangeListener != null) {
                 mPageChangeListener.onChapterChange(mCurChapterPos);
             }
         } else {
-            mCurPage = getCurPage(0);
+            mCurPage = getCurPage(page);
         }
 
         mPageView.drawCurPage(false);
@@ -404,8 +403,6 @@ class PageLoader {
         //显示加载错误
         mPageView.drawCurPage(false);
     }
-
-
 
 
     void onDraw(Bitmap bitmap, boolean isUpdate) {
@@ -825,7 +822,6 @@ class PageLoader {
         //由于解析失败，让其退出
         return true;
     }
-
 
 
     public void setTextColor(int color) {

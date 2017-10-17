@@ -129,7 +129,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                                 mReadAdapter.addData(listIndex, bookSectionContent);
                             }
                             if (isOpen) {
-                                getView().openSection(listIndex);
+                                getView().openSection(listIndex,mBookTb.getLatestReadSectionId()==mSectionId?mBookTb.getLatestReadPage():0);
                             }
 
                         }
@@ -148,7 +148,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 loadSectionContent(sectionIndex, sectionId, isOpen);
             } else {
                 if (mReadAdapter != null && isViewAttached()) {
-                    getView().openSection(indexOfSectionList);
+                    getView().openSection(indexOfSectionList,0);
                 }
             }
         }
@@ -181,7 +181,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         } else {
             isFirstChapterChange = false;
         }
-
+        mBookTb.setLatestReadSection(mSectionIndex);
+        mBookTb.setLatestReadSectionId(mSectionId);
+        DBManger.getInstance().updateBookTb(mBookTb);
     }
 
     @Override
@@ -191,7 +193,8 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
 
     @Override
     public void onPageChange(int pos) {
-
+        mBookTb.setLatestReadPage(pos);
+        DBManger.getInstance().updateBookTb(mBookTb);
     }
 
     private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {

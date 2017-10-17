@@ -398,9 +398,13 @@ public class PageView extends View {
     }
 
     public void openSection(int section) {
+       openSection(section,0);
+    }
+
+    public void openSection(int section,int page) {
         mStartSection = section;
         if (isPrepare) {
-            mPageLoader.openChapter(section);
+            mPageLoader.openChapter(section,page);
         }
     }
 
