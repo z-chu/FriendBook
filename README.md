@@ -1,9 +1,9 @@
 # FriendBook
 :closed_book: "友书" 小说阅读app
 
-<img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-15-46-52.png" width="200"><img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-01-48.png" width="200"> <img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-19-44.png" width="200">  <img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-12-31.png" width="200"> 
+<img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot1.png?raw=true" width="200"><img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot2.png?raw=true" width="200"> <img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot3.png?raw=true" width="200">  <img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot4.png?raw=true" width="200"> 
 
-<img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-13-04.png" width="200"> <img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-13-58.png" width="200"><img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-17-10-12-41.png" width="200"><img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-17-10-12-31.png" width="200"><img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-15-47-04.png" width="200"><img src="http://7xq7yd.com1.z0.glb.clouddn.com/Screenshot_2017-10-16-14-19-19.png" width="200">
+<img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot5.png?raw=true" width="200"> <img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot6.png?raw=true" width="200"><img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot7.png?raw=true" width="200"><img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot8.png?raw=true" width="200"><img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot9.png?raw=true" width="200"><img src="https://github.com/z-chu/FriendBook/blob/master/screenshots/Screenshot10.png?raw=true" width="200">
 
 ## TODO List
 * [ ] 书签功能
