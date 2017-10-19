@@ -140,7 +140,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
         //设置当前Activity的Bright
         if (ReaderSettingManager.getInstance().isBrightnessAuto()) {
-            BrightnessUtils.setBrightness(this, BrightnessUtils.getScreenBrightness(this));
+            BrightnessUtils.setUseSystemBrightness(this);
         } else {
             BrightnessUtils.setBrightness(this, ReaderSettingManager.getInstance().getBrightness());
         }
