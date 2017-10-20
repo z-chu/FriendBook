@@ -139,7 +139,7 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
         if (bookTbs.size() == 1) {
             BookTb bookTb = bookTbs.get(0);
             DBManger.getInstance().deleteBookTb(bookTb);
-            mAdapter.remove(bookTbs.indexOf(bookTb));
+            mAdapter.remove(mAdapter.getData().indexOf(bookTb));
         } else {
             DBManger.getInstance().deleteBookTbs(bookTbs);
             mAdapter.getData().removeAll(bookTbs);
