@@ -81,8 +81,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
 
     @Override
     public void saveReadLocation() {
-        mBookTb.setLatestReadTimestamp(System.currentTimeMillis()); //更新最后一次的阅读时间
-        mBookTb.setReadNumber(mBookTb.getReadNumber() + 1); //更新阅读次数
+
         mBookTb.setLatestReadSection(mSectionIndex);
         mBookTb.setLatestReadSectionId(mSectionId);
         DBManger.getInstance().updateBookTb(mBookTb);

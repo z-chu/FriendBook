@@ -11,6 +11,7 @@ import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.data.prefs.PreferencesHelper;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
+import com.youshibi.app.event.BookcaseRefreshEvent;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 
@@ -63,6 +64,17 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
                     }
                 });
         addSubscription2Destroy(subscribe);
+        addSubscription2Destroy(
+                RxBus
+                        .getDefault()
+                        .toObservable(BookcaseRefreshEvent.class)
+                        .subscribe(new SimpleSubscriber<BookcaseRefreshEvent>() {
+                            @Override
+                            public void onNext(BookcaseRefreshEvent event) {
+                                loadData(true);
+                            }
+                        })
+        );
     }
 
     @Override
@@ -113,7 +125,7 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
                     public void run() {
                         getView().startDrag(position);
                     }
-                },200);
+                }, 200);
                 if (bookcaseAdapter.startEdit()) {
                     getView().showEditMode();
                     bookcaseAdapter.selectedItem(position);
