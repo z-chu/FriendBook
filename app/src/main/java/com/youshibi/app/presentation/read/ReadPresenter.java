@@ -10,6 +10,8 @@ import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.db.table.BookTb;
+import com.youshibi.app.event.BookcaseRefreshEvent;
+import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
@@ -50,12 +52,22 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private void loadSectionList() {
         DataManager
                 .getInstance()
-                .getBookSectionList(mBookId, true)
+                .getBookSectionList(mBookId, true, null, null, mBookTb.getHasUpdate())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
                     @Override
                     public void onNext(List<BookSectionItem> bookSectionItems) {
+
+                        if (DBManger.getInstance().hasBookTb(mBookTb.getId())) {
+                            mBookTb.setLatestReadTimestamp(System.currentTimeMillis()); //更新最后一次的阅读时间
+                            mBookTb.setReadNumber(mBookTb.getReadNumber() + 1); //更新阅读次数
+                            if (mBookTb.getHasUpdate()) {
+                                mBookTb.setHasUpdate(false);
+                            }
+                            DBManger.getInstance().updateBookTb(mBookTb);
+                            RxBus.getDefault().post(new BookcaseRefreshEvent());
+                        }
                         if (isViewAttached()) {
                             getView().setSectionListAdapter(createBookSectionAdapter(bookSectionItems));
                         }
@@ -128,7 +140,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                                 mReadAdapter.addData(listIndex, bookSectionContent);
                             }
                             if (isOpen) {
-                                getView().openSection(listIndex,mBookTb.getLatestReadSectionId()==mSectionId?mBookTb.getLatestReadPage():0);
+                                getView().openSection(listIndex, mBookTb.getLatestReadSectionId() == mSectionId ? mBookTb.getLatestReadPage() : 0);
                             }
 
                         }
@@ -147,7 +159,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 loadSectionContent(sectionIndex, sectionId, isOpen);
             } else {
                 if (mReadAdapter != null && isViewAttached()) {
-                    getView().openSection(indexOfSectionList,0);
+                    getView().openSection(indexOfSectionList, 0);
                 }
             }
         }

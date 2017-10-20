@@ -16,7 +16,7 @@ public class BookDetail {
     private int chapterCount;
 
     @SerializedName("last_chapter")
-    private LatestChapter latestChapter;
+    private BookChapter latestChapter;
 
     public Book getBook() {
         return book;
@@ -34,11 +34,11 @@ public class BookDetail {
         this.chapterCount = chapterCount;
     }
 
-    public LatestChapter getLatestChapter() {
+    public BookChapter getLatestChapter() {
         return latestChapter;
     }
 
-    public void setLatestChapter(LatestChapter latestChapter) {
+    public void setLatestChapter(BookChapter latestChapter) {
         this.latestChapter = latestChapter;
     }
 

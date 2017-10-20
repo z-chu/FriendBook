@@ -8,6 +8,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.base.BaseListPresenter;
 import com.youshibi.app.data.DBManger;
+import com.youshibi.app.data.DataManager;
+import com.youshibi.app.data.bean.LatestChapter;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.data.prefs.PreferencesHelper;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
@@ -15,11 +17,14 @@ import com.youshibi.app.event.BookcaseRefreshEvent;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Chu on 2016/12/3.
@@ -77,6 +82,43 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
         );
     }
 
+    private void loadLatestChapter() {
+        List<BookTb> data = mAdapter.getData();
+        final HashMap<String, BookTb> bookTbHashMap = new HashMap<>();
+        if (data.size() > 0) {
+            ArrayList<String> bookIds = new ArrayList<>();
+            for (BookTb bookTb : data) {
+                bookIds.add(bookTb.getId());
+                bookTbHashMap.put(bookTb.getId(), bookTb);
+            }
+            Subscription subscribe = DataManager
+                    .getInstance()
+                    .getLatestChapter(bookIds)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SimpleSubscriber<List<LatestChapter>>() {
+                        @Override
+                        public void onNext(List<LatestChapter> latestChapter) {
+                            boolean hasUpdate=false;
+                            for (LatestChapter chapter : latestChapter) {
+                                BookTb bookTb = bookTbHashMap.get(chapter.getBookId());
+                                Integer sectionCount = bookTb.getSectionCount();
+                                if(sectionCount!=null&&chapter.getChapterCount()>sectionCount){
+                                    bookTb.setHasUpdate(true);
+                                    DBManger.getInstance().updateBookTb(bookTb);
+                                    hasUpdate=true;
+                                }
+                            }
+                            if(hasUpdate){
+                                loadData(true);
+                            }
+                        }
+                    });
+            addSubscription2Destroy(subscribe);
+
+        }
+    }
+
     @Override
     protected Observable<List<BookTb>> doLoadData(boolean isRefresh, int page, int size) {
         Observable<List<BookTb>> listObservable;
@@ -98,6 +140,14 @@ public class BookcasePresenter extends BaseListPresenter<BookcaseContract.View, 
         }
         return listObservable
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    protected void onLoadDataSucceed(List<BookTb> data, boolean isRefresh) {
+        super.onLoadDataSucceed(data, isRefresh);
+        if (!isRefresh) {
+            loadLatestChapter();
+        }
     }
 
     @Override

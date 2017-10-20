@@ -10,7 +10,7 @@ ext {
             targetSdk        : 26,
             version_code     : 6,
             version_name     : "v0.3.1",
-            greendaoSchemaVersion: 8,
+            greendaoSchemaVersion: 9,
     ]
 
     //对一些库的版本进行统一管理

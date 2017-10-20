@@ -21,6 +21,7 @@ public class DataConvertUtil {
         bookTb.setDescribe(book.getDescribe());
         bookTb.setIsFinished(book.isFinished());
         bookTb.setName(book.getName());
+        bookTb.setSectionCount(book.getChapterCount());
         return bookTb;
     }
 
@@ -31,6 +32,7 @@ public class DataConvertUtil {
         book.setCoverUrl(bookTb.getCoverUrl());
         book.setDescribe(bookTb.getDescribe());
         book.setFinished(bookTb.getIsFinished());
+        book.setChapterCount(bookTb.getSectionCount());
         book.setName(bookTb.getName());
         return book;
     }

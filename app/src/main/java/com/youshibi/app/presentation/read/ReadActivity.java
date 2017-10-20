@@ -31,9 +31,7 @@ import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
-import com.youshibi.app.event.BookcaseRefreshEvent;
 import com.youshibi.app.mvp.MvpActivity;
-import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.BrightnessUtils;
@@ -393,18 +391,6 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         } else {
             //书架没有这本书了
             showCollectionDialog();
-        }
-    }
-
-    @Override
-    protected void onWindowFocusFirstObtain() {
-        super.onWindowFocusFirstObtain();
-        if (DBManger.getInstance().hasBookTb(mBookTb.getId())) {
-            mBookTb.setLatestReadTimestamp(System.currentTimeMillis()); //更新最后一次的阅读时间
-            mBookTb.setReadNumber(mBookTb.getReadNumber() + 1); //更新阅读次数
-            DBManger.getInstance().updateBookTb(mBookTb);
-            //书架已经有这本书了
-            RxBus.getDefault().post(new BookcaseRefreshEvent());
         }
     }
 

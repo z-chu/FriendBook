@@ -38,6 +38,7 @@ public class BookcaseAdapter extends CommonItemDraggableAdapter<BookTb> {
         helper.addOnLongClickListener(R.id.iv_cover);
         helper.setSelected(R.id.iv_selected, selectedBookTbs.contains(item));
         helper.setGone(R.id.iv_selected, isEditing);
+        helper.setGone(R.id.tv_updated,item.getHasUpdate());
         ((MaskableImageView) helper.getView(R.id.iv_cover)).setEnabledMaskable(!isEditing);
     }
 

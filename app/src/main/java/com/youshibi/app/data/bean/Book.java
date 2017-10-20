@@ -64,6 +64,9 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("create_time")
     private String createDateTime;
 
+    @SerializedName("chapter_count")
+    private Integer chapterCount;
+
 
     public String getId() {
         return id;
@@ -168,6 +171,14 @@ public class Book implements Serializable, Parcelable {
 
     public void setCreateDateTime(String createDateTime) {
         this.createDateTime = createDateTime;
+    }
+
+    public Integer getChapterCount() {
+        return chapterCount;
+    }
+
+    public void setChapterCount(Integer chapterCount) {
+        this.chapterCount = chapterCount;
     }
 
     public Book() {

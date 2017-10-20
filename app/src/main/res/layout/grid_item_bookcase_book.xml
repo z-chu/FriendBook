@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12.0dp"
-                android:layout_marginTop="4.0dp"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12.0dp"
+    android:layout_marginTop="4.0dp"
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.CardView
@@ -25,7 +25,22 @@
             android:layout_height="120dp"
             android:clickable="true"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_book_cover_default"/>
+            tools:src="@drawable/ic_book_cover_default" />
+
+        <TextView
+            android:id="@+id/tv_updated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_bookcase_updated"
+            android:gravity="center_vertical"
+            android:paddingLeft="7dp"
+            android:paddingTop="1dp"
+            android:text="更新"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_micro"
+            android:visibility="gone"
+            tools:visibility="visible" />
     </android.support.v7.widget.CardView>
 
     <TextView
@@ -40,7 +55,7 @@
         android:maxLines="2"
         android:textColor="@color/textPrimary"
         android:textSize="@dimen/text_size_small"
-        tools:text="资生堂 安热沙 asd阿达达阿达达"/>
+        tools:text="资生堂 安热沙 asd阿达达阿达达" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_selected"
@@ -51,6 +66,6 @@
         android:elevation="8dp"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_bookcase_checkbox"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 </RelativeLayout>

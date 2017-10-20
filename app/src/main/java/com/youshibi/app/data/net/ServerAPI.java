@@ -44,7 +44,7 @@ public interface ServerAPI {
      * 书籍最新章节信息
      */
     @POST("v1/books/latest-chapter")
-    Observable<HttpResult<LatestChapter>> getLatestChapter(@Body List<String> bookIds);
+    Observable<HttpResult<List<LatestChapter>>> getLatestChapter(@Body List<String> bookIds);
 
     /**
      * 搜索小说

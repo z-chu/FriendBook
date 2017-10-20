@@ -4,6 +4,7 @@ package com.youshibi.app.data;
 import com.google.gson.reflect.TypeToken;
 import com.youshibi.app.AppContext;
 import com.youshibi.app.BuildConfig;
+import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.bean.BookDetail;
 import com.youshibi.app.data.bean.BookSectionContent;
@@ -11,7 +12,6 @@ import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
-import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.bean.LatestChapter;
 import com.youshibi.app.data.net.RequestClient;
 import com.youshibi.app.rx.HttpResultFunc;
@@ -21,6 +21,7 @@ import com.zchu.rxcache.data.CacheResult;
 import com.zchu.rxcache.diskconverter.GsonDiskConverter;
 import com.zchu.rxcache.stategy.BaseStrategy;
 import com.zchu.rxcache.stategy.CacheStrategy;
+import com.zchu.rxcache.stategy.IStrategy;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -155,24 +156,7 @@ public class DataManager {
      */
     public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
                                                                 boolean isOrderByAsc) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        if (isOrderByAsc) {
-            hashMap.put("order", "asc");
-        } else {
-            hashMap.put("order", "desc");
-        }
-        return RequestClient
-                .getServerAPI()
-                .getBookSectionList(bookId, hashMap)
-                .map(new HttpResultFunc<List<BookSectionItem>>())
-                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc, new TypeToken<List<BookSectionItem>>() {
-                }.getType(), CacheStrategy.firstCache()))
-                .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
-                    @Override
-                    public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
-                        return listCacheResult.getData();
-                    }
-                });
+        return getBookSectionList(bookId, isOrderByAsc, null, null);
     }
 
     /**
@@ -182,22 +166,40 @@ public class DataManager {
      * @param isOrderByAsc 是否升序排序
      */
     public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
-                                                                boolean isOrderByAsc, int page, int size) {
+                                                                boolean isOrderByAsc, Integer page, Integer size) {
+        return getBookSectionList(bookId, isOrderByAsc, page, size, false);
+    }
+
+    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
+                                                                boolean isOrderByAsc,
+                                                                Integer page,
+                                                                Integer size,
+                                                                boolean updated) {
         HashMap<String, Object> hashMap = new HashMap<>();
         if (isOrderByAsc) {
             hashMap.put("order", "asc");
         } else {
             hashMap.put("order", "desc");
         }
-        hashMap.put("page_index", page);
-        hashMap.put("page_size", size);
+        if (page != null) {
+            hashMap.put("page_index", page);
+        }
+        if (size != null) {
+            hashMap.put("page_size", size);
+        }
+        IStrategy iStrategy;
+        if (updated) {
+            iStrategy = CacheStrategy.firstRemote();
+        } else {
+            iStrategy = CacheStrategy.firstCache();
+        }
         return RequestClient
                 .getServerAPI()
                 .getBookSectionList(bookId, hashMap)
                 .map(new HttpResultFunc<List<BookSectionItem>>())
                 .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc + page + size,
                         new TypeToken<List<BookSectionItem>>() {
-                        }.getType(), CacheStrategy.firstCache()))
+                        }.getType(), iStrategy))
                 .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
                     @Override
                     public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
@@ -205,6 +207,7 @@ public class DataManager {
                     }
                 });
     }
+
 
     /**
      * 获取小说章节中的内容
@@ -315,10 +318,10 @@ public class DataManager {
     /**
      * 获取最新章节
      */
-    public Observable<LatestChapter> getLatestChapter(List<String> bookIds) {
+    public Observable<List<LatestChapter>> getLatestChapter(List<String> bookIds) {
         return RequestClient
-                        .getServerAPI()
-                        .getLatestChapter(bookIds)
-                        .map(new HttpResultFunc<LatestChapter>());
+                .getServerAPI()
+                .getLatestChapter(bookIds)
+                .map(new HttpResultFunc<List<LatestChapter>>());
     }
 }

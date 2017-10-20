@@ -42,7 +42,13 @@ public class BookTb implements Parcelable {
 
     private boolean hasUpdate;//是否有新的更新
 
+    private Integer sectionCount;
+
     private int sort; //保存自定义排序的顺序
+
+    private long createTimestamp;
+
+    private long updateTimestamp;
 
     /**
      * Used to resolve relations
@@ -57,11 +63,12 @@ public class BookTb implements Parcelable {
     private transient BookTbDao myDao;
 
 
-    @Generated(hash = 1320020821)
+    @Generated(hash = 710856636)
     public BookTb(String id, String name, String coverUrl, String describe, String author,
             boolean isFinished, int readNumber, long latestReadTimestamp,
             Integer latestReadSection, String latestReadSectionId, int latestReadPage,
-            boolean hasUpdate, int sort) {
+            boolean hasUpdate, Integer sectionCount, int sort, long createTimestamp,
+            long updateTimestamp) {
         this.id = id;
         this.name = name;
         this.coverUrl = coverUrl;
@@ -74,7 +81,10 @@ public class BookTb implements Parcelable {
         this.latestReadSectionId = latestReadSectionId;
         this.latestReadPage = latestReadPage;
         this.hasUpdate = hasUpdate;
+        this.sectionCount = sectionCount;
         this.sort = sort;
+        this.createTimestamp = createTimestamp;
+        this.updateTimestamp = updateTimestamp;
     }
 
     @Generated(hash = 1469509304)
@@ -242,6 +252,30 @@ public class BookTb implements Parcelable {
         dest.writeInt(this.latestReadPage);
         dest.writeByte(this.hasUpdate ? (byte) 1 : (byte) 0);
         dest.writeInt(this.sort);
+    }
+
+    public Integer getSectionCount() {
+        return this.sectionCount;
+    }
+
+    public void setSectionCount(Integer sectionCount) {
+        this.sectionCount = sectionCount;
+    }
+
+    public long getCreateTimestamp() {
+        return this.createTimestamp;
+    }
+
+    public void setCreateTimestamp(long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public long getUpdateTimestamp() {
+        return this.updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(long updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
     }
 
     /** called by internal mechanisms, do not call yourself. */

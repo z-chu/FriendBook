@@ -4,60 +4,42 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * author : zchu
- * date   : 2017/9/20
+ * date   : 2017/10/20
  * desc   :
  */
 
 public class LatestChapter {
 
-    /**
-     * chapter_id : d6771dd9-05da-4aa6-9344-0017ee8623cf
-     * chapter_index : 3127
-     * chapter_name : 第3119章 岂不是又纠缠不清了？
-     * create_time : 2017-04-02T10:51:45.367
-     */
+    @SerializedName("book_id")
+    private String bookId;
 
-    @SerializedName("chapter_id")
-    private String chapterId;
+    @SerializedName("chapter_count")
+    private int chapterCount;
 
-    @SerializedName("chapter_index")
-    private int chapterIndex;
+    @SerializedName("last_chapter")
+    private BookChapter latestChapter;
 
-    @SerializedName("chapter_name")
-    private String chapterName;
-
-    @SerializedName("create_time")
-    private String createTime;
-
-    public String getChapterId() {
-        return chapterId;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setChapterId(String chapterId) {
-        this.chapterId = chapterId;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
-    public int getChapterIndex() {
-        return chapterIndex;
+    public int getChapterCount() {
+        return chapterCount;
     }
 
-    public void setChapterIndex(int chapterIndex) {
-        this.chapterIndex = chapterIndex;
+    public void setChapterCount(int chapterCount) {
+        this.chapterCount = chapterCount;
     }
 
-    public String getChapterName() {
-        return chapterName;
+    public BookChapter getLatestChapter() {
+        return latestChapter;
     }
 
-    public void setChapterName(String chapterName) {
-        this.chapterName = chapterName;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setLatestChapter(BookChapter latestChapter) {
+        this.latestChapter = latestChapter;
     }
 }
