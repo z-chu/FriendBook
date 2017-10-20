@@ -22,7 +22,7 @@
             android:background="@drawable/bg_label_normal"
             android:gravity="center"
             android:text="精华"
-            android:textColor="@color/label_text"
+            android:textColor="@color/color_label_text"
             android:textSize="12sp" />
 
         <ImageView

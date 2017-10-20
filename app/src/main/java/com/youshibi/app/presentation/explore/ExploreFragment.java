@@ -97,9 +97,9 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            MobclickAgent.onPageEnd(getClass().getPackage().getName()+".ExploreFragment");
+            MobclickAgent.onPageEnd(getClass().getPackage().getName() + ".ExploreFragment");
         } else {
-            MobclickAgent.onPageStart(getClass().getPackage().getName()+".ExploreFragment");
+            MobclickAgent.onPageStart(getClass().getPackage().getName() + ".ExploreFragment");
         }
     }
 
@@ -138,9 +138,9 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
                 AppRouter.showSearchActivity(ExploreFragment.this.getContext());
                 break;
             case R.id.fl_action:
-                if(ivBookTypeMore.getVisibility()==View.VISIBLE) {
+                if (ivBookTypeMore.getVisibility() == View.VISIBLE) {
                     getPresenter().openBookTypeSelection(getContext());
-                }else if(ivBookTypeRetry.getVisibility()==View.VISIBLE){
+                } else if (ivBookTypeRetry.getVisibility() == View.VISIBLE) {
                     getPresenter().loadData();
                 }
                 break;
@@ -150,17 +150,35 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
 
     @Override
     public void setTabContent(@NonNull Fragment[] fragments, @NonNull String[] titles) {
-        if(viewPager.getAdapter()==null) {
+        if (viewPager.getAdapter() == null) {
             BaseFragmentAdapter adapter = new BaseFragmentAdapter(getChildFragmentManager());
             adapter.setFragmentPages(fragments);
             adapter.setPageTitles(titles);
             setAdapter(adapter);
-        }else{
+        } else {
             BaseFragmentAdapter adapter = (BaseFragmentAdapter) viewPager.getAdapter();
             adapter.setFragmentPages(fragments);
             adapter.setPageTitles(titles);
-            viewPager.setOffscreenPageLimit(adapter.getCount()-1);
+            viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void setSelectedTab(String title) {
+        BaseFragmentAdapter adapter = (BaseFragmentAdapter) viewPager.getAdapter();
+        String[] pageTitles = adapter.getPageTitles();
+        for (int i = 0; i < pageTitles.length; i++) {
+            if (pageTitles[i].equals(title)) {
+                viewPager.setCurrentItem(i, false);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public String getSelectedTab() {
+        BaseFragmentAdapter adapter = (BaseFragmentAdapter) viewPager.getAdapter();
+        return adapter.getPageTitles()[viewPager.getCurrentItem()];
     }
 }

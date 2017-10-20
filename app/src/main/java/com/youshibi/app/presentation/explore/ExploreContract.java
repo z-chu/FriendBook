@@ -17,6 +17,10 @@ public interface ExploreContract {
 
         void setTabContent(@NonNull Fragment[] fragments, @NonNull String[] titles);
 
+        void setSelectedTab(String title);
+
+        String getSelectedTab();
+
     }
 
     interface Presenter extends MvpPresenter<View> {

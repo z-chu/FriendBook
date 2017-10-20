@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseActivity;
@@ -13,8 +14,11 @@ import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.zchu.labelselection.Label;
 import com.zchu.labelselection.LabelSelectionFragment;
+import com.zchu.labelselection.LabelSelectionItem;
 import com.zchu.labelselection.OnEditFinishListener;
+import com.zchu.labelselection.OnLabelClickListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -28,16 +32,22 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
     private static final String EXTRA_SELECTED_LABELS = "selected_labels";
     private static final String EXTRA_ALWAY_SELECTED_LABELS = "alway_selected_labels";
     private static final String EXTRA_UNSELECTED_LABELS = "unselected_labels";
+    private static final String EXTRA_SELECTED_NAME = "selected_name";
 
     private LabelSelectionFragment labelSelectionFragment;
     private ArrayList<Label> selectedLabels, unselectedLabels;
     private ArrayList<Channel> alwaysSelectedBookTypes;
+    private ArrayList<Channel> oldSelectedBookTypes;
 
-    public static Intent newIntent(Context context, ArrayList<Channel> selectedLabels, ArrayList<Channel> unselectedLabels, ArrayList<Channel> alwaySelectedLabels) {
+    public static Intent newIntent(Context context, ArrayList<Channel> selectedLabels,
+                                   ArrayList<Channel> unselectedLabels,
+                                   ArrayList<Channel> alwaySelectedLabels,
+                                   String selectedName) {
         Intent intent = new Intent(context, BookTypeSelectionActivity.class);
         intent.putExtra(EXTRA_SELECTED_LABELS, selectedLabels);
         intent.putExtra(EXTRA_UNSELECTED_LABELS, unselectedLabels);
         intent.putExtra(EXTRA_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
+        intent.putExtra(EXTRA_SELECTED_NAME, selectedName);
         return intent;
     }
 
@@ -59,6 +69,7 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
 
         //创建默认选择标签
         ArrayList<Channel> selectedBookTypes = (ArrayList<Channel>) getIntent().getSerializableExtra(EXTRA_SELECTED_LABELS);
+        oldSelectedBookTypes = selectedBookTypes;
         ArrayList<Label> selectedLabels = null;
         if (selectedBookTypes != null && selectedBookTypes.size() > 0) {
             selectedLabels = new ArrayList<>();
@@ -77,11 +88,33 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
             }
         }
         //创建LabelSelectionFragment绑定到你的Activity即可
-        labelSelectionFragment = LabelSelectionFragment.newInstance(selectedLabels, unselectedLabels, alwaySelectedLabels);
+        labelSelectionFragment = LabelSelectionFragment.newInstance(selectedLabels,
+                unselectedLabels,
+                alwaySelectedLabels,
+                getIntent().getStringExtra(EXTRA_SELECTED_NAME)
+        );
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.content_view, labelSelectionFragment)
                 .commit();
+        labelSelectionFragment.setOnLabelClickListener(new OnLabelClickListener() {
+            @Override
+            public void onLabelClick(View view, final LabelSelectionItem item) {
+                notifyDataSetChanged();
+                Serializable data = item.getLabel().getData();
+                if (oldSelectedBookTypes.contains(data) || alwaysSelectedBookTypes.contains(data)) {
+                    RxBus.getDefault().post(new OnChannelClickEvent((Channel) item.getLabel().getData()));
+                } else {
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            RxBus.getDefault().post(new OnChannelClickEvent((Channel) item.getLabel().getData()));
+                        }
+                    }, 500);
+                }
+                BookTypeSelectionActivity.super.finish();
+            }
+        });
     }
 
 
@@ -113,23 +146,27 @@ public class BookTypeSelectionActivity extends BaseActivity implements OnEditFin
 
     @Override
     public void finish() {
-        ArrayList<Channel> selectedBookTypes=null;
+        notifyDataSetChanged();
+        super.finish();
+    }
+
+    private void notifyDataSetChanged() {
+        ArrayList<Channel> selectedBookTypes = null;
         if (selectedLabels != null) {
             selectedBookTypes = new ArrayList<>();
             for (Label selectedLabel : selectedLabels) {
                 selectedBookTypes.add((Channel) selectedLabel.getData());
             }
         }
-        ArrayList<Channel> unselectedBookTypes=null;
+        ArrayList<Channel> unselectedBookTypes = null;
         if (unselectedLabels != null) {
             unselectedBookTypes = new ArrayList<>();
             for (Label selectedLabel : unselectedLabels) {
                 unselectedBookTypes.add((Channel) selectedLabel.getData());
             }
         }
-        if(selectedBookTypes!=null||unselectedBookTypes!=null){
-            RxBus.getDefault().post(new OnSelectionEditFinishEvent(selectedBookTypes,unselectedBookTypes,alwaysSelectedBookTypes));
+        if (selectedBookTypes != null || unselectedBookTypes != null) {
+            RxBus.getDefault().post(new OnSelectionEditFinishEvent(selectedBookTypes, unselectedBookTypes, alwaysSelectedBookTypes));
         }
-        super.finish();
     }
 }

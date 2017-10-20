@@ -24,21 +24,18 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
     private static final String BUNDLE_SELECTED_LABELS = "selected_labels";
     private static final String BUNDLE_ALWAY_SELECTED_LABELS = "alway_selected_labels";
     private static final String BUNDLE_UNSELECTED_LABELS = "unselected_labels";
+    private static final String BUNDLE_SELECTED_NAME = "selected_name";
 
 
     private RecyclerView mRecyclerView;
     private LabelSelectionAdapter mLabelSelectionAdapter;
     private ItemTouchHelper mHelper;
     private OnEditFinishListener mOnEditFinishListener;
+    private OnLabelClickListener onLabelClickListener;
 
     public static LabelSelectionFragment newInstance(ArrayList<Label> selectedLabels, ArrayList<Label> unselectedLabels) {
 
-        Bundle args = new Bundle();
-        args.putSerializable(BUNDLE_SELECTED_LABELS, selectedLabels);
-        args.putSerializable(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
-        LabelSelectionFragment fragment = new LabelSelectionFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return newInstance(selectedLabels, unselectedLabels, null);
     }
 
     public static LabelSelectionFragment newInstance(ArrayList<Label> selectedLabels, ArrayList<Label> unselectedLabels, ArrayList<Label> alwaySelectedLabels) {
@@ -47,6 +44,21 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
         args.putSerializable(BUNDLE_SELECTED_LABELS, selectedLabels);
         args.putSerializable(BUNDLE_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
         args.putSerializable(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
+        LabelSelectionFragment fragment = new LabelSelectionFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static LabelSelectionFragment newInstance(ArrayList<Label> selectedLabels,
+                                                     ArrayList<Label> unselectedLabels,
+                                                     ArrayList<Label> alwaySelectedLabels,
+                                                     String selectedName) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(BUNDLE_SELECTED_LABELS, selectedLabels);
+        args.putSerializable(BUNDLE_ALWAY_SELECTED_LABELS, alwaySelectedLabels);
+        args.putSerializable(BUNDLE_UNSELECTED_LABELS, unselectedLabels);
+        args.putString(BUNDLE_SELECTED_NAME, selectedName);
         LabelSelectionFragment fragment = new LabelSelectionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -105,6 +117,8 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
                 }
             }
             mLabelSelectionAdapter = new LabelSelectionAdapter(labelSelectionItems);
+            mLabelSelectionAdapter.setSelectedName(getArguments().getString(BUNDLE_SELECTED_NAME));
+            mLabelSelectionAdapter.setOnLabelClickListener(onLabelClickListener);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4);
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
@@ -145,6 +159,13 @@ public class LabelSelectionFragment extends Fragment implements OnItemDragListen
 
     public boolean cancelEdit() {
         return mLabelSelectionAdapter.cancelEdit();
+    }
+
+    public void setOnLabelClickListener(OnLabelClickListener onLabelClickListener) {
+        this.onLabelClickListener = onLabelClickListener;
+        if (mLabelSelectionAdapter != null) {
+            mLabelSelectionAdapter.setOnLabelClickListener(onLabelClickListener);
+        }
     }
 
 

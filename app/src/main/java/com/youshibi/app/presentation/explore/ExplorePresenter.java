@@ -128,7 +128,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                     Fragment fragment = fragmentHashMap.get(channel);
                     if (fragment == null) {
                         fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
-                        fragmentHashMap.put(channel,fragments[i]);
+                        fragmentHashMap.put(channel, fragments[i]);
                     } else {
                         fragments[i] = fragment;
                     }
@@ -173,7 +173,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                                 Fragment fragment = fragmentHashMap.get(channel);
                                 if (fragment == null) {
                                     fragments[i] = BookFragment.newInstance(channel.getChannelType(), channel.getChannelId());
-                                    fragmentHashMap.put(channel,fragments[i]);
+                                    fragmentHashMap.put(channel, fragments[i]);
                                 } else {
                                     fragments[i] = fragment;
                                 }
@@ -189,13 +189,27 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                     }
                 });
         addSubscription2Destroy(subscribe);
+        addSubscription2Destroy(
+                RxBus
+                        .getDefault()
+                        .toObservable(OnChannelClickEvent.class)
+                        .subscribe(new SimpleSubscriber<OnChannelClickEvent>() {
+                            @Override
+                            public void onNext(OnChannelClickEvent onChannelClickEvent) {
+                                if (isViewAttached()) {
+                                    getView().setSelectedTab(onChannelClickEvent.channel.getChannelName());
+                                }
+                            }
+                        })
+        );
 
     }
 
     @Override
     public void openBookTypeSelection(Context context) {
         Intent intent = BookTypeSelectionActivity
-                .newIntent(context, mCommonSelectedChannels, mUnselectedChannels, mAlwaysSelectedChannels);
+                .newIntent(context, mCommonSelectedChannels, mUnselectedChannels,
+                        mAlwaysSelectedChannels, getView().getSelectedTab());
         context.startActivity(intent);
     }
 }
