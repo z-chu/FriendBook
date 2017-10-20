@@ -53,5 +53,6 @@
     <string name="book_create_date_copyright">上架时间：</string>
     <string name="word_count_copyright">字数：</string>
     <string name="more_book_info">小说更多信息</string>
+    <string name="developing">程序员哥哥正在奋力开发中</string>
 
 </resources>

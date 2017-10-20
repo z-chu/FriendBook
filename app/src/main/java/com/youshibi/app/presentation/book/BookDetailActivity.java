@@ -80,7 +80,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         tvUpdateTime = findViewById(R.id.tv_update_time);
         rvRecommendBook = findViewById(R.id.rv_recommend_book);
         rvRecommendBook.setNestedScrollingEnabled(false);
-        bindOnClickLister(this, R.id.fl_add_bookcase, R.id.fl_open_book, R.id.ll_book_detail_catalog);
+        bindOnClickLister(this, R.id.fl_add_bookcase,R.id.fl_download_book, R.id.fl_open_book, R.id.ll_book_detail_catalog);
         initDisplay();
 
     }
@@ -182,7 +182,7 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
                 ToastUtil.showToast("已加入书架");
                 break;
             case R.id.fl_download_book:
-                ToastUtil.showToast("该功能还未实现");
+                ToastUtil.showToast(getString(R.string.developing));
                 break;
             case R.id.ll_book_detail_catalog:
                 if (bookDetail != null) {

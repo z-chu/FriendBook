@@ -7,10 +7,10 @@
         android:title="@string/search"
         app:showAsAction="ifRoom" />
 
-    <item
+ <!--   <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_vector_add"
         android:title="@string/add"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />-->
 
 </menu>
