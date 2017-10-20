@@ -140,13 +140,21 @@ class LabelSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private void bindLabelAlwaySelectedViewHolder(LabelSelectedViewHolder holder, LabelSelectionItem item) {
+    private void bindLabelAlwaySelectedViewHolder(LabelSelectedViewHolder holder, final LabelSelectionItem item) {
         if (item.getLabel().getName().equals(selectedName)) {
             holder.tvName.setSelected(true);
         } else {
             holder.tvName.setSelected(false);
         }
         holder.tvName.setText(item.getLabel().getName());
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onLabelClickListener != null) {
+                    onLabelClickListener.onLabelClick(view, item);
+                }
+            }
+        });
         if (isEditing) {
             holder.tvName.setBackgroundDrawable(null);
         } else {
