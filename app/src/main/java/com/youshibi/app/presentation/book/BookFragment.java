@@ -54,6 +54,15 @@ public class BookFragment extends BaseListFragment<BaseListContract.Presenter> {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
                     layoutParams.topMargin = -getResources().getDimensionPixelSize(R.dimen.bottom_navigation_height);
                     view.requestLayout();
+                     view
+                             .findViewById(R.id.reload_view)
+                             .setOnClickListener(new View.OnClickListener() {
+                                 @Override
+                                 public void onClick(View view) {
+                                     onRetry(view);
+                                 }
+                             });
+
                 }
             });
             this.view = view;
