@@ -19,7 +19,6 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="@dimen/elevation_app_bar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -32,7 +31,7 @@
                 app:expandedTitleMarginStart="114dp"
                 app:expandedTitleMarginTop="66dp"
                 app:expandedTitleTextAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <include layout="@layout/layout_book_detail_header" />
 
@@ -49,7 +48,8 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="@drawable/bottom_shadow"
+            android:foreground="@drawable/header_shadow"
+            android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

@@ -37,8 +37,8 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
-        <activity android:name=".presentation.book.BookDetailActivity"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".presentation.book.BookDetailActivity" />
         <activity android:name=".presentation.read.ReadActivity" />
         <activity android:name=".presentation.CrashActivity" />
         <activity
@@ -49,8 +49,12 @@
         <activity
             android:name=".presentation.explore.BookTypeSelectionActivity"
             android:theme="@style/AppTheme.Translucent" />
-
         <activity android:name=".presentation.book.BookCatalogActivity" />
+
+
+        <activity
+            android:name=".presentation.AboutActivity"
+            android:label="@string/about_us" />
     </application>
 
 </manifest>

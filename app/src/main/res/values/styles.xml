@@ -8,9 +8,9 @@
         <item name="android:listDivider">@drawable/bg_list_divider</item>
     </style>
 
-    <style name="AppBaseTheme.Translucent"/>
+    <style name="AppBaseTheme.Translucent" />
 
-    <style name="AppBaseTheme.Translucent.StateBar"/>
+    <style name="AppBaseTheme.Translucent.StateBar" />
 
     <!-- 启动界面style -->
     <style name="AppBaseTheme.Launcher" parent="AppBaseTheme.Translucent">
@@ -94,11 +94,11 @@
     </style>
 
 
-    <style name="NB.Theme" parent="AppTheme"/>
+    <style name="NB.Theme" parent="AppTheme" />
 
-    <style name="NB.Theme.TextAppearance"/>
+    <style name="NB.Theme.TextAppearance" />
 
-    <style name="NB.Theme.TextAppearance.Read"/>
+    <style name="NB.Theme.TextAppearance.Read" />
 
     <style name="NB.Theme.TextAppearance.Read.TopMenu">
         <item name="android:layout_width">50dp</item>
@@ -113,9 +113,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="Read"/>
+    <style name="Read" />
 
-    <style name="Read.Setting"/>
+    <style name="Read.Setting" />
 
     <style name="Read.Setting.Button">
         <item name="android:background">@drawable/read_bg_setting_button</item>
@@ -186,7 +186,7 @@
         <item name="android:paddingBottom">18.0dp</item>
     </style>
 
-    <style name="BottomNavigation"/>
+    <style name="BottomNavigation" />
 
     <style name="BottomNavigation.GroupView">
         <item name="android:layout_width">match_parent</item>
@@ -225,5 +225,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="actionMenuTextColor">@color/white</item>
     </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

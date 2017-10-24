@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.pref.AppConfig;
+import com.youshibi.app.presentation.AboutActivity;
 import com.youshibi.app.presentation.CrashActivity;
 import com.youshibi.app.presentation.book.BookCatalogActivity;
 import com.youshibi.app.presentation.book.BookDetailActivity;
@@ -123,6 +124,10 @@ public class AppRouter {
 
     public static void showBookCatalogActivity(Context context, Book book, int sectionCount) {
         context.startActivity(BookCatalogActivity.newIntent(context, book, sectionCount));
+    }
+
+    public static void showAboutActivity(Context context) {
+        context.startActivity(new Intent(context, AboutActivity.class));
     }
 
 }

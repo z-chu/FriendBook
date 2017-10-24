@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/word_count_copyright"
+        android:textColor="@color/textAssist"
         android:textSize="@dimen/text_size_small" />
 
     <TextView
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/book_create_date_copyright"
+        android:textColor="@color/textAssist"
         android:textSize="@dimen/text_size_small" />
 
     <TextView
@@ -38,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="@color/textAssist"
         android:lineSpacingExtra="6dp"
         android:layout_marginBottom="10dp"
         android:text="@string/book_copyright_info"

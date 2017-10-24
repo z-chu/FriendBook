@@ -54,5 +54,32 @@
     <string name="word_count_copyright">字数：</string>
     <string name="more_book_info">小说更多信息</string>
     <string name="developing">程序员哥哥正在奋力开发中</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="about_us">关于友书</string>
+    <string name="app_introduce">友书致力于打造绿色健康、无广告的阅读平台，为广大读者提供优质健康的阅读服务。
+        \n\n数据内容来源于 http://www.laiyoushu.com ，由zchu 完成 Android 端的开发和设计。
+        \n\n项目采用MVP架构，使用流行的RxJava和Retrofit 框架等等，追求每个功能的最佳代码实现。
+        \n\n我的 GitHub: https://github.com/zchu
+        \n\n完全开源，最佳的源代码，最佳的学习软件，如果你觉得不错，可以帮忙分享给你更多的朋友，这是我们最大的动力和支持.</string>
+    <string name="open_source_related">com.android.support:appcompat-v7:
+        \ncom.android.support:recyclerview-v7:26.0.2
+        \ncom.android.support:cardview-v7:26.0.2
+        \ncom.android.support:design:26.0.2
+        \ncom.squareup.okhttp3:okhttp:3.4.2
+        \ncom.squareup.retrofit2:retrofit:2.3.0
+        \ncom.google.code.gson:2.8.0
+        \nio.reactivex:rxjava:1.2.2
+        \ncom.zchu:rxcache:1.2.6
+        \ncom.zchu:zlog:1.0.1
+        \nde.hdodenhof:circleimageview:2.1.0
+        \ncom.gyf.barlibrary:barlibrary:2.2.7
+        \ncom.github.ikidou:FragmentBackHandler:2.1
+        \ncom.github.bumptech.glide:glide:4.1.1
+        \norg.greenrobot:greendao:3.2.2
+        \ncom.squareup.leakcanary:leakcanary-android:1.5
+        \ncom.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="share_text">发现了一款非常好用的小说App「友书小说&amp;laiyoushu.com」，绿色健康、无广告，而且完全开源不收费，实在是太赞了! 推荐~：https://www.pgyer.com/dEbu </string>
 
 </resources>

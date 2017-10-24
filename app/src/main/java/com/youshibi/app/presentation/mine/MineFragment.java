@@ -8,6 +8,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
 import com.youshibi.app.R;
 import com.youshibi.app.base.BaseFragment;
+import com.youshibi.app.util.Shares;
 import com.youshibi.app.util.ToastUtil;
 
 /**
@@ -65,7 +66,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtil.showToast(getString(R.string.developing));
                 break;
             case R.id.mine_app_share:
-                ToastUtil.showToast(getString(R.string.developing));
+                Shares.share(getContext(), R.string.share_text);
                 break;
             case R.id.mine_app_good_reputation:
                 AppRouter.showAppMarket(getContext());
@@ -74,7 +75,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtil.showToast(getString(R.string.developing));
                 break;
             case R.id.mine_app_about:
-                ToastUtil.showToast(getString(R.string.developing));
+                AppRouter.showAboutActivity(getContext());
                 break;
 
         }
