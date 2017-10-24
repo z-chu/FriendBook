@@ -154,7 +154,7 @@ public class ReaderSettingManager {
 
     public int getPageBackground() {
         return mPreferences
-                .getInt(SHARED_READ_PAGE_BACKGROUND, ContextCompat.getColor(sContext, R.color.nb_read_bg_1));
+                .getInt(SHARED_READ_PAGE_BACKGROUND, ContextCompat.getColor(sContext, R.color.read_theme_default_page_background));
     }
 
     public void setPageBackground(int color) {
@@ -166,7 +166,7 @@ public class ReaderSettingManager {
 
 
     public int getTextColor() {
-        return mPreferences.getInt(SHARED_READ_TEXT_COLOR, ContextCompat.getColor(sContext, R.color.nb_read_font_1));
+        return mPreferences.getInt(SHARED_READ_TEXT_COLOR, ContextCompat.getColor(sContext, R.color.read_theme_default_text));
     }
 
     public void setTextColor(int color) {
