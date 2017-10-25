@@ -1,13 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="40dp"
-        android:height="16dp"
-        android:viewportWidth="2709.0"
-        android:viewportHeight="1024.0">
-    <path
-        android:pathData="M2579,1024 L0,1024 0,113.8l2579,0 -254.7,452.6L2579,1024z"
-        android:fillColor="#a0009960"/>
-  <!--  <path
-        android:pathData="M113.8,113.8 L0,113.8 113.8,0 113.8,113.8z"
-        android:fillColor="#009960"/>-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_vector_updated" />
+</selector>
 
-</vector>

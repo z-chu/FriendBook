@@ -89,7 +89,7 @@ public class ReaderSettingManager {
     }
 
     public int getTextSize() {
-        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, DensityUtil.sp2px(AppContext.context(), 15));
+        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, DensityUtil.sp2px(AppContext.context(), 16));
     }
 
 
