@@ -8,8 +8,8 @@ ext {
             compileVersion   : 26,
             minSdk           : 15,
             targetSdk        : 26,
-            version_code     : 7,
-            version_name     : "v0.3.2",
+            version_code     : 8,
+            version_name     : "v0.4.0",
             greendaoSchemaVersion: 9,
     ]
 
