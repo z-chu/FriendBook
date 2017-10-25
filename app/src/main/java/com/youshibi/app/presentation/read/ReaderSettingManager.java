@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 
+import com.youshibi.app.AppContext;
 import com.youshibi.app.R;
+import com.youshibi.app.util.DensityUtil;
 import com.zchu.reader.PageView;
 
 /**
@@ -87,7 +89,7 @@ public class ReaderSettingManager {
     }
 
     public int getTextSize() {
-        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, 40);
+        return mPreferences.getInt(SHARED_READ_TEXT_SIZE, DensityUtil.sp2px(AppContext.context(), 15));
     }
 
 
@@ -136,7 +138,6 @@ public class ReaderSettingManager {
     public int getPageMode() {
         return mPreferences.getInt(SHARED_READ_PAGE_MODE, PageView.PAGE_MODE_COVER);
     }
-
 
 
     public boolean isNightMode() {
