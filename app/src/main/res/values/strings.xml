@@ -61,7 +61,7 @@
         \n\n项目采用MVP架构，使用流行的RxJava和Retrofit 框架等等，追求每个功能的最佳代码实现。
         \n\n我的 GitHub: https://github.com/zchu
         \n\n完全开源，最佳的源代码，最佳的学习软件，如果你觉得不错，可以帮忙分享给你更多的朋友，这是我们最大的动力和支持.</string>
-    <string name="open_source_related">com.android.support:appcompat-v7:
+    <string name="open_source_related">com.android.support:appcompat-v7:26.0.2
         \ncom.android.support:recyclerview-v7:26.0.2
         \ncom.android.support:cardview-v7:26.0.2
         \ncom.android.support:design:26.0.2

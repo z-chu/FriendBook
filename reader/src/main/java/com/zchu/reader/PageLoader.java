@@ -545,7 +545,7 @@ class PageLoader {
             for (int i = 0; i < mCurPage.lines.size(); ++i) {
                 String str = mCurPage.lines.get(i);
                 canvas.drawText(str, mMarginWidth, top, mTextPaint);
-                if (str.endsWith("\n")) {
+                if (str.endsWith("\n")||str.endsWith("\r\n")) {
                     top += (interval + mParagraphSize);
                 } else {
                     top += interval;

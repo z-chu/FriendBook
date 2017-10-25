@@ -19,8 +19,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="24dp"
         android:textSize="@dimen/text_size_large"
-        android:layout_marginTop="8.0dp"
         android:textColor="@color/textSecondary"
-        android:text="友书 v1.0.0" />
+        tools:text="友书 v1.0.0" />
 
 </LinearLayout>
