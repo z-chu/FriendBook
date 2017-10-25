@@ -11,6 +11,7 @@ import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.event.BookcaseRefreshEvent;
+import com.youshibi.app.rx.RetryWithDelay;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
@@ -53,6 +54,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         DataManager
                 .getInstance()
                 .getBookSectionList(mBookId, true, null, null, mBookTb.getHasUpdate())
+                .retryWhen(new RetryWithDelay(3,3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
@@ -77,6 +79,14 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                         } else {
                             BookSectionItem bookSectionItem = bookSectionItems.get(0);
                             doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (isViewAttached()) {
+                            getView().showToast(handleException(e));
                         }
                     }
                 });
@@ -115,6 +125,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         Subscription subscribe = DataManager
                 .getInstance()
                 .getBookSectionContent(mBookId, sectionId, sectionIndex)
+                .retryWhen(new RetryWithDelay(3,3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<BookSectionContent>() {
