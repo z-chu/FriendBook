@@ -27,7 +27,7 @@ public class BookChapter {
     private String chapterName;
 
     @SerializedName("create_time")
-    private String createTime;
+    private long createTime;
 
     public String getChapterId() {
         return chapterId;
@@ -53,11 +53,11 @@ public class BookChapter {
         this.chapterName = chapterName;
     }
 
-    public String getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
 }

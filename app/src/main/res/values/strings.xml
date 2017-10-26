@@ -37,7 +37,7 @@
     <string name="empty_bookcase">多读书，读好书，马上去书城发现好书</string>
     <string name="search_book_edit_hint">搜索在线书城</string>
     <string name="book_detail_download_book">缓存全书</string>
-    <string name="book_detail_open_book">打开试读</string>
+    <string name="book_detail_open_book">免费阅读</string>
     <string name="book_detail_add_bookcase">加入书架</string>
     <string name="select_all">全选</string>
     <string name="deselect_all">取消全选</string>

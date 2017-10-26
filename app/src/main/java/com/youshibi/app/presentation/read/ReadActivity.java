@@ -79,6 +79,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private BottomSheetDialog mReadSettingDialog;
 
     private boolean canTouch = true;
+    private PageLoaderAdapter adapter;
 
     //控制屏幕常亮
     private PowerManager.WakeLock mWakeLock;
@@ -334,10 +335,10 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.read_tv_pre_chapter:
-
+                getPresenter().prevSection();
                 break;
             case R.id.read_tv_next_chapter:
-
+                getPresenter().nextSection();
                 break;
             case R.id.read_tv_category:
                 readDrawer.openDrawer(readSide);
@@ -384,7 +385,10 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     @Override
     public void onBackPressed() {
-
+        if (appBar.getVisibility() == VISIBLE) {
+            toggleMenu(true);
+            return;
+        }
         if (isShowCollectionDialog || DBManger.getInstance().hasBookTb(mBookTb.getId())) {
             //书架已经有这本书了
             super.onBackPressed();

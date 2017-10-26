@@ -11,6 +11,7 @@ import com.youshibi.app.data.bean.BookSectionContent;
 import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.event.BookcaseRefreshEvent;
+import com.youshibi.app.rx.ProgressSubscriber;
 import com.youshibi.app.rx.RetryWithDelay;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
@@ -54,7 +55,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         DataManager
                 .getInstance()
                 .getBookSectionList(mBookId, true, null, null, mBookTb.getHasUpdate())
-                .retryWhen(new RetryWithDelay(3,3000))
+                .retryWhen(new RetryWithDelay(3, 3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
@@ -125,10 +126,15 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         Subscription subscribe = DataManager
                 .getInstance()
                 .getBookSectionContent(mBookId, sectionId, sectionIndex)
-                .retryWhen(new RetryWithDelay(3,3000))
+                .retryWhen(new RetryWithDelay(3, 3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<BookSectionContent>() {
+                .subscribe(new ProgressSubscriber<BookSectionContent>(getView().provideContext()) {
+                    protected void showProgressDialog() {
+                        if (isOpen) {
+                            super.showProgressDialog();
+                        }
+                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -234,5 +240,31 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         };
         return bookSectionAdapter;
     }
+
+    @Override
+    public void nextSection() {
+        int indexOfSectionList = indexOfSectionList(mBookSectionItems, mSectionId);
+        if (indexOfSectionList + 1 < mBookSectionItems.size()) {
+            BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
+            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+        }
+
+    }
+
+    @Override
+    public void openSection(int pos) {
+        BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
+        doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+    }
+
+    @Override
+    public void prevSection() {
+        int indexOfSectionList = indexOfSectionList(mBookSectionItems, mSectionId);
+        if (indexOfSectionList - 1 >= 0) {
+            BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
+            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+        }
+    }
+
 
 }

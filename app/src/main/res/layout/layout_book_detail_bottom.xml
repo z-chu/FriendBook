@@ -8,6 +8,7 @@
 
     <FrameLayout
         android:id="@+id/fl_download_book"
+        android:visibility="gone"
         style="@style/BottomNavigation.ItemView">
 
         <android.support.v7.widget.AppCompatImageView
@@ -17,6 +18,21 @@
         <TextView
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/book_detail_download_book"
+            android:textColor="@color/textPrimary"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_add_bookcase"
+        style="@style/BottomNavigation.ItemView">
+
+        <android.support.v7.widget.AppCompatImageView
+            style="@style/BottomNavigation.ItemView.Icon"
+            app:srcCompat="@drawable/ic_vector_add_bookcase"/>
+
+        <TextView
+            style="@style/BottomNavigation.ItemView.Title"
+            android:text="@string/book_detail_add_bookcase"
             android:textColor="@color/textPrimary"/>
 
     </FrameLayout>
@@ -37,20 +53,7 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_add_bookcase"
-        style="@style/BottomNavigation.ItemView">
 
-        <android.support.v7.widget.AppCompatImageView
-            style="@style/BottomNavigation.ItemView.Icon"
-            app:srcCompat="@drawable/ic_vector_add_bookcase"/>
-
-        <TextView
-            style="@style/BottomNavigation.ItemView.Title"
-            android:text="@string/book_detail_add_bookcase"
-            android:textColor="@color/textPrimary"/>
-
-    </FrameLayout>
 
 
 </LinearLayout>

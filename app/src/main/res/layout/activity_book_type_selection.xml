@@ -29,7 +29,8 @@
     <FrameLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:foreground="@drawable/header_shadow" />
 
 
 </LinearLayout>

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 
+import com.youshibi.app.AppRouter;
+
 /**
  * Created by zchu on 17-2-23.
  */
@@ -31,7 +33,7 @@ public class ProgressDialogHandler extends Handler {
 
     private void initProgressDialog(){
         if (mDialog == null) {
-           // mDialog = new LoadingDialog(mContext); // FIXME: 2017/7/7 添加全局加载中对话框
+            mDialog = AppRouter.getLoadingDialog(mContext);
             mDialog.setCancelable(mCancelable);
 
             if (mCancelable) {

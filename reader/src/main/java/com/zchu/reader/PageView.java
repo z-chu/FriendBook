@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import com.zchu.reader.anim.CoverPageAnim;
 import com.zchu.reader.anim.HorizonPageAnim;
@@ -89,6 +90,7 @@ public class PageView extends View {
     private int mPageBackground = 0xFFCEC29C;
 
     private int mStartSection = -1;
+    private int scaledTouchSlop = 0;
 
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -118,6 +120,7 @@ public class PageView extends View {
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        scaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop() ;
     }
 
     @Override
@@ -143,7 +146,10 @@ public class PageView extends View {
         mViewHeight = h;
         //重置图片的大小,由于w,h可能比原始的Bitmap更大，所以如果使用Bitmap.setWidth/Height()是会报错的。
         //所以最终还是创建Bitmap的方式。这种方式比较消耗性能，暂时没有找到更好的方法。
-
+        if (mCenterRect == null) {
+            mCenterRect = new RectF(mViewWidth *2/ 5, 0,
+                    mViewWidth * 3 / 5, mViewHeight);
+        }
         setPageMode(mPageMode);
         //重置页面加载器的页面
         if (mPageLoader == null) {
@@ -299,17 +305,16 @@ public class PageView extends View {
             case MotionEvent.ACTION_MOVE:
                 moveX = x;
                 moveY = y;
-                mPageAnim.onTouchEvent(event);
+                if (moveX > scaledTouchSlop || moveY > scaledTouchSlop||mCenterRect.contains(x, y)) {
+                    mPageAnim.onTouchEvent(event);
+                }
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (moveX == 0 && moveY == 0) {
+                if (moveX < scaledTouchSlop && moveY < scaledTouchSlop) {
 
                     //设置中间区域范围
-                    if (mCenterRect == null) {
-                        mCenterRect = new RectF(mViewWidth / 5, mViewHeight / 3,
-                                mViewWidth * 4 / 5, mViewHeight * 2 / 3);
-                    }
+
 
                     //是否点击了中间
                     if (mCenterRect.contains(x, y)) {
@@ -398,13 +403,13 @@ public class PageView extends View {
     }
 
     public void openSection(int section) {
-       openSection(section,0);
+        openSection(section, 0);
     }
 
-    public void openSection(int section,int page) {
+    public void openSection(int section, int page) {
         mStartSection = section;
         if (isPrepare) {
-            mPageLoader.openChapter(section,page);
+            mPageLoader.openChapter(section, page);
         }
     }
 

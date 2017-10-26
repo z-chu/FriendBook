@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
 
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -26,6 +25,13 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/layout_about_content" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="@drawable/header_shadow">
+
+        <include layout="@layout/layout_about_content" />
+
+    </FrameLayout>
 
 </LinearLayout>

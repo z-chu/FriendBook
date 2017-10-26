@@ -31,5 +31,11 @@ public interface ReadContract {
          */
         void saveReadLocation();
 
+        void nextSection();
+
+        void openSection(int pos);
+
+        void prevSection();
+
     }
 }

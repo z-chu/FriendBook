@@ -1,10 +1,14 @@
 package com.youshibi.app;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -20,6 +24,7 @@ import com.youshibi.app.presentation.read.ReadActivity;
 import com.youshibi.app.presentation.search.SearchActivity;
 import com.youshibi.app.presentation.search.SearchResultActivity;
 import com.youshibi.app.util.CountEventHelper;
+import com.youshibi.app.util.DensityUtil;
 import com.youshibi.app.util.ToastUtil;
 import com.zchu.log.Logger;
 
@@ -29,6 +34,18 @@ import com.zchu.log.Logger;
  * app路由，界面跳转帮助类，所有的界面跳转通过此类进行跳转,包括组件交互
  */
 public class AppRouter {
+
+
+    /**
+     * 获取全局加载dialog
+     */
+    public static Dialog getLoadingDialog(Context context) {
+        Dialog dialog = new Dialog(context, R.style.AlertDialogStyle);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
+        dialog.setContentView(view, new ViewGroup.LayoutParams(DensityUtil.dp2px(context, 96), DensityUtil.dp2px(context, 96)));
+        return dialog;
+    }
+
 
     public static void showAppMarket(Context context) {
         try {

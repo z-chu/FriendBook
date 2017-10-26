@@ -22,6 +22,7 @@ import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.ui.widget.ShapeTextView;
+import com.youshibi.app.util.DateUtil;
 import com.youshibi.app.util.GlideApp;
 import com.youshibi.app.util.StringUtils;
 import com.youshibi.app.util.ToastUtil;
@@ -201,8 +202,8 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
             tvUpdateTime.setText("已完结");
         } else {
             tvCatalogTitle.setText("最新章节：" + data.getLatestChapter().getChapterName());
-            // TODO: 2017/9/20 时间计算
-            tvUpdateTime.setText("2天前更新");
+            long aLong = Long.parseLong(data.getLatestChapter().getCreateTime() + "000");
+            tvUpdateTime.setText(DateUtil.formatSomeAgo(aLong));
         }
     }
 }
