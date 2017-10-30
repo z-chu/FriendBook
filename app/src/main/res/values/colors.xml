@@ -3,7 +3,7 @@
     <color name="colorPrimary">#019961</color>
     <color name="colorPrimaryDark">#008554</color>
     <color name="colorAccent">#009960</color>
-    <color name="colorGrounding">@color/md_grey_50</color><!--界面底色-->
+    <color name="colorGrounding">@color/md_grey_100</color><!--界面底色-->
     <color name="colorDivider">@color/md_grey_300</color> <!-- 分割线颜色-->
     <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
     <color name="colorRipple">#e0e0e0</color><!--点击时水波纹颜色-->
@@ -16,8 +16,9 @@
     <color name="textSecondary">#757575</color><!--用于普通级信息-->
     <color name="textAssist">#9e9e9e</color><!--用于普通级信息、引导词,如昵正文、弹层文案、查看更多之类-->
     <color name="textAssistSecondary">#B0B0B0</color><!--用于辅助、次要的文字信息、普通按钮描边,如时间、来自等补充信息文案-->
-    <color name="textPrimaryInverted">#ffffff</color>
-    <color name="textSecondaryInverted">#c8ffffff</color>
+    <color name="textPrimaryInverted">#d9ffffff</color>
+    <color name="textSecondaryInverted">#8affffff</color>
+    <color name="textAssistInverted">#43ffffff</color>
     <color name="textError">#ffe7492e</color>
 
     <!--通用颜色-->

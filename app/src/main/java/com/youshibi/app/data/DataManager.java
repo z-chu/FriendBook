@@ -284,7 +284,15 @@ public class DataManager {
         return RequestClient
                 .getServerAPI()
                 .getChannelBooks(channelId, hashMap)
-                .map(new HttpResultFunc<DataList<Book>>());
+                .map(new HttpResultFunc<DataList<Book>>())
+                .compose(rxCache.<DataList<Book>>transformer("getChannelBooks"+channelId+page+size,new TypeToken<DataList<Book>>() {
+                }.getType(), CacheStrategy.firstRemote()))
+                .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
+                    @Override
+                    public DataList<Book> call(CacheResult<DataList<Book>> dataListCacheResult) {
+                        return dataListCacheResult.getData();
+                    }
+                });
     }
 
     public Observable<DataList<Book>> getChannelBookRanking(long channelId, int page, int size) {
