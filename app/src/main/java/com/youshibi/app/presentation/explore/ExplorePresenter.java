@@ -34,12 +34,25 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
     private ArrayList<Channel> mAlwaysSelectedChannels;
     private ArrayList<Channel> mCommonSelectedChannels;
     private ArrayList<Channel> mUnselectedChannels;
+    private boolean isReBind = false;
 
     private HashMap<Channel, Fragment> fragmentHashMap = new HashMap<>();
 
 
     @Override
+    public void start() {
+        super.start();
+        if (mChannels != null) {
+            isReBind = true;
+        }
+    }
+
+    @Override
     public void loadData() {
+        if (isReBind) {
+            processData(mChannels, PreferencesHelper.getInstance().getSelectedChannels());
+            return;
+        }
         getView().showLoading();
         Subscription subscribe = DataManager
                 .getInstance()
@@ -76,7 +89,7 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
 
 
     private void processData(@NonNull List<Channel> channels, @Nullable List<Channel> selectedBookLabels) {
-        if (mChannels == null) {
+        if (mChannels == null || isReBind) {
             mChannels = channels;
             boolean isFirst = (selectedBookLabels == null || selectedBookLabels.size() == 0);
             if (isFirst && selectedBookLabels == null) {

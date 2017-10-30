@@ -52,13 +52,6 @@ public class ReaderSettingManager {
         mPreferences = sContext.getSharedPreferences("read-setting", Context.MODE_PRIVATE);
     }
 
-    public void setReadBackground(int theme) {
-        mPreferences
-                .edit()
-                .putInt(SHARED_READ_BG, theme)
-                .apply();
-    }
-
 
     public void setBrightness(int progress) {
         mPreferences
@@ -139,10 +132,6 @@ public class ReaderSettingManager {
         return mPreferences.getInt(SHARED_READ_PAGE_MODE, PageView.PAGE_MODE_COVER);
     }
 
-
-    public boolean isNightMode() {
-        return mPreferences.getBoolean(SHARED_READ_NIGHT_MODE, false);
-    }
 
     public boolean isVolumeTurnPage() {
         return mPreferences.getBoolean(SHARED_READ_VOLUME_TURN_PAGE, false);

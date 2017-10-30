@@ -12,6 +12,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,11 +28,13 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.mvp.MvpActivity;
+import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.ui.help.RecyclerViewItemDecoration;
 import com.youshibi.app.ui.help.ToolbarHelper;
 import com.youshibi.app.util.BrightnessUtils;
@@ -145,8 +148,12 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         } else {
             BrightnessUtils.setBrightness(this, ReaderSettingManager.getInstance().getBrightness());
         }
-        readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
         readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
+        if (AppConfig.isNightMode()) {
+            ReaderSettingManager.getInstance().setPageBackground(ReadTheme.NIGHT.getPageBackground());
+            ReaderSettingManager.getInstance().setTextColor(ReadTheme.NIGHT.getTextColor());
+        }
+        readView.setTextColor(ReaderSettingManager.getInstance().getTextColor());
         readView.setPageBackground(ReaderSettingManager.getInstance().getPageBackground());
 
         readView.setTouchListener(new PageView.TouchListener() {
@@ -347,6 +354,23 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
                 boolean nightModeSelected = !readTvNightMode.isSelected();
                 toggleNightMode(nightModeSelected);
                 ReaderSettingManager.getInstance().setNightMode(nightModeSelected);
+                AppConfig.setNightMode(nightModeSelected);
+
+                Object[] activityArray = AppManager.getInstance().getActivityArray();
+                for (Object appCompatActivity : activityArray) {
+                    if (appCompatActivity != this) {
+                        AppCompatDelegate delegate = ((AppCompatActivity) appCompatActivity).getDelegate();
+                        if (nightModeSelected) {
+                            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                        } else {
+                            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    }
+                }
+
                 break;
             case R.id.read_tv_setting:
                 toggleMenu(true);

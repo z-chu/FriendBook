@@ -14,11 +14,11 @@ import com.youshibi.app.mvp.MvpView;
 public interface MainContract {
     interface View extends MvpView {
 
-        void switchBookcase();
+        void switchBookcase(@IdRes int tabId);
 
-        void switchExplore();
+        void switchExplore(@IdRes int tabId);
 
-        void switchMine();
+        void switchMine(@IdRes int tabId);
 
     }
 

@@ -167,6 +167,10 @@ public class AppManager {
         }
     }
 
+    public Object[] getActivityArray(){
+        return  mActivityStack.toArray();
+    }
+
     /**
      * 判断应用是否处于前台
      */

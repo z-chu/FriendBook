@@ -92,7 +92,7 @@ public class MainPresenter extends BaseRxPresenter<MainContract.View> implements
                     fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
                 checkedTab(fragmentTransaction, tabId);
-                getView().switchBookcase();
+                getView().switchBookcase(R.id.tab_bookcase);
                 return true;
             case R.id.tab_explore:
                 if (selectedFragment == null) {
@@ -100,7 +100,7 @@ public class MainPresenter extends BaseRxPresenter<MainContract.View> implements
                     fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
                 checkedTab(fragmentTransaction, tabId);
-                getView().switchExplore();
+                getView().switchExplore(R.id.tab_bookcase);
                 return true;
             case R.id.tab_mine:
                 if (selectedFragment == null) {
@@ -108,7 +108,7 @@ public class MainPresenter extends BaseRxPresenter<MainContract.View> implements
                     fragmentTransaction.add(contentContainerId, selectedFragment, String.valueOf(tabId));
                 }
                 checkedTab(fragmentTransaction, tabId);
-                getView().switchMine();
+                getView().switchMine(R.id.tab_bookcase);
                 return true;
         }
 
