@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_mine_user"/>
+        <include layout="@layout/layout_mine_user" />
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_setting"
@@ -18,7 +18,7 @@
             android:background="@drawable/bg_list_item"
             android:clickable="true"
             app:mine_icon="@drawable/ic_vector_app_setting"
-            app:mine_title="设置"/>
+            app:mine_title="设置" />
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_night_mode"
@@ -26,8 +26,18 @@
             android:layout_height="56dp"
             android:background="@drawable/bg_list_item"
             android:clickable="true"
+            app:mine_arrow_visibility="false"
             app:mine_icon="@drawable/ic_vector_app_night_mode"
-            app:mine_title="夜间模式"/>
+            app:mine_title="夜间模式">
+
+            <Switch
+                android:id="@+id/sw_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        </com.youshibi.app.ui.widget.MineRowView>
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_share"
@@ -36,7 +46,7 @@
             android:background="@drawable/bg_list_item"
             android:clickable="true"
             app:mine_icon="@drawable/ic_vector_app_share"
-            app:mine_title="分享友书"/>
+            app:mine_title="分享友书" />
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_good_reputation"
@@ -45,26 +55,26 @@
             android:background="@drawable/bg_list_item"
             android:clickable="true"
             app:mine_icon="@drawable/ic_vector_app_good_reputation"
-            app:mine_title="给友书好评"/>
+            app:mine_title="给友书好评" />
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_feedback"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:clickable="true"
             android:background="@drawable/bg_list_item"
+            android:clickable="true"
             app:mine_icon="@drawable/ic_vector_app_feedback"
-            app:mine_title="意见反馈"/>
+            app:mine_title="意见反馈" />
 
         <com.youshibi.app.ui.widget.MineRowView
             android:id="@+id/mine_app_about"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:clickable="true"
             android:background="@drawable/bg_list_item"
-            app:mine_icon="@drawable/ic_vector_app_about"
+            android:clickable="true"
             app:mine_divider_visibility="false"
-            app:mine_title="关于友书"/>
+            app:mine_icon="@drawable/ic_vector_app_about"
+            app:mine_title="关于友书" />
 
 
     </LinearLayout>

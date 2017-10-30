@@ -37,7 +37,7 @@
             android:paddingLeft="7dp"
             android:paddingTop="1dp"
             android:text="更新"
-            android:textColor="@color/white"
+            android:textColor="@color/textPrimaryInverted"
             android:textSize="@dimen/text_size_micro"
             android:visibility="gone"
             tools:visibility="visible" />

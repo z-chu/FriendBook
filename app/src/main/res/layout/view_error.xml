@@ -41,7 +41,7 @@
         android:textSize="12sp"
         app:super_cornerRadius="50dp"
         app:super_strokeColor="@color/colorAccent"
-        app:super_solidColor="@color/md_light_green_50"
+        app:super_solidColor="@color/colorForeground"
         app:super_strokeWidth="1dp" />
 
 </LinearLayout>

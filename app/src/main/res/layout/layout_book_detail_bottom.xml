@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/BottomNavigation.GroupView"
-    android:background="@color/white">
+    android:background="@color/colorForeground">
 
 
     <FrameLayout
@@ -49,7 +49,7 @@
         <TextView
             style="@style/BottomNavigation.ItemView.Title"
             android:text="@string/book_detail_open_book"
-            android:textColor="@color/white"/>
+            android:textColor="@color/textPrimaryInverted"/>
 
     </FrameLayout>
 

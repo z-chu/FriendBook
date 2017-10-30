@@ -56,11 +56,12 @@ public class ExploreFragment extends MvpLoaderFragment<ExploreContract.Presenter
         ivBookTypeMore = view.findViewById(R.id.iv_book_type_more);
         view.findViewById(R.id.view_search).setOnClickListener(this);
         view.findViewById(R.id.fl_action).setOnClickListener(this);
+        isShow = true;
     }
 
     @Override
     public void onShow(boolean isFirstShow) {
-        isShow = true;
+
         super.onShow(isFirstShow);
         if (isFirstShow && isBindPresenter) {
             getPresenter().start();

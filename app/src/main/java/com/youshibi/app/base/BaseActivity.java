@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import com.gyf.barlibrary.ImmersionBar;
@@ -16,6 +17,7 @@ import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrListenerAdapter;
 import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
+import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.util.BitmapUtil;
 import com.youshibi.app.util.InputMethodUtils;
 
@@ -35,7 +37,7 @@ public class BaseActivity extends BaseSuperActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initTheme();
         //设置缓存
         View decorView = getWindow().getDecorView();
         decorView.setDrawingCacheEnabled(true);
@@ -174,7 +176,15 @@ public class BaseActivity extends BaseSuperActivity {
 
 
     }
+    private void initTheme(){
+        //设置该app的主题根据时间不同显示
+        if(AppConfig.isNightMode()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
+    }
 
     protected boolean isEnableSlideFinish() {
         return true;

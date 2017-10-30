@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +24,7 @@ public class MineRowView extends RelativeLayout {
     private ImageView ivIcon;
     private TextView tvTitle;
     private View divider;
+    private View arrow;
 
     public MineRowView(Context context) {
         this(context, null);
@@ -45,6 +45,7 @@ public class MineRowView extends RelativeLayout {
         ivIcon = (ImageView) findViewById(R.id.iv_icon);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         divider = findViewById(R.id.divider);
+        arrow=findViewById(R.id.arrow);
     }
 
     private void initAttributeSet(Context context, AttributeSet attrs) {
@@ -59,6 +60,8 @@ public class MineRowView extends RelativeLayout {
         tvTitle.setText(title);
         boolean dividerVisibility = typedArray.getBoolean(R.styleable.MineRowView_mine_divider_visibility, true);
         divider.setVisibility(dividerVisibility ? View.VISIBLE : View.GONE);
+        boolean arrowVisibility = typedArray.getBoolean(R.styleable.MineRowView_mine_arrow_visibility, true);
+        arrow.setVisibility(arrowVisibility ? View.VISIBLE : View.GONE);
         typedArray.recycle();
 
 

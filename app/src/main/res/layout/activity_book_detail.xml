@@ -75,7 +75,7 @@
                         android:id="@+id/tv_describe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/colorForeground"
                         android:ellipsize="end"
                         android:lineSpacingExtra="4dp"
                         android:paddingBottom="10dp"

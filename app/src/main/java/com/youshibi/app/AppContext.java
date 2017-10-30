@@ -2,10 +2,12 @@ package com.youshibi.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.data.db.DBRepository;
+import com.youshibi.app.pref.AppConfig;
 import com.youshibi.app.pref.C;
 import com.zchu.log.Logger;
 
@@ -43,6 +45,7 @@ public class AppContext extends Application {
         AppManager.init(this);
         DBRepository.initDatabase(this);
         initUmeng(this);
+        initTheme();
 
     }
 
@@ -53,6 +56,16 @@ public class AppContext extends Application {
                 );
         // 禁止默认的页面统计方式，这样将不会再自动统计Activity
         MobclickAgent.openActivityDurationTrack(false);
+    }
+
+    private void initTheme(){
+        //设置该app的主题根据时间不同显示
+        if(AppConfig.isNightMode()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
     }
 
 

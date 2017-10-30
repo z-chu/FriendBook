@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#161616</color>
+    <color name="colorAccent">#009386</color>
+    <color name="colorGrounding">#202020</color><!--界面底色-->
+    <color name="colorForeground">#303030</color><!--界面底色-->
+    <color name="colorDivider">#000000</color> <!-- 分割线颜色-->
+    <!--<color nickname="colorRipple">?android:attr/colorControlHighlight</color>-->
+    <color name="colorRipple">#ff484848</color><!--点击时水波纹颜色-->
+    <color name="colorInactive">#ff909090</color> <!--不活跃的颜色  icon的默认灰色-->
+    <color name="colorPress">#ff515151</color>
+    <color name="colorPictureDefault">#fff9f9f9</color>
+
+    <!--文字颜色-->
+    <color name="textPrimary">#d9ffffff</color><!--用于重要级文字信息，如标题，子模块功能文字等-->
+    <color name="textSecondary">#8affffff</color><!--用于普通级信息-->
+    <color name="textAssist">#43ffffff</color><!--用于普通级信息、引导词,如昵正文、弹层文案、查看更多之类-->
+    <color name="textAssistSecondary">#808080</color><!--用于辅助、次要的文字信息、普通按钮描边,如时间、来自等补充信息文案-->
+    <color name="textPrimaryInverted">#d9ffffff</color>
+    <color name="textSecondaryInverted">#8affffff</color>
+    <color name="textAssistInverted">#43ffffff</color>
+    <color name="textError">#ffe7492e</color>
+
+
+
+
+</resources>

@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
+                android:textColor="@color/textPrimaryInverted"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="共346章" />
 
@@ -53,7 +53,7 @@
                     android:id="@+id/tv_section_selection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textPrimaryInverted"
                     android:textSize="@dimen/text_size_small"
                     tools:text="1-50章" />
 

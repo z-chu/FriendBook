@@ -27,7 +27,8 @@ public class AppConfig {
     // 默认存放WebView缓存的路径
     public final static String WEB_CACHE_PATH = AppContext.context().getCacheDir().getPath() + File.separator + "webCache";
 
-    private final static String C_SOFT_INPUT_HEIGHT = "soft_input_height";
+
+    private final static String K_NIGHT_MODE = "night_mode";
 
     private static SharedPreferences sPref;
 
@@ -38,24 +39,21 @@ public class AppConfig {
         FileUtil.deleteFile(WEB_CACHE_PATH);
     }
 
-    public static void setSoftInputHeight(int height) {
-        getPreferences()
-                .edit()
-                .putInt(C_SOFT_INPUT_HEIGHT, height)
-                .apply();
-    }
-
-    /**
-     * 不存在返回-1
-     */
-    public static int getSoftInputHeight(){
-        return getPreferences().getInt(C_SOFT_INPUT_HEIGHT,-1);
-
-    }
     private static SharedPreferences getPreferences() {
         if (sPref == null) {
             sPref = AppContext.context().getSharedPreferences(APP_CONFIG, Context.MODE_PRIVATE);
         }
         return sPref;
+    }
+
+    public static boolean isNightMode() {
+        return getPreferences().getBoolean(K_NIGHT_MODE, false);
+    }
+
+    public static void setNightMode(boolean isNightMode) {
+        getPreferences()
+                .edit()
+                .putBoolean(K_NIGHT_MODE, isNightMode)
+                .apply();
     }
 }
