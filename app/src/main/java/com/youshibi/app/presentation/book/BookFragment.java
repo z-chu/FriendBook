@@ -66,6 +66,7 @@ public class BookFragment extends BaseListFragment<BaseListContract.Presenter> {
                 }
             });
             this.view = view;
+            isFirstShow=true;
         }
     }
 
