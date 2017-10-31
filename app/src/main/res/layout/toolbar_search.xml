@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="?attr/actionBarSize"
-             android:background="?colorPrimary"
-             android:orientation="vertical"
-             app:layout_scrollFlags="enterAlways|scroll|snap">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?colorPrimary"
+    android:orientation="vertical"
+    app:layout_scrollFlags="enterAlways|scroll|snap">
 
     <RelativeLayout
         android:id="@+id/view_search"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="2.0dp"
             android:clickable="true"
             android:padding="8.0dp"
-            app:srcCompat="@drawable/ic_arrow_back_grey_24dp"/>
+            app:srcCompat="@drawable/ic_arrow_back_grey_24dp" />
 
         <EditText
             android:id="@+id/et_search"
@@ -43,7 +43,7 @@
             android:singleLine="true"
             android:textColor="@color/textPrimary"
             android:textColorHint="@color/md_grey_500"
-            android:textSize="@dimen/text_size_large"/>
+            android:textSize="@dimen/text_size_large" />
 
         <ImageView
             android:id="@+id/iv_action_search"
@@ -52,7 +52,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_vector_search_gray"/>
+            app:srcCompat="@drawable/ic_vector_search_gray" />
+
+        <ImageView
+            android:id="@+id/iv_action_clear"
+            style="@style/ToolbarMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_toLeftOf="@id/iv_action_search"
+            app:srcCompat="@drawable/ic_vector_clear" />
 
     </RelativeLayout>
 

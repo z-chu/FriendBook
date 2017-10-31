@@ -6,4 +6,11 @@
         <item>按名称排序</item>
         <item>按创建时间</item>
     </string-array>
+
+    <string-array name="search_hot">
+        <item>一念永恒</item>
+        <item>最强升级系统</item>
+        <item>绝世武神</item>
+        <item>仙逆</item>
+    </string-array>
 </resources>

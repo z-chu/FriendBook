@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,7 +35,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     private ImageView ivArrowBack;
     private ImageView ivActionSearch;
+    private ImageView ivActionClear;
     private EditText etSearch;
+
 
     private Handler mHandler = new Handler();
 
@@ -51,7 +54,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         findView();
-        bindOnClickLister(this, ivActionSearch, ivArrowBack);
+        bindOnClickLister(this, ivActionSearch, ivArrowBack, ivActionClear);
         String keyword = getIntent().getStringExtra(K_KEYWORD);
         if (keyword != null) {
             etSearch.setText(keyword);
@@ -65,6 +68,36 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     return true;
                 }
                 return false;
+            }
+        });
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && etSearch.getText().length() > 0) {
+                    ivActionClear.setVisibility(View.VISIBLE);
+                } else {
+                    ivActionClear.setVisibility(View.GONE);
+                }
+            }
+        });
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count>0&&etSearch.isFocusable()){
+                    ivActionClear.setVisibility(View.VISIBLE);
+                }else{
+                    ivActionClear.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         etSearch.post(new Runnable() {
@@ -97,6 +130,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void findView() {
         ivArrowBack = (ImageView) findViewById(R.id.iv_arrow_back);
         ivActionSearch = (ImageView) findViewById(R.id.iv_action_search);
+        ivActionClear = findViewById(R.id.iv_action_clear);
         etSearch = (EditText) findViewById(R.id.et_search);
     }
 
@@ -110,6 +144,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.iv_action_search:
                 goSearchResult();
+                break;
+            case R.id.iv_action_clear:
+                etSearch.setText("");
                 break;
         }
     }
