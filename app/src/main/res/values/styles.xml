@@ -24,6 +24,8 @@
 
     </style>
 
+    <style name="BottomNavigationViewTheme" parent="AppTheme"/>
+
     <style name="ToolbarMenu">
         <item name="android:background">?attr/actionBarItemBackground</item>
         <item name="android:minWidth">36dp</item>

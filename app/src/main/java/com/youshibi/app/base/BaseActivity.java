@@ -31,6 +31,8 @@ public class BaseActivity extends BaseSuperActivity {
      */
     private boolean isFirstFocus = true;
 
+    private Boolean windowIsTranslucent;
+
     private ImmersionBar mImmersionBar;
     private Drawable mDefaultWindowBackground;
 
@@ -43,6 +45,7 @@ public class BaseActivity extends BaseSuperActivity {
         decorView.setDrawingCacheEnabled(true);
 
     }
+
 
     @Override
     public void onContentChanged() {
@@ -76,6 +79,9 @@ public class BaseActivity extends BaseSuperActivity {
     }
 
     protected void onSlideStateChanged(int state) {
+        if(getWindowIsTranslucent()){
+            return;
+        }
         if (state == ViewDragHelper.STATE_DRAGGING) {
             Drawable windowBackground = getWindowBackground();
             if (windowBackground != null) {
@@ -87,6 +93,9 @@ public class BaseActivity extends BaseSuperActivity {
     }
 
     public void onSlideCancel() {
+        if(getWindowIsTranslucent()){
+            return;
+        }
         getWindow().setBackgroundDrawable(getDefaultWindowBackground());
     }
 
@@ -161,6 +170,18 @@ public class BaseActivity extends BaseSuperActivity {
         }*/
     }
 
+
+
+    protected boolean getWindowIsTranslucent() {
+        if (windowIsTranslucent == null) {
+            int[] attrsArray = {android.R.attr.windowIsTranslucent};
+            TypedArray typedArray = this.obtainStyledAttributes(attrsArray);
+            windowIsTranslucent = typedArray.getBoolean(0, false);
+            typedArray.recycle();
+        }
+        return windowIsTranslucent;
+    }
+
     protected void initImmersionBar(ImmersionBar immersionBar) {
         View statusBarView = findViewById(R.id.status_bar_view);
         if (statusBarView != null) {
@@ -176,11 +197,12 @@ public class BaseActivity extends BaseSuperActivity {
 
 
     }
-    private void initTheme(){
+
+    private void initTheme() {
         //设置该app的主题根据时间不同显示
-        if(AppConfig.isNightMode()){
+        if (AppConfig.isNightMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else{
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 

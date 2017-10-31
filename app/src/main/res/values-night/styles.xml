@@ -20,8 +20,8 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
-
+    <style name="BottomNavigationViewTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorAccent</item>
     </style>
 
 </resources>
