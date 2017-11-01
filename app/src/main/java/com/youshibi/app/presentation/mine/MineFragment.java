@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.umeng.analytics.MobclickAgent;
 import com.youshibi.app.AppRouter;
@@ -22,7 +21,7 @@ import com.youshibi.app.util.ToastUtil;
 
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
-    private Switch swNightMode;
+    private CompoundButton swNightMode;
 
     public static MineFragment newInstance() {
 

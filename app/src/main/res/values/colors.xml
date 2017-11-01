@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#019961</color>
-    <color name="colorPrimaryDark">#008554</color>
-    <color name="colorAccent">#009960</color>
+    <color name="colorPrimary">#4caf50</color>
+    <color name="colorPrimaryDark">#388e3c</color>
+    <color name="colorAccent">#7cb342</color>
     <color name="colorGrounding">@color/md_grey_100</color><!--界面底色-->
     <color name="colorForeground">#ffffff</color><!--界面前景色-->
     <color name="colorDivider">@color/md_grey_300</color> <!-- 分割线颜色-->
