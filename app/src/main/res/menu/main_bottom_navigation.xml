@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/tab_bookcase"
-        android:icon="@drawable/ic_book_black_24dp"
-        android:title="@string/bookcase"/>
+        android:icon="@drawable/ic_vector_bookcase"
+        android:title="@string/read_book"/>
 
     <item
         android:id="@+id/tab_explore"
-        android:icon="@drawable/ic_explore_black_24dp"
-        android:title="@string/explore"/>
+        android:icon="@drawable/ic_book_black_24dp"
+        android:title="@string/bookstore"/>
 
     <item
         android:id="@+id/tab_mine"

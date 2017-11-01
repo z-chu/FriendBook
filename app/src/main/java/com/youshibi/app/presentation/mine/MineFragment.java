@@ -92,7 +92,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtil.showToast(getString(R.string.developing));
                 break;
             case R.id.mine_app_night_mode:
-                ToastUtil.showToast(getString(R.string.developing));
                 AppCompatActivity activity = (AppCompatActivity) getActivity();
                 if (AppConfig.isNightMode()) {
                     activity

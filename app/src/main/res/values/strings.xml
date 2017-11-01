@@ -10,6 +10,8 @@
     <string name="off">关闭</string>
     <string name="add">添加</string>
     <string name="bookcase">书架</string>
+    <string name="bookstore">书城</string>
+    <string name="read_book">读书</string>
     <string name="explore">发现</string>
     <string name="mine">我的</string>
 
