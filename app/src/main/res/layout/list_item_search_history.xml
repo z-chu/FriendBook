@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/bg_list_item">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_search_history_flag"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        app:srcCompat="@drawable/ic_vector_history" />
+
+    <TextView
+        android:id="@+id/tv_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_search_history_flag"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/text_size_medium"
+        tools:text="魔兽世界" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_keyword_clear"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:tint="@color/md_grey_500"
+        android:background="?attr/actionBarItemBackground"
+        app:srcCompat="@drawable/ic_vector_clear" />
+
+</RelativeLayout>

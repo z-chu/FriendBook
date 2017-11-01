@@ -7,8 +7,10 @@
     android:background="@color/colorGrounding"
     android:orientation="vertical">
 
-    <include layout="@layout/view_state_bar"/>
+    <include layout="@layout/view_state_bar" />
 
-    <include layout="@layout/toolbar_search"/>
+    <include layout="@layout/toolbar_search" />
+
+
 
 </LinearLayout>

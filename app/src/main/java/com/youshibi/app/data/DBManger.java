@@ -1,11 +1,15 @@
 package com.youshibi.app.data;
 
+import android.support.annotation.Nullable;
+
 import com.youshibi.app.AppContext;
 import com.youshibi.app.data.bean.Book;
 import com.youshibi.app.data.db.DBRepository;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.data.db.table.BookTbDao;
 import com.youshibi.app.data.db.table.DaoSession;
+import com.youshibi.app.data.db.table.SearchHistory;
+import com.youshibi.app.data.db.table.SearchHistoryDao;
 import com.youshibi.app.event.AddBook2BookcaseEvent;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.util.DataConvertUtil;
@@ -148,7 +152,7 @@ public final class DBManger {
         mDaoSession.getBookTbDao().updateInTx(bookTbs);
     }
 
-    public void updateBookTbSort(List<BookTb> bookTbs){
+    public void updateBookTbSort(List<BookTb> bookTbs) {
         for (int i = 0; i < bookTbs.size(); i++) {
             BookTb bookTb = bookTbs.get(i);
             bookTb.setSort(i);
@@ -157,4 +161,39 @@ public final class DBManger {
     }
 
 
+    public void saveSearchKeyword(@Nullable String keyword) {
+        if (keyword != null) {
+            SearchHistoryDao searchHistoryDao = mDaoSession.getSearchHistoryDao();
+            SearchHistory searchHistory = searchHistoryDao.load(keyword);
+            if (searchHistory != null) {
+                searchHistory.setTimestamp(System.currentTimeMillis());
+                searchHistoryDao.update(searchHistory);
+            } else {
+                searchHistory = new SearchHistory();
+                searchHistory.setKeyword(keyword);
+                searchHistory.setTimestamp(System.currentTimeMillis());
+                searchHistoryDao.insert(searchHistory);
+            }
+        }
+    }
+
+    public void deleteSearchKeyword(@Nullable String keyword) {
+        if (keyword != null) {
+            SearchHistoryDao searchHistoryDao = mDaoSession.getSearchHistoryDao();
+            searchHistoryDao.deleteByKey(keyword);
+        }
+    }
+
+    public void clearSearchKeyword() {
+        SearchHistoryDao searchHistoryDao = mDaoSession.getSearchHistoryDao();
+        searchHistoryDao.deleteAll();
+    }
+
+    public List<SearchHistory> loadSearchKeyword() {
+        SearchHistoryDao searchHistoryDao = mDaoSession.getSearchHistoryDao();
+        return searchHistoryDao
+                .queryBuilder()
+                .orderDesc(SearchHistoryDao.Properties.Timestamp)
+                .list();
+    }
 }

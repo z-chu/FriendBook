@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * author : zchu
@@ -17,6 +18,7 @@ import org.greenrobot.greendao.DaoException;
 )
 public class SearchHistory implements Parcelable {
 
+    @Id
     private String keyword;
 
     private long timestamp;
