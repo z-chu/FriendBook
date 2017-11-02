@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/read_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.zchu.reader.PageView
             android:id="@+id/pv_read"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
-        <include layout="@layout/toolbar_read"/>
+        <include layout="@layout/toolbar_read" />
 
-        <include layout="@layout/layout_read_bottom"/>
+        <include layout="@layout/layout_read_bottom" />
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="36dp"
+            android:layout_above="@+id/read_bottom"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/read_bg_section_pop"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textSecondaryInverted"
+                android:textSize="@dimen/text_size_large"
+                tools:text="2333/3" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <!--侧滑栏-->
     <LinearLayout
@@ -35,8 +54,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/read_rv_section"
             android:layout_width="match_parent"
-            android:scrollbars="vertical"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
 
     </LinearLayout>

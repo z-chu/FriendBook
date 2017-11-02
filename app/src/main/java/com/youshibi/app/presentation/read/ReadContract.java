@@ -20,6 +20,8 @@ public interface ReadContract {
 
         void openSection(int section, int page);
 
+        void setSectionName(String name);
+
     }
 
     interface Presenter extends MvpPresenter<View>, OnPageChangeListener {

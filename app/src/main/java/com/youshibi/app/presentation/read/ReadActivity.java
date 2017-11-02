@@ -45,6 +45,8 @@ import com.youshibi.app.util.ToastUtil;
 import com.zchu.reader.PageLoaderAdapter;
 import com.zchu.reader.PageView;
 
+import java.util.List;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -73,6 +75,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private TextView readTvCategory;
     private TextView readTvNightMode;
     private TextView readTvSetting;
+    private TextView tvSectionName;
 
     private Animation mTopInAnim;
     private Animation mTopOutAnim;
@@ -213,6 +216,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         readTvCategory = (TextView) findViewById(R.id.read_tv_category);
         readTvNightMode = (TextView) findViewById(R.id.read_tv_night_mode);
         readTvSetting = (TextView) findViewById(R.id.read_tv_setting);
+        tvSectionName=findViewById(R.id.tv_section_name);
+        readSbChapterProgress.setEnabled(false);
     }
 
 
@@ -256,12 +261,40 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     @Override
     public void setSectionListAdapter(BaseQuickAdapter adapter) {
         readRvSection.setAdapter(adapter);
+        List data = adapter.getData();
+        readSbChapterProgress.setEnabled(true);
+        readSbChapterProgress.setMax(adapter.getItemCount());
+        readSbChapterProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                getPresenter().openSection(seekBar.getProgress() - 1);
+            }
+        });
+
+
     }
 
     @Override
     public void openSection(int section, int page) {
         readView.openSection(section, page);
         readDrawer.closeDrawers();
+    }
+
+    @Override
+    public void setSectionName(String name) {
+        tvSectionName.setText(name);
     }
 
     /**
