@@ -31,6 +31,7 @@ public class MainActivity extends MvpActivity<MainContract.Presenter> implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
