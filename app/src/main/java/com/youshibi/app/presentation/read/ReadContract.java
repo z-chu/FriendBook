@@ -1,6 +1,5 @@
 package com.youshibi.app.presentation.read;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.base.BaseLceView;
 import com.youshibi.app.mvp.MvpPresenter;
 import com.zchu.reader.OnPageChangeListener;
@@ -16,7 +15,7 @@ public interface ReadContract {
 
         void setPageAdapter(PageLoaderAdapter adapter);
 
-        void setSectionListAdapter(BaseQuickAdapter adapter);
+        void setSectionListAdapter(BookSectionAdapter adapter);
 
         void openSection(int section, int page);
 

@@ -82,6 +82,8 @@ public class PageView extends View {
 
     private OnPageChangeListener mPageChangeListener;
 
+    private OnThemeChangeListener onThemeChangeListener;
+
     //内容加载器
     private PageLoader mPageLoader;
     private PageLoaderAdapter mAdapter;
@@ -120,7 +122,7 @@ public class PageView extends View {
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        scaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop() ;
+        scaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
     @Override
@@ -147,7 +149,7 @@ public class PageView extends View {
         //重置图片的大小,由于w,h可能比原始的Bitmap更大，所以如果使用Bitmap.setWidth/Height()是会报错的。
         //所以最终还是创建Bitmap的方式。这种方式比较消耗性能，暂时没有找到更好的方法。
         if (mCenterRect == null) {
-            mCenterRect = new RectF(mViewWidth *2/ 5, 0,
+            mCenterRect = new RectF(mViewWidth * 2 / 5, 0,
                     mViewWidth * 3 / 5, mViewHeight);
         }
         setPageMode(mPageMode);
@@ -305,7 +307,7 @@ public class PageView extends View {
             case MotionEvent.ACTION_MOVE:
                 moveX = x;
                 moveY = y;
-                if (moveX > scaledTouchSlop || moveY > scaledTouchSlop||mCenterRect.contains(x, y)) {
+                if (moveX > scaledTouchSlop || moveY > scaledTouchSlop || mCenterRect.contains(x, y)) {
                     mPageAnim.onTouchEvent(event);
                 }
                 break;
@@ -432,6 +434,9 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setTextSize(sizePx);
         }
+        if(onThemeChangeListener!=null){
+            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
+        }
     }
 
     public int getTextSize() {
@@ -443,6 +448,9 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setTextColor(color);
         }
+        if(onThemeChangeListener!=null){
+            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
+        }
     }
 
     public int getTextColor() {
@@ -453,6 +461,9 @@ public class PageView extends View {
         this.mPageBackground = color;
         if (mPageLoader != null) {
             mPageLoader.setPageBackground(color);
+        }
+        if(onThemeChangeListener!=null){
+            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
         }
     }
 
@@ -468,6 +479,14 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setPageMode(mode);
         }
+    }
+
+    public void setOnThemeChangeListener(OnThemeChangeListener onThemeChangeListener) {
+        this.onThemeChangeListener = onThemeChangeListener;
+    }
+
+    public interface OnThemeChangeListener {
+        void onThemeChange(int textColor, int backgroundColor, int textSize);
     }
 
 }

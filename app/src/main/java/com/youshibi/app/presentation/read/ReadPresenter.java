@@ -3,7 +3,7 @@ package com.youshibi.app.presentation.read;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.youshibi.app.R;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.DataManager;
@@ -15,8 +15,6 @@ import com.youshibi.app.rx.ProgressSubscriber;
 import com.youshibi.app.rx.RetryWithDelay;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
-import com.youshibi.app.ui.help.CommonAdapter;
-import com.youshibi.app.ui.help.CommonViewHolder;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private Integer mSectionIndex;
     private String mSectionId;
     private ReadAdapter mReadAdapter;
-    private CommonAdapter<BookSectionItem> bookSectionAdapter;
+    private BookSectionAdapter bookSectionAdapter;
     private List<BookSectionItem> mBookSectionItems;
 
     public ReadPresenter(BookTb bookTb) {
@@ -228,19 +226,15 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         DBManger.getInstance().updateBookTb(mBookTb);
     }
 
-    private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
-        bookSectionAdapter = new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
+    private BookSectionAdapter createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
+        bookSectionAdapter = new BookSectionAdapter(bookSectionItems);
+        bookSectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            protected void convert(CommonViewHolder helper, final BookSectionItem item) {
-                helper.setText(R.id.tv_section_name, item.getSectionName());
-                helper.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doLoadData(item.getSectionIndex(), item.getSectionId(), true);
-                    }
-                });
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                BookSectionItem bookSectionItem = ((List<BookSectionItem>) adapter.getData()).get(position);
+                doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
             }
-        };
+        });
         return bookSectionAdapter;
     }
 

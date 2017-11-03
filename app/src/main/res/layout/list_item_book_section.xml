@@ -8,7 +8,7 @@
         android:id="@+id/tv_section_name"
         android:layout_width="match_parent"
         android:layout_height="48.0dp"
-        android:background="@drawable/bg_list_item"
+        android:background="@drawable/bg_list_item_book_section"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"

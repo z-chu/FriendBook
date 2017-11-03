@@ -3,6 +3,7 @@ package com.youshibi.app.presentation.read;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,7 +11,6 @@ import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youshibi.app.AppManager;
 import com.youshibi.app.R;
@@ -69,6 +68,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     private PageView readView;
     private AppBarLayout appBar;
     private View readBottom;
+    private View readSectionProgress;
+    private TextView readTvSectionProgress;
     private SeekBar readSbChapterProgress;
     private TextView readTvPreChapter;
     private TextView readTvNextChapter;
@@ -93,6 +94,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
     private boolean isShowCollectionDialog = false;
     private BookTb mBookTb;
+    private BookSectionAdapter sectionAdapter;
 
 
     public static Intent newIntent(Context context, Book book, Integer sectionIndex, String sectionId) {
@@ -126,7 +128,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         bindOnClickLister(this, readTvPreChapter, readTvNextChapter, readTvCategory, readTvNightMode, readTvSetting);
         readRvSection.setLayoutManager(new LinearLayoutManager(this));
         readRvSection.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-                .color(ContextCompat.getColor(this, R.color.colorDivider))
+                .color( Color.argb(77,97,97,97))
                 .thickness(1)
                 .create());
         if (Build.VERSION.SDK_INT >= 19) {
@@ -151,6 +153,15 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         } else {
             BrightnessUtils.setBrightness(this, ReaderSettingManager.getInstance().getBrightness());
         }
+        readView.setOnThemeChangeListener(new PageView.OnThemeChangeListener() {
+            @Override
+            public void onThemeChange(int textColor, int backgroundColor, int textSize) {
+                readRvSection.setBackgroundColor(backgroundColor);
+                if(sectionAdapter!=null){
+                    sectionAdapter.setTextColor(textColor);
+                }
+            }
+        });
         readView.setTextSize(ReaderSettingManager.getInstance().getTextSize());
         if (AppConfig.isNightMode()) {
             ReaderSettingManager.getInstance().setPageBackground(ReadTheme.NIGHT.getPageBackground());
@@ -217,6 +228,8 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         readTvNightMode = (TextView) findViewById(R.id.read_tv_night_mode);
         readTvSetting = (TextView) findViewById(R.id.read_tv_setting);
         tvSectionName=findViewById(R.id.tv_section_name);
+        readSectionProgress=findViewById(R.id.ll_section_progress);
+        readTvSectionProgress=findViewById(R.id.tv_section_progress);
         readSbChapterProgress.setEnabled(false);
     }
 
@@ -259,7 +272,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
     @Override
-    public void setSectionListAdapter(BaseQuickAdapter adapter) {
+    public void setSectionListAdapter(final BookSectionAdapter adapter) {
+        sectionAdapter=adapter;
+        sectionAdapter.setTextColor(readView.getTextColor());
         readRvSection.setAdapter(adapter);
         List data = adapter.getData();
         readSbChapterProgress.setEnabled(true);
@@ -268,17 +283,18 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                readTvSectionProgress.setText(progress+"/"+adapter.getItemCount());
 
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                readSectionProgress.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                readSectionProgress.setVisibility(View.GONE);
                 getPresenter().openSection(seekBar.getProgress() - 1);
             }
         });
