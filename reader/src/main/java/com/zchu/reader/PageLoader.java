@@ -33,11 +33,11 @@ class PageLoader {
     public static final int STATUS_PARSE_ERROR = 6; //本地文件解析错误(暂未被使用)
 
     static final int DEFAULT_MARGIN_HEIGHT = 30;
-    static final int DEFAULT_MARGIN_WIDTH = 14;
+    static final int DEFAULT_MARGIN_WIDTH = 16;
 
     //默认的显示参数配置
-    private static final int DEFAULT_INTERVAL = 8;
-    private static final int DEFAULT_PARAGRAPH_INTERVAL = 6;
+    private static final int DEFAULT_INTERVAL = 12;
+    private static final int DEFAULT_PARAGRAPH_INTERVAL = 10;
 
     private static final int DEFAULT_TIP_SIZE = 12;
 
