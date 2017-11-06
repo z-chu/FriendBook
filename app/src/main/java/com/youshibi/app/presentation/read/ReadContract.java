@@ -19,7 +19,7 @@ public interface ReadContract {
 
         void openSection(int section, int page);
 
-        void setSectionName(String name);
+        void setSectionDisplay(String sectionName,int section);
 
     }
 

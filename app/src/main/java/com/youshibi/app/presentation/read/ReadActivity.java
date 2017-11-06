@@ -278,7 +278,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                readTvSectionProgress.setText(progress+"/"+adapter.getItemCount());
+                int section = seekBar.getProgress() - 1;
+                if(section<1){
+                    section=1;
+                }
+                readTvSectionProgress.setText(section+"/"+adapter.getItemCount());
 
             }
 
@@ -290,7 +294,11 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 readSectionProgress.setVisibility(View.GONE);
-                getPresenter().openSection(seekBar.getProgress() - 1);
+                int section = seekBar.getProgress() - 1;
+                if(section<0){
+                    section=0;
+                }
+                getPresenter().openSection(section);
             }
         });
 
@@ -304,8 +312,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
     }
 
     @Override
-    public void setSectionName(String name) {
+    public void setSectionDisplay(String name,int section) {
         tvSectionName.setText(name);
+        readSbChapterProgress.setProgress(section+1);
     }
 
     /**

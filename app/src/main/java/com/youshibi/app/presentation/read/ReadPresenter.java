@@ -156,7 +156,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                             }
                             if (isOpen) {
                                 getView().openSection(listIndex, mBookTb.getLatestReadSectionId() == mSectionId ? mBookTb.getLatestReadPage() : 0);
-                                getView().setSectionName(bookSectionContent.getSectionName());
+                                getView().setSectionDisplay(bookSectionContent.getSectionName(),listIndex);
                             }
 
                         }
@@ -176,7 +176,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
             } else {
                 if (mReadAdapter != null && isViewAttached()) {
                     getView().openSection(indexOfSectionList, 0);
-                    getView().setSectionName(mBookSectionItems.get(indexOfSectionList).getSectionName());
+                    getView().setSectionDisplay(mBookSectionItems.get(indexOfSectionList).getSectionName(),indexOfSectionList);
                 }
             }
         }
@@ -206,7 +206,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         if (!isFirstChapterChange) {
             BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
             doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
-            getView().setSectionName(bookSectionItem.getSectionName());
+            getView().setSectionDisplay(bookSectionItem.getSectionName(),pos);
         } else {
             isFirstChapterChange = false;
         }
