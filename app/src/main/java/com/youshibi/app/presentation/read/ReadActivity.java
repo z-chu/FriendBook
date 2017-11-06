@@ -184,14 +184,9 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         readView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() != MotionEvent.ACTION_UP) {
-                    canTouch = hideReadMenu();
-                    return canTouch;
-                } else {
-                    if (canTouch) {
-                        canTouch = true;
-                        return true;
-                    }
+                if(appBar.getVisibility()==View.VISIBLE){
+                    hideReadMenu();
+                    return true;
                 }
                 return false;
             }
@@ -330,6 +325,7 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
             if (hideStatusBar) {
                 hideSystemBar();
             }
+
         } else {
             appBar.setVisibility(VISIBLE);
             readBottom.setVisibility(VISIBLE);
@@ -364,7 +360,40 @@ public class ReadActivity extends MvpActivity<ReadContract.Presenter> implements
         mTopInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_in);
         mTopOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_out);
         mBottomInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_in);
+        mBottomInAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                readView.setCanTouch(false);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         mBottomOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_out);
+        mBottomOutAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                readView.setCanTouch(true);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         //退出的速度要快
         mTopOutAnim.setDuration(200);
         mBottomOutAnim.setDuration(200);

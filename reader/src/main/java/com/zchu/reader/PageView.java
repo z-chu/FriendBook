@@ -149,8 +149,8 @@ public class PageView extends View {
         //重置图片的大小,由于w,h可能比原始的Bitmap更大，所以如果使用Bitmap.setWidth/Height()是会报错的。
         //所以最终还是创建Bitmap的方式。这种方式比较消耗性能，暂时没有找到更好的方法。
         if (mCenterRect == null) {
-            mCenterRect = new RectF(mViewWidth * 2 / 5, 0,
-                    mViewWidth * 3 / 5, mViewHeight);
+            mCenterRect = new RectF(mViewWidth * 1 / 5, 0,
+                    mViewWidth * 4 / 5, mViewHeight);
         }
         setPageMode(mPageMode);
         //重置页面加载器的页面
@@ -277,9 +277,6 @@ public class PageView extends View {
         mBgColor = color;
     }
 
-    public void setTouchable(boolean touchable) {
-        canTouch = touchable;
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -290,6 +287,10 @@ public class PageView extends View {
         //绘制动画
         mPageAnim.draw(canvas);
     }
+
+
+    private int downX = 0;
+    private int downY = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -302,31 +303,33 @@ public class PageView extends View {
             case MotionEvent.ACTION_DOWN:
                 moveX = 0;
                 moveY = 0;
+                downX = x;
+                downY = y;
                 mPageAnim.onTouchEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 moveX = x;
                 moveY = y;
-                if (moveX > scaledTouchSlop || moveY > scaledTouchSlop || mCenterRect.contains(x, y)) {
+                if (Math.abs(moveX - downX) > scaledTouchSlop  || !mCenterRect.contains(x, y)) {
                     mPageAnim.onTouchEvent(event);
                 }
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (moveX < scaledTouchSlop && moveY < scaledTouchSlop) {
-
-                    //设置中间区域范围
-
-
+                if ((moveX==0&&moveY==0)||(Math.abs(moveX - downX) < scaledTouchSlop) ) {
                     //是否点击了中间
                     if (mCenterRect.contains(x, y)) {
                         if (mTouchListener != null) {
                             mTouchListener.center();
                         }
+                        downX = 0;
+                        downY = 0;
                         return true;
                     }
                 }
                 mPageAnim.onTouchEvent(event);
+                downX = 0;
+                downY = 0;
                 break;
             default:
                 mPageAnim.onTouchEvent(event);
@@ -434,8 +437,8 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setTextSize(sizePx);
         }
-        if(onThemeChangeListener!=null){
-            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
+        if (onThemeChangeListener != null) {
+            onThemeChangeListener.onThemeChange(mTextColor, mPageBackground, mTextSize);
         }
     }
 
@@ -448,8 +451,8 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setTextColor(color);
         }
-        if(onThemeChangeListener!=null){
-            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
+        if (onThemeChangeListener != null) {
+            onThemeChangeListener.onThemeChange(mTextColor, mPageBackground, mTextSize);
         }
     }
 
@@ -462,8 +465,8 @@ public class PageView extends View {
         if (mPageLoader != null) {
             mPageLoader.setPageBackground(color);
         }
-        if(onThemeChangeListener!=null){
-            onThemeChangeListener.onThemeChange(mTextColor,mPageBackground,mTextSize);
+        if (onThemeChangeListener != null) {
+            onThemeChangeListener.onThemeChange(mTextColor, mPageBackground, mTextSize);
         }
     }
 
@@ -488,5 +491,11 @@ public class PageView extends View {
     public interface OnThemeChangeListener {
         void onThemeChange(int textColor, int backgroundColor, int textSize);
     }
+
+    public void setCanTouch(boolean canTouch) {
+        this.canTouch = canTouch;
+    }
+
+
 
 }
