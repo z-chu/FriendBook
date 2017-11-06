@@ -85,5 +85,6 @@
     <string name="share_text">发现了一款非常好用的小说App「友书小说&amp;laiyoushu.com」，绿色健康、无广告，而且完全开源不收费，实在是太赞了! 推荐~：https://www.pgyer.com/dEbu </string>
 
     <string name="clear_search_history">清除搜索记录</string>
+    <string name="format_skip">跳过 %d</string>
 
 </resources>
