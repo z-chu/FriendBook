@@ -17,7 +17,7 @@
 
 
 ## 下载资源
-[点击下载APK](https://www.pgyer.com/BsvJ)
+[点击下载APK](https://raw.githubusercontent.com/z-chu/FriendBook/master/app-0.8.2.apk)
 
 ## 声明
 仅用于学习用途，如有侵权请联系删除。 zchu8073@gmail.com
