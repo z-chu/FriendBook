@@ -54,8 +54,8 @@ public class BookRankingPresenter extends BaseListPresenter<BaseListContract.Vie
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
-                        count = bookDataList.Count;
-                        return bookDataList.DataList;
+                        count = bookDataList.count;
+                        return bookDataList.dataList;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -70,8 +70,8 @@ public class BookRankingPresenter extends BaseListPresenter<BaseListContract.Vie
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
-                        count = bookDataList.Count;
-                        return bookDataList.DataList;
+                        count = bookDataList.count;
+                        return bookDataList.dataList;
                     }
                 })
                 .subscribeOn(Schedulers.io())

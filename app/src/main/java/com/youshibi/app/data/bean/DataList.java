@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class DataList<T> implements Serializable {
     public DataList(){
-        Count=0;
-        DataList=new ArrayList<>();
+        count =0;
+        dataList =new ArrayList<>();
     }
-    public int Count;
-    public ArrayList<T> DataList;
+    public int count;
+    public ArrayList<T> dataList;
 }

@@ -10,13 +10,13 @@ import java.io.Serializable;
 public class HttpResult<T> implements Serializable {
 
     //将访问权限设为public的原因参考http://www.zhihu.com/question/21401198
-    @SerializedName("Code")
+    @SerializedName("code")
     public int code;
 
-    @SerializedName("Msg")
+    @SerializedName("msg")
     public String message;
 
-    @SerializedName("Data")
+    @SerializedName("data")
     public T data;
 
 
