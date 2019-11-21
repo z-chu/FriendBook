@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Chu on 2017/5/28.
  */
 
-public class BookSectionContent implements Serializable{
+public class BookChapterContent implements Serializable{
 
     /**
      * ChapterIndex : 1
@@ -18,34 +18,34 @@ public class BookSectionContent implements Serializable{
      */
 
     @SerializedName("chapter_index")
-    private int sectionIndex;
+    private int chapterIndex;
 
     @SerializedName("chapter_name")
-    private String sectionName;
+    private String chapterName;
 
-    @SerializedName("chapter_content")
+    @SerializedName("content")
     private String content;
 
-    @SerializedName("create_date_time")
+    @SerializedName("create_time")
     private String createDateTime;
 
     @SerializedName("chapter_id")
-    private String sectionId;
+    private String chapterId;
 
-    public int getSectionIndex() {
-        return sectionIndex;
+    public int getChapterIndex() {
+        return chapterIndex;
     }
 
-    public void setSectionIndex(int sectionIndex) {
-        this.sectionIndex = sectionIndex;
+    public void setChapterIndex(int chapterIndex) {
+        this.chapterIndex = chapterIndex;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public String getChapterName() {
+        return chapterName;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
+    public void setChapterName(String chapterName) {
+        this.chapterName = chapterName;
     }
 
     public String getContent() {
@@ -64,11 +64,11 @@ public class BookSectionContent implements Serializable{
         this.createDateTime = createDateTime;
     }
 
-    public String getSectionId() {
-        return sectionId;
+    public String getChapterId() {
+        return chapterId;
     }
 
-    public void setSectionId(String sectionId) {
-        this.sectionId = sectionId;
+    public void setChapterId(String chapterId) {
+        this.chapterId = chapterId;
     }
 }

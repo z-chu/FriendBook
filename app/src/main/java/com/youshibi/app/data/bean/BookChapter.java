@@ -17,17 +17,20 @@ public class BookChapter {
      * create_time : 2017-04-02T10:51:45.367
      */
 
-    @SerializedName("chapter_id")
+    @SerializedName("id")
     private String chapterId;
 
-    @SerializedName("chapter_index")
+    @SerializedName("index")
     private int chapterIndex;
 
-    @SerializedName("chapter_name")
+    @SerializedName("name")
     private String chapterName;
 
+    @SerializedName("desc")
+    private String desc;
+
     @SerializedName("create_time")
-    private long createTime;
+    private String createTime;
 
     public String getChapterId() {
         return chapterId;
@@ -53,11 +56,19 @@ public class BookChapter {
         this.chapterName = chapterName;
     }
 
-    public long getCreateTime() {
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 }

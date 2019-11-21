@@ -29,7 +29,7 @@ public class BookType implements Serializable, Parcelable {
     @SerializedName("id")
     private long id;
 
-    @SerializedName("type_name")
+    @SerializedName("name")
     private String typeName;
 
     @SerializedName("selected_status")

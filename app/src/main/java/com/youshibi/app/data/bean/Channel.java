@@ -23,13 +23,13 @@ public class Channel implements Serializable {
      * selected_status : 2
      */
 
-    @SerializedName("channel_id")
+    @SerializedName("id")
     private long channelId;
 
-    @SerializedName("channel_name")
+    @SerializedName("name")
     private String channelName;
 
-    @SerializedName("channel_type")
+    @SerializedName("type")
     private String channelType;
 
     @SerializedName("content_query_id")

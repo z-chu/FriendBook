@@ -25,31 +25,35 @@ public class Book implements Serializable, Parcelable {
      */
 
 
-    @SerializedName("book_id")
+    @SerializedName("id")
     private String id;
 
-    @SerializedName("book_img")
+    @SerializedName("cover_url")
     private String coverUrl;
 
-    @SerializedName("book_name")
+    @SerializedName("name")
     private String name;
 
-    @SerializedName("book_intro")
+    @SerializedName("intro")
     private String describe;
 
-    @SerializedName("book_author")
+    @SerializedName("author")
     private String author;
 
-    @SerializedName("is_finish")
+    @SerializedName("is_finished")
     private boolean isFinished;
 
-    @SerializedName("book_type_id")
-    private int bookTypeId;
+    //是否免费
+    @SerializedName("free")
+    private boolean free;
 
-    @SerializedName("book_type_name")
+    @SerializedName("type_id")
+    private long bookTypeId;
+
+    @SerializedName("type_name")
     private String bookTypeName;
 
-    @SerializedName("book_word_num")
+    @SerializedName("word_num")
     private long bookWordNum;
 
     @SerializedName("click_num")
@@ -66,6 +70,12 @@ public class Book implements Serializable, Parcelable {
 
     @SerializedName("chapter_count")
     private Integer chapterCount;
+    //最新章节id
+    @SerializedName("last_chapter_id")
+    private long lastChapterId;
+    //能免费读到的章节id
+    @SerializedName("free_chapter_id")
+    private long freeChapterId;
 
 
     public String getId() {
@@ -116,11 +126,11 @@ public class Book implements Serializable, Parcelable {
         isFinished = finished;
     }
 
-    public int getBookTypeId() {
+    public long getBookTypeId() {
         return bookTypeId;
     }
 
-    public void setBookTypeId(int bookTypeId) {
+    public void setBookTypeId(long bookTypeId) {
         this.bookTypeId = bookTypeId;
     }
 
@@ -181,6 +191,30 @@ public class Book implements Serializable, Parcelable {
         this.chapterCount = chapterCount;
     }
 
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
+    public long getLastChapterId() {
+        return lastChapterId;
+    }
+
+    public void setLastChapterId(long lastChapterId) {
+        this.lastChapterId = lastChapterId;
+    }
+
+    public long getFreeChapterId() {
+        return freeChapterId;
+    }
+
+    public void setFreeChapterId(long freeChapterId) {
+        this.freeChapterId = freeChapterId;
+    }
+
     public Book() {
     }
 
@@ -198,7 +232,7 @@ public class Book implements Serializable, Parcelable {
         dest.writeString(this.describe);
         dest.writeString(this.author);
         dest.writeByte(this.isFinished ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.bookTypeId);
+        dest.writeLong(this.bookTypeId);
         dest.writeString(this.bookTypeName);
         dest.writeLong(this.bookWordNum);
         dest.writeLong(this.clickNum);
@@ -214,7 +248,7 @@ public class Book implements Serializable, Parcelable {
         this.describe = in.readString();
         this.author = in.readString();
         this.isFinished = in.readByte() != 0;
-        this.bookTypeId = in.readInt();
+        this.bookTypeId = in.readLong();
         this.bookTypeName = in.readString();
         this.bookWordNum = in.readLong();
         this.clickNum = in.readLong();
