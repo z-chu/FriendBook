@@ -2,9 +2,9 @@ package com.youshibi.app.data.net;
 
 import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookChapter;
+import com.youshibi.app.data.bean.BookChapterContent;
 import com.youshibi.app.data.bean.BookDetail;
-import com.youshibi.app.data.bean.BookSectionContent;
-import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
@@ -26,7 +26,7 @@ import rx.Observable;
  */
 
 public interface ServerAPI {
-    String BASE_URL = "http://api.laiyoushu.com";
+    String BASE_URL = "http://47.104.108.36:8089";
 
     /**
      * 获取所有小说
@@ -62,7 +62,7 @@ public interface ServerAPI {
      * 获取小说章节列表
      */
     @GET("/v1/books/{bookId}/chapters")
-    Observable<HttpResult<List<BookSectionItem>>> getBookSectionList(@Path("bookId") String bookId,
+    Observable<HttpResult<List<BookChapter>>> getBookSectionList(@Path("bookId") String bookId,
                                                                      @QueryMap HashMap<String, Object> map);
 
 
@@ -70,7 +70,7 @@ public interface ServerAPI {
      * 获取小说章节中的内容
      */
     @GET("/v1/books/{bookId}/chapters/{position}")
-    Observable<HttpResult<BookSectionContent>> getBookSectionContent(@Path("bookId") String bookId,
+    Observable<HttpResult<BookChapterContent>> getBookSectionContent(@Path("bookId") String bookId,
                                                                      @Path("position") int position,
                                                                      @QueryMap HashMap<String, Object> map);
 

@@ -6,9 +6,9 @@ import com.youshibi.app.AppContext;
 import com.youshibi.app.BuildConfig;
 import com.youshibi.app.data.bean.AppRelease;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookChapter;
 import com.youshibi.app.data.bean.BookDetail;
-import com.youshibi.app.data.bean.BookSectionContent;
-import com.youshibi.app.data.bean.BookSectionItem;
+import com.youshibi.app.data.bean.BookChapterContent;
 import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.bean.DataList;
@@ -154,8 +154,8 @@ public class DataManager {
      * @param bookId       小说的id
      * @param isOrderByAsc 是否升序排序
      */
-    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
-                                                                boolean isOrderByAsc) {
+    public Observable<List<BookChapter>> getBookSectionList(String bookId,
+                                                            boolean isOrderByAsc) {
         return getBookSectionList(bookId, isOrderByAsc, null, null);
     }
 
@@ -165,12 +165,12 @@ public class DataManager {
      * @param bookId       小说的id
      * @param isOrderByAsc 是否升序排序
      */
-    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
+    public Observable<List<BookChapter>> getBookSectionList(String bookId,
                                                                 boolean isOrderByAsc, Integer page, Integer size) {
         return getBookSectionList(bookId, isOrderByAsc, page, size, false);
     }
 
-    public Observable<List<BookSectionItem>> getBookSectionList(String bookId,
+    public Observable<List<BookChapter>> getBookSectionList(String bookId,
                                                                 boolean isOrderByAsc,
                                                                 Integer page,
                                                                 Integer size,
@@ -196,13 +196,13 @@ public class DataManager {
         return RequestClient
                 .getServerAPI()
                 .getBookSectionList(bookId, hashMap)
-                .map(new HttpResultFunc<List<BookSectionItem>>())
-                .compose(rxCache.<List<BookSectionItem>>transformer("getBookSectionList" + bookId + isOrderByAsc + page + size,
-                        new TypeToken<List<BookSectionItem>>() {
+                .map(new HttpResultFunc<List<BookChapter>>())
+                .compose(rxCache.<List<BookChapter>>transformer("getBookSectionList" + bookId + isOrderByAsc + page + size,
+                        new TypeToken<List<BookChapter>>() {
                         }.getType(), iStrategy))
-                .map(new Func1<CacheResult<List<BookSectionItem>>, List<BookSectionItem>>() {
+                .map(new Func1<CacheResult<List<BookChapter>>, List<BookChapter>>() {
                     @Override
-                    public List<BookSectionItem> call(CacheResult<List<BookSectionItem>> listCacheResult) {
+                    public List<BookChapter> call(CacheResult<List<BookChapter>> listCacheResult) {
                         return listCacheResult.getData();
                     }
                 });
@@ -215,7 +215,7 @@ public class DataManager {
      * @param bookId       小说的id
      * @param sectionIndex 章节索引
      */
-    public Observable<BookSectionContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex) {
+    public Observable<BookChapterContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex) {
         return getBookSectionContent(bookId, sectionId, sectionIndex, "current");
     }
 
@@ -225,17 +225,17 @@ public class DataManager {
      * @param bookId       小说的id
      * @param sectionIndex 章节索引
      */
-    public Observable<BookSectionContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex, String direction) {
+    public Observable<BookChapterContent> getBookSectionContent(String bookId, String sectionId, int sectionIndex, String direction) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("query_direction", direction);
         return RequestClient
                 .getServerAPI()
                 .getBookSectionContent(bookId, sectionIndex, hashMap)
-                .map(new HttpResultFunc<BookSectionContent>())
-                .compose(rxCache.<BookSectionContent>transformer("getBookSectionContent" + bookId + sectionId, BookSectionContent.class, CacheStrategy.firstCache()))
-                .map(new Func1<CacheResult<BookSectionContent>, BookSectionContent>() {
+                .map(new HttpResultFunc<BookChapterContent>())
+                .compose(rxCache.<BookChapterContent>transformer("getBookSectionContent" + bookId + sectionId, BookChapterContent.class, CacheStrategy.firstCache()))
+                .map(new Func1<CacheResult<BookChapterContent>, BookChapterContent>() {
                     @Override
-                    public BookSectionContent call(CacheResult<BookSectionContent> bookSectionContentCacheResult) {
+                    public BookChapterContent call(CacheResult<BookChapterContent> bookSectionContentCacheResult) {
                         return bookSectionContentCacheResult.getData();
                     }
                 });

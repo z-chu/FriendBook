@@ -8,8 +8,8 @@ import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.Book;
+import com.youshibi.app.data.bean.BookChapter;
 import com.youshibi.app.data.bean.BookDetail;
-import com.youshibi.app.data.bean.BookSectionItem;
 import com.youshibi.app.data.bean.DataList;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
@@ -29,7 +29,7 @@ import rx.schedulers.Schedulers;
 public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View> implements BookDetailContract.Presenter {
 
     private Book book;
-    private CommonAdapter<BookSectionItem> bookSectionAdapter;
+    private CommonAdapter<BookChapter> bookSectionAdapter;
 
     public BookDetailPresenter(Book book) {
         this.book = book;
@@ -95,7 +95,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                 .getBookSectionList(book.getId(), true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
+                .subscribe(new SimpleSubscriber<List<BookChapter>>() {
 
 
                     @Override
@@ -108,7 +108,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                     }
 
                     @Override
-                    public void onNext(List<BookSectionItem> bookSectionItems) {
+                    public void onNext(List<BookChapter> bookSectionItems) {
                         if (isViewAttached()) {
                             getView().setListAdapter(createBookSectionAdapter(bookSectionItems));
                             getView().showContent();
@@ -122,22 +122,22 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
     @Override
     public void openRead(Context context) {
         if (bookSectionAdapter != null && bookSectionAdapter.getData().size() > 0) {
-            BookSectionItem bookSectionItem = bookSectionAdapter.getData().get(0);
-            AppRouter.showReadActivity(context, book, bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId());
+            BookChapter bookSectionItem = bookSectionAdapter.getData().get(0);
+            AppRouter.showReadActivity(context, book, bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId());
         } else {
             AppRouter.showReadActivity(context, book, null, null);
         }
     }
 
-    private CommonAdapter<BookSectionItem> createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
-        bookSectionAdapter = new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
+    private CommonAdapter<BookChapter> createBookSectionAdapter(List<BookChapter> bookSectionItems) {
+        bookSectionAdapter = new CommonAdapter<BookChapter>(R.layout.list_item_book_section, bookSectionItems) {
             @Override
-            protected void convert(CommonViewHolder helper, final BookSectionItem item) {
-                helper.setText(R.id.tv_section_name, item.getSectionName());
+            protected void convert(CommonViewHolder helper, final BookChapter item) {
+                helper.setText(R.id.tv_section_name, item.getChapterName());
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AppRouter.showReadActivity(v.getContext(), book, item.getSectionIndex(), item.getSectionId());
+                        AppRouter.showReadActivity(v.getContext(), book, item.getChapterIndex(), item.getChapterId());
                     }
                 });
             }

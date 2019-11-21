@@ -4,7 +4,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 
 import com.youshibi.app.R;
-import com.youshibi.app.data.bean.BookSectionItem;
+import com.youshibi.app.data.bean.BookChapter;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
 
@@ -16,19 +16,19 @@ import java.util.List;
  * desc   :
  */
 
-public class BookSectionAdapter extends CommonAdapter<BookSectionItem> {
+public class BookSectionAdapter extends CommonAdapter<BookChapter> {
 
 
     private int textColor = -1;
 
-    public BookSectionAdapter(List<BookSectionItem> data) {
+    public BookSectionAdapter(List<BookChapter> data) {
         super(R.layout.list_item_book_section, data);
     }
 
     @Override
-    protected void convert(CommonViewHolder helper, BookSectionItem item) {
+    protected void convert(CommonViewHolder helper, BookChapter item) {
         TextView textView=helper.getView(R.id.tv_section_name);
-        textView.setText(item.getSectionName());
+        textView.setText(item.getChapterName());
         if(textColor==-1){
             textView.setTextColor(ContextCompat.getColor(mContext,R.color.textPrimary));
         }else{

@@ -7,8 +7,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DBManger;
 import com.youshibi.app.data.DataManager;
-import com.youshibi.app.data.bean.BookSectionContent;
-import com.youshibi.app.data.bean.BookSectionItem;
+import com.youshibi.app.data.bean.BookChapter;
+import com.youshibi.app.data.bean.BookChapterContent;
 import com.youshibi.app.data.db.table.BookTb;
 import com.youshibi.app.event.BookcaseRefreshEvent;
 import com.youshibi.app.rx.ProgressSubscriber;
@@ -34,7 +34,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     private String mSectionId;
     private ReadAdapter mReadAdapter;
     private BookSectionAdapter bookSectionAdapter;
-    private List<BookSectionItem> mBookSectionItems;
+    private List<BookChapter> mBookSectionItems;
 
     public ReadPresenter(BookTb bookTb) {
         this.mBookTb = bookTb;
@@ -56,9 +56,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 .retryWhen(new RetryWithDelay(3, 3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
+                .subscribe(new SimpleSubscriber<List<BookChapter>>() {
                     @Override
-                    public void onNext(List<BookSectionItem> bookSectionItems) {
+                    public void onNext(List<BookChapter> bookSectionItems) {
 
                         if (DBManger.getInstance().hasBookTb(mBookTb.getId())) {
                             mBookTb.setLatestReadTimestamp(System.currentTimeMillis()); //更新最后一次的阅读时间
@@ -76,8 +76,8 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                         if (mSectionIndex != null && mSectionId != null) {
                             doLoadData(mSectionIndex, mSectionId, true);
                         } else {
-                            BookSectionItem bookSectionItem = bookSectionItems.get(0);
-                            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+                            BookChapter bookSectionItem = bookSectionItems.get(0);
+                            doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), true);
                         }
                     }
 
@@ -111,9 +111,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     /**
      * 找到sectionIndex对应的章节在bookSectionItems中的下标
      */
-    private int indexOfSectionList(@NonNull List<BookSectionItem> bookSectionItems, String sectionId) {
+    private int indexOfSectionList(@NonNull List<BookChapter> bookSectionItems, String sectionId) {
         for (int i = 0; i < bookSectionItems.size(); i++) {
-            if (bookSectionItems.get(i).getSectionId().equals(sectionId)) {
+            if (bookSectionItems.get(i).getChapterId().equals(sectionId)) {
                 return i;
             }
         }
@@ -127,7 +127,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                 .retryWhen(new RetryWithDelay(3, 3000))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<BookSectionContent>(getView().provideContext()) {
+                .subscribe(new ProgressSubscriber<BookChapterContent>(getView().provideContext()) {
                     protected void showProgressDialog() {
                         if (isOpen) {
                             super.showProgressDialog();
@@ -143,9 +143,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                     }
 
                     @Override
-                    public void onNext(BookSectionContent bookSectionContent) {
+                    public void onNext(BookChapterContent bookSectionContent) {
                         if (isViewAttached()) {
-                            int listIndex = indexOfSectionList(mBookSectionItems, bookSectionContent.getSectionId());
+                            int listIndex = indexOfSectionList(mBookSectionItems, bookSectionContent.getChapterId());
                             if (mReadAdapter == null) {
                                 mReadAdapter = new ReadAdapter();
                                 mReadAdapter.addData(listIndex, bookSectionContent);
@@ -156,7 +156,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
                             }
                             if (isOpen) {
                                 getView().openSection(listIndex, mBookTb.getLatestReadSectionId() == mSectionId ? mBookTb.getLatestReadPage() : 0);
-                                getView().setSectionDisplay(bookSectionContent.getSectionName(),listIndex);
+                                getView().setSectionDisplay(bookSectionContent.getChapterName(),listIndex);
                             }
 
                         }
@@ -176,7 +176,7 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
             } else {
                 if (mReadAdapter != null && isViewAttached()) {
                     getView().openSection(indexOfSectionList, 0);
-                    getView().setSectionDisplay(mBookSectionItems.get(indexOfSectionList).getSectionName(),indexOfSectionList);
+                    getView().setSectionDisplay(mBookSectionItems.get(indexOfSectionList).getChapterName(),indexOfSectionList);
                 }
             }
         }
@@ -184,15 +184,15 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
             if (indexOfSectionList + 1 < mBookSectionItems.size()) {
                 if (mReadAdapter == null
                         || !mReadAdapter.hasSection(indexOfSectionList + 1)) {
-                    BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
-                    loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
+                    BookChapter bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
+                    loadSectionContent(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), false);
                 }
             }
             if (indexOfSectionList - 1 >= 0) {
                 if (mReadAdapter == null
                         || !mReadAdapter.hasSection(indexOfSectionList - 1)) {
-                    BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
-                    loadSectionContent(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
+                    BookChapter bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
+                    loadSectionContent(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), false);
                 }
             }
         }
@@ -204,9 +204,9 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     @Override
     public void onChapterChange(int pos) {
         if (!isFirstChapterChange) {
-            BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
-            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), false);
-            getView().setSectionDisplay(bookSectionItem.getSectionName(),pos);
+            BookChapter bookSectionItem = mBookSectionItems.get(pos);
+            doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), false);
+            getView().setSectionDisplay(bookSectionItem.getChapterName(),pos);
         } else {
             isFirstChapterChange = false;
         }
@@ -226,13 +226,13 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
         DBManger.getInstance().updateBookTb(mBookTb);
     }
 
-    private BookSectionAdapter createBookSectionAdapter(List<BookSectionItem> bookSectionItems) {
+    private BookSectionAdapter createBookSectionAdapter(List<BookChapter> bookSectionItems) {
         bookSectionAdapter = new BookSectionAdapter(bookSectionItems);
         bookSectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BookSectionItem bookSectionItem = ((List<BookSectionItem>) adapter.getData()).get(position);
-                doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+                BookChapter bookSectionItem = ((List<BookChapter>) adapter.getData()).get(position);
+                doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), true);
             }
         });
         return bookSectionAdapter;
@@ -242,24 +242,24 @@ public class ReadPresenter extends BaseRxPresenter<ReadContract.View> implements
     public void nextSection() {
         int indexOfSectionList = indexOfSectionList(mBookSectionItems, mSectionId);
         if (indexOfSectionList + 1 < mBookSectionItems.size()) {
-            BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
-            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+            BookChapter bookSectionItem = mBookSectionItems.get(indexOfSectionList + 1);
+            doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), true);
         }
 
     }
 
     @Override
     public void openSection(int pos) {
-        BookSectionItem bookSectionItem = mBookSectionItems.get(pos);
-        doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+        BookChapter bookSectionItem = mBookSectionItems.get(pos);
+        doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), true);
     }
 
     @Override
     public void prevSection() {
         int indexOfSectionList = indexOfSectionList(mBookSectionItems, mSectionId);
         if (indexOfSectionList - 1 >= 0) {
-            BookSectionItem bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
-            doLoadData(bookSectionItem.getSectionIndex(), bookSectionItem.getSectionId(), true);
+            BookChapter bookSectionItem = mBookSectionItems.get(indexOfSectionList - 1);
+            doLoadData(bookSectionItem.getChapterIndex(), bookSectionItem.getChapterId(), true);
         }
     }
 

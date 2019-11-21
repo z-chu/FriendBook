@@ -7,7 +7,7 @@ import com.youshibi.app.R;
 import com.youshibi.app.base.BaseRxPresenter;
 import com.youshibi.app.data.DataManager;
 import com.youshibi.app.data.bean.Book;
-import com.youshibi.app.data.bean.BookSectionItem;
+import com.youshibi.app.data.bean.BookChapter;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.youshibi.app.ui.help.CommonAdapter;
 import com.youshibi.app.ui.help.CommonViewHolder;
@@ -31,7 +31,7 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
     private Book mBook;
     private int mSectionCount;
 
-    private CommonAdapter<BookSectionItem> bookSectionAdapter;
+    private CommonAdapter<BookChapter> bookSectionAdapter;
     private List<String> sectionData;
 
     public BookCatalogPresenter(Book book, int sectionCount) {
@@ -60,9 +60,9 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
                 .getBookSectionList(mBook.getId(), true, page, PAGE_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SimpleSubscriber<List<BookSectionItem>>() {
+                .subscribe(new SimpleSubscriber<List<BookChapter>>() {
                     @Override
-                    public void onNext(List<BookSectionItem> bookSectionItems) {
+                    public void onNext(List<BookChapter> bookSectionItems) {
                         if (isViewAttached()) {
                             setData(bookSectionItems);
 
@@ -73,16 +73,16 @@ public class BookCatalogPresenter extends BaseRxPresenter<BookCatalogContract.Vi
 
     }
 
-    private void setData(List<BookSectionItem> bookSectionItems) {
+    private void setData(List<BookChapter> bookSectionItems) {
         if (bookSectionAdapter == null) {
-            bookSectionAdapter = new CommonAdapter<BookSectionItem>(R.layout.list_item_book_section, bookSectionItems) {
+            bookSectionAdapter = new CommonAdapter<BookChapter>(R.layout.list_item_book_section, bookSectionItems) {
                 @Override
-                protected void convert(CommonViewHolder helper, final BookSectionItem item) {
-                    helper.setText(R.id.tv_section_name, item.getSectionName());
+                protected void convert(CommonViewHolder helper, final BookChapter item) {
+                    helper.setText(R.id.tv_section_name, item.getChapterName());
                     helper.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                             AppRouter.showReadActivity(v.getContext(), mBook, item.getSectionIndex(), item.getSectionId());
+                             AppRouter.showReadActivity(v.getContext(), mBook, item.getChapterIndex(), item.getChapterId());
                         }
                     });
                 }
