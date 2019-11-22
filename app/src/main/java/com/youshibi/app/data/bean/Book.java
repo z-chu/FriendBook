@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONArray;
-
 import java.io.Serializable;
 
 /**
@@ -80,7 +78,7 @@ public class Book implements Serializable, Parcelable {
     private long freeChapterId;
 
     @SerializedName("channel_ids")
-    private JSONArray channelIds;
+    private long[] channelIds;
 
 
     public String getId() {
@@ -220,11 +218,11 @@ public class Book implements Serializable, Parcelable {
         this.freeChapterId = freeChapterId;
     }
 
-    public JSONArray getChannelIds() {
+    public long[] getChannelIds() {
         return channelIds;
     }
 
-    public void setChannelIds(JSONArray channelIds) {
+    public void setChannelIds(long[] channelIds) {
         this.channelIds = channelIds;
     }
 
