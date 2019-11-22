@@ -258,6 +258,7 @@ public class DataManager {
                                         .onErrorReturn(new Func1<Throwable, CacheResult<T>>() {
                                             @Override
                                             public CacheResult<T> call(Throwable throwable) {
+                                                throwable.printStackTrace();
                                                 return null;
                                             }
                                         });
@@ -290,6 +291,8 @@ public class DataManager {
                 .map(new Func1<CacheResult<DataList<Book>>, DataList<Book>>() {
                     @Override
                     public DataList<Book> call(CacheResult<DataList<Book>> dataListCacheResult) {
+
+
                         return dataListCacheResult.getData();
                     }
                 });

@@ -11,6 +11,12 @@
         android:icon="@drawable/ic_book_black_24dp"
         android:title="@string/bookstore"/>
 
+
+    <item
+        android:id="@+id/tab_charge"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/charge"/>
+
     <item
         android:id="@+id/tab_mine"
         android:icon="@drawable/ic_account_box_black_24dp"

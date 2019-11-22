@@ -55,6 +55,7 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
             viewRef.clear();
             viewRef = null;
         }
+
     }
 
     @UiThread

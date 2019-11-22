@@ -4,11 +4,10 @@ def cfg = rootProject.ext.configuration // 项目配置
 def libs = rootProject.ext.libraries // 库
 android {
     compileSdkVersion cfg.compileVersion
-    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -25,5 +24,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:' + libs.supportVersion
+    // https://mvnrepository.com/artifact/com.android.support/appcompat-v7
+    compile group: 'com.android.support', name: 'appcompat-v7', version: '26.0.0'
+
 }

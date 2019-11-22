@@ -6,7 +6,6 @@ def libs = rootProject.ext.libraries // 库
 
 android {
     compileSdkVersion cfg.compileVersion
-    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         applicationId cfg.package
@@ -73,7 +72,9 @@ dependencies {
 
     //support
     compile 'com.android.support:support-v4:' + libs.supportVersion
-    compile 'com.android.support:appcompat-v7:' + libs.supportVersion
+    // https://mvnrepository.com/artifact/com.android.support/appcompat-v7
+    compile group: 'com.android.support', name: 'appcompat-v7', version: '26.0.0'
+
     compile 'com.android.support:design:' + libs.supportVersion
     compile 'com.android.support:cardview-v7:' + libs.supportVersion
     compile 'com.android.support:recyclerview-v7:' + libs.supportVersion

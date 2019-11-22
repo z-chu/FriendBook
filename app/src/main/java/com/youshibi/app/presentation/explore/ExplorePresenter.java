@@ -12,6 +12,7 @@ import com.youshibi.app.data.bean.BookType;
 import com.youshibi.app.data.bean.Channel;
 import com.youshibi.app.data.prefs.PreferencesHelper;
 import com.youshibi.app.presentation.book.BookFragment;
+import com.youshibi.app.presentation.book.ChannelType;
 import com.youshibi.app.rx.RxBus;
 import com.youshibi.app.rx.SimpleSubscriber;
 import com.zchu.rxcache.data.CacheResult;
@@ -80,6 +81,29 @@ public class ExplorePresenter extends BaseRxPresenter<ExploreContract.View> impl
                     public void onNext(CacheResult<List<Channel>> cacheResult) {
                         List<Channel> data = cacheResult.getData();
                         if (data != null && data.size() > 0) {
+
+
+                            Channel fake = new Channel();
+                            fake.setChannelId(124l);
+                            fake.setChannelName("app本地测试数据");
+                            fake.setChannelType(ChannelType.BOOKS);
+                            fake.setSelectedStatus(1);
+                            fake.setContentQueryId("local");
+                            fake.setContentType("abc");
+
+
+                            Channel fake2 = new Channel();
+                            fake2.setChannelId(1245l);
+                            fake2.setChannelName("app本地测试数据2");
+                            fake2.setChannelType(ChannelType.BOOKS);
+                            fake2.setSelectedStatus(1);
+                            fake2.setContentQueryId("local2");
+                            fake2.setContentType("abc");
+
+
+                            data.add(fake);
+                            data.add(fake2);
+
                             processData(data, PreferencesHelper.getInstance().getSelectedChannels());
                         }
                     }

@@ -86,5 +86,6 @@
 
     <string name="clear_search_history">清除搜索记录</string>
     <string name="format_skip">跳过 %d</string>
+    <string name="charge">充值</string>
 
 </resources>

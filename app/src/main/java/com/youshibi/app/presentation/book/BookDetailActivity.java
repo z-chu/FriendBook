@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youshibi.app.AppRouter;
@@ -81,6 +82,10 @@ public class BookDetailActivity extends MvpLoaderActivity<BookDetailContract.Pre
         tvUpdateTime = findViewById(R.id.tv_update_time);
         rvRecommendBook = findViewById(R.id.rv_recommend_book);
         rvRecommendBook.setNestedScrollingEnabled(false);
+
+
+//        Context context = ;
+//        Toast.makeText(context);
         bindOnClickLister(this, R.id.fl_add_bookcase,R.id.fl_download_book, R.id.fl_open_book, R.id.ll_book_detail_catalog);
         initDisplay();
 

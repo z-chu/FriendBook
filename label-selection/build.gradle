@@ -4,7 +4,6 @@ def cfg = rootProject.ext.configuration // 项目配置
 def libs = rootProject.ext.libraries // 库
 android {
     compileSdkVersion cfg.compileVersion
-    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         minSdkVersion cfg.minSdk
@@ -18,6 +17,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:' + libs.supportVersion
+    // https://mvnrepository.com/artifact/com.android.support/appcompat-v7
+    compile group: 'com.android.support', name: 'appcompat-v7', version: '26.0.0'
+
     compile 'com.android.support:recyclerview-v7:' + libs.supportVersion
 }
