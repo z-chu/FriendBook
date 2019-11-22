@@ -77,6 +77,9 @@ public class Book implements Serializable, Parcelable {
     @SerializedName("free_chapter_id")
     private long freeChapterId;
 
+    @SerializedName("channel_ids")
+    private long[] channelIds;
+
 
     public String getId() {
         return id;
@@ -213,6 +216,14 @@ public class Book implements Serializable, Parcelable {
 
     public void setFreeChapterId(long freeChapterId) {
         this.freeChapterId = freeChapterId;
+    }
+
+    public long[] getChannelIds() {
+        return channelIds;
+    }
+
+    public void setChannelIds(long[] channelIds) {
+        this.channelIds = channelIds;
     }
 
     public Book() {
