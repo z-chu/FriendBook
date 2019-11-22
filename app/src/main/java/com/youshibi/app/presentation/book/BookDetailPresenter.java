@@ -82,7 +82,7 @@ public class BookDetailPresenter extends BaseRxPresenter<BookDetailContract.View
                     @Override
                     public void onNext(DataList<Book> bookDataList) {
                         if (isViewAttached()) {
-                            getView().setRecommendBooks(bookDataList.dataList);
+                            getView().setRecommendBooks(bookDataList.data_list);
                         }
                     }
                 });

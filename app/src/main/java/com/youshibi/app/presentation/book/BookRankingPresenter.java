@@ -55,7 +55,7 @@ public class BookRankingPresenter extends BaseListPresenter<BaseListContract.Vie
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
                         count = bookDataList.count;
-                        return bookDataList.dataList;
+                        return bookDataList.data_list;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -71,7 +71,7 @@ public class BookRankingPresenter extends BaseListPresenter<BaseListContract.Vie
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
                         count = bookDataList.count;
-                        return bookDataList.dataList;
+                        return bookDataList.data_list;
                     }
                 })
                 .subscribeOn(Schedulers.io())

@@ -53,7 +53,7 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
                         count=bookDataList.count;
-                        return bookDataList.dataList;
+                        return bookDataList.data_list;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -67,7 +67,7 @@ public class BookPresenter extends BaseListPresenter<BaseListContract.View, Book
                 .map(new Func1<DataList<Book>, List<Book>>() {
                     @Override
                     public List<Book> call(DataList<Book> bookDataList) {
-                        return bookDataList.dataList;
+                        return bookDataList.data_list;
                     }
                 })
                 .subscribeOn(Schedulers.io())
