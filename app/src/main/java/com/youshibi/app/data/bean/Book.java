@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 
 /**
@@ -76,6 +78,9 @@ public class Book implements Serializable, Parcelable {
     //能免费读到的章节id
     @SerializedName("free_chapter_id")
     private long freeChapterId;
+
+    @SerializedName("channel_ids")
+    private JSONArray channelIds;
 
 
     public String getId() {
@@ -213,6 +218,14 @@ public class Book implements Serializable, Parcelable {
 
     public void setFreeChapterId(long freeChapterId) {
         this.freeChapterId = freeChapterId;
+    }
+
+    public JSONArray getChannelIds() {
+        return channelIds;
+    }
+
+    public void setChannelIds(JSONArray channelIds) {
+        this.channelIds = channelIds;
     }
 
     public Book() {
